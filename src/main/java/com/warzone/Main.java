@@ -1,4 +1,4 @@
-package com.fsociety;
+package com.warzone;
 
 public class Main {
     public static void main(String[] args) {
