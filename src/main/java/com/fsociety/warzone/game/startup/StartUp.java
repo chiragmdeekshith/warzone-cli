@@ -1,35 +1,35 @@
-package com.fsociety.warzone.game.engine.startup;
+package com.fsociety.warzone.game.startup;
 
-import com.fsociety.warzone.game.engine.GameEngine;
-import com.fsociety.warzone.game.map.play.PlayMap;
+import com.fsociety.warzone.Application;
+import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class StartUp {
 
     public static void start_up() {
-        Scanner l_scanner = new Scanner(System.in);
         System.out.println("New game selected. Please start by loading a map.");
-        String l_inputRawCommand = "";
-        while(!l_inputRawCommand.equals(StartupCommand.BACK)) {
+        String l_inputRawCommand;
+        do {
             System.out.println("Enter command.");
             System.out.print("> ");
-            l_inputRawCommand = l_scanner.nextLine();
+            l_inputRawCommand = Application.SCANNER.nextLine();
+
             if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP) && l_inputRawCommand.split(" ")[0].equals("loadmap")){
                 loadMap(l_inputRawCommand.split(" ")[1]);
-                l_scanner.close();
                 l_inputRawCommand = editPlayers();
                 break;
             } else {
                 System.out.println("Please start by loading a map.");
             }
-        }
-        if (l_inputRawCommand.equals(StartupCommand.BACK)) {
+        } while(!l_inputRawCommand.equals(StartupCommand.BACK.getCommand()));
+
+        if (l_inputRawCommand.equals(StartupCommand.BACK.getCommand())) {
             // go back to main menu
         } else {
             assignCountries();
@@ -54,13 +54,12 @@ public class StartUp {
 
         ArrayList<Player> l_players = new ArrayList<>();
 
-        Scanner l_scanner = new Scanner(System.in);
         System.out.println("Please create list of players.");
         String l_inputRawCommand = "";
-        while(!l_inputRawCommand.equals(StartupCommand.BACK)) {
+        while(!l_inputRawCommand.equals(StartupCommand.BACK.getCommand())) {
             System.out.println("Enter command.");
             System.out.print("> ");
-            l_inputRawCommand = l_scanner.nextLine();
+            l_inputRawCommand = Application.SCANNER.nextLine();
             if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP) && l_inputRawCommand.split(" ")[0].equals("gameplayer")){
                 String l_name = l_inputRawCommand.split(" ")[2];
                 if (l_inputRawCommand.split(" ")[0].equals("-add")) {
@@ -79,7 +78,7 @@ public class StartUp {
                 }
             }
         }
-        if (l_inputRawCommand.equals(StartupCommand.BACK)) {
+        if (l_inputRawCommand.equals(StartupCommand.BACK.getCommand())) {
             return "back";
         } else {
             GameEngine.set_players(l_players);

@@ -1,7 +1,7 @@
 package com.fsociety.warzone.model;
 
-import com.fsociety.warzone.model.orders.Deploy;
-import com.fsociety.warzone.model.orders.IOrder;
+import com.fsociety.warzone.game.order.Deploy;
+import com.fsociety.warzone.game.order.IOrder;
 
 import java.util.Scanner;
 import java.util.ArrayList;
