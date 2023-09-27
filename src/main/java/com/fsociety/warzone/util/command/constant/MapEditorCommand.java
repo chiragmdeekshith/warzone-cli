@@ -19,15 +19,14 @@ public enum MapEditorCommand {
     public static final String ADD = "-add";
     public static final String REMOVE = "-remove";
 
+    private final String d_command;
 
-    private final String command;
-
-    MapEditorCommand(String command){
-        this.command = command;
+    MapEditorCommand(String p_command){
+        this.d_command = p_command;
     }
 
     public String getCommand() {
-        return command;
+        return d_command;
     }
 
 
