@@ -1,5 +1,6 @@
 package com.fsociety.warzone.game.engine.startup;
 
+import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.engine.GameEngine;
 import com.fsociety.warzone.game.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
@@ -13,19 +14,18 @@ import java.util.Scanner;
 public class StartUp {
 
     public static void start_up() {
-        Scanner l_scanner = new Scanner(System.in);
         System.out.println("Reached startup phase. Enter a startup phase command to go ahead.");
-        String l_inputRawCommand = "";
-        while(!l_inputRawCommand.equals(StartupCommand.BACK)) {
+        String l_inputRawCommand;
+        do {
             System.out.println("Enter command.");
             System.out.print("> ");
-            l_inputRawCommand = l_scanner.nextLine();
+            l_inputRawCommand = Application.SCANNER.nextLine();
             if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP)){
                 System.out.println("Command is valid!!");
             } else {
                 System.out.println("Command is invalid.");
             }
-        }
+        } while(!l_inputRawCommand.equals(StartupCommand.BACK.getCommand()));
 
 
 
