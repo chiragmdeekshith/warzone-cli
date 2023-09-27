@@ -24,17 +24,18 @@ public class Player {
 
     // Relevant getters and setters
     public int get_countries_count() {
-        return l_countries.size();
+        return this.l_countries.size();
     }
     public int get_troops() {
-        return l_available_troops;
+        return this.l_available_troops;
     }
     public void set_troops(int p_troops) {
-        l_available_troops = p_troops;
+        this.l_available_troops = p_troops;
     }
     public int get_orders_count() {
-        return l_orders.size();
+        return this.l_orders.size();
     }
+    public String getName() { return this.l_name; }
 
 
     public void issue_order() {
