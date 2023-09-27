@@ -79,6 +79,7 @@ public class StartUp {
                 }
             }
         }
+        l_scanner.close();
         if (l_inputRawCommand.equals(StartupCommand.BACK)) {
             return "back";
         } else {
