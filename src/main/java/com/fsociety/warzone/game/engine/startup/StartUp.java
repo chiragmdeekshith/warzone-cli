@@ -25,7 +25,7 @@ public class StartUp {
             } else {
                 System.out.println("Command is invalid.");
             }
-        } while(!l_inputRawCommand.equals(StartupCommand.BACK));
+        } while(!l_inputRawCommand.equals(StartupCommand.BACK.getCommand()));
 
 
 
