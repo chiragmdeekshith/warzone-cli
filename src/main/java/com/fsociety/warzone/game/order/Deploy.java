@@ -1,4 +1,4 @@
-package com.fsociety.warzone.model.orders;
+package com.fsociety.warzone.game.order;
 
 public class Deploy implements IOrder {
 

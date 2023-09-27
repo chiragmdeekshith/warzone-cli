@@ -1,15 +1,14 @@
-package com.fsociety.warzone.game.engine.startup;
+package com.fsociety.warzone.game.startup;
 
 import com.fsociety.warzone.Application;
-import com.fsociety.warzone.game.engine.GameEngine;
-import com.fsociety.warzone.game.map.play.PlayMap;
+import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class StartUp {
 

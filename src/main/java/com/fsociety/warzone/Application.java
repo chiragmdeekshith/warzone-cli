@@ -1,6 +1,6 @@
 package com.fsociety.warzone;
 
-import com.fsociety.warzone.game.engine.GameEngine;
+import com.fsociety.warzone.game.GameEngine;
 
 import java.util.Scanner;
 
