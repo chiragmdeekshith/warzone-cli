@@ -7,18 +7,17 @@ public enum StartupCommand {
     SHOW_MAP("showmap"),
     LOAD_MAP("loadmap");
 
-    // Arguments for the command
     // Arguments for commands
     public static final String ADD = "-add";
     public static final String REMOVE = "-remove";
 
-    private final String command;
+    private final String d_command;
 
-    StartupCommand(String command){
-        this.command = command;
+    StartupCommand(String p_command){
+        this.d_command = p_command;
     }
 
     public String getCommand() {
-        return command;
+        return d_command;
     }
 }

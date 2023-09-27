@@ -1,7 +1,5 @@
 package com.fsociety.warzone.util.command.constant;
 
-import java.util.*;
-
 public enum GameplayCommand {
 
     BACK("back"),
@@ -9,14 +7,14 @@ public enum GameplayCommand {
     SHOW_MAP("showmap");
 
 
-    private final String command;
+    private final String d_command;
 
-    GameplayCommand(String command){
-        this.command = command;
+    GameplayCommand(String p_command){
+        this.d_command = p_command;
     }
 
     public String getCommand() {
-        return command;
+        return d_command;
     }
 
 }
