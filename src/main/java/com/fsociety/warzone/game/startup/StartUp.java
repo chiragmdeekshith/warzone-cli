@@ -9,31 +9,44 @@ import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StartUp {
 
-    public static void start_up() {
+    public static boolean start_up() {
+
         System.out.println("New game selected. Please start by loading a map.");
         String l_inputRawCommand;
-        do {
-            System.out.println("Enter command.");
+
+        while(true) {
+
+            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
-            if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP) && l_inputRawCommand.split(" ")[0].equals("loadmap")){
-                loadMap(l_inputRawCommand.split(" ")[1]);
-                l_inputRawCommand = editPlayers();
-                break;
+            if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP)){
+                String[] l_splitCommand = l_inputRawCommand.split(" ");
+                String l_commandType = l_splitCommand[0];
+                if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
+                    return false;
+                }
+                if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
+                    String l_filename = l_splitCommand[1];
+                    loadMap(l_filename);
+                    System.out.println("Loaded map - " + l_filename);
+                    System.out.println("Add/Remove players");
+                    if(!editPlayers()) {
+                        return false;
+                    }
+                    break;
+                }
             } else {
-                System.out.println("Please start by loading a map.");
+                System.out.println("Invalid command. Please start by loading a map. Example - 'loadmap filename.map'");
             }
-        } while(!l_inputRawCommand.equals(StartupCommand.BACK.getCommand()));
-
-        if (l_inputRawCommand.equals(StartupCommand.BACK.getCommand())) {
-            // go back to main menu
-        } else {
-            assignCountries();
         }
+        assignCountries();
+        return true;
     }
 
     /**
@@ -48,51 +61,66 @@ public class StartUp {
     }
 
     /**
-     * @TODO Implement command parser to edit list of players
+     * @TODO Handle multiple -add and -remove arguments in the same gameplayer command.
      */
-    public static String editPlayers() {
+    public static boolean editPlayers() {
 
-        ArrayList<Player> l_players = new ArrayList<>();
+        Map<String, Player> l_players = new HashMap<>();
 
         System.out.println("Please create list of players.");
-        String l_inputRawCommand = "";
-        while(!l_inputRawCommand.equals(StartupCommand.BACK.getCommand())) {
+        String l_inputRawCommand;
+
+        while(true) {
+
             System.out.println("Enter command.");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
-            if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP) && l_inputRawCommand.split(" ")[0].equals("gameplayer")){
-                String l_name = l_inputRawCommand.split(" ")[2];
-                if (l_inputRawCommand.split(" ")[0].equals("-add")) {
-                    if (!containsPlayer(l_players, l_name)) {
-                        l_players.add(new Player(l_name));
-                    } else {
-                        System.out.println("Player " + l_name + " already exists.");
+
+            // Ensure the command is valid for the current phase
+            if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
+                String[] l_splitCommand = l_inputRawCommand.split(" ");
+                String l_commandType = l_splitCommand[0];
+
+                if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
+                    return false;
+                }
+
+                if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
+                    if(!l_players.isEmpty()) {
+                        GameEngine.set_players(new ArrayList<>(l_players.values()));
+                        return true;
+                    }
+                    System.out.println("Please add at least one player to the game to continue.");
+                }
+
+                // Add or remove players
+                if(StartupCommand.GAME_PLAYER.getCommand().equals(l_commandType)) {
+
+                    String l_operation = l_splitCommand[1];
+                    String l_playerName = l_splitCommand[2];
+
+                    if(StartupCommand.ADD.equals(l_operation)) {
+                        if(l_players.containsKey(l_playerName)) {
+                            System.out.println("Player " + l_playerName + " already exists.");
+                        } else {
+                            l_players.put(l_playerName, new Player(l_playerName));
+                        }
                     }
 
+                    if(StartupCommand.REMOVE.equals(l_operation)) {
+                        if(!l_players.containsKey(l_playerName)) {
+                            System.out.println("Player " + l_playerName + " does not exist.");
+                        }
+                        else {
+                            l_players.remove(l_playerName);
+                        }
+                    }
                 }
-            } else if ((CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP) && l_inputRawCommand.split(" ")[0].equals("assigncountries"))) {
-                if (l_players.size() == 1) {
-                    System.out.println("Please add at least one player to the game to continue.");
-                } else {
-                    break;
-                }
-            }
-        }
-        if (l_inputRawCommand.equals(StartupCommand.BACK.getCommand())) {
-            return "back";
-        } else {
-            GameEngine.set_players(l_players);
-            return "assigncountries";
-        }
-    }
 
-    public static boolean containsPlayer(ArrayList<Player> p_players, String p_name) {
-        for (int i = 0; i < p_players.size(); i++) {
-            if (p_players.get(i).getName().equals(p_name)) {
-                return true;
+            } else {
+                System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'");
             }
         }
-        return false;
     }
 
     /**
