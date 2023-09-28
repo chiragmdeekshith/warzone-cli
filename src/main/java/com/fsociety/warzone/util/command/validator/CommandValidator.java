@@ -335,8 +335,8 @@ public class CommandValidator {
         // Validate the GAME_PLAYER command
         if(l_commandType.equals(StartupCommand.GAME_PLAYER.getCommand())) {
 
-            if(p_parsedCommand.length % 2 == 0) {
-                System.out.println("This command needs one operation and one argument per player");
+            if(p_parsedCommand.length == 1 || p_parsedCommand.length % 2 == 0) {
+                System.out.println("This command requires pairs of add/remove options and player names.");
                 return false;
             }
 

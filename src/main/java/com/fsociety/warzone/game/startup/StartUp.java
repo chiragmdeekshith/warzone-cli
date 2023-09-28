@@ -98,10 +98,10 @@ public class StartUp {
                 // Add or remove players
                 if(StartupCommand.GAME_PLAYER.getCommand().equals(l_commandType)) {
 
-                    int l_i = 1;
-                    while(l_i < l_splitCommand.length) {
-                        String l_operation = l_splitCommand[l_i++];
-                        String l_playerName = l_splitCommand[l_i++];
+                    for (int i = 1; i < l_splitCommand.length; i+=2) {
+
+                        String l_operation = l_splitCommand[i];
+                        String l_playerName = l_splitCommand[i+1];
 
                         switch (l_operation) {
                             case StartupCommand.ADD -> {
@@ -109,6 +109,7 @@ public class StartUp {
                                     System.out.println("Player " + l_playerName + " already exists.");
                                 } else {
                                     l_players.put(l_playerName, new Player(l_playerName));
+                                    System.out.println("Player " + l_playerName + " added.");
                                 }
                             }
                             case StartupCommand.REMOVE -> {
@@ -117,6 +118,7 @@ public class StartUp {
                                 }
                                 else {
                                     l_players.remove(l_playerName);
+                                    System.out.println("Player " + l_playerName + " removed.");
                                 }
                             }
                         }
