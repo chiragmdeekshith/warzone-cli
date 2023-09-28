@@ -283,24 +283,27 @@ public class CommandValidator {
         // Validate the GAME_PLAYER command
         if(l_commandType.equals(StartupCommand.GAME_PLAYER.getCommand())) {
 
-            if(p_parsedCommand.length != 3) {
-                System.out.println("This command needs one flag and one argument.");
+            if(p_parsedCommand.length < 3 || p_parsedCommand.length%2 != 1) {
+                System.out.println("This command requires pairs of add/remove options and player names.");
                 return false;
             }
 
-            String l_operation = p_parsedCommand[1];
-
-            if(!StartupCommand.ADD.equals(l_operation) && !StartupCommand.REMOVE.equals(l_operation)) {
-                System.out.println("Unrecognised operation " + l_operation);
-                return false;
+            for (int i = 1; i < p_parsedCommand.length; i+=2) {
+                String l_operation = p_parsedCommand[i];
+                if(!StartupCommand.ADD.equals(l_operation) && !StartupCommand.REMOVE.equals(l_operation)) {
+                    System.out.println("Unrecognised operation " + l_operation);
+                    return false;
+                }
             }
 
-            String l_playerName = p_parsedCommand[2];
-
-            if(!l_playerName.matches("[A-Za-z0-9]+")) {
-                System.out.println("Player name must be alphanumeric");
-                return false;
+            for (int i = 2; i < p_parsedCommand.length; i+=2) {
+                String l_playerName = p_parsedCommand[i];
+                if (!l_playerName.matches("[A-Za-z0-9]+")) {
+                    System.out.println("Player name must be alphanumeric");
+                    return false;
+                }
             }
+
             return true;
         }
 

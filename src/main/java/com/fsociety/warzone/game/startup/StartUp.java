@@ -98,23 +98,27 @@ public class StartUp {
                 // Add or remove players
                 if(StartupCommand.GAME_PLAYER.getCommand().equals(l_commandType)) {
 
-                    String l_operation = l_splitCommand[1];
-                    String l_playerName = l_splitCommand[2];
+                    for (int i = 1; i < l_splitCommand.length; i+=2) {
 
-                    if(StartupCommand.ADD.equals(l_operation)) {
-                        if(l_players.containsKey(l_playerName)) {
-                            System.out.println("Player " + l_playerName + " already exists.");
-                        } else {
-                            l_players.put(l_playerName, new Player(l_playerName));
-                        }
-                    }
+                        String l_operation = l_splitCommand[i];
+                        String l_playerName = l_splitCommand[i+1];
 
-                    if(StartupCommand.REMOVE.equals(l_operation)) {
-                        if(!l_players.containsKey(l_playerName)) {
-                            System.out.println("Player " + l_playerName + " does not exist.");
+                        if (StartupCommand.ADD.equals(l_operation)) {
+                            if (l_players.containsKey(l_playerName)) {
+                                System.out.println("Player " + l_playerName + " already exists.");
+                            } else {
+                                l_players.put(l_playerName, new Player(l_playerName));
+                                System.out.println("Player " + l_playerName + " added.");
+                            }
                         }
-                        else {
-                            l_players.remove(l_playerName);
+
+                        if (StartupCommand.REMOVE.equals(l_operation)) {
+                            if (!l_players.containsKey(l_playerName)) {
+                                System.out.println("Player " + l_playerName + " does not exist.");
+                            } else {
+                                l_players.remove(l_playerName);
+                                System.out.println("Player " + l_playerName + " removed.");
+                            }
                         }
                     }
                 }
