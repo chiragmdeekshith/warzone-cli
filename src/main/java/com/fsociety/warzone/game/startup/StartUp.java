@@ -42,10 +42,12 @@ public class StartUp {
                     break;
                 }
             } else {
-                System.out.println("Invalid command. Please start by loading a map. Example - 'loadmap filename.map'");
+                System.out.println("Invalid command. Please start by loading a map. Try 'loadmap [filename].map'");
             }
         }
-        assignCountries();
+        if (!assignCountries()) {
+            return false;
+        }
         return true;
     }
 
@@ -56,23 +58,23 @@ public class StartUp {
 
         PlayMap l_map = new PlayMap();
 
-        GameEngine.set_map(l_map);
+        // Call method to load map into map object
+
+        GameEngine.setMap(l_map);
 
     }
 
-    /**
-     * @TODO Handle multiple -add and -remove arguments in the same gameplayer command.
-     */
+
     public static boolean editPlayers() {
 
         Map<String, Player> l_players = new HashMap<>();
 
-        System.out.println("Please create list of players.");
+        System.out.println("Please create list of players. Try '-add [name]' to add a player.");
         String l_inputRawCommand;
 
         while(true) {
 
-            System.out.println("Enter command.");
+            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
@@ -87,7 +89,7 @@ public class StartUp {
 
                 if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
                     if(!l_players.isEmpty()) {
-                        GameEngine.set_players(new ArrayList<>(l_players.values()));
+                        GameEngine.setPlayers(new ArrayList<>(l_players.values()));
                         return true;
                     }
                     System.out.println("Please add at least one player to the game to continue.");
@@ -96,10 +98,10 @@ public class StartUp {
                 // Add or remove players
                 if(StartupCommand.GAME_PLAYER.getCommand().equals(l_commandType)) {
 
-                    int l_i = 1;
-                    while(l_i < l_splitCommand.length) {
-                        String l_operation = l_splitCommand[l_i++];
-                        String l_playerName = l_splitCommand[l_i++];
+                    for (int i = 1; i < l_splitCommand.length; i+=2) {
+
+                        String l_operation = l_splitCommand[i];
+                        String l_playerName = l_splitCommand[i+1];
 
                         switch (l_operation) {
                             case StartupCommand.ADD -> {
@@ -107,6 +109,7 @@ public class StartUp {
                                     System.out.println("Player " + l_playerName + " already exists.");
                                 } else {
                                     l_players.put(l_playerName, new Player(l_playerName));
+                                    System.out.println("Player " + l_playerName + " added.");
                                 }
                             }
                             case StartupCommand.REMOVE -> {
@@ -115,6 +118,7 @@ public class StartUp {
                                 }
                                 else {
                                     l_players.remove(l_playerName);
+                                    System.out.println("Player " + l_playerName + " removed.");
                                 }
                             }
                         }
@@ -130,10 +134,19 @@ public class StartUp {
     /**
      * @TODO Assign countries randomly to each player based on map
      */
-    public static void assignCountries() {
-        // Assign countries randomly
-        // Then start the game loop
+    public static boolean assignCountries() {
+        PlayMap l_map = GameEngine.getMap();
+        ArrayList<Player> l_players = GameEngine.getPlayers();
 
+        // If map has no countries
+        if (true) {
+            System.out.println("There was a problem with your map file. Returning to main menu.");
+            return false;
+        }
+
+        // Assign countries randomly
+
+        return true;
     }
 
 }

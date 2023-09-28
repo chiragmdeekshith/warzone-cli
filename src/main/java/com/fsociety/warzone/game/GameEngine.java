@@ -14,22 +14,28 @@ public class GameEngine {
     private static ArrayList<Player> l_Players;
     private static PlayMap l_Map;
 
-    public static void set_players(ArrayList<Player> p_players) {
+    public static ArrayList<Player> getPlayers() {
+        return l_Players;
+    }
+    public static void setPlayers(ArrayList<Player> p_players) {
         l_Players = p_players;
     }
 
-    public static void set_map(PlayMap p_map) {
+    public static PlayMap getMap() {
+        return l_Map;
+    }
+    public static void setMap(PlayMap p_map) {
         l_Map = p_map;
     }
 
-    public static void play_game() {
+    public static void playGame() {
         if(!StartUp.start_up()){
             return;
         }
-        main_loop();
+        mainLoop();
     }
 
-    public static void main_loop() {
+    public static void mainLoop() {
         System.out.println("Main game loop has Started!");
         while (true) {
 
