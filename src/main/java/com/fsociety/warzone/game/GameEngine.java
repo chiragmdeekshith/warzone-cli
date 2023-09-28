@@ -1,10 +1,10 @@
-package com.fsociety.warzone.game.engine;
+package com.fsociety.warzone.game;
 
-import com.fsociety.warzone.game.engine.run.execute.ExecuteOrder;
-import com.fsociety.warzone.game.engine.run.issue.IssueOrder;
-import com.fsociety.warzone.game.engine.run.reinforcement.AssignReinforcements;
-import com.fsociety.warzone.game.engine.startup.StartUp;
-import com.fsociety.warzone.game.map.play.PlayMap;
+import com.fsociety.warzone.game.mainloop.ExecuteOrder;
+import com.fsociety.warzone.game.mainloop.IssueOrder;
+import com.fsociety.warzone.game.mainloop.AssignReinforcements;
+import com.fsociety.warzone.game.startup.StartUp;
+import com.fsociety.warzone.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
