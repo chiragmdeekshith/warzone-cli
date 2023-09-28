@@ -98,23 +98,27 @@ public class StartUp {
                 // Add or remove players
                 if(StartupCommand.GAME_PLAYER.getCommand().equals(l_commandType)) {
 
-                    String l_operation = l_splitCommand[1];
-                    String l_playerName = l_splitCommand[2];
+                    int l_i = 1;
+                    while(l_i < l_splitCommand.length) {
+                        String l_operation = l_splitCommand[l_i++];
+                        String l_playerName = l_splitCommand[l_i++];
 
-                    if(StartupCommand.ADD.equals(l_operation)) {
-                        if(l_players.containsKey(l_playerName)) {
-                            System.out.println("Player " + l_playerName + " already exists.");
-                        } else {
-                            l_players.put(l_playerName, new Player(l_playerName));
-                        }
-                    }
-
-                    if(StartupCommand.REMOVE.equals(l_operation)) {
-                        if(!l_players.containsKey(l_playerName)) {
-                            System.out.println("Player " + l_playerName + " does not exist.");
-                        }
-                        else {
-                            l_players.remove(l_playerName);
+                        switch (l_operation) {
+                            case StartupCommand.ADD -> {
+                                if(l_players.containsKey(l_playerName)) {
+                                    System.out.println("Player " + l_playerName + " already exists.");
+                                } else {
+                                    l_players.put(l_playerName, new Player(l_playerName));
+                                }
+                            }
+                            case StartupCommand.REMOVE -> {
+                                if(!l_players.containsKey(l_playerName)) {
+                                    System.out.println("Player " + l_playerName + " does not exist.");
+                                }
+                                else {
+                                    l_players.remove(l_playerName);
+                                }
+                            }
                         }
                     }
                 }
