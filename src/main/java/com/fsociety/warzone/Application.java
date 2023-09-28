@@ -25,16 +25,16 @@ public class Application {
             switch(l_choice) {
                 case "1":
                     System.out.println("New game");
-                    GameEngine.playGame();
+                    GameEngine.play_game();
                     break;
                 case "2":
-                    System.out.println("Map Editor");
+                    System.out.println("Map editor");
                     break;
                 case "3":
-                    System.out.println("Exiting...");
+                    System.out.println("Exiting");
                     break;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Wrong choice");
             }
         } while(!"3".equals(l_choice));
     }

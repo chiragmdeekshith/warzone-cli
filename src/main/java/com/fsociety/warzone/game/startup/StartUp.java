@@ -42,12 +42,10 @@ public class StartUp {
                     break;
                 }
             } else {
-                System.out.println("Invalid command. Please start by loading a map. Try 'loadmap [filename].map'");
+                System.out.println("Invalid command. Please start by loading a map. Example - 'loadmap filename.map'");
             }
         }
-        if (!assignCountries()) {
-            return false;
-        }
+        assignCountries();
         return true;
     }
 
@@ -58,23 +56,23 @@ public class StartUp {
 
         PlayMap l_map = new PlayMap();
 
-        // Call method to load map into map object
-
-        GameEngine.setMap(l_map);
+        GameEngine.set_map(l_map);
 
     }
 
-
+    /**
+     * @TODO Handle multiple -add and -remove arguments in the same gameplayer command.
+     */
     public static boolean editPlayers() {
 
         Map<String, Player> l_players = new HashMap<>();
 
-        System.out.println("Please create list of players. Try '-add [name]' to add a player.");
+        System.out.println("Please create list of players.");
         String l_inputRawCommand;
 
         while(true) {
 
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+            System.out.println("Enter command.");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
@@ -89,7 +87,7 @@ public class StartUp {
 
                 if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
                     if(!l_players.isEmpty()) {
-                        GameEngine.setPlayers(new ArrayList<>(l_players.values()));
+                        GameEngine.set_players(new ArrayList<>(l_players.values()));
                         return true;
                     }
                     System.out.println("Please add at least one player to the game to continue.");
@@ -132,19 +130,10 @@ public class StartUp {
     /**
      * @TODO Assign countries randomly to each player based on map
      */
-    public static boolean assignCountries() {
-        PlayMap l_map = GameEngine.getMap();
-        ArrayList<Player> l_players = GameEngine.getPlayers();
-
-        // If map has no countries
-        if (true) {
-            System.out.println("There was a problem with your map file. Returning to main menu.");
-            return false;
-        }
-
+    public static void assignCountries() {
         // Assign countries randomly
+        // Then start the game loop
 
-        return true;
     }
 
 }
