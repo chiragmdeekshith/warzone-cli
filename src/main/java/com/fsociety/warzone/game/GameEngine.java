@@ -23,12 +23,14 @@ public class GameEngine {
     }
 
     public static void play_game() {
-        StartUp.start_up();
+        if(!StartUp.start_up()){
+            return;
+        }
         main_loop();
     }
 
     public static void main_loop() {
-
+        System.out.println("Main game loop has Started!");
         while (true) {
 
             // Assign Reinforcements Phase
