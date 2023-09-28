@@ -15,8 +15,8 @@ public class Application {
     }
 
     private static void mainMenu() {
-        String l_choice = "";
-        while(!"3".equals(l_choice)) {
+        String l_choice;
+        do {
             System.out.println("1) Play game");
             System.out.println("2) Map Editor");
             System.out.println("3) Exit");
@@ -29,7 +29,6 @@ public class Application {
                     break;
                 case "2":
                     System.out.println("Map editor");
-
                     break;
                 case "3":
                     System.out.println("Exiting");
@@ -37,6 +36,6 @@ public class Application {
                 default:
                     System.out.println("Wrong choice");
             }
-        }
+        } while(!"3".equals(l_choice));
     }
 }
