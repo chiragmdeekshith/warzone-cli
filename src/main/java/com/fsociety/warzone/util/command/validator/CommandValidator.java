@@ -120,38 +120,53 @@ public class CommandValidator {
         // Validate the EDIT_CONTINENT command
         if(l_commandType.equals(MapEditorCommand.EDIT_CONTINENT.getCommand())) {
 
-            if(p_parsedCommand.length < 3 || p_parsedCommand.length > 4 ) {
-                System.out.println("There are unexpected number of arguments passed.");
+            if(p_parsedCommand.length < 3) {
+                System.out.println("Unexpected number of arguments passed.");
                 return false;
             }
 
-            String l_operation = p_parsedCommand[1];
+            int l_i = 1;
+            while(l_i < p_parsedCommand.length) {
 
-            switch (l_operation) {
-                case MapEditorCommand.ADD -> {
-                    if(p_parsedCommand.length != 4) {
-                        System.out.println("ADD needs two arguments - ID and Value");
-                        return false;
+                String l_operation = p_parsedCommand[l_i++];
+                switch (l_operation) {
+                    case MapEditorCommand.ADD -> {
+                        if(l_i + 2 >= p_parsedCommand.length) {
+                            System.out.println("ADD needs two arguments - ID and Value");
+                            return false;
+                        }
+                        int l_continentId, l_continentValue;
+                        try {
+                            l_continentId = Integer.parseInt(p_parsedCommand[l_i++]);
+                            l_continentValue = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid argument type passed - Integers required.");
+                            return false;
+                        }
+                        if(l_continentId < 0 || l_continentValue < 0) {
+                            System.out.println("Continent ID or Continent value cannot be less than 0");
+                            return false;
+                        }
                     }
-                    int l_id, l_value;
-                    try {
-                        l_id = Integer.parseInt(p_parsedCommand[2]);
-                        l_value = Integer.parseInt(p_parsedCommand[3]);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid argument type passed - Integers required.");
-                        return false;
+                    case MapEditorCommand.REMOVE -> {
+                        if(l_i + 1 >= p_parsedCommand.length) {
+                            System.out.println("REMOVE needs one argument - ID");
+                            return false;
+                        }
+                        int l_continentId;
+                        try {
+                            l_continentId = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid argument type passed - Integer required.");
+                            return false;
+                        }
+                        if(l_continentId < 0) {
+                            System.out.println("Continent ID or Continent value cannot be less than 0");
+                            return false;
+                        }
                     }
-                }
-                case MapEditorCommand.REMOVE -> {
-                    if(p_parsedCommand.length != 3) {
-                        System.out.println("Remove needs one argument - ID");
-                        return false;
-                    }
-                    int l_id;
-                    try {
-                        l_id = Integer.parseInt(p_parsedCommand[2]);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid argument type passed - Integer required.");
+                    default -> {
+                        System.out.println("Incorrect ordering of command options and values at index " + l_i);
                         return false;
                     }
                 }
@@ -163,80 +178,117 @@ public class CommandValidator {
         // Validate the EDIT_COUNTRY command
         if(l_commandType.equals(MapEditorCommand.EDIT_COUNTRY.getCommand())){
 
-            if(p_parsedCommand.length != 3 && p_parsedCommand.length != 4){
-                System.out.println("This command needs either 3 or for 4 arguments passed to it");
+            if(p_parsedCommand.length < 3){
+                System.out.println("This command needs at least 2 arguments passed to it");
                 return false;
             }
 
-            String l_operation = p_parsedCommand[1];
+            int l_i = 1;
 
-            // Validate ADD country
-            if(MapEditorCommand.ADD.equals(l_operation)) {
-                if(p_parsedCommand.length != 4) {
-                    System.out.println("Add country command requires two arguments");
-                    return false;
+            while(l_i < p_parsedCommand.length) {
+
+                String l_operation = p_parsedCommand[l_i++];
+                switch (l_operation) {
+                    case MapEditorCommand.ADD -> {
+                        if(l_i + 2 >= p_parsedCommand.length) {
+                            System.out.println("ADD COUNTRY command requires two arguments");
+                            return false;
+                        }
+                        int l_countryId, l_continentId;
+                        try {
+                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                            l_continentId = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Integers are expected for countryId and continentId.");
+                            return false;
+                        }
+                        if(l_countryId < 0 || l_continentId < 0) {
+                            System.out.println("IDs cannot be less than 0.");
+                            return false;
+                        }
+                    }
+                    case MapEditorCommand.REMOVE -> {
+                        if(l_i + 1 >= p_parsedCommand.length) {
+                            System.out.println("REMOVE COUNTRY command requires one argument");
+                            return false;
+                        }
+                        int l_countryId;
+                        try {
+                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Integer is expected for countryId.");
+                            return false;
+                        }
+                        if(l_countryId < 0) {
+                            System.out.println("ID cannot be less than 0.");
+                            return false;
+                        }
+                    }
+                    default -> {
+                        System.out.println("Command arguments and values are not in order at index "+ l_i);
+                        return false;
+                    }
                 }
-                int l_countryId, l_continentId;
-                try {
-                    l_countryId = Integer.parseInt(p_parsedCommand[2]);
-                    l_continentId = Integer.parseInt(p_parsedCommand[3]);
-                } catch (NumberFormatException e) {
-                    System.out.println("Integers are expected for countryId and continentId.");
-                    return false;
-                }
-                if(l_countryId < 0 || l_continentId < 0) {
-                    System.out.println("IDs cannot be less than 0.");
-                    return false;
-                }
-                return true;
             }
-
-            // Validate REMOVE country
-            if(MapEditorCommand.REMOVE.equals(l_operation)) {
-                if(p_parsedCommand.length != 3) {
-                    System.out.println("Remove country command requires one argument");
-                    return false;
-                }
-                int l_countryId;
-                try {
-                    l_countryId = Integer.parseInt(p_parsedCommand[2]);
-                } catch (NumberFormatException e) {
-                    System.out.println("Integer is expected for countryId.");
-                    return false;
-                }
-                if(l_countryId < 0) {
-                    System.out.println("ID cannot be less than 0.");
-                    return false;
-                }
-                return true;
-            }
-
-            System.out.println("Unrecognised flag: "+ l_operation);
-            return false;
+            return true;
         }
 
         // Validate the EDIT_NEIGHBOUR command
         if(l_commandType.equals(MapEditorCommand.EDIT_NEIGHBOUR.getCommand())) {
-            if(p_parsedCommand.length != 4) {
-                System.out.println("This command needs one flag and two arguments");
+            if(p_parsedCommand.length < 3) {
+                System.out.println("This command needs at least two arguments.");
                 return false;
             }
-            String l_operation = p_parsedCommand[1];
-            if(!MapEditorCommand.ADD.equals(l_operation) && !MapEditorCommand.REMOVE.equals(l_operation)) {
-                System.out.println("Unexpected flag " + l_operation);
+            int l_i = 1;
+            while(l_i < p_parsedCommand.length) {
+                String l_operation = p_parsedCommand[l_i++];
+                switch (l_operation) {
+                    case MapEditorCommand.ADD -> {
+                        if(l_i + 2 >= p_parsedCommand.length) {
+                            System.out.println("ADD Neighbour command requires two arguments");
+                            return false;
+                        }
+                        int l_countryId, l_neighbourId;
+                        try {
+                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                            l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Value of ID must be an integer.");
+                            return false;
+                        }
+                        if(l_countryId < 0 || l_neighbourId < 0) {
+                            System.out.println("Value of countryID and neighbourID must not be lesser than 0.");
+                            return false;
+                        }
+                        if(l_countryId == l_neighbourId) {
+                            System.out.println("A country cannot be it's own neighbour.");
+                            return false;
+                        }
+                    }
+                    case MapEditorCommand.REMOVE -> {
+                        if(l_i + 1 >= p_parsedCommand.length) {
+                            System.out.println("REMOVE Neighbour command requires one argument");
+                            return false;
+                        }
+                        int l_countryId;
+                        try {
+                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Value of ID must be an integer.");
+                            return false;
+                        }
+                        if(l_countryId < 0) {
+                            System.out.println("Value of countryID and neighbourID must not be lesser than 0.");
+                            return false;
+                        }
+                    }
+                    default -> {
+                        System.out.println("Unexpected option " + l_operation);
+                        return false;
+                    }
+                }
             }
-            int l_selfId, l_neighbourId;
-            try {
-                l_selfId = Integer.parseInt(p_parsedCommand[2]);
-                l_neighbourId = Integer.parseInt(p_parsedCommand[3]);
-            } catch (NumberFormatException e) {
-                System.out.println("Integers expected as ID values");
-                return false;
-            }
-            if(l_selfId < 0 || l_neighbourId < 0) {
-                System.out.println("IDs must be 0 or greater.");
-                return false;
-            }
+
             return true;
         }
 
@@ -283,24 +335,29 @@ public class CommandValidator {
         // Validate the GAME_PLAYER command
         if(l_commandType.equals(StartupCommand.GAME_PLAYER.getCommand())) {
 
-            if(p_parsedCommand.length != 3) {
-                System.out.println("This command needs one flag and one argument.");
+            if(p_parsedCommand.length % 2 == 0) {
+                System.out.println("This command needs one operation and one argument per player");
                 return false;
             }
 
             String l_operation = p_parsedCommand[1];
 
-            if(!StartupCommand.ADD.equals(l_operation) && !StartupCommand.REMOVE.equals(l_operation)) {
-                System.out.println("Unrecognised operation " + l_operation);
-                return false;
+            for(int l_i = 1; l_i < p_parsedCommand.length; l_i++) {
+                if(l_i % 2 == 1) {
+                    if(!StartupCommand.ADD.equals(l_operation) && !StartupCommand.REMOVE.equals(l_operation)) {
+                        System.out.println("Unrecognised operation " + l_operation + " at index " + l_i);
+                        return false;
+                    }
+                }
+                if(l_i % 2 == 0) {
+                    String l_playerName = p_parsedCommand[l_i];
+                    if(!l_playerName.matches("[A-Za-z0-9]+")) {
+                        System.out.println("Player name must be alphanumeric");
+                        return false;
+                    }
+                }
             }
 
-            String l_playerName = p_parsedCommand[2];
-
-            if(!l_playerName.matches("[A-Za-z0-9]+")) {
-                System.out.println("Player name must be alphanumeric");
-                return false;
-            }
             return true;
         }
 
