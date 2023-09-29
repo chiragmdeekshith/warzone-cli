@@ -19,9 +19,9 @@ public class GameEngine {
         l_Players = p_players;
     }
 
-    public static void play_game() {
+    public static void playGame() {
         StartUp.start_up();
-        main_loop();
+        mainLoop();
     }
 
     public static void mainLoop() {

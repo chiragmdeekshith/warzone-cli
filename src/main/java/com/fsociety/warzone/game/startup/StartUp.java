@@ -134,7 +134,7 @@ public class StartUp {
      * @TODO Assign countries randomly to each player based on map
      */
     public static boolean assignCountries() {
-        PlayMap l_map = GameEngine.getMap();
+        //PlayMap l_map = GameEngine.getMap();
         ArrayList<Player> l_players = GameEngine.getPlayers();
 
         // If map has no countries
