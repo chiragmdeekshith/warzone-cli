@@ -4,7 +4,6 @@ import com.fsociety.warzone.game.mainloop.ExecuteOrder;
 import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.mainloop.AssignReinforcements;
 import com.fsociety.warzone.game.startup.StartUp;
-import com.fsociety.warzone.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
@@ -12,14 +11,9 @@ import java.util.ArrayList;
 public class GameEngine {
 
     private static ArrayList<Player> l_Players;
-    private static PlayMap l_Map;
 
     public static void set_players(ArrayList<Player> p_players) {
         l_Players = p_players;
-    }
-
-    public static void set_map(PlayMap p_map) {
-        l_Map = p_map;
     }
 
     public static void play_game() {

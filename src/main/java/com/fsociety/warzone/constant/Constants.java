@@ -1,4 +1,4 @@
-package com.warzone.constants;
+package com.fsociety.warzone.constant;
 
 public class Constants {
 

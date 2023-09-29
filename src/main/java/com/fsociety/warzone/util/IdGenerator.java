@@ -1,4 +1,4 @@
-package com.warzone.util;
+package com.fsociety.warzone.util;
 
 import java.util.concurrent.atomic.AtomicLong;
 

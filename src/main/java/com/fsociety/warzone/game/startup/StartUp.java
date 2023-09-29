@@ -2,7 +2,6 @@ package com.fsociety.warzone.game.startup;
 
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
-import com.fsociety.warzone.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
@@ -21,7 +20,7 @@ public class StartUp {
             l_inputRawCommand = Application.SCANNER.nextLine();
 
             if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP) && l_inputRawCommand.split(" ")[0].equals("loadmap")){
-                loadMap(l_inputRawCommand.split(" ")[1]);
+                //loadMap(l_inputRawCommand.split(" ")[1]);
                 l_inputRawCommand = editPlayers();
                 break;
             } else {
@@ -34,17 +33,6 @@ public class StartUp {
         } else {
             assignCountries();
         }
-    }
-
-    /**
-     * @TODO Implement map loading using FileIO
-     */
-    public static void loadMap(String p_fileName) {
-
-        PlayMap l_map = new PlayMap();
-
-        GameEngine.set_map(l_map);
-
     }
 
     /**
