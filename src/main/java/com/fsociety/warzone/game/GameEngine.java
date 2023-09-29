@@ -12,7 +12,10 @@ public class GameEngine {
 
     private static ArrayList<Player> l_Players;
 
-    public static void set_players(ArrayList<Player> p_players) {
+    public static ArrayList<Player> getPlayers() {
+        return l_Players;
+    }
+    public static void setPlayers(ArrayList<Player> p_players) {
         l_Players = p_players;
     }
 
@@ -21,8 +24,8 @@ public class GameEngine {
         main_loop();
     }
 
-    public static void main_loop() {
-
+    public static void mainLoop() {
+        System.out.println("Main game loop has Started!");
         while (true) {
 
             // Assign Reinforcements Phase
