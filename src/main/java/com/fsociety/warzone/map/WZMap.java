@@ -41,8 +41,8 @@ public class WZMap {
 
     public WZMap(
             final Map<Integer, Set<Integer>> p_adjacencyMap,
-            final Map<Integer, Set<Integer>> p_continentCountriesMap,
-            final Map<Integer, Integer> p_continentBonusMap) {
+            final Map<Integer, Integer> p_continentBonusMap,
+            final Map<Integer, Set<Integer>> p_continentCountriesMap) {
         this.d_adjacencyMap = p_adjacencyMap;
         this.d_continentBonusMap = p_continentBonusMap;
         this.d_continentCountriesMap = p_continentCountriesMap;
