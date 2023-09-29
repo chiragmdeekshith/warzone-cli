@@ -4,6 +4,7 @@ import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.util.FileIO;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
@@ -59,7 +60,7 @@ public class StartUp {
         PlayMap l_map = new PlayMap();
 
         // Call method to load map into map object
-
+        FileIO.loadAndValidateMap(p_fileName);
         GameEngine.setMap(l_map);
 
     }
