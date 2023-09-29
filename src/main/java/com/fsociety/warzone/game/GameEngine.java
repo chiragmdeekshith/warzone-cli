@@ -20,7 +20,9 @@ public class GameEngine {
     }
 
     public static void playGame() {
-        StartUp.start_up();
+        if(!StartUp.start_up()){
+            return;
+        }
         mainLoop();
     }
 
