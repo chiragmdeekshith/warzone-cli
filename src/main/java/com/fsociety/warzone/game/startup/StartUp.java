@@ -2,7 +2,6 @@ package com.fsociety.warzone.game.startup;
 
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
-import com.fsociety.warzone.map.play.PlayMap;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.FileIO;
 import com.fsociety.warzone.util.command.CommandHandler;
@@ -53,19 +52,18 @@ public class StartUp {
     }
 
     /**
-     * @TODO Implement map loading using FileIO
+     * @TODO Implement command parser to edit list of players
      */
+
     public static void loadMap(String p_fileName) {
 
-        PlayMap l_map = new PlayMap();
+        //PlayMap l_map = new PlayMap();
 
         // Call method to load map into map object
         FileIO.loadAndValidateMap(p_fileName);
-        GameEngine.setMap(l_map);
+        //GameEngine.setMap(l_map);
 
     }
-
-
     public static boolean editPlayers() {
 
         Map<String, Player> l_players = new HashMap<>();
@@ -136,7 +134,7 @@ public class StartUp {
      * @TODO Assign countries randomly to each player based on map
      */
     public static boolean assignCountries() {
-        PlayMap l_map = GameEngine.getMap();
+        //PlayMap l_map = GameEngine.getMap();
         ArrayList<Player> l_players = GameEngine.getPlayers();
 
         // If map has no countries
