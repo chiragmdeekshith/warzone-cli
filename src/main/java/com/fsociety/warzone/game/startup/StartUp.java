@@ -3,6 +3,7 @@ package com.fsociety.warzone.game.startup;
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.util.FileIO;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
@@ -53,6 +54,16 @@ public class StartUp {
     /**
      * @TODO Implement command parser to edit list of players
      */
+
+    public static void loadMap(String p_fileName) {
+
+        //PlayMap l_map = new PlayMap();
+
+        // Call method to load map into map object
+        FileIO.loadAndValidateMap(p_fileName);
+        //GameEngine.setMap(l_map);
+
+    }
     public static boolean editPlayers() {
 
         Map<String, Player> l_players = new HashMap<>();
