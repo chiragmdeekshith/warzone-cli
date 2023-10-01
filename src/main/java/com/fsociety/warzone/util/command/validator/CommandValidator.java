@@ -372,12 +372,13 @@ public class CommandValidator {
 
         // Validate the LOAD_MAP command
         if(l_commandType.equals(StartupCommand.LOAD_MAP.getCommand())) {
-            if(p_parsedCommand.length != 2){
+            if(p_parsedCommand.length < 2){
                 System.out.println("Expected one argument - filename");
                 return false;
             }
-            String l_fileName = p_parsedCommand[1];
-            if(!l_fileName.endsWith(".map")) {
+            String l_fileNameEnd = p_parsedCommand[p_parsedCommand.length-1];
+
+            if(!l_fileNameEnd.endsWith(".map")) {
                 System.out.println("The file passed is not a '.map' file.");
                 return false;
             }
