@@ -2,6 +2,7 @@ package com.fsociety.warzone.model;
 
 import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.game.order.IOrder;
+import com.fsociety.warzone.util.IdGenerator;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 public class Player {
 
     private String l_name;
+
+    private Integer l_id;
     private ArrayList<IOrder> l_orders;
     private ArrayList<Country> l_countries;
     private int l_available_troops;
@@ -19,6 +22,7 @@ public class Player {
          l_orders = new ArrayList<>();
          l_countries = new ArrayList<>();
          l_available_troops = 0;
+         l_id = IdGenerator.generateId();
     }
 
 
@@ -36,6 +40,10 @@ public class Player {
         return this.l_orders.size();
     }
     public String getName() { return this.l_name; }
+
+    public int getId() {
+        return this.l_id;
+    }
 
 
     public void issue_order() {
