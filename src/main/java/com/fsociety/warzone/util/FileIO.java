@@ -6,9 +6,11 @@ import java.io.BufferedReader;
 import java.io.*;
 
 public class FileIO {
-    public static boolean loadAndValidateMap(String p_fileName) {
+
+    public static WZMap loadAndValidateMap(String p_fileName) {
+        WZMap mapValues = null;
         try {
-            WZMap mapValues = new WZMap();
+            mapValues = new WZMap();
             FileReader mapFile = new FileReader(p_fileName);
             String line = null;
             StringBuilder data = new StringBuilder();
@@ -23,7 +25,7 @@ public class FileIO {
             if (data.toString().toLowerCase().contains("[continents]") && data.toString().toLowerCase().contains("[countries]") && data.toString().toLowerCase().contains("[borders]")) {
             } else {
                 System.out.println("Missing Information/Not in correct format");
-                return false;
+                return null;
             }
             String[] continentData = data.substring(data.toString().toLowerCase().indexOf("[continents]")+13, data.toString().toLowerCase().indexOf("[countries]")).split("\n");
             String[] countryData = data.substring(data.toString().toLowerCase().indexOf("[countries]")+12, data.toString().toLowerCase().indexOf("[borders]")).split("\n");
@@ -47,6 +49,7 @@ public class FileIO {
         catch (Exception e) {
             e.printStackTrace();
         }
-        return true;
+        mapValues.initGameStates();
+        return mapValues;
     }
 }
