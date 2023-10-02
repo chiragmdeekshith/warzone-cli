@@ -55,10 +55,6 @@ public class StartUp {
         return true;
     }
 
-    /**
-     * @TODO Implement command parser to edit list of players
-     */
-
     public static boolean loadMap(String p_fileName) {
 
         // Call method to load map data into map object
@@ -70,6 +66,7 @@ public class StartUp {
         GameEngine.setWZMap(l_wzMap);
         return true;
     }
+
     public static boolean editPlayers() {
 
         Map<String, Player> l_players = new HashMap<>();
@@ -94,11 +91,16 @@ public class StartUp {
 
                 if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
                     if(!l_players.isEmpty()) {
-                        GameEngine.setPlayers(new ArrayList<>(l_players.values()));
-                        GameEngine.initPlayerList();
-                        return true;
+                        if (l_players.size() <= GameEngine.getWZMap().getAdjacencyMap().keySet().size()) {
+                            GameEngine.setPlayers(new ArrayList<>(l_players.values()));
+                            GameEngine.initPlayerList();
+                            return true;
+                        } else {
+                            System.out.println("Too many players for this map. Please remove players to continue.");
+                        }
+                    } else {
+                        System.out.println("Please add at least one player to the game to continue.");
                     }
-                    System.out.println("Please add at least one player to the game to continue.");
                 }
 
                 // Add or remove players
@@ -130,34 +132,33 @@ public class StartUp {
                         }
                     }
                 }
-
             } else {
                 System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'");
             }
         }
     }
 
-    /**
-     * @TODO Assign countries randomly to each player based on map
-     */
     public static boolean assignCountries() {
 
         WZMap wzMap = GameEngine.getWZMap();
         ArrayList<Player> l_players = GameEngine.getPlayers();
 
         // Get list of all countries
-        Set<Integer> l_countryIds = wzMap.getAdjacencyMap().keySet();
+        ArrayList<Integer> l_countryIds = new ArrayList<>(wzMap.getAdjacencyMap().keySet());
 
         Random random = new Random();
 
         // Assign countries randomly
-        l_countryIds.forEach(l_countryId -> {
-            int randomIndex = random.nextInt(l_players.size());
-            Player l_player = l_players.get(randomIndex);
+        int l_counter = 0;
+        while (!l_countryIds.isEmpty()) {
+            Player l_player = l_players.get(l_counter%l_players.size()); // Cycles through the players in round-robin
+            int randomIndex = random.nextInt(l_countryIds.size());
+            int l_countryId = l_countryIds.remove(randomIndex);
             wzMap.updateGameState(l_countryId, l_player.getId(), 0);
             l_player.addCountry(wzMap.getGameState(l_countryId));
             wzMap.getGameState(l_countryId).setPlayer(l_player);
-        });
+            l_counter++;
+        }
 
         return true;
     }
