@@ -1,6 +1,7 @@
 package com.fsociety.warzone;
 
 import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.map.MapEditor;
 
 import java.util.Scanner;
 
@@ -23,19 +24,21 @@ public class Application {
             System.out.println("Enter your choice: \t");
             l_choice = Application.SCANNER.nextLine();
             switch(l_choice) {
-                case "1":
+                case "1" -> {
                     System.out.println("New game");
                     GameEngine.playGame();
-                    break;
-                case "2":
+                }
+                case "2" -> {
                     System.out.println("Map Editor");
-                    break;
-                case "3":
+                    MapEditor.editMap();
+                }
+                case "3" -> {
                     System.out.println("Exiting...");
-                    break;
-                default:
-                    System.out.println("Invalid choice!");
+                    return;
+                }
+                default -> System.out.println("Invalid choice!");
+
             }
-        } while(!"3".equals(l_choice));
+        } while(true);
     }
 }

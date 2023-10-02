@@ -36,7 +36,7 @@ public class StartUp {
                 return false;
             }
             if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
-                String l_filename = l_inputRawCommand.replaceFirst(StartupCommand.LOAD_MAP.getCommand() + " ", "");
+                String l_filename = l_splitCommand[1];
                 if(!loadMap(l_filename)) {
                     System.out.println("Failed to load the map! Please try another map file.");
                     continue;
@@ -49,10 +49,7 @@ public class StartUp {
                 break;
             }
         }
-        if (!assignCountries()) {
-            return false;
-        }
-        return true;
+        return assignCountries();
     }
 
     public static boolean loadMap(String p_fileName) {
@@ -132,6 +129,11 @@ public class StartUp {
                         }
                     }
                 }
+
+                if(StartupCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
+                    GameEngine.getWZMap().showMapForGame();
+                }
+
             } else {
                 System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'");
             }

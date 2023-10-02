@@ -1,10 +1,6 @@
 package com.fsociety.warzone.map;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
@@ -138,9 +134,7 @@ public class WZMap {
         if (d_continentCountriesMap.get(p_continentId) != null) {
             UserInstructionUtils.promptUser("Continent does not exist");
         } else {
-            d_continentCountriesMap.get(p_continentId).forEach(countryId -> {
-                d_adjacencyMap.remove(countryId);
-            });
+            d_continentCountriesMap.get(p_continentId).forEach(d_adjacencyMap::remove);
             d_continentBonusMap.remove(p_continentId);
             d_continentCountriesMap.remove(p_continentId);
         }
@@ -150,16 +144,14 @@ public class WZMap {
      * Removes a country from the map
      * 
      * @param p_countryId   the country to remove
-     * @param p_continentId the continent to remove the country from
      */
-    public void removeCountry(
-            final int p_countryId,
-            final int p_continentId) {
+    public void removeCountry(final int p_countryId) {
         if (d_adjacencyMap.get(p_countryId) == null) {
             UserInstructionUtils.promptUser("Country does not exist");
         } else {
             d_adjacencyMap.remove(p_countryId);
-            d_continentCountriesMap.get(p_continentId).remove(p_countryId);
+            int l_continentId = getContinentIdForCountry(p_countryId);
+            d_continentCountriesMap.get(l_continentId).remove(p_countryId);
         }
     }
 
@@ -233,11 +225,42 @@ public class WZMap {
 
     /**
      * get the current game state for a country
-     * 
+     *
      * @param p_countryId
      * @return the current game state for a country
      */
     public Country getGameState(final int p_countryId) {
         return d_countryGameStateMap.get(p_countryId);
+    }
+
+    /**
+     * Display the current Map for the map editor. Show continents, countries and neighbours
+     */
+    public void showMapForEditor() {
+        System.out.println("Showing map for Editor");
+    }
+
+    /**
+     * Display the current Map for the gameplay details. Show owner and armies
+     */
+    public void showMapForGame() {
+        System.out.println("Showing map for Game");
+    }
+
+    /**
+     * get the continent ID for a country
+     *
+     * @param p_countryId
+     * @return the continent ID for a country
+     */
+    private Integer getContinentIdForCountry(Integer p_countryId) {
+        List<Integer> l_continentIds = new ArrayList<>(d_continentCountriesMap.keySet());
+        for(Integer l_id : l_continentIds) {
+            if(d_continentCountriesMap.get(l_id).contains(p_countryId)) {
+                return l_id;
+            }
+        }
+        // Shouldn't reach this return
+        return -1;
     }
 }

@@ -54,4 +54,12 @@ public class FileIO {
         mapValues.initGameStates();
         return mapValues;
     }
+
+    public static boolean validateMapPlaceholder(WZMap dWzMap) {
+        return true;
+    }
+
+    public static boolean saveMapPlaceholder(WZMap dWzMap) {
+        return true;
+    }
 }
