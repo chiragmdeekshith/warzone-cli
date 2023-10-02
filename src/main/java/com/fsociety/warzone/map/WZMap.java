@@ -195,10 +195,10 @@ public class WZMap {
      */
     public void initGameStates() {
         d_adjacencyMap.keySet().forEach(countryId -> {
-            d_countryGameStateMap.put(countryId, new Country());
+            d_countryGameStateMap.put(countryId, new Country(countryId));
         });
         d_continentCountriesMap.keySet().forEach(continentId -> {
-            d_continentGameStateMap.put(continentId, new Continent());
+            d_continentGameStateMap.put(continentId, new Continent(d_continentCountriesMap.get(continentId), d_countryGameStateMap));
             d_continentCountriesMap.get(continentId).forEach(countryId -> {
                 d_countryContinentGameStateMap.put(countryId, d_continentGameStateMap.get(continentId));
             });

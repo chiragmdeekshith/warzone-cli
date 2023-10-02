@@ -1,13 +1,21 @@
 package com.fsociety.warzone.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Continent {
     // ids of players -> Set of ids of countries
     private final Map<Integer, Integer> d_playerCountryCountMap;
 
-    public Continent() {
+    private ArrayList<Country> d_countries;
+
+    public Continent(Set<Integer> p_countryIds, Map<Integer, Country> d_map) {
+        this.d_countries = new ArrayList<>();
+        p_countryIds.forEach(d_countryId -> {
+            this.d_countries.add(d_map.get(d_countryId));
+        });
         this.d_playerCountryCountMap = new HashMap<>();
     }
 
