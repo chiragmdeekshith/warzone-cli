@@ -1,6 +1,7 @@
 package com.fsociety.warzone.model;
 
 import com.fsociety.warzone.Application;
+import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.game.order.IOrder;
 import com.fsociety.warzone.util.IdGenerator;
@@ -53,6 +54,13 @@ public class Player {
         this.l_countries.add(p_country);
     }
 
+    public ArrayList<Integer> getCountryIds() {
+        ArrayList<Integer> d_countryIds = new ArrayList<>();
+        for (int i = 0; i < l_countries.size(); i++) {
+            d_countryIds.add(l_countries.get(i).getCountryId());
+        }
+        return d_countryIds;
+    }
 
     public boolean issue_order() {
         // Add an order to orders list during issue orders phase
@@ -78,10 +86,14 @@ public class Player {
                 // DEPLOY command is given
                 if(GameplayCommand.DEPLOY.getCommand().equals(l_commandType)) {
                     if (Integer.parseInt(l_parameters[2]) <= l_available_troops) {
-                        System.out.println(l_parameters[2] + " reinforcement armies will be deployed to " + l_parameters[1] + ".");
-                        l_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.l_id));
-                        this.l_available_troops -= Integer.parseInt(l_parameters[2]);
-                        return true;
+                        if (getCountryIds().contains(Integer.parseInt(l_parameters[1]))) {
+                            System.out.println(l_parameters[2] + " reinforcement armies will be deployed to " + l_parameters[1] + ".");
+                            l_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.l_id));
+                            this.l_available_troops -= Integer.parseInt(l_parameters[2]);
+                            return true;
+                        } else {
+                            System.out.println("You do not own this country!");
+                        }
                     } else {
                         System.out.println("Insufficient reinforcements!");
                     }

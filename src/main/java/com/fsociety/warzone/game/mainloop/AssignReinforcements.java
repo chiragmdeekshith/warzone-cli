@@ -11,7 +11,7 @@ public class AssignReinforcements {
 
     public static void assign_reinforcements(Player p_player) {
 
-        AtomicInteger l_reinforcements = new AtomicInteger(Math.floorDiv(p_player.get_countries_count(), 3)); // Base reinforcements
+        AtomicInteger l_reinforcements = new AtomicInteger(5); // Base reinforcements
 
         Map<Integer, Continent> d_continents = GameEngine.getWZMap().getContinents();
         d_continents.keySet().forEach(continentId -> {

@@ -46,9 +46,10 @@ public class GameEngine {
 
     public static boolean mainLoop() {
         System.out.println("Game Start!");
-        int l_rounds = 0;
+        int l_turns = 1;
         while (true) {
-            l_rounds++;
+            l_turns++;
+            System.out.println("Turn " + l_turns);
 
             // Check continent owner for each continent
             d_wzMap.getContinents().keySet().forEach(continentId -> {
@@ -70,7 +71,7 @@ public class GameEngine {
             // Execute Orders Phase
             ExecuteOrder.execute_orders(d_players);
 
-            System.out.println("All orders executed. Round " + l_rounds + " over.");
+            System.out.println("All orders executed. Round " + l_turns + " over.");
         }
 
     }

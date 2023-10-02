@@ -10,7 +10,6 @@ public class IssueOrder {
         int l_total_troops = 0;
         for (int i = 0; i < p_players.size(); i++) {
             l_total_troops += p_players.get(i).getTroops();
-            System.out.println("TESTING IssueOrder: " + l_total_troops);
         }
         while (l_total_troops > 0) {
             for (int i = 0; i < p_players.size(); i++) {
@@ -20,12 +19,10 @@ public class IssueOrder {
                     }
                 }
             }
-            System.out.println("TESTING IssueOrder: orders issued");
+            l_total_troops = 0;
             for (int i = 0; i < p_players.size(); i++) {
-                l_total_troops = 0;
                 l_total_troops += p_players.get(i).getTroops();
             }
-            System.out.println("TESTING IssueOrder: " + l_total_troops);
         }
         return true;
     }
