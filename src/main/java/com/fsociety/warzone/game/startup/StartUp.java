@@ -154,6 +154,7 @@ public class StartUp {
             int randomIndex = random.nextInt(l_players.size());
             Player l_player = l_players.get(randomIndex);
             wzMap.updateGameState(l_countryId, l_player.getId(), 0);
+            l_player.addCountry(wzMap.getGameState(l_countryId));
         });
 
         return true;

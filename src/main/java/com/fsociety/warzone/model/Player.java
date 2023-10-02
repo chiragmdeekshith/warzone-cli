@@ -45,6 +45,10 @@ public class Player {
         return this.l_id;
     }
 
+    public void addCountry(Country p_country) {
+        this.l_countries.add(p_country);
+    }
+
 
     public void issue_order() {
         // Add an order to orders list during issue orders phase
