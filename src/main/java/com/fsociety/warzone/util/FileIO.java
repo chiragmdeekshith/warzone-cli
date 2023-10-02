@@ -48,7 +48,8 @@ public class FileIO {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            return null;
         }
         mapValues.initGameStates();
         return mapValues;

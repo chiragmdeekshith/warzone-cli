@@ -61,10 +61,10 @@ public class StartUp {
 
     public static boolean loadMap(String p_fileName) {
 
-        // Call method to load map into map object
+        // Call method to load map data into map object
         WZMap l_wzMap = FileIO.loadAndValidateMap(p_fileName);
         if(null == l_wzMap) {
-            System.out.println("Failed load / validate map");
+            System.out.println("Failed to load / validate map");
             return false;
         }
         GameEngine.setWZMap(l_wzMap);
