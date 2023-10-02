@@ -95,6 +95,7 @@ public class StartUp {
                 if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
                     if(!l_players.isEmpty()) {
                         GameEngine.setPlayers(new ArrayList<>(l_players.values()));
+                        GameEngine.initPlayerList();
                         return true;
                     }
                     System.out.println("Please add at least one player to the game to continue.");
@@ -155,6 +156,7 @@ public class StartUp {
             Player l_player = l_players.get(randomIndex);
             wzMap.updateGameState(l_countryId, l_player.getId(), 0);
             l_player.addCountry(wzMap.getGameState(l_countryId));
+            wzMap.getGameState(l_countryId).setPlayer(l_player);
         });
 
         return true;

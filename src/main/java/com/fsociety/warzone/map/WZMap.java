@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.util.UserInstructionUtils;
@@ -180,6 +181,8 @@ public class WZMap {
         return new HashMap<>(d_continentCountriesMap);
     }
 
+    public Map<Integer, Continent> getContinents() { return this.d_continentGameStateMap; }
+
     /**
      * get continent -> bonus mappings
      * 
@@ -198,7 +201,7 @@ public class WZMap {
             d_countryGameStateMap.put(countryId, new Country(countryId));
         });
         d_continentCountriesMap.keySet().forEach(continentId -> {
-            d_continentGameStateMap.put(continentId, new Continent(d_continentCountriesMap.get(continentId), d_countryGameStateMap));
+            d_continentGameStateMap.put(continentId, new Continent(d_continentCountriesMap.get(continentId), d_countryGameStateMap, d_continentBonusMap.get(continentId)));
             d_continentCountriesMap.get(continentId).forEach(countryId -> {
                 d_countryContinentGameStateMap.put(countryId, d_continentGameStateMap.get(continentId));
             });
@@ -216,7 +219,7 @@ public class WZMap {
             final int p_countryId,
             final int p_playerId,
             final int p_armies) {
-        final Integer l_currentPlayerId = d_countryGameStateMap.get(p_countryId).getPlayer();
+        final Integer l_currentPlayerId = d_countryGameStateMap.get(p_countryId).getPlayerId();
         if (l_currentPlayerId != p_playerId) {
             if (l_currentPlayerId == -1) {
                 d_countryContinentGameStateMap.get(p_countryId).initCountryCount(p_playerId);
@@ -224,7 +227,8 @@ public class WZMap {
                 d_countryContinentGameStateMap.get(p_countryId).updateCountryCount(l_currentPlayerId, p_playerId);
             }
         }
-        d_countryGameStateMap.get(p_countryId).setPlayer(p_playerId).setArmies(p_armies);
+        d_countryGameStateMap.get(p_countryId).setPlayerId(p_playerId).setArmies(p_armies);
+        d_countryGameStateMap.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
     }
 
     /**
