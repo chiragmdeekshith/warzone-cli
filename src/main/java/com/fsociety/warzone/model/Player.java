@@ -61,6 +61,7 @@ public class Player {
         String[] l_parameters;
         boolean l_is_valid_order = false;
         while (!l_is_valid_order) {
+            System.out.print(this.getName() + ": You have " + this.get_troops() + " available reinforcements. ");
             System.out.println("Please input a valid order.");
             l_input = s.nextLine();
             l_parameters = l_input.split(" ");

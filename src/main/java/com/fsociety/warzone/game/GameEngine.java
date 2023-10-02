@@ -37,7 +37,7 @@ public class GameEngine {
     }
 
     public static void mainLoop() {
-        System.out.println("Main game loop has Started!");
+        System.out.println("Game Start!");
         while (true) {
 
             // Assign Reinforcements Phase

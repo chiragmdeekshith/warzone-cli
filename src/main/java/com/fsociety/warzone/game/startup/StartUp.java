@@ -79,7 +79,7 @@ public class StartUp {
 
         while(true) {
 
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+            System.out.println("Enter command.");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
