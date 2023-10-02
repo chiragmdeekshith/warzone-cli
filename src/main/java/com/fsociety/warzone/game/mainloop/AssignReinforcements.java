@@ -20,7 +20,7 @@ public class AssignReinforcements {
             }
         });
 
-        p_player.set_troops(l_reinforcements.get());
+        p_player.setTroops(l_reinforcements.get());
         System.out.println("Player " + p_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
     }
 

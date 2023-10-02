@@ -4,8 +4,11 @@ import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.game.order.IOrder;
 import com.fsociety.warzone.util.IdGenerator;
+import com.fsociety.warzone.util.command.CommandHandler;
+import com.fsociety.warzone.util.command.constant.GameplayCommand;
+import com.fsociety.warzone.util.command.constant.Phase;
+import com.fsociety.warzone.util.command.constant.StartupCommand;
 
-import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Player {
@@ -31,10 +34,10 @@ public class Player {
     public int get_countries_count() {
         return this.l_countries.size();
     }
-    public int get_troops() {
+    public int getTroops() {
         return this.l_available_troops;
     }
-    public void set_troops(int p_troops) {
+    public void setTroops(int p_troops) {
         this.l_available_troops = p_troops;
     }
     public int get_orders_count() {
@@ -51,38 +54,44 @@ public class Player {
     }
 
 
-    public void issue_order() {
+    public boolean issue_order() {
         // Add an order to orders list during issue orders phase
 
-        /**
-         * @TODO Format commands using the command parser
-         */
-        String[] l_parameters;
-        boolean l_is_valid_order = false;
-        while (!l_is_valid_order) {
-            System.out.print(this.getName() + ": You have " + this.get_troops() + " available reinforcements. ");
+        String l_inputRawCommand;
+
+        while (true) {
+
+            System.out.print(this.getName() + ": You have " + this.getTroops() + " available reinforcements. ");
             System.out.println("Please input a valid order.");
-            String l_input = Application.SCANNER.nextLine();;
-            l_parameters = l_input.split(" ");
-            if (l_parameters.length == 0) {
-                continue;
-            }
-            switch(l_parameters[0].toLowerCase()) {
-                case "deploy":
-                    try {
-                        if (Integer.parseInt(l_parameters[2]) <= get_troops()) {
-                            l_is_valid_order = true;
-                            System.out.println(l_parameters[2] + " reinforcement armies will be deployed to " + l_parameters[1] + ".");
-                            l_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.l_id));
-                            this.l_available_troops -= Integer.parseInt(l_parameters[2]);
-                        }
-                    } catch (NullPointerException e) {
-                        System.out.println("Please input valid parameters for the deploy order.");
-                        continue;
+            System.out.print("> ");
+            l_inputRawCommand = Application.SCANNER.nextLine();
+            String[] l_parameters = l_inputRawCommand.split(" ");
+
+            if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.GAME_PLAY)) {
+                String[] l_splitCommand = l_inputRawCommand.split(" ");
+                String l_commandType = l_splitCommand[0];
+
+                if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
+                    return false;
+                }
+
+                // DEPLOY command is given
+                if(GameplayCommand.DEPLOY.getCommand().equals(l_commandType)) {
+                    if (Integer.parseInt(l_parameters[2]) <= l_available_troops) {
+                        System.out.println(l_parameters[2] + " reinforcement armies will be deployed to " + l_parameters[1] + ".");
+                        l_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.l_id));
+                        this.l_available_troops -= Integer.parseInt(l_parameters[2]);
+                        return true;
+                    } else {
+                        System.out.println("Insufficient reinforcements!");
                     }
-                    break;
-                default:
-                    System.out.println("Please input a valid order.");
+                }
+
+                if(StartupCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
+                    System.out.println("Showing map.");
+                }
+            } else {
+                System.out.println("Invalid command. Please use the 'deploy' command.");
             }
         }
     }

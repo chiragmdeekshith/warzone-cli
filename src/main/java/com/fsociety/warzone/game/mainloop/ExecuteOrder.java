@@ -18,6 +18,7 @@ public class ExecuteOrder {
                 }
             }
             for (int i = 0; i < p_players.size(); i++) {
+                l_total_orders = 0;
                 l_total_orders += p_players.get(i).get_orders_count();
             }
         }

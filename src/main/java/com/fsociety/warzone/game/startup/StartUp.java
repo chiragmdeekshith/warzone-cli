@@ -130,16 +130,12 @@ public class StartUp {
                         }
                     }
                 }
-
             } else {
                 System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'");
             }
         }
     }
 
-    /**
-     * @TODO Assign countries randomly to each player based on map
-     */
     public static boolean assignCountries() {
 
         WZMap wzMap = GameEngine.getWZMap();
