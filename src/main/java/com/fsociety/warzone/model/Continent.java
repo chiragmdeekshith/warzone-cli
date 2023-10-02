@@ -24,4 +24,14 @@ public class Continent {
         }
         this.d_playerCountryCountMap.put(p_newPlayerId, this.d_playerCountryCountMap.get(p_newPlayerId) + 1);
     }
+
+    /**
+     * This method returns the player object that owns every country in the continent if it exists.
+     * @return
+     */
+    public Player continentOwner() {
+        return null;
+    }
+
+
 }
