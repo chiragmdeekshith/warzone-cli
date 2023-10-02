@@ -131,7 +131,7 @@ public class CommandValidator {
                 String l_operation = p_parsedCommand[l_i++];
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
-                        if(l_i + 2 >= p_parsedCommand.length) {
+                        if(l_i + 1 >= p_parsedCommand.length) {
                             System.out.println("ADD needs two arguments - ID and Value");
                             return false;
                         }
@@ -149,7 +149,7 @@ public class CommandValidator {
                         }
                     }
                     case MapEditorCommand.REMOVE -> {
-                        if(l_i + 1 >= p_parsedCommand.length) {
+                        if(l_i >= p_parsedCommand.length) {
                             System.out.println("REMOVE needs one argument - ID");
                             return false;
                         }
@@ -190,7 +190,7 @@ public class CommandValidator {
                 String l_operation = p_parsedCommand[l_i++];
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
-                        if(l_i + 2 >= p_parsedCommand.length) {
+                        if(l_i + 1 >= p_parsedCommand.length) {
                             System.out.println("ADD COUNTRY command requires two arguments");
                             return false;
                         }
@@ -208,7 +208,7 @@ public class CommandValidator {
                         }
                     }
                     case MapEditorCommand.REMOVE -> {
-                        if(l_i + 1 >= p_parsedCommand.length) {
+                        if(l_i >= p_parsedCommand.length) {
                             System.out.println("REMOVE COUNTRY command requires one argument");
                             return false;
                         }
@@ -244,7 +244,7 @@ public class CommandValidator {
                 String l_operation = p_parsedCommand[l_i++];
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
-                        if(l_i + 2 >= p_parsedCommand.length) {
+                        if(l_i + 1 >= p_parsedCommand.length) {
                             System.out.println("ADD Neighbour command requires two arguments");
                             return false;
                         }
@@ -266,7 +266,7 @@ public class CommandValidator {
                         }
                     }
                     case MapEditorCommand.REMOVE -> {
-                        if(l_i + 1 >= p_parsedCommand.length) {
+                        if(l_i >= p_parsedCommand.length) {
                             System.out.println("REMOVE Neighbour command requires one argument");
                             return false;
                         }
@@ -372,13 +372,13 @@ public class CommandValidator {
 
         // Validate the LOAD_MAP command
         if(l_commandType.equals(StartupCommand.LOAD_MAP.getCommand())) {
-            if(p_parsedCommand.length < 2){
+            if(p_parsedCommand.length != 2){
                 System.out.println("Expected one argument - filename");
                 return false;
             }
-            String l_fileNameEnd = p_parsedCommand[p_parsedCommand.length-1];
+            String l_fileName = p_parsedCommand[1];
 
-            if(!l_fileNameEnd.endsWith(".map")) {
+            if(!l_fileName.endsWith(".map")) {
                 System.out.println("The file passed is not a '.map' file.");
                 return false;
             }
