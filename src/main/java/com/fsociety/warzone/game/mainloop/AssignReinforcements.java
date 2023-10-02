@@ -11,7 +11,7 @@ public class AssignReinforcements {
 
     public static void assign_reinforcements(Player p_player) {
 
-        AtomicInteger l_reinforcements = new AtomicInteger(Math.floorDiv(p_player.get_countries_count(), 3)); // Base reinforcements
+        AtomicInteger l_reinforcements = new AtomicInteger(5); // Base reinforcements
 
         Map<Integer, Continent> d_continents = GameEngine.getWZMap().getContinents();
         d_continents.keySet().forEach(continentId -> {
@@ -20,7 +20,7 @@ public class AssignReinforcements {
             }
         });
 
-        p_player.set_troops(l_reinforcements.get());
+        p_player.setTroops(l_reinforcements.get());
         System.out.println("Player " + p_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
     }
 

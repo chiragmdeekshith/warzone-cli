@@ -39,12 +39,17 @@ public class GameEngine {
         if(!StartUp.start_up()){
             return;
         }
-        mainLoop();
+        if (!mainLoop()) {
+            return;
+        }
     }
 
-    public static void mainLoop() {
+    public static boolean mainLoop() {
         System.out.println("Game Start!");
+        int l_turns = 1;
         while (true) {
+            l_turns++;
+            System.out.println("Turn " + l_turns);
 
             // Check continent owner for each continent
             d_wzMap.getContinents().keySet().forEach(continentId -> {
@@ -56,10 +61,17 @@ public class GameEngine {
             }
 
             // Issue Orders Phase
-            IssueOrder.issue_orders(d_players);
+            if (!IssueOrder.issue_orders(d_players)) {
+                return false;
+            }
+
+            System.out.println("All players have deployed their reinforcements.");
+            System.out.println("Executing orders...");
 
             // Execute Orders Phase
             ExecuteOrder.execute_orders(d_players);
+
+            System.out.println("All orders executed. Round " + l_turns + " over.");
         }
 
     }
