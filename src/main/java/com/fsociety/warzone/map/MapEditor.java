@@ -1,7 +1,7 @@
 package com.fsociety.warzone.map;
 
 import com.fsociety.warzone.Application;
-import com.fsociety.warzone.util.FileIO;
+import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.MapEditorCommand;
 import com.fsociety.warzone.util.command.constant.Phase;
@@ -31,7 +31,7 @@ public class MapEditor {
 
             if(MapEditorCommand.EDIT_MAP.getCommand().equals(l_commandType)) {
                 String l_filename = l_splitCommand[1];
-                d_wzMap = FileIO.loadAndValidateMap(l_filename);
+                d_wzMap = MapTools.loadAndValidateMap(l_filename);
                 if(null == d_wzMap) {
                     System.out.println("Failed to load the map from file! Please try another map file.");
                     continue;
@@ -99,11 +99,11 @@ public class MapEditor {
             }
 
             if(MapEditorCommand.VALIDATE_MAP.getCommand().equals(l_commandType)) {
-                boolean isMapValid = FileIO.validateMapPlaceholder(d_wzMap);
+                boolean isMapValid = MapTools.validateMapPlaceholder(d_wzMap);
             }
 
             if(MapEditorCommand.SAVE_MAP.getCommand().equals(l_commandType)) {
-                boolean isSaveSuccessful = FileIO.saveMapPlaceholder(d_wzMap);
+                boolean isSaveSuccessful = MapTools.saveMapFile(d_wzMap);
             }
 
             if(MapEditorCommand.SHOW_MAP.getCommand().equals(l_commandType)) {

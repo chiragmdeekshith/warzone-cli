@@ -4,8 +4,9 @@ import com.fsociety.warzone.map.WZMap;
 
 import java.io.BufferedReader;
 import java.io.*;
+import java.util.Map;
 
-public class FileIO {
+public class MapTools {
 
     public static WZMap loadAndValidateMap(String p_fileName) {
         WZMap mapValues = null;
@@ -24,6 +25,7 @@ public class FileIO {
                 }
             }
             if (data.toString().toLowerCase().contains("[continents]") && data.toString().toLowerCase().contains("[countries]") && data.toString().toLowerCase().contains("[borders]")) {
+                mapValues.setName(p_fileName);
             } else {
                 System.out.println("Missing Information/Not in correct format");
                 return null;
@@ -55,11 +57,37 @@ public class FileIO {
         return mapValues;
     }
 
-    public static boolean validateMapPlaceholder(WZMap dWzMap) {
-        return true;
+
+    public static boolean saveMapFile(WZMap p_mapFile) {
+        StringBuilder data = new StringBuilder();
+        data.append("[continents]\n");
+        p_mapFile.getContinentBonusMap().forEach((key,values) -> {
+            data.append(key).append(" ").append(values).append("\n");
+        });
+        data.append("\n[countries]\n");
+        p_mapFile.getContinentCountriesMap().forEach((key,values) -> {
+            for(Integer c:values)
+                data.append(c).append(" ").append(key).append("\n");
+        });
+        data.append("\n[borders]");
+        p_mapFile.getAdjacencyMap().forEach((key,values) -> {
+            data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
+        });
+        PrintWriter write = null;
+        try{
+            write = new PrintWriter("src/main/resources/editedMaps/"+p_mapFile.getName());
+            write.write(String.valueOf(data));
+            write.close();
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
     }
 
-    public static boolean saveMapPlaceholder(WZMap dWzMap) {
+    public static boolean validateMapPlaceholder(WZMap p_mapFile) {
         return true;
     }
 }

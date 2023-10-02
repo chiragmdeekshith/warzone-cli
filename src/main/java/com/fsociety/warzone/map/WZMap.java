@@ -27,6 +27,8 @@ public class WZMap {
     // country id -> game state of continent
     private final Map<Integer, Continent> d_countryContinentGameStateMap;
 
+    private String d_mapFileName;
+
     public WZMap() {
         this.d_adjacencyMap = new LinkedHashMap<>();
         this.d_continentBonusMap = new HashMap<>();
@@ -34,6 +36,7 @@ public class WZMap {
         this.d_countryGameStateMap = new HashMap<>();
         this.d_continentGameStateMap = new HashMap<>();
         this.d_countryContinentGameStateMap = new HashMap<>();
+        this.d_mapFileName="";
     }
 
     public WZMap(
@@ -46,6 +49,7 @@ public class WZMap {
         this.d_countryGameStateMap = new HashMap<>();
         this.d_continentGameStateMap = new HashMap<>();
         this.d_countryContinentGameStateMap = new HashMap<>();
+        this.d_mapFileName="";
     }
 
     /**
@@ -104,6 +108,10 @@ public class WZMap {
         }
     }
 
+    public void setName(String name) {
+        this.d_mapFileName = name;
+    }
+
     /**
      * Removes a neighbour from a country
      * 
@@ -153,6 +161,10 @@ public class WZMap {
             int l_continentId = getContinentIdForCountry(p_countryId);
             d_continentCountriesMap.get(l_continentId).remove(p_countryId);
         }
+    }
+
+    public String getName() {
+        return d_mapFileName;
     }
 
     /**
