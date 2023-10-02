@@ -100,7 +100,7 @@ public class Player {
                 }
 
                 if(GameplayCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
-                    System.out.println("Trying to show map here!");
+                    GameEngine.getWZMap().showMapForGame();
                 }
             } else {
                 System.out.println("Invalid command. Please use the 'deploy' command.");

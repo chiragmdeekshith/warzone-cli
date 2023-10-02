@@ -48,6 +48,13 @@ public class StartUp {
                 }
                 break;
             }
+            if(StartupCommand.SHOW_MAP.getCommand().equals((l_commandType))) {
+                if(null == GameEngine.getWZMap()) {
+                    System.out.println("Please load a map before trying to display it.");
+                } else {
+                    GameEngine.getWZMap().showMapForGame();
+                }
+            }
         }
         return assignCountries();
     }
