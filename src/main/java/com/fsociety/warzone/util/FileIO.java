@@ -11,7 +11,8 @@ public class FileIO {
         WZMap mapValues = null;
         try {
             mapValues = new WZMap();
-            FileReader mapFile = new FileReader(p_fileName);
+            String l_filePath = System.getProperty("user.dir") + "\\src\\main\\resources\\" + p_fileName;
+            FileReader mapFile = new FileReader(l_filePath);
             String line = null;
             StringBuilder data = new StringBuilder();
             BufferedReader mapReader = new BufferedReader(mapFile);
@@ -47,7 +48,8 @@ public class FileIO {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            return null;
         }
         mapValues.initGameStates();
         return mapValues;

@@ -1,5 +1,6 @@
 package com.fsociety.warzone.model;
 
+import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.game.order.IOrder;
 import com.fsociety.warzone.util.IdGenerator;
@@ -45,6 +46,10 @@ public class Player {
         return this.l_id;
     }
 
+    public void addCountry(Country p_country) {
+        this.l_countries.add(p_country);
+    }
+
 
     public void issue_order() {
         // Add an order to orders list during issue orders phase
@@ -52,13 +57,12 @@ public class Player {
         /**
          * @TODO Format commands using the command parser
          */
-        Scanner s = new Scanner(System.in);
-        String l_input;
         String[] l_parameters;
         boolean l_is_valid_order = false;
         while (!l_is_valid_order) {
+            System.out.print(this.getName() + ": You have " + this.get_troops() + " available reinforcements. ");
             System.out.println("Please input a valid order.");
-            l_input = s.nextLine();
+            String l_input = Application.SCANNER.nextLine();;
             l_parameters = l_input.split(" ");
             if (l_parameters.length == 0) {
                 continue;
@@ -68,7 +72,8 @@ public class Player {
                     try {
                         if (Integer.parseInt(l_parameters[2]) <= get_troops()) {
                             l_is_valid_order = true;
-                            l_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2])));
+                            System.out.println(l_parameters[2] + " reinforcement armies will be deployed to " + l_parameters[1] + ".");
+                            l_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.l_id));
                             this.l_available_troops -= Integer.parseInt(l_parameters[2]);
                         }
                     } catch (NullPointerException e) {
@@ -80,13 +85,12 @@ public class Player {
                     System.out.println("Please input a valid order.");
             }
         }
-        s.close();
     }
 
     public void next_order() {
         // Returns first order from orders during execute orders phase
 
-        if (l_orders.size() > 0) {
+        if (!l_orders.isEmpty()) {
             (l_orders.remove(0)).execute();
         }
 

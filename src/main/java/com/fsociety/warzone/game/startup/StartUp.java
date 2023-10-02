@@ -18,9 +18,10 @@ public class StartUp {
         System.out.println("New game selected. Please start by loading a map.");
         String l_inputRawCommand;
 
+        System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+
         while(true) {
 
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
@@ -37,8 +38,8 @@ public class StartUp {
             if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
                 String l_filename = l_inputRawCommand.replaceFirst(StartupCommand.LOAD_MAP.getCommand() + " ", "");
                 if(!loadMap(l_filename)) {
-                    System.out.println("Failed to load the map!");
-                    return false;
+                    System.out.println("Failed to load the map! Please try another map file.");
+                    continue;
                 }
                 System.out.println("Loaded map - " + l_filename);
                 System.out.println("Add/Remove players");
@@ -60,10 +61,10 @@ public class StartUp {
 
     public static boolean loadMap(String p_fileName) {
 
-        // Call method to load map into map object
+        // Call method to load map data into map object
         WZMap l_wzMap = FileIO.loadAndValidateMap(p_fileName);
         if(null == l_wzMap) {
-            System.out.println("Failed load / validate map");
+            System.out.println("Failed to load / validate map");
             return false;
         }
         GameEngine.setWZMap(l_wzMap);
@@ -78,7 +79,7 @@ public class StartUp {
 
         while(true) {
 
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+            System.out.println("Enter command.");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
@@ -94,6 +95,7 @@ public class StartUp {
                 if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
                     if(!l_players.isEmpty()) {
                         GameEngine.setPlayers(new ArrayList<>(l_players.values()));
+                        GameEngine.initPlayerList();
                         return true;
                     }
                     System.out.println("Please add at least one player to the game to continue.");
@@ -153,6 +155,8 @@ public class StartUp {
             int randomIndex = random.nextInt(l_players.size());
             Player l_player = l_players.get(randomIndex);
             wzMap.updateGameState(l_countryId, l_player.getId(), 0);
+            l_player.addCountry(wzMap.getGameState(l_countryId));
+            wzMap.getGameState(l_countryId).setPlayer(l_player);
         });
 
         return true;

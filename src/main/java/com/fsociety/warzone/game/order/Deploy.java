@@ -1,19 +1,22 @@
 package com.fsociety.warzone.game.order;
 
+import com.fsociety.warzone.game.GameEngine;
+
 public class Deploy implements IOrder {
 
-    private int l_troops_count;
-    private int l_country_ID;
+    private int l_troopsCount;
+    private int l_countryId;
+    private int l_playerId;
 
-    public Deploy(int p_country_ID, int p_troops_count) {
-        this.l_country_ID = p_country_ID;
-        this.l_troops_count = p_troops_count;
+    public Deploy(int p_countryId, int p_troopsCount, int p_playerId) {
+        this.l_countryId = p_countryId;
+        this.l_troopsCount = p_troopsCount;
+        this.l_playerId = p_playerId;
     }
 
     @Override
     public void execute() {
-        /**
-         * @TODO add armies to map
-         */
+        GameEngine.getWZMap().updateGameState(l_countryId, l_playerId, l_troopsCount);
+        System.out.println(GameEngine.getPlayerList().get(l_playerId).getName() + " deployed " + l_troopsCount + " reinforcements to " + l_countryId);
     }
 }
