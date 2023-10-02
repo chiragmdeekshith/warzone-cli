@@ -11,7 +11,7 @@ public class FileIO {
         WZMap mapValues = null;
         try {
             mapValues = new WZMap();
-            String l_filePath = System.getProperty("user.dir") + "\\src\\main\\resources\\" + p_fileName;
+            String l_filePath = "src/main/resources/" + p_fileName;
             FileReader mapFile = new FileReader(l_filePath);
             String line = null;
             StringBuilder data = new StringBuilder();
