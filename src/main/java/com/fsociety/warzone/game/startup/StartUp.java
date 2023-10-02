@@ -18,9 +18,10 @@ public class StartUp {
         System.out.println("New game selected. Please start by loading a map.");
         String l_inputRawCommand;
 
+        System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+
         while(true) {
 
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
@@ -37,8 +38,8 @@ public class StartUp {
             if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
                 String l_filename = l_inputRawCommand.replaceFirst(StartupCommand.LOAD_MAP.getCommand() + " ", "");
                 if(!loadMap(l_filename)) {
-                    System.out.println("Failed to load the map!");
-                    return false;
+                    System.out.println("Failed to load the map! Please try another map file.");
+                    continue;
                 }
                 System.out.println("Loaded map - " + l_filename);
                 System.out.println("Add/Remove players");
