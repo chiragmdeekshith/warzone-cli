@@ -45,7 +45,7 @@ public class MapTools {
                 int[] arr = new int[temp.length];
                 int countryID= Integer.parseInt(temp[0]);
                 for (int i=1;i<temp.length;i++) {
-                    if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0){
+                    if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0) {
                         System.out.println("Duplicate Neighbours cannot exist");
                         return null;
                     }
@@ -55,7 +55,7 @@ public class MapTools {
             }
         }
         catch (Exception e) {
-             e.printStackTrace();
+            System.out.println("File does not exist!");
             return null;
         }
         if(validateMap(mapValues)) {
@@ -82,6 +82,9 @@ public class MapTools {
             data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
         });
         PrintWriter write = null;
+        if(!validateMap(p_mapData)) {
+            return false;
+        }
         try {
             write = new PrintWriter("src/main/resources/"+p_mapData.getName());
             write.write(String.valueOf(data));
