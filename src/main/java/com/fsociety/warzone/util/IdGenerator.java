@@ -1,10 +1,11 @@
 package com.fsociety.warzone.util;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class IdGenerator {
 
-    private static final AtomicLong counter = new AtomicLong(0);
+    private static final AtomicInteger counter = new AtomicInteger(0);
 
     /**
      * Private constructor to prevent instantiation
@@ -13,7 +14,7 @@ public class IdGenerator {
 
     }
 
-    public static Long generateId() {
+    public static Integer generateId() {
         return counter.incrementAndGet();
     }
 }

@@ -1,11 +1,8 @@
 package com.fsociety.warzone.map;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.util.UserInstructionUtils;
@@ -30,6 +27,8 @@ public class WZMap {
     // country id -> game state of continent
     private final Map<Integer, Continent> d_countryContinentGameStateMap;
 
+    private String d_mapFileName;
+
     public WZMap() {
         this.d_adjacencyMap = new LinkedHashMap<>();
         this.d_continentBonusMap = new HashMap<>();
@@ -37,18 +36,20 @@ public class WZMap {
         this.d_countryGameStateMap = new HashMap<>();
         this.d_continentGameStateMap = new HashMap<>();
         this.d_countryContinentGameStateMap = new HashMap<>();
+        this.d_mapFileName="";
     }
 
     public WZMap(
             final Map<Integer, Set<Integer>> p_adjacencyMap,
-            final Map<Integer, Set<Integer>> p_continentCountriesMap,
-            final Map<Integer, Integer> p_continentBonusMap) {
+            final Map<Integer, Integer> p_continentBonusMap,
+            final Map<Integer, Set<Integer>> p_continentCountriesMap) {
         this.d_adjacencyMap = p_adjacencyMap;
         this.d_continentBonusMap = p_continentBonusMap;
         this.d_continentCountriesMap = p_continentCountriesMap;
         this.d_countryGameStateMap = new HashMap<>();
         this.d_continentGameStateMap = new HashMap<>();
         this.d_countryContinentGameStateMap = new HashMap<>();
+        this.d_mapFileName="";
     }
 
     /**
@@ -107,6 +108,10 @@ public class WZMap {
         }
     }
 
+    public void setName(String name) {
+        this.d_mapFileName = name;
+    }
+
     /**
      * Removes a neighbour from a country
      * 
@@ -134,7 +139,7 @@ public class WZMap {
      * @param p_continentId the continent to remove
      */
     public void removeContinent(final Integer p_continentId) {
-        if (d_continentCountriesMap.get(p_continentId) != null) {
+        if (d_continentCountriesMap.get(p_continentId) == null) {
             UserInstructionUtils.promptUser("Continent does not exist");
         } else {
             d_continentCountriesMap.get(p_continentId).forEach(this::removeAdjacency);
@@ -163,17 +168,19 @@ public class WZMap {
      * Removes a country from the map
      * 
      * @param p_countryId   the country to remove
-     * @param p_continentId the continent to remove the country from
      */
-    public void removeCountry(
-            final int p_countryId,
-            final int p_continentId) {
+    public void removeCountry(final int p_countryId) {
         if (d_adjacencyMap.get(p_countryId) == null) {
             UserInstructionUtils.promptUser("Country does not exist");
         } else {
             removeAdjacency(p_countryId);
-            d_continentCountriesMap.get(p_continentId).remove(p_countryId);
+            int l_continentId = getContinentIdForCountry(p_countryId);
+            d_continentCountriesMap.get(l_continentId).remove(p_countryId);
         }
+    }
+
+    public String getName() {
+        return d_mapFileName;
     }
 
     /**
@@ -194,6 +201,8 @@ public class WZMap {
         return new HashMap<>(d_continentCountriesMap);
     }
 
+    public Map<Integer, Continent> getContinents() { return this.d_continentGameStateMap; }
+
     /**
      * get continent -> bonus mappings
      * 
@@ -209,10 +218,10 @@ public class WZMap {
      */
     public void initGameStates() {
         d_adjacencyMap.keySet().forEach(countryId -> {
-            d_countryGameStateMap.put(countryId, new Country());
+            d_countryGameStateMap.put(countryId, new Country(countryId));
         });
         d_continentCountriesMap.keySet().forEach(continentId -> {
-            d_continentGameStateMap.put(continentId, new Continent());
+            d_continentGameStateMap.put(continentId, new Continent(d_continentCountriesMap.get(continentId), d_countryGameStateMap, d_continentBonusMap.get(continentId)));
             d_continentCountriesMap.get(continentId).forEach(countryId -> {
                 d_countryContinentGameStateMap.put(countryId, d_continentGameStateMap.get(continentId));
             });
@@ -230,7 +239,7 @@ public class WZMap {
             final int p_countryId,
             final int p_playerId,
             final int p_armies) {
-        final Integer l_currentPlayerId = d_countryGameStateMap.get(p_countryId).getPlayer();
+        final Integer l_currentPlayerId = d_countryGameStateMap.get(p_countryId).getPlayerId();
         if (l_currentPlayerId != p_playerId) {
             if (l_currentPlayerId == -1) {
                 d_countryContinentGameStateMap.get(p_countryId).initCountryCount(p_playerId);
@@ -238,16 +247,77 @@ public class WZMap {
                 d_countryContinentGameStateMap.get(p_countryId).updateCountryCount(l_currentPlayerId, p_playerId);
             }
         }
-        d_countryGameStateMap.get(p_countryId).setPlayer(p_playerId).setArmies(p_armies);
+        d_countryGameStateMap.get(p_countryId).setPlayerId(p_playerId).setArmies(p_armies);
+        d_countryGameStateMap.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
     }
 
     /**
      * get the current game state for a country
-     * 
+     *
      * @param p_countryId
      * @return the current game state for a country
      */
     public Country getGameState(final int p_countryId) {
         return d_countryGameStateMap.get(p_countryId);
+    }
+
+    /**
+     * Display the current Map for the map editor. Show continents, countries and neighbours
+     */
+    public void showMapForEditor() {
+        System.out.println("Continents and their bonus armies");
+        System.out.println("---------------------------------");
+        for (Map.Entry<Integer, Integer> entry : this.d_continentBonusMap.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+        }
+        System.out.println("Countries per continent");
+        System.out.println("-----------------------");
+        for (Map.Entry<Integer, Set<Integer>> entry : this.d_continentCountriesMap.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+        }
+        System.out.println("Borders/Adjacency");
+        System.out.println("-----------------");
+        for (Map.Entry<Integer, Set<Integer>> entry : this.d_adjacencyMap.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+        }
+
+        //this.d_continentBonusMap;
+        //this.d_continentCountriesMap;
+        //this.d_countryGameStateMap;
+        //this.d_continentGameStateMap;
+        //this.d_countryContinentGameStateMap.print();
+    }
+
+    /**
+     * Display the current Map for the gameplay details. Show owner and armies
+     */
+    public void showMapForGame() {
+        System.out.println("Continent game state");
+        System.out.println("--------------------");
+        for (Map.Entry<Integer, Continent> entry : this.d_continentGameStateMap.entrySet()) {
+            entry.getValue().printContinent(entry.getKey());
+        }
+        System.out.println("Country game state");
+        System.out.println("------------------");
+        for (Map.Entry<Integer, Continent> entry : this.d_countryContinentGameStateMap.entrySet()) {
+            entry.getValue().printContinent(entry.getKey());
+        }
+    }
+
+    /**
+     * get the continent ID for a country
+     *
+     * @param p_countryId
+     * @return the continent ID for a country
+     */
+    private Integer getContinentIdForCountry(Integer p_countryId) {
+        List<Integer> l_continentIds = new ArrayList<>(d_continentCountriesMap.keySet());
+        for(Integer l_id : l_continentIds) {
+            if(d_continentCountriesMap.get(l_id).contains(p_countryId)) {
+                return l_id;
+            }
+        }
+        // Shouldn't reach this return
+        return -1;
     }
 }

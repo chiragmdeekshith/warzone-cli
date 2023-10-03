@@ -2,15 +2,14 @@ package com.fsociety.warzone.game.startup;
 
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.map.WZMap;
 import com.fsociety.warzone.model.Player;
-import com.fsociety.warzone.util.FileIO;
+import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class StartUp {
 
@@ -19,51 +18,59 @@ public class StartUp {
         System.out.println("New game selected. Please start by loading a map.");
         String l_inputRawCommand;
 
+        System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+
         while(true) {
 
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
-            if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP)){
-                String[] l_splitCommand = l_inputRawCommand.split(" ");
-                String l_commandType = l_splitCommand[0];
-                if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
+            if(!CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
+                System.out.println("Invalid command. Please start by loading a map. Try 'loadmap [filename].map'");
+                continue;
+            }
+
+            String[] l_splitCommand = l_inputRawCommand.split(" ");
+            String l_commandType = l_splitCommand[0];
+            if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
+                return false;
+            }
+            if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
+                String l_filename = l_splitCommand[1];
+                if(!loadMap(l_filename)) {
+                    System.out.println("Failed to load the map! Please try another map file.");
+                    continue;
+                }
+                System.out.println("Loaded map - " + l_filename);
+                System.out.println("Add/Remove players");
+                if(!editPlayers()) {
                     return false;
                 }
-                if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
-                    String l_filename = l_splitCommand[1];
-                    loadMap(l_filename);
-                    System.out.println("Loaded map - " + l_filename);
-                    System.out.println("Add/Remove players");
-                    if(!editPlayers()) {
-                        return false;
-                    }
-                    break;
+                break;
+            }
+            if(StartupCommand.SHOW_MAP.getCommand().equals((l_commandType))) {
+                if(null == GameEngine.getWZMap()) {
+                    System.out.println("Please load a map before trying to display it.");
+                } else {
+                    GameEngine.getWZMap().showMapForGame();
                 }
-            } else {
-                System.out.println("Invalid command. Please start by loading a map. Try 'loadmap [filename].map'");
             }
         }
-        if (!assignCountries()) {
+        return assignCountries();
+    }
+
+    public static boolean loadMap(String p_fileName) {
+
+        // Call method to load map data into map object
+        WZMap l_wzMap = MapTools.loadAndValidateMap(p_fileName);
+        if(null == l_wzMap) {
+            System.out.println("Failed to load / validate map");
             return false;
         }
+        GameEngine.setWZMap(l_wzMap);
         return true;
     }
 
-    /**
-     * @TODO Implement command parser to edit list of players
-     */
-
-    public static void loadMap(String p_fileName) {
-
-        //PlayMap l_map = new PlayMap();
-
-        // Call method to load map into map object
-        FileIO.loadAndValidateMap(p_fileName);
-        //GameEngine.setMap(l_map);
-
-    }
     public static boolean editPlayers() {
 
         Map<String, Player> l_players = new HashMap<>();
@@ -73,7 +80,7 @@ public class StartUp {
 
         while(true) {
 
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+            System.out.println("Enter command.");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
@@ -88,10 +95,16 @@ public class StartUp {
 
                 if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
                     if(!l_players.isEmpty()) {
-                        GameEngine.setPlayers(new ArrayList<>(l_players.values()));
-                        return true;
+                        if (l_players.size() <= GameEngine.getWZMap().getAdjacencyMap().keySet().size()) {
+                            GameEngine.setPlayers(new ArrayList<>(l_players.values()));
+                            GameEngine.initPlayerList();
+                            return true;
+                        } else {
+                            System.out.println("Too many players for this map. Please remove players to continue.");
+                        }
+                    } else {
+                        System.out.println("Please add at least one player to the game to continue.");
                     }
-                    System.out.println("Please add at least one player to the game to continue.");
                 }
 
                 // Add or remove players
@@ -124,26 +137,37 @@ public class StartUp {
                     }
                 }
 
+                if(StartupCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
+                    GameEngine.getWZMap().showMapForGame();
+                }
+
             } else {
                 System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'");
             }
         }
     }
 
-    /**
-     * @TODO Assign countries randomly to each player based on map
-     */
     public static boolean assignCountries() {
-        //PlayMap l_map = GameEngine.getMap();
+
+        WZMap wzMap = GameEngine.getWZMap();
         ArrayList<Player> l_players = GameEngine.getPlayers();
 
-        // If map has no countries
-        if (true) {
-            System.out.println("There was a problem with your map file. Returning to main menu.");
-            return false;
-        }
+        // Get list of all countries
+        ArrayList<Integer> l_countryIds = new ArrayList<>(wzMap.getAdjacencyMap().keySet());
+
+        Random random = new Random();
 
         // Assign countries randomly
+        int l_counter = 0;
+        while (!l_countryIds.isEmpty()) {
+            Player l_player = l_players.get(l_counter%l_players.size()); // Cycles through the players in round-robin
+            int randomIndex = random.nextInt(l_countryIds.size());
+            int l_countryId = l_countryIds.remove(randomIndex);
+            wzMap.updateGameState(l_countryId, l_player.getId(), 0);
+            l_player.addCountry(wzMap.getGameState(l_countryId));
+            wzMap.getGameState(l_countryId).setPlayer(l_player);
+            l_counter++;
+        }
 
         return true;
     }
