@@ -4,7 +4,7 @@ import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.WZMap;
 import com.fsociety.warzone.model.Player;
-import com.fsociety.warzone.util.FileIO;
+import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
@@ -13,12 +13,17 @@ import java.util.*;
 
 public class StartUp {
 
-    public static boolean start_up() {
+    /**
+     * This method serves as the set-up phase for a new game. The user is prompted in-order to load a map and then edit
+     * a list of players. If any commands are invalid, the user is prompted again.
+     *
+     * @return returns false if a user types in the 'back' command in order to return to the main menu
+     */
+    public static boolean startUp() {
 
         System.out.println("New game selected. Please start by loading a map.");
         String l_inputRawCommand;
-
-        System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+        System.out.println("Enter command. (Type 'back' at any time to return to the main menu.)");
 
         while(true) {
 
@@ -36,13 +41,12 @@ public class StartUp {
                 return false;
             }
             if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
-                String l_filename = l_splitCommand[1];
-                if(!loadMap(l_filename)) {
+                String l_fileName = l_splitCommand[1];
+                if(!loadMap(l_fileName)) {
                     System.out.println("Failed to load the map! Please try another map file.");
                     continue;
                 }
-                System.out.println("Loaded map - " + l_filename);
-                System.out.println("Add/Remove players");
+                System.out.println("Loaded map  \"" + l_fileName + "\"");
                 if(!editPlayers()) {
                     return false;
                 }
@@ -56,21 +60,33 @@ public class StartUp {
                 }
             }
         }
-        return assignCountries();
+        assignCountries();
+        return true;
     }
 
+    /**
+     * This method calls the loadAndValidateMap() method from the MapTools class to load a file into memory for
+     * gameplay.
+     *
+     * @param p_fileName the name of the .map file entered by the user
+     * @return returns false if the map fails to load properly, and true otherwise
+     */
     public static boolean loadMap(String p_fileName) {
-
-        // Call method to load map data into map object
-        WZMap l_wzMap = FileIO.loadAndValidateMap(p_fileName);
+        WZMap l_wzMap = MapTools.loadAndValidateMap(p_fileName);
         if(null == l_wzMap) {
-            System.out.println("Failed to load / validate map");
             return false;
         }
         GameEngine.setWZMap(l_wzMap);
         return true;
     }
 
+    /**
+     * This method allows a user to create and modify a list of players. In order to finish editing the list of
+     * players, the user must use the 'assigncountries' command to begin the game. The list of players must include
+     * at least one player to begin the game, but may not have more players than there are countries on the map.
+     *
+     * @return returns false if a user types in the 'back' command in order to return to the main menu
+     */
     public static boolean editPlayers() {
 
         Map<String, Player> l_players = new HashMap<>();
@@ -107,7 +123,6 @@ public class StartUp {
                     }
                 }
 
-                // Add or remove players
                 if(StartupCommand.GAME_PLAYER.getCommand().equals(l_commandType)) {
 
                     for (int i = 1; i < l_splitCommand.length; i+=2) {
@@ -147,17 +162,19 @@ public class StartUp {
         }
     }
 
-    public static boolean assignCountries() {
+    /**
+     * This method randomly assigns all countries in the map to the players in round-robin fashion. This method then
+     * updates the map and player's country lists in order to reflect the assignment.
+     */
+    public static void assignCountries() {
 
         WZMap wzMap = GameEngine.getWZMap();
         ArrayList<Player> l_players = GameEngine.getPlayers();
 
-        // Get list of all countries
         ArrayList<Integer> l_countryIds = new ArrayList<>(wzMap.getAdjacencyMap().keySet());
 
         Random random = new Random();
 
-        // Assign countries randomly
         int l_counter = 0;
         while (!l_countryIds.isEmpty()) {
             Player l_player = l_players.get(l_counter%l_players.size()); // Cycles through the players in round-robin
@@ -168,8 +185,5 @@ public class StartUp {
             wzMap.getGameState(l_countryId).setPlayer(l_player);
             l_counter++;
         }
-
-        return true;
     }
-
 }

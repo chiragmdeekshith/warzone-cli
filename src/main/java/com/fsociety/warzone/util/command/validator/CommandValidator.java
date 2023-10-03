@@ -270,14 +270,15 @@ public class CommandValidator {
                             System.out.println("REMOVE Neighbour command requires one argument");
                             return false;
                         }
-                        int l_countryId;
+                        int l_countryId, l_neighbourId;
                         try {
                             l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                            l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
                         } catch (NumberFormatException e) {
                             System.out.println("Value of ID must be an integer.");
                             return false;
                         }
-                        if(l_countryId < 0) {
+                        if(l_countryId < 0 ||  l_neighbourId < 0) {
                             System.out.println("Value of countryID and neighbourID must not be lesser than 0.");
                             return false;
                         }

@@ -14,6 +14,9 @@ public class Deploy implements IOrder {
         this.l_playerId = p_playerId;
     }
 
+    /**
+     * This method implements the Deploy command as per the Warzone rules and updates the map accordingly.
+     */
     @Override
     public void execute() {
         GameEngine.getWZMap().updateGameState(l_countryId, l_playerId, l_troopsCount);

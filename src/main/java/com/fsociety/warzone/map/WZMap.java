@@ -27,6 +27,8 @@ public class WZMap {
     // country id -> game state of continent
     private final Map<Integer, Continent> d_countryContinentGameStateMap;
 
+    private String d_mapFileName;
+
     public WZMap() {
         this.d_adjacencyMap = new LinkedHashMap<>();
         this.d_continentBonusMap = new HashMap<>();
@@ -34,6 +36,7 @@ public class WZMap {
         this.d_countryGameStateMap = new HashMap<>();
         this.d_continentGameStateMap = new HashMap<>();
         this.d_countryContinentGameStateMap = new HashMap<>();
+        this.d_mapFileName="";
     }
 
     public WZMap(
@@ -46,6 +49,7 @@ public class WZMap {
         this.d_countryGameStateMap = new HashMap<>();
         this.d_continentGameStateMap = new HashMap<>();
         this.d_countryContinentGameStateMap = new HashMap<>();
+        this.d_mapFileName="";
     }
 
     /**
@@ -104,6 +108,10 @@ public class WZMap {
         }
     }
 
+    public void setName(String name) {
+        this.d_mapFileName = name;
+    }
+
     /**
      * Removes a neighbour from a country
      * 
@@ -131,13 +139,29 @@ public class WZMap {
      * @param p_continentId the continent to remove
      */
     public void removeContinent(final Integer p_continentId) {
-        if (d_continentCountriesMap.get(p_continentId) != null) {
+        if (d_continentCountriesMap.get(p_continentId) == null) {
             UserInstructionUtils.promptUser("Continent does not exist");
         } else {
-            d_continentCountriesMap.get(p_continentId).forEach(d_adjacencyMap::remove);
+            d_continentCountriesMap.get(p_continentId).forEach(this::removeAdjacency);
             d_continentBonusMap.remove(p_continentId);
             d_continentCountriesMap.remove(p_continentId);
         }
+    }
+
+    /**
+     * Removes a adjacency to all neighbouring countries for the given contry
+     * 
+     * @param p_countryId the country to remove the adjacency
+     */
+    public void removeAdjacency(final int p_countryId) {
+        final Set<Integer> neighbours = d_adjacencyMap.get(p_countryId);
+        /*
+         * Removing current country from neighbours so that it doesn't point to a
+         * country that doesn't exist. It can mainly happen when the current country is
+         * adjacent to a country in a different continent.
+         */
+        neighbours.forEach(neighbourId -> d_adjacencyMap.get(neighbourId).remove(p_countryId));
+        d_adjacencyMap.remove(p_countryId);
     }
 
     /**
@@ -149,10 +173,14 @@ public class WZMap {
         if (d_adjacencyMap.get(p_countryId) == null) {
             UserInstructionUtils.promptUser("Country does not exist");
         } else {
-            d_adjacencyMap.remove(p_countryId);
+            removeAdjacency(p_countryId);
             int l_continentId = getContinentIdForCountry(p_countryId);
             d_continentCountriesMap.get(l_continentId).remove(p_countryId);
         }
+    }
+
+    public String getName() {
+        return d_mapFileName;
     }
 
     /**

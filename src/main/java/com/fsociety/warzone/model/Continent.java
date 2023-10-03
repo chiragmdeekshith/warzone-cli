@@ -17,6 +17,9 @@ public class Continent {
     public int getArmiesBonus() {
         return this.d_armiesBonus;
     }
+    public Player getContinentOwner() {
+        return this.d_continentOwner;
+    }
 
     public Continent(Set<Integer> p_countryIds, Map<Integer, Country> d_map, int p_bonus) {
         this.d_armiesBonus = p_bonus;
@@ -42,29 +45,20 @@ public class Continent {
     }
 
     /**
-     * This method stores the player object of the player that owns every country in the continent, if that player exists.
-     *
+     * This method computes and stores the Player object of the player that owns every country in the continent,
+     * if that player exists.
      */
     public void setContinentOwner() {
-        Player d_computedContinentOwner = d_countries.get(0).getPlayer();
-        if (d_computedContinentOwner != null) {
+        Player l_computedContinentOwner = d_countries.get(0).getPlayer();
+        if (l_computedContinentOwner != null) {
             for (int i = 1; i < d_countries.size(); i++) {
-                if (!d_computedContinentOwner.equals(d_countries.get(i).getPlayer())) {
-                    d_computedContinentOwner = null;
+                if (!l_computedContinentOwner.equals(d_countries.get(i).getPlayer())) {
+                    l_computedContinentOwner = null;
                     break;
                 }
             }
         }
-        this.d_continentOwner = d_computedContinentOwner;
-    }
-
-    /**
-     * This method returns the player object of the player that owns every country in the continent. If no such player
-     * exists, this method returns null.
-     * @return d_continentOwner
-     */
-    public Player getContinentOwner() {
-        return this.d_continentOwner;
+        this.d_continentOwner = l_computedContinentOwner;
     }
 
     public void printContinent(int continentId, Continent continent)
@@ -72,9 +66,6 @@ public class Continent {
         if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty())
         {
             System.out.println(continentId + ": " + continent.d_armiesBonus + " - [" + Country.printCountries(continent.d_countries) + "]");
-            //for (Country entry : continent.d_countries) {
-            //    System.out.println("player" + entry.getPlayerId() + " owns country " + entry.getCountryId());
-            //}
         }
     }
 
@@ -83,9 +74,6 @@ public class Continent {
         if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty())
         {
             System.out.println(countryId + ": " + continent.getContinentOwner().getName() + " - " + adjacencyMap.entrySet().stream().filter(x -> x.getKey() == countryId).collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue())).entrySet().toString());
-            //for (Country entry : continent.d_countries) {
-            //    System.out.println("player" + entry.getPlayerId() + " owns country " + entry.getCountryId());
-            //}
         }
     }
 }
