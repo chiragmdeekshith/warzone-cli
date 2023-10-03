@@ -3,7 +3,9 @@ package com.fsociety.warzone.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Continent {
     // ids of players -> Set of ids of countries
@@ -65,16 +67,25 @@ public class Continent {
         return this.d_continentOwner;
     }
 
-    public void printContinent(int continentId)
+    public void printContinent(int continentId, Continent continent)
     {
         if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty())
         {
-            System.out.println("For Continent " + continentId);
-            for (Map.Entry<Integer, Integer> entry : this.d_playerCountryCountMap.entrySet()) {
-                System.out.println("player" + entry.getKey() + " owns country " + entry.getValue().toString());
-            }
+            System.out.println(continentId + ": " + continent.d_armiesBonus + " - [" + Country.printCountries(continent.d_countries) + "]");
+            //for (Country entry : continent.d_countries) {
+            //    System.out.println("player" + entry.getPlayerId() + " owns country " + entry.getCountryId());
+            //}
         }
-
     }
 
+    public void printBorders(int countryId, Continent continent, Map<Integer, Set<Integer>> adjacencyMap)
+    {
+        if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty())
+        {
+            System.out.println(countryId + ": " + continent.getContinentOwner().getName() + " - " + adjacencyMap.entrySet().stream().filter(x -> x.getKey() == countryId).collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue())).entrySet().toString());
+            //for (Country entry : continent.d_countries) {
+            //    System.out.println("player" + entry.getPlayerId() + " owns country " + entry.getCountryId());
+            //}
+        }
+    }
 }
