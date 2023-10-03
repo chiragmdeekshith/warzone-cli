@@ -292,15 +292,18 @@ public class WZMap {
      * Display the current Map for the gameplay details. Show owner and armies
      */
     public void showMapForGame() {
-        System.out.println("Continent game state");
+        System.out.println("Continents");
+        System.out.println("Continent, Bonus - [Countries]");
         System.out.println("--------------------");
         for (Map.Entry<Integer, Continent> entry : this.d_continentGameStateMap.entrySet()) {
-            entry.getValue().printContinent(entry.getKey());
+            entry.getValue().printContinent(entry.getKey(), entry.getValue());
         }
-        System.out.println("Country game state");
-        System.out.println("------------------");
+
+        System.out.println("Borders");
+        System.out.println("Country: Owned by, Armies - [Countries]");
+        System.out.println("--------------------");
         for (Map.Entry<Integer, Continent> entry : this.d_countryContinentGameStateMap.entrySet()) {
-            entry.getValue().printContinent(entry.getKey());
+            entry.getValue().printBorders(entry.getKey(), entry.getValue(), this.d_adjacencyMap);
         }
     }
 

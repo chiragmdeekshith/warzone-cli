@@ -1,5 +1,7 @@
 package com.fsociety.warzone.model;
 
+import java.util.ArrayList;
+
 public class Country {
 
     private int d_playerId;
@@ -41,4 +43,16 @@ public class Country {
         this.d_armies = 0;
     }
 
+    public static String printCountries(ArrayList<Country> countries)
+    {
+        String printedCountries = "";
+        if(countries != null && !countries.isEmpty())
+        {
+            for (int i = 0; i < countries.size(); i++ ) {
+                printedCountries += countries.get(i).d_countryId + "";
+                if(i!=countries.size()-1){printedCountries += ", ";}
+            }
+        }
+        return printedCountries;
+    }
 }
