@@ -14,63 +14,67 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private String l_name;
-
-    private Integer l_id;
-    private ArrayList<IOrder> l_orders;
-    private ArrayList<Country> l_countries;
-    private int l_available_troops;
+    private final String d_name;
+    private final Integer d_id;
+    private ArrayList<IOrder> d_orders;
+    private ArrayList<Country> d_countries;
+    private int d_availableReinforcements;
 
 
     public Player(String p_player_name) {
-         this.l_name = p_player_name;
-         l_orders = new ArrayList<>();
-         l_countries = new ArrayList<>();
-         l_available_troops = 0;
-         l_id = IdGenerator.generateId();
+         this.d_name = p_player_name;
+         d_orders = new ArrayList<>();
+         d_countries = new ArrayList<>();
+         d_availableReinforcements = 0;
+         d_id = IdGenerator.generateId();
     }
 
 
-    // Relevant getters and setters
-    public int get_countries_count() {
-        return this.l_countries.size();
+    // Getters and setters
+    public int getAvailableReinforcements() {
+        return this.d_availableReinforcements;
     }
-    public int getTroops() {
-        return this.l_available_troops;
+    public void setAvailableReinforcements(int p_availableReinforcements) {
+        this.d_availableReinforcements = p_availableReinforcements;
     }
-    public void setTroops(int p_troops) {
-        this.l_available_troops = p_troops;
-    }
-    public int get_orders_count() {
-        return this.l_orders.size();
-    }
-    public String getName() { return this.l_name; }
+    public int getOrdersCount() { return this.d_orders.size(); }
+    public String getName() { return this.d_name; }
 
     public int getId() {
-        return this.l_id;
+        return this.d_id;
     }
 
     public void addCountry(Country p_country) {
-        this.l_countries.add(p_country);
+        this.d_countries.add(p_country);
     }
 
+    /**
+     * Compiles a list of country IDs for the list of countries the player currently controls.
+     *
+     * @return l_countryIds the list of country IDs
+     */
     public ArrayList<Integer> getCountryIds() {
-        ArrayList<Integer> d_countryIds = new ArrayList<>();
-        for (int i = 0; i < l_countries.size(); i++) {
-            d_countryIds.add(l_countries.get(i).getCountryId());
+        ArrayList<Integer> l_countryIds = new ArrayList<>();
+        for (int i = 0; i < d_countries.size(); i++) {
+            l_countryIds.add(d_countries.get(i).getCountryId());
         }
-        return d_countryIds;
+        return l_countryIds;
     }
 
-    public boolean issue_order() {
-        // Add an order to orders list during issue orders phase
+    /**
+     * Creates and adds an object of type IOrder to the player's list of orders during the Issue Orders phase of
+     * gameplay. The 'showmap' command can be used here to display the map.
+     *
+     * @return returns false if a user types in the 'back' command in order to return to the main menu
+     */
+    public boolean issueOrder() {
 
         String l_inputRawCommand;
 
         while (true) {
 
-            System.out.print(this.getName() + ": You have " + this.getTroops() + " available reinforcements. ");
-            System.out.println("Please input a valid order.");
+            System.out.print(this.getName() + ": You have " + this.getAvailableReinforcements() + " available reinforcements. ");
+            System.out.println("Please issue a valid order.");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
             String[] l_parameters = l_inputRawCommand.split(" ");
@@ -83,13 +87,12 @@ public class Player {
                     return false;
                 }
 
-                // DEPLOY command is given
                 if(GameplayCommand.DEPLOY.getCommand().equals(l_commandType)) {
-                    if (Integer.parseInt(l_parameters[2]) <= l_available_troops) {
+                    if (Integer.parseInt(l_parameters[2]) <= d_availableReinforcements) {
                         if (getCountryIds().contains(Integer.parseInt(l_parameters[1]))) {
                             System.out.println(l_parameters[2] + " reinforcement armies will be deployed to " + l_parameters[1] + ".");
-                            l_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.l_id));
-                            this.l_available_troops -= Integer.parseInt(l_parameters[2]);
+                            d_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.d_id));
+                            this.d_availableReinforcements -= Integer.parseInt(l_parameters[2]);
                             return true;
                         } else {
                             System.out.println("You do not own this country!");
@@ -108,11 +111,13 @@ public class Player {
         }
     }
 
-    public void next_order() {
-        // Returns first order from orders during execute orders phase
-
-        if (!l_orders.isEmpty()) {
-            (l_orders.remove(0)).execute();
+    /**
+     * This method removes the first order from the player's list of orders and executes the order by calling its
+     * execute() method.
+     */
+    public void nextOrder() {
+        if (!d_orders.isEmpty()) {
+            (d_orders.remove(0)).execute();
         }
 
     }
