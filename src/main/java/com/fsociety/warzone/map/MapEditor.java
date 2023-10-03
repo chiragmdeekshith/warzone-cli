@@ -49,16 +49,13 @@ public class MapEditor {
                 int l_i = 1;
                 while(l_i < l_splitCommand.length) {
                     String l_operation = l_splitCommand[l_i++];
+                    int l_continentId = Integer.parseInt(l_splitCommand[l_i++]);
                     switch (l_operation) {
                         case MapEditorCommand.ADD -> {
-                            int l_continentId = Integer.parseInt(l_splitCommand[l_i++]);
                             int l_continentBonusValue = Integer.parseInt(l_splitCommand[l_i++]);
                             d_wzMap.addContinent(l_continentId, l_continentBonusValue);
                         }
-                        case MapEditorCommand.REMOVE -> {
-                            int l_continentId = Integer.parseInt(l_splitCommand[l_i++]);
-                            d_wzMap.removeContinent(l_continentId);
-                        }
+                        case MapEditorCommand.REMOVE -> d_wzMap.removeContinent(l_continentId);
                     }
                 }
             }
@@ -67,16 +64,13 @@ public class MapEditor {
                 int l_i = 1;
                 while(l_i < l_splitCommand.length) {
                     String l_operation = l_splitCommand[l_i++];
+                    int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
                     switch (l_operation) {
                         case MapEditorCommand.ADD -> {
-                            int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
                             int l_continentId = Integer.parseInt(l_splitCommand[l_i++]);
                             d_wzMap.addCountry(l_countryId, l_continentId);
                         }
-                        case MapEditorCommand.REMOVE -> {
-                            int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
-                            d_wzMap.removeCountry(l_countryId);
-                        }
+                        case MapEditorCommand.REMOVE -> d_wzMap.removeCountry(l_countryId);
                     }
                 }
             }
@@ -110,7 +104,13 @@ public class MapEditor {
             }
 
             if(MapEditorCommand.SAVE_MAP.getCommand().equals(l_commandType)) {
-                boolean isSaveSuccessful = MapTools.saveMapFile(d_wzMap);
+                String l_fileNameForSave = l_splitCommand[1];
+                boolean isSaveSuccessful = MapTools.saveMapFile(d_wzMap, l_fileNameForSave);
+                if(isSaveSuccessful) {
+                    System.out.println("File saved successfully - " + l_fileNameForSave);
+                } else {
+                    System.out.println("File save failed! - " + l_fileNameForSave);
+                }
             }
 
             if(MapEditorCommand.SHOW_MAP.getCommand().equals(l_commandType)) {

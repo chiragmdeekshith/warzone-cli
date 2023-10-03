@@ -66,7 +66,7 @@ public class MapTools {
     }
 
 
-    public static boolean saveMapFile(WZMap p_mapData) {
+    public static boolean saveMapFile(WZMap p_mapData, String p_fileNameForSave) {
         StringBuilder data = new StringBuilder();
         data.append("[continents]\n");
         p_mapData.getContinentBonusMap().forEach((key,values) -> {
@@ -86,7 +86,7 @@ public class MapTools {
             return false;
         }
         try {
-            write = new PrintWriter("src/main/resources/"+p_mapData.getName());
+            write = new PrintWriter("src/main/resources/"+p_fileNameForSave);
             write.write(String.valueOf(data));
             write.close();
             return true;

@@ -61,19 +61,9 @@ public class Continent {
         this.d_continentOwner = l_computedContinentOwner;
     }
 
-    public void printContinent(int continentId, Continent continent)
-    {
-        if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty())
-        {
+    public void printContinent(int continentId, Continent continent) {
+        if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty()) {
             System.out.println(continentId + ": " + continent.d_armiesBonus + " - [" + Country.printCountries(continent.d_countries) + "]");
-        }
-    }
-
-    public void printBorders(int countryId, Continent continent, Map<Integer, Set<Integer>> adjacencyMap)
-    {
-        if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty())
-        {
-            System.out.println(countryId + ": " + continent.getContinentOwner().getName() + " - " + adjacencyMap.entrySet().stream().filter(x -> x.getKey() == countryId).collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue())).entrySet().toString());
         }
     }
 }
