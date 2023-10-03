@@ -4,7 +4,8 @@ import com.fsociety.warzone.map.WZMap;
 
 import java.io.BufferedReader;
 import java.io.*;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Set;
 
 public class MapTools {
 
@@ -44,38 +45,45 @@ public class MapTools {
                 int[] arr = new int[temp.length];
                 int countryID= Integer.parseInt(temp[0]);
                 for (int i=1;i<temp.length;i++) {
+                    if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0){
+                        System.out.println("Duplicate Neighbours cannot exist");
+                        return null;
+                    }
                     arr[i] = Integer.parseInt(temp[i]);
                     mapValues.addNeighbour(countryID,arr[i]);
                 }
             }
         }
         catch (Exception e) {
-            // e.printStackTrace();
+             e.printStackTrace();
             return null;
         }
-        mapValues.initGameStates();
-        return mapValues;
+        if(validateMap(mapValues)) {
+            mapValues.initGameStates();
+            return mapValues;
+        }
+        return null;
     }
 
 
-    public static boolean saveMapFile(WZMap p_mapFile) {
+    public static boolean saveMapFile(WZMap p_mapData) {
         StringBuilder data = new StringBuilder();
         data.append("[continents]\n");
-        p_mapFile.getContinentBonusMap().forEach((key,values) -> {
+        p_mapData.getContinentBonusMap().forEach((key,values) -> {
             data.append(key).append(" ").append(values).append("\n");
         });
         data.append("\n[countries]\n");
-        p_mapFile.getContinentCountriesMap().forEach((key,values) -> {
+        p_mapData.getContinentCountriesMap().forEach((key,values) -> {
             for(Integer c:values)
                 data.append(c).append(" ").append(key).append("\n");
         });
         data.append("\n[borders]");
-        p_mapFile.getAdjacencyMap().forEach((key,values) -> {
+        p_mapData.getAdjacencyMap().forEach((key,values) -> {
             data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
         });
         PrintWriter write = null;
-        try{
-            write = new PrintWriter("src/main/resources/editedMaps/"+p_mapFile.getName());
+        try {
+            write = new PrintWriter("src/main/resources/"+p_mapData.getName());
             write.write(String.valueOf(data));
             write.close();
             return true;
@@ -84,10 +92,37 @@ public class MapTools {
             System.out.println(e.getMessage());
             return false;
         }
-
     }
 
-    public static boolean validateMapPlaceholder(WZMap p_mapFile) {
-        return true;
+    public static boolean validateMap(WZMap p_mapData) {
+        if(!checkEmptyContinent(p_mapData)) {
+            return !checkEmptyNeighbours(p_mapData);
+        }
+        else
+            return false;
     }
+
+    public static boolean checkEmptyContinent(WZMap p_mapData) {
+        if(p_mapData.getContinentBonusMap().isEmpty())
+            return true;
+        else {
+            for(Set<Integer> countries:p_mapData.getContinentCountriesMap().values()) {
+                if(countries.isEmpty()) {
+                    System.out.println("Continent has no countries");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkEmptyNeighbours(WZMap p_mapData) {
+        for(Set<Integer> neighbours:p_mapData.getAdjacencyMap().values())
+            if(neighbours.isEmpty()) {
+                System.out.println("Country has no neighbours");
+                return true;
+            }
+        return false;
+    }
+
 }

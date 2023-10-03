@@ -99,7 +99,7 @@ public class MapEditor {
             }
 
             if(MapEditorCommand.VALIDATE_MAP.getCommand().equals(l_commandType)) {
-                boolean isMapValid = MapTools.validateMapPlaceholder(d_wzMap);
+                boolean isMapValid = MapTools.validateMap(d_wzMap);
             }
 
             if(MapEditorCommand.SAVE_MAP.getCommand().equals(l_commandType)) {
