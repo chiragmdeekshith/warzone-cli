@@ -139,7 +139,7 @@ public class WZMap {
      * @param p_continentId the continent to remove
      */
     public void removeContinent(final Integer p_continentId) {
-        if (d_continentCountriesMap.get(p_continentId) != null) {
+        if (d_continentCountriesMap.get(p_continentId) == null) {
             UserInstructionUtils.promptUser("Continent does not exist");
         } else {
             d_continentCountriesMap.get(p_continentId).forEach(d_adjacencyMap::remove);
