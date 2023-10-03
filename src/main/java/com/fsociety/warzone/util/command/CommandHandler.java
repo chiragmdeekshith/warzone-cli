@@ -15,6 +15,4 @@ public class CommandHandler {
         return CommandValidator.isValidCommand(p_rawCommand, p_phase);
     }
 
-    // TODO: Command processor / parser to get objects
-
 }

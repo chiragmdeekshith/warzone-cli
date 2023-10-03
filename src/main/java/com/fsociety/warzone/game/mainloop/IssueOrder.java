@@ -6,25 +6,33 @@ import java.util.ArrayList;
 
 public class IssueOrder {
 
-    public static boolean issue_orders(ArrayList<Player> p_players) {
-        int l_total_troops = 0;
+    /**
+     * This method calls the issueOrder() method of each player in round-robin fashion until no player has any
+     * reinforcement armies left to deploy. This is done by keeping count of the total number of available
+     * reinforcement armies that all players have. If a player has no available reinforcements, they are skipped.
+     *
+     * @param p_players the list of players of the game
+     * @return returns false if a player enters the 'back' command within the issueOrder() method of the Player class.
+     *         This causes the game to return to the main menu.
+     */
+    public static boolean issueOrders(ArrayList<Player> p_players) {
+        int l_totalReinforcements = 0;
         for (int i = 0; i < p_players.size(); i++) {
-            l_total_troops += p_players.get(i).getTroops();
+            l_totalReinforcements += p_players.get(i).getAvailableReinforcements();
         }
-        while (l_total_troops > 0) {
+        while (l_totalReinforcements > 0) {
             for (int i = 0; i < p_players.size(); i++) {
-                if (p_players.get(i).getTroops() > 0) {
-                    if (!p_players.get(i).issue_order()) {
+                if (p_players.get(i).getAvailableReinforcements() > 0) {
+                    if (!p_players.get(i).issueOrder()) {
                         return false;
                     }
                 }
             }
-            l_total_troops = 0;
+            l_totalReinforcements = 0;
             for (int i = 0; i < p_players.size(); i++) {
-                l_total_troops += p_players.get(i).getTroops();
+                l_totalReinforcements += p_players.get(i).getAvailableReinforcements();
             }
         }
         return true;
     }
-
 }

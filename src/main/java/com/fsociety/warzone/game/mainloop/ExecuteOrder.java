@@ -6,22 +6,28 @@ import java.util.ArrayList;
 
 public class ExecuteOrder {
 
-    public static void execute_orders(ArrayList<Player> p_players) {
-        int l_total_orders = 0;
+    /**
+     * This method calls the execute() method of each order in each player's list of orders in round-robin fashion
+     * until no orders are left on any player's list. This is done by keeping count of the total number of pending
+     * orders that all players have. If a player has no pending orders, they are skipped.
+     *
+     * @param p_players the list of players of the game
+     */
+    public static void executeOrders(ArrayList<Player> p_players) {
+        int l_totalOrders = 0;
         for (int i = 0; i < p_players.size(); i++) {
-            l_total_orders += p_players.get(i).get_orders_count();
+            l_totalOrders += p_players.get(i).getOrdersCount();
         }
-        while (l_total_orders > 0) {
+        while (l_totalOrders > 0) {
             for (int i = 0; i < p_players.size(); i++) {
-                if (p_players.get(i).get_orders_count() > 0) {
-                    p_players.get(i).next_order();
+                if (p_players.get(i).getOrdersCount() > 0) {
+                    p_players.get(i).nextOrder();
                 }
             }
-            l_total_orders = 0;
+            l_totalOrders = 0;
             for (int i = 0; i < p_players.size(); i++) {
-                l_total_orders += p_players.get(i).get_orders_count();
+                l_totalOrders += p_players.get(i).getOrdersCount();
             }
         }
     }
-
 }

@@ -16,6 +16,7 @@ public class GameEngine {
     private static HashMap<Integer, Player> d_playerList;
     private static WZMap d_wzMap;
 
+    // Getters and Setters
     public static ArrayList<Player> getPlayers() {
         return d_players;
     }
@@ -35,51 +36,57 @@ public class GameEngine {
         d_wzMap = p_wzMap;
     }
 
+    /**
+     * This method implements a game engine by running the start-up phase, and upon success, the main loop that
+     * implements the gameplay. The return statement allows the user to return to the main menu if the 'back'
+     * command is used within the startUp() or mainLoop() methods.
+     */
     public static void playGame() {
-        if(!StartUp.start_up()){
-            return;
+        if(!StartUp.startUp()){
+            return; // Return to main menu
         }
-        if (!mainLoop()) {
-            return;
-        }
+        mainLoop();
     }
 
-    public static boolean mainLoop() {
+    /**
+     * This method implements the loop through the three main game phases: Assign Reinforcements, Issue Orders, and
+     * Execute Orders. At each phase, each player is looped over and the corresponding method is called.
+     */
+    public static void mainLoop() {
         System.out.println("Game Start!");
-        int l_turns = 1;
+        int l_turns = 0;
         while (true) {
             l_turns++;
             System.out.println("Turn " + l_turns);
 
-            // Check continent owner for each continent
+            // Get updated continent owner for each continent
             d_wzMap.getContinents().keySet().forEach(continentId -> {
                 d_wzMap.getContinents().get(continentId).setContinentOwner();
             });
             // Assign Reinforcements Phase
             for (int i = 0; i < d_players.size(); i++) {
-                AssignReinforcements.assign_reinforcements(d_players.get(i));
+                AssignReinforcements.assignReinforcements(d_players.get(i));
             }
 
             // Issue Orders Phase
-            if (!IssueOrder.issue_orders(d_players)) {
-                return false;
+            if (!IssueOrder.issueOrders(d_players)) {
+                return; // Return to main menu
             }
 
             System.out.println("All players have deployed their reinforcements.");
             System.out.println("Executing orders...");
 
             // Execute Orders Phase
-            ExecuteOrder.execute_orders(d_players);
+            ExecuteOrder.executeOrders(d_players);
 
-            System.out.println("All orders executed. Round " + l_turns + " over.");
+            System.out.println("All orders executed. Turn " + l_turns + " over.");
         }
 
     }
 
     /**
-     * @TODO Implement the "show map" function to work at any point during gameplay
+     * This method creates a map between Player objects and their playerIDs to be stored in the GameEngine.
      */
-
     public static void initPlayerList() {
         d_playerList = new HashMap<Integer, Player>();
         for (int i = 0; i < d_players.size(); i++) {
