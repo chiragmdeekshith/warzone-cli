@@ -100,8 +100,12 @@ public class MapEditor {
 
             if(MapEditorCommand.VALIDATE_MAP.getCommand().equals(l_commandType)) {
                 boolean isMapValid = MapTools.validateMap(d_wzMap);
-                if (isMapValid) {
-                    System.out.println("Map is valid.");
+
+                if( isMapValid) {
+                    System.out.println("The map is valid!");
+                }
+                else {
+                    System.out.println("The map is not valid");
                 }
             }
 
