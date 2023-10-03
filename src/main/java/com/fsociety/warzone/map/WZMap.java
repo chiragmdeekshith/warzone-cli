@@ -237,14 +237,43 @@ public class WZMap {
      * Display the current Map for the map editor. Show continents, countries and neighbours
      */
     public void showMapForEditor() {
-        System.out.println("Showing map for Editor");
+        System.out.println("Continents and their bonus armies");
+        System.out.println("---------------------------------");
+        for (Map.Entry<Integer, Integer> entry : this.d_continentBonusMap.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+        }
+        System.out.println("Countries per continent");
+        System.out.println("-----------------------");
+        for (Map.Entry<Integer, Set<Integer>> entry : this.d_continentCountriesMap.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+        }
+        System.out.println("Borders/Adjacency");
+        System.out.println("-----------------");
+        for (Map.Entry<Integer, Set<Integer>> entry : this.d_adjacencyMap.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+        }
+
+        //this.d_continentBonusMap;
+        //this.d_continentCountriesMap;
+        //this.d_countryGameStateMap;
+        //this.d_continentGameStateMap;
+        //this.d_countryContinentGameStateMap.print();
     }
 
     /**
      * Display the current Map for the gameplay details. Show owner and armies
      */
     public void showMapForGame() {
-        System.out.println("Showing map for Game");
+        System.out.println("Continent game state");
+        System.out.println("--------------------");
+        for (Map.Entry<Integer, Continent> entry : this.d_continentGameStateMap.entrySet()) {
+            entry.getValue().printContinent(entry.getKey());
+        }
+        System.out.println("Country game state");
+        System.out.println("------------------");
+        for (Map.Entry<Integer, Continent> entry : this.d_countryContinentGameStateMap.entrySet()) {
+            entry.getValue().printContinent(entry.getKey());
+        }
     }
 
     /**

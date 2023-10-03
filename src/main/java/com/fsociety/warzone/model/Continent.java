@@ -65,4 +65,16 @@ public class Continent {
         return this.d_continentOwner;
     }
 
+    public void printContinent(int continentId)
+    {
+        if(d_playerCountryCountMap != null && !d_playerCountryCountMap.isEmpty())
+        {
+            System.out.println("For Continent " + continentId);
+            for (Map.Entry<Integer, Integer> entry : this.d_playerCountryCountMap.entrySet()) {
+                System.out.println("player" + entry.getKey() + " owns country " + entry.getValue().toString());
+            }
+        }
+
+    }
+
 }
