@@ -1,6 +1,7 @@
 package com.fsociety.warzone.map;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
@@ -300,10 +301,17 @@ public class WZMap {
         }
 
         System.out.println("Borders");
-        System.out.println("Country: Owned by, Armies - [Countries]");
+        System.out.println("Country: Owned by, Armies - [Neighbours]");
         System.out.println("--------------------");
-        for (Map.Entry<Integer, Continent> entry : this.d_countryContinentGameStateMap.entrySet()) {
-            entry.getValue().printBorders(entry.getKey(), entry.getValue(), this.d_adjacencyMap);
+
+        for (Map.Entry<Integer, Country> entry : this.d_countryGameStateMap.entrySet()) {
+            int l_countryId = entry.getKey();
+            Country l_country = entry.getValue();
+            if(null != l_country.getPlayer()) {
+                System.out.print(l_countryId + ": " + l_country.getPlayer().getName() + " , ");
+                System.out.print(l_country.getArmies() + " - ");
+                System.out.println(d_adjacencyMap.get(l_countryId));
+            }
         }
     }
 
