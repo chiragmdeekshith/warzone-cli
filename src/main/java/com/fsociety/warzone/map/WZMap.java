@@ -137,12 +137,26 @@ public class WZMap {
         if (d_continentCountriesMap.get(p_continentId) != null) {
             UserInstructionUtils.promptUser("Continent does not exist");
         } else {
-            d_continentCountriesMap.get(p_continentId).forEach(countryId -> {
-                d_adjacencyMap.remove(countryId);
-            });
+            d_continentCountriesMap.get(p_continentId).forEach(this::removeAdjacency);
             d_continentBonusMap.remove(p_continentId);
             d_continentCountriesMap.remove(p_continentId);
         }
+    }
+
+    /**
+     * Removes a adjacency to all neighbouring countries for the given contry
+     * 
+     * @param p_countryId the country to remove the adjacency
+     */
+    public void removeAdjacency(final int p_countryId) {
+        final Set<Integer> neighbours = d_adjacencyMap.get(p_countryId);
+        /*
+         * Removing current country from neighbours so that it doesn't point to a
+         * country that doesn't exist. It can mainly happen when the current country is
+         * adjacent to a country in a different continent.
+         */
+        neighbours.forEach(neighbourId -> d_adjacencyMap.get(neighbourId).remove(p_countryId));
+        d_adjacencyMap.remove(p_countryId);
     }
 
     /**
@@ -157,7 +171,7 @@ public class WZMap {
         if (d_adjacencyMap.get(p_countryId) == null) {
             UserInstructionUtils.promptUser("Country does not exist");
         } else {
-            d_adjacencyMap.remove(p_countryId);
+            removeAdjacency(p_countryId);
             d_continentCountriesMap.get(p_continentId).remove(p_countryId);
         }
     }
