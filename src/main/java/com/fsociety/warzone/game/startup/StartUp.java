@@ -4,7 +4,7 @@ import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.WZMap;
 import com.fsociety.warzone.model.Player;
-import com.fsociety.warzone.util.FileIO;
+import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.util.command.CommandHandler;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
@@ -62,7 +62,7 @@ public class StartUp {
     public static boolean loadMap(String p_fileName) {
 
         // Call method to load map data into map object
-        WZMap l_wzMap = FileIO.loadAndValidateMap(p_fileName);
+        WZMap l_wzMap = MapTools.loadAndValidateMap(p_fileName);
         if(null == l_wzMap) {
             System.out.println("Failed to load / validate map");
             return false;
