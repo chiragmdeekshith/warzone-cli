@@ -16,9 +16,8 @@ public class MapEditor {
             System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
-
+            
             if(!CommandValidator.isValidCommand(l_inputRawCommand, Phase.MAP_EDITOR)) {
-                System.out.println("Invalid command. Please start by loading a map.");
                 continue;
             }
 
@@ -26,6 +25,7 @@ public class MapEditor {
             String l_commandType = l_splitCommand[0];
 
             if(MapEditorCommand.BACK.getCommand().equals(l_commandType)) {
+                d_wzMap = null;
                 break;
             }
 
@@ -36,7 +36,7 @@ public class MapEditor {
                     System.out.println("Failed to load the map from file! Please try another map file.");
                     continue;
                 }
-                System.out.println("Loaded map - " + l_filename);
+                System.out.println("Loaded map \"" + l_filename + "\"");
                 System.out.println("Edit continents / countries");
             }
 
@@ -99,7 +99,7 @@ public class MapEditor {
                     System.out.println("The map is valid!");
                 }
                 else {
-                    System.out.println("The map is not valid");
+                    System.out.println("The map is not valid!");
                 }
             }
 

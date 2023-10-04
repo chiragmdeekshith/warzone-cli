@@ -261,7 +261,7 @@ public class CommandValidator {
                             return false;
                         }
                         if(l_countryId == l_neighbourId) {
-                            System.out.println("A country cannot be it's own neighbour.");
+                            System.out.println("A country cannot be its own neighbour.");
                             return false;
                         }
                     }
