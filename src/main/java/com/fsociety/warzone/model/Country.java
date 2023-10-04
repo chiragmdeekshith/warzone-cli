@@ -13,7 +13,6 @@ public class Country {
     private final int d_countryId;
 
     // Getters and Setters
-
     public int getPlayerId() {
         return this.d_playerId;
     }
@@ -26,15 +25,9 @@ public class Country {
 
     public int getCountryId() { return this.d_countryId; }
 
-    public Country setPlayerId(final int player) {
-        this.d_playerId = player;
-        return this;
-    }
+    public void setPlayerId(final int player) { this.d_playerId = player; }
 
-    public Country setArmies(final int armies) {
-        this.d_armies = armies;
-        return this;
-    }
+    public void setArmies(final int armies) { this.d_armies = armies; }
 
     public Country(int p_countryId) {
         this.d_countryId = p_countryId;

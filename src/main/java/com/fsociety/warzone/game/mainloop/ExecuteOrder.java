@@ -4,6 +4,9 @@ import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
 
+/**
+ * This class implements the executeOrders() method.
+ */
 public class ExecuteOrder {
 
     /**
@@ -15,18 +18,18 @@ public class ExecuteOrder {
      */
     public static void executeOrders(ArrayList<Player> p_players) {
         int l_totalOrders = 0;
-        for (int i = 0; i < p_players.size(); i++) {
-            l_totalOrders += p_players.get(i).getOrdersCount();
+        for (Player pPlayer : p_players) {
+            l_totalOrders += pPlayer.getOrdersCount();
         }
         while (l_totalOrders > 0) {
-            for (int i = 0; i < p_players.size(); i++) {
-                if (p_players.get(i).getOrdersCount() > 0) {
-                    p_players.get(i).nextOrder();
+            for (Player pPlayer : p_players) {
+                if (pPlayer.getOrdersCount() > 0) {
+                    pPlayer.nextOrder();
                 }
             }
             l_totalOrders = 0;
-            for (int i = 0; i < p_players.size(); i++) {
-                l_totalOrders += p_players.get(i).getOrdersCount();
+            for (Player pPlayer : p_players) {
+                l_totalOrders += pPlayer.getOrdersCount();
             }
         }
     }
