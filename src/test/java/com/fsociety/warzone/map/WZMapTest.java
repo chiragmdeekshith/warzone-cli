@@ -3,7 +3,6 @@ package com.fsociety.warzone.map;
 import org.junit.jupiter.api.Test;
 
 import com.fsociety.warzone.model.Continent;
-import com.fsociety.warzone.model.Country;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,6 +24,9 @@ public class WZMapTest {
         Assertions.assertEquals(7, l_map.getContinentBonusMap().get(1));
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#addCountry(int, int)}
+     */
     @Test
     void testAddCountry_success() {
         final WZMap l_map = new WZMap();
@@ -36,6 +38,9 @@ public class WZMapTest {
         Assertions.assertEquals(new HashSet<>(Arrays.asList(1)), l_map.getContinentCountriesMap().get(1));
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#addNeighbour(int, int)}
+     */
     @Test
     void testAddNeighbour_success() {
         final WZMap l_map = new WZMap();
@@ -49,6 +54,9 @@ public class WZMapTest {
         Assertions.assertEquals(1, l_map.getAdjacencyMap().get(2).size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#getAdjacencyMap()}
+     */
     @Test
     void testGetAdjacencyMap_success() {
         final WZMap l_map = new WZMap();
@@ -62,6 +70,9 @@ public class WZMapTest {
         Assertions.assertEquals(1, l_adjacencyMap.get(2).size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#getContinentBonusMap()}
+     */
     @Test
     void testGetContinentBonusMap_success() {
         final WZMap l_map = new WZMap();
@@ -70,6 +81,9 @@ public class WZMapTest {
         Assertions.assertEquals(5, l_map.getContinentBonusMap().get(1));
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#getContinentCountriesMap()}
+     */
     @Test
     void testGetContinentCountriesMap_success() {
         final WZMap l_map = new WZMap();
@@ -80,6 +94,9 @@ public class WZMapTest {
         Assertions.assertEquals(2, l_map.getContinentCountriesMap().get(1).size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#getContinents()}
+     */
     @Test
     void testGetContinents_success() {
         final WZMap l_map = new WZMap();
@@ -92,6 +109,10 @@ public class WZMapTest {
         Assertions.assertEquals(5, l_map.getContinents().get(1).getArmiesBonus());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#getCountryOwner(int)}
+     */
+     */
     @Test
     void testGetGameState() {
         final WZMap l_map = new WZMap();
@@ -103,6 +124,9 @@ public class WZMapTest {
         Assertions.assertEquals(1, l_map.getContinents().size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#initGameStates()}
+     */
     @Test
     void testInitGameStates_success() {
         final WZMap l_map = new WZMap();
@@ -112,6 +136,9 @@ public class WZMapTest {
         Assertions.assertEquals(1, l_map.getContinents().size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#initGameStates()}
+     */
     @Test
     void testInitGameStates_failure() {
         final WZMap l_map = new WZMap();
@@ -121,6 +148,9 @@ public class WZMapTest {
         Assertions.assertEquals(0, l_map.getContinents().size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#removeAdjacency(int)}
+     */
     @Test
     void testRemoveAdjacency() {
         final WZMap l_map = new WZMap();
@@ -136,6 +166,9 @@ public class WZMapTest {
         Assertions.assertEquals(0, l_map.getAdjacencyMap().size());
     }
 
+    /** 
+     * Test method for {@link com.fsociety.warzone.map.WZMap#removeContinent(int)}
+     */
     @Test
     void testRemoveContinent() {
         final WZMap l_map = new WZMap();
@@ -146,6 +179,9 @@ public class WZMapTest {
         Assertions.assertEquals(0, l_map.getContinentBonusMap().size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#removeCountry(int)}
+     */
     @Test
     void testRemoveCountry() {
         final WZMap l_map = new WZMap();
@@ -157,6 +193,9 @@ public class WZMapTest {
         Assertions.assertEquals(0, l_map.getAdjacencyMap().size());
     }
 
+    /**
+     * Test method for {@link com.fsociety.warzone.map.WZMap#removeNeighbour(int, int)}
+     */
     @Test
     void testRemoveNeighbour() {
         final WZMap l_map = new WZMap();
