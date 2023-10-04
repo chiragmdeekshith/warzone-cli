@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -65,11 +67,18 @@ public class MapTools {
             String[] continentData = data.substring(data.toString().toLowerCase().indexOf("[continents]")+13, data.toString().toLowerCase().indexOf("[countries]")).split("\n");
             String[] countryData = data.substring(data.toString().toLowerCase().indexOf("[countries]")+12, data.toString().toLowerCase().indexOf("[borders]")).split("\n");
             String[] neighborData = data.substring(data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
+            int l_counter = 0;
             for(String s:continentData) {
-                mapValues.addContinent(Integer.parseInt(s.substring(0,s.indexOf(" "))),Integer.parseInt(s.substring(s.indexOf(" ")+1)));
+                int l_continentId = ++l_counter;
+                String[] l_splitData = s.split(" ");
+                int l_continentBonusValue = Integer.parseInt(l_splitData[1]);
+                mapValues.addContinent(l_continentId, l_continentBonusValue);
             }
             for(String s:countryData) {
-                mapValues.addCountry(Integer.parseInt(s.substring(0,s.indexOf(" "))),Integer.parseInt(s.substring(s.indexOf(" ")+1)));
+                String[] l_splitData = s.split(" ");
+                int l_countryId = Integer.parseInt(l_splitData[0]);
+                int l_continentId = Integer.parseInt(l_splitData[2]);
+                mapValues.addCountry(l_countryId, l_continentId);
             }
             for(String s:neighborData) {
                 String[] temp = s.split(" ");
@@ -120,12 +129,12 @@ public class MapTools {
         StringBuilder l_data = new StringBuilder();
         l_data.append("[continents]\n");
         p_mapData.getContinentBonusMap().forEach((key,values) -> {
-            l_data.append(key).append(" ").append(values).append("\n");
+            l_data.append(key).append(" ").append(key).append(" ").append(values).append("\n");
         });
         l_data.append("\n[countries]\n");
         p_mapData.getContinentCountriesMap().forEach((key,values) -> {
             for(Integer c:values)
-                l_data.append(c).append(" ").append(key).append("\n");
+                l_data.append(c).append(" ").append(c).append(" ").append(key).append("\n");
         });
         l_data.append("\n[borders]");
         p_mapData.getAdjacencyMap().forEach((key,values) -> {
@@ -154,14 +163,21 @@ public class MapTools {
      */
     public static boolean validateMap(WZMap p_mapData) {
         if(!checkEmptyContinent(p_mapData)) {
-            return !checkEmptyNeighbours(p_mapData);
+            if(!checkEmptyNeighbours(p_mapData)) {
+                return checkConnectedContinent(p_mapData);
+            }
+            else {
+                return false;
+            }
         }
-        else
+        else {
             return false;
+        }
     }
 
     /**
      * Check if the continent is empty , i.e, has no countries
+     *
      * @param p_mapData - the WZMap object that needs to be checked
      * @return true if the continent doesn't have any countries, false otherwise
      */
@@ -194,4 +210,34 @@ public class MapTools {
         return false;
     }
 
+    /**
+     * Checks if the continents are connected
+     *
+     * @param p_mapData - the WZMap object that needs to be checked
+     * @return true if the map is a connected graph, false otherwise
+     */
+    public static boolean checkConnectedContinent(WZMap p_mapData) {
+        boolean isContinentConnected = false;
+        for (Map.Entry<Integer, Set<Integer>> entry : p_mapData.getContinentCountriesMap().entrySet()) {
+            Integer l_continentId = entry.getKey();
+            Set<Integer> l_countryIDs = entry.getValue();
+            if(p_mapData.getContinentCountriesMap().get(l_continentId).size() == 1) {
+                continue;
+            }
+            for (Integer l_countryID : l_countryIDs) {
+                isContinentConnected=false;
+                for (Integer l_neighbourID : p_mapData.getAdjacencyMap().get(l_countryID)) {
+                    if(Objects.equals(p_mapData.getContinentIdForCountry(l_neighbourID), p_mapData.getContinentIdForCountry(l_countryID))) {
+                        isContinentConnected = true;
+                        break;
+                    }
+                }
+                if(!isContinentConnected) {
+                    System.out.println("Continent " + l_continentId + " is not connected");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
