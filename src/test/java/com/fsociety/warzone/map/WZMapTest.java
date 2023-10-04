@@ -112,7 +112,6 @@ public class WZMapTest {
     /**
      * Test method for {@link com.fsociety.warzone.map.WZMap#getCountryOwner(int)}
      */
-     */
     @Test
     void testGetGameState() {
         final WZMap l_map = new WZMap();
