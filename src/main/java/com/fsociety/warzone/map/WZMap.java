@@ -76,7 +76,7 @@ public class WZMap {
             final Integer p_countryId,
             final Integer p_continentId) {
         if (d_continentCountriesMap.get(p_continentId) == null) {
-            throw new IllegalArgumentException("Continent does not exist in the Map.");
+            System.out.println("Continent does not exist in the Map.");
         } else if (d_adjacencyMap.get(p_countryId) != null) {
             System.out.println("Country already exists.");
         } else {
@@ -99,7 +99,7 @@ public class WZMap {
         } else if (d_adjacencyMap.get(p_countryId) == null) {
             System.out.println("Country does not exist or is invalid.");
         } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
-            throw new IllegalArgumentException("Neighbour Country does not exist or is invalid.");
+            System.out.println("Neighbour Country does not exist or is invalid.");
         } else {
             d_adjacencyMap.get(p_countryId).add(p_neighbourCountryId);
             d_adjacencyMap.get(p_neighbourCountryId).add(p_countryId);
@@ -128,7 +128,7 @@ public class WZMap {
         } else if (d_adjacencyMap.get(p_countryId) == null) {
             System.out.println("Country does not exist or is invalid.");
         } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
-            throw new IllegalArgumentException("Neighbour Country does not exist or is invalid.");
+            System.out.println("Neighbour Country does not exist or is invalid.");
         } else {
             d_adjacencyMap.get(p_countryId).remove(p_neighbourCountryId);
             d_adjacencyMap.get(p_neighbourCountryId).remove(p_countryId);

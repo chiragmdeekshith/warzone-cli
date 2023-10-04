@@ -4,8 +4,10 @@ import com.fsociety.warzone.map.WZMap;
 
 import java.io.BufferedReader;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -28,7 +30,18 @@ public class MapTools {
             // Read the file line by line
             mapValues = new WZMap();
             String l_filePath = "src/main/resources/" + p_fileName;
-            FileReader mapFile = new FileReader(l_filePath);
+            FileReader mapFile;
+            try {
+                mapFile = new FileReader(l_filePath);
+            } catch (FileNotFoundException e) {
+                File newFile = new File(l_filePath);
+                boolean success = newFile.createNewFile();
+                if(!success) {
+                    throw new RuntimeException("Failed to create file.");
+                }
+                mapValues.setFileName(p_fileName);
+                return mapValues;
+            }
             String line;
             StringBuilder data = new StringBuilder();
             BufferedReader mapReader = new BufferedReader(mapFile);
@@ -71,6 +84,10 @@ public class MapTools {
                     mapValues.addNeighbour(countryID,arr[i]);
                 }
             }
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Cant parseInt");
+            return null;
         }
         catch (Exception e) {
             System.out.println("File does not exist!");

@@ -13,7 +13,7 @@ public class MapEditor {
     private static WZMap d_wzMap;
 
     /**
-     * The editMap() function enables loading of a map, validates a map, and allows the user to edit the map by adding
+     * The editMap() function loads a map (creates one if it doesn't exist), validates a map, and allows the user to edit the map by adding
      * and removing countries, continents and neighbours. It also allows the user to save the new map file.
      */
     public static void editMap() {
@@ -48,7 +48,7 @@ public class MapEditor {
                     System.out.println("Failed to load the map from file! Please try another map file.");
                     continue;
                 }
-                System.out.println("Loaded map \"" + l_filename + "\"");
+                System.out.println("Map '" + l_filename + "' is ready.");
                 System.out.println("Edit the map by using the 'editcontinent', 'editcountry' and 'editneighbor' commands.");
             }
 
@@ -102,14 +102,17 @@ public class MapEditor {
                 int l_i = 1;
                 while(l_i < l_splitCommand.length) {
                     String l_operation = l_splitCommand[l_i++];
-                    int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
-                    int l_neighbourCountryId = Integer.parseInt(l_splitCommand[l_i++]);
+
                     switch (l_operation) {
                         case MapEditorCommand.ADD -> {
+                            int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
+                            int l_neighbourCountryId = Integer.parseInt(l_splitCommand[l_i++]);
                             d_wzMap.addNeighbour(l_countryId, l_neighbourCountryId);
                             System.out.println("Country " + l_neighbourCountryId + " added as neighbour to country " + l_countryId + ".");
                         }
                         case MapEditorCommand.REMOVE -> {
+                            int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
+                            int l_neighbourCountryId = Integer.parseInt(l_splitCommand[l_i++]);
                             d_wzMap.removeNeighbour(l_countryId, l_neighbourCountryId);
                             System.out.println("Country " + l_neighbourCountryId + " removed as neighbour to country " + l_countryId + ".");
                         }
@@ -119,8 +122,7 @@ public class MapEditor {
 
             if(MapEditorCommand.VALIDATE_MAP.getCommand().equals(l_commandType)) {
                 boolean isMapValid = MapTools.validateMap(d_wzMap);
-
-                if( isMapValid) {
+                if(isMapValid) {
                     System.out.println("The map is valid!");
                 }
                 else {

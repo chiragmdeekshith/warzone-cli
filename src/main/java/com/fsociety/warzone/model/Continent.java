@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class is not a physical continent but a representation used for purely calculating the bonus armies for players
+ * This class represents the continent objects used to calculate the bonus armies for players,
  * if they own all the countries in the particular continent.
  */
 public class Continent {
