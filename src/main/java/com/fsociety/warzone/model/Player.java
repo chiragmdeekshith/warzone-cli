@@ -12,6 +12,9 @@ import com.fsociety.warzone.util.command.constant.StartupCommand;
 
 import java.util.ArrayList;
 
+/**
+ * This class deals with everything related to the game player and the order that the player issues
+ */
 public class Player {
 
     private final String d_name;
@@ -21,6 +24,11 @@ public class Player {
     private int d_availableReinforcements;
 
 
+    /**
+     * Parameterised constructor to initialise the object
+     *
+     * @param p_player_name - The name of the player
+     */
     public Player(String p_player_name) {
          this.d_name = p_player_name;
          d_orders = new ArrayList<>();
@@ -29,21 +37,10 @@ public class Player {
          d_id = IdGenerator.generateId();
     }
 
-
-    // Getters and setters
-    public int getAvailableReinforcements() {
-        return this.d_availableReinforcements;
-    }
-    public void setAvailableReinforcements(int p_availableReinforcements) {
-        this.d_availableReinforcements = p_availableReinforcements;
-    }
-    public int getOrdersCount() { return this.d_orders.size(); }
-    public String getName() { return this.d_name; }
-
-    public int getId() {
-        return this.d_id;
-    }
-
+    /**
+     * Add country to the list countries owned by player
+     * @param p_country - the country object to be added
+     */
     public void addCountry(Country p_country) {
         this.d_countries.add(p_country);
     }
@@ -120,6 +117,44 @@ public class Player {
             (d_orders.remove(0)).execute();
         }
 
+    }
+
+    // Getters and setters
+
+    /**
+     * Get the available reinforcements
+     * @return the available reinforcements
+     */
+    public int getAvailableReinforcements() {
+        return this.d_availableReinforcements;
+    }
+
+    /**
+     * Set the available reinforcements
+     * @param p_availableReinforcements - the available reinforcements
+     */
+    public void setAvailableReinforcements(int p_availableReinforcements) {
+        this.d_availableReinforcements = p_availableReinforcements;
+    }
+
+    /**
+     * Get the number of orders
+     * @return orders count
+     */
+    public int getOrdersCount() { return this.d_orders.size(); }
+
+    /**
+     * Get the name of the player
+     * @return the player's names
+     */
+    public String getName() { return this.d_name; }
+
+    /**
+     * Return the ID of the player
+     * @return the player id
+     */
+    public int getId() {
+        return this.d_id;
     }
 
 }

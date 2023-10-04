@@ -6,12 +6,21 @@ import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.MapEditorCommand;
 import com.fsociety.warzone.util.command.constant.Phase;
 
+/**
+ * This class handles everything related to Editing maps. This class can be thought of as a Map Engine.
+ */
 public class MapEditor {
     private static WZMap d_wzMap;
+
+    /**
+     * The editMap() function enables loading of a map, validates a map, and allows the user to edit the map by adding
+     * and removing countries, continents and neighbours. It also allows the user to save the new map file.
+     */
     public static void editMap() {
         System.out.println("Map Editor selected. Please start by loading a map. Type 'back' to go to the previous menu.");
         String l_inputRawCommand;
 
+        // Keep prompting the user for new commands
         while(true) {
             System.out.println("Enter command.");
             System.out.print("> ");
@@ -24,10 +33,13 @@ public class MapEditor {
             String[] l_splitCommand = l_inputRawCommand.split(" ");
             String l_commandType = l_splitCommand[0];
 
+            // Return to main menu
             if(MapEditorCommand.BACK.getCommand().equals(l_commandType)) {
                 d_wzMap = null;
                 break;
             }
+
+            // Try to load map first before any other command
 
             if(MapEditorCommand.EDIT_MAP.getCommand().equals(l_commandType)) {
                 String l_filename = l_splitCommand[1];
@@ -40,10 +52,13 @@ public class MapEditor {
                 System.out.println("Edit the map by using the 'editcontinent', 'editcountry' and 'editneighbor' commands.");
             }
 
+            // Ensure that the map is loaded into memory before proceeding with other
             if(null == d_wzMap) {
                 System.out.println("Please load a map before trying to continue with other commands.");
                 continue;
             }
+
+            // Logic for each command
 
             if(MapEditorCommand.EDIT_CONTINENT.getCommand().equals(l_commandType)) {
                 int l_i = 1;

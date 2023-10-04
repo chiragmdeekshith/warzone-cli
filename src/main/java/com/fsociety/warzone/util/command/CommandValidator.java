@@ -8,8 +8,18 @@ import com.fsociety.warzone.util.command.constant.StartupCommand;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class exists to validate all the commands before being processed by the GameEngine or the MapEditor
+ */
 public class CommandValidator {
 
+    /**
+     * Validates the command for a particular phase of the game
+     *
+     * @param p_rawCommand - the raw unprocessed command from the user
+     * @param p_phase - phase of the game
+     * @return true if valid, false if not
+     */
     public static boolean isValidCommand(String p_rawCommand, Phase p_phase) {
 
         if(p_rawCommand.isEmpty()) {
@@ -43,6 +53,7 @@ public class CommandValidator {
                 return false;
         }
 
+        // If the command is not present in the list of valid commands, the command is not valid
         if(!l_validCommands.contains(l_commandType)) {
             return false;
         }
@@ -56,6 +67,12 @@ public class CommandValidator {
 
     }
 
+    /**
+     * Validates the Gameplay command in depth
+     *
+     * @param p_parsedCommand - the raw command after splitting based on spaces.
+     * @return Returns true if this gameplay command is valid , else returns false
+     */
     private static boolean isCommandValidInGameplay(String[] p_parsedCommand) {
         String l_commandType = p_parsedCommand[0];
 
@@ -94,6 +111,12 @@ public class CommandValidator {
         return false;
     }
 
+    /**
+     * Validates the Map Editor command in depth
+     *
+     * @param p_parsedCommand - the raw command after splitting based on spaces.
+     * @return Returns true if this Map Editor command is valid , else returns false
+     */
     private static boolean isCommandValidInMapEditor(String[] p_parsedCommand) {
         String l_commandType = p_parsedCommand[0];
 
@@ -131,7 +154,7 @@ public class CommandValidator {
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
                         if(l_i + 1 >= p_parsedCommand.length) {
-                            System.out.println("\'-add\' requires two arguments.");
+                            System.out.println("'-add' requires two arguments.");
                             return false;
                         }
                         int l_continentId, l_continentValue;
@@ -149,7 +172,7 @@ public class CommandValidator {
                     }
                     case MapEditorCommand.REMOVE -> {
                         if(l_i >= p_parsedCommand.length) {
-                            System.out.println("\'-remove\' requires one argument.");
+                            System.out.println("'-remove' requires one argument.");
                             return false;
                         }
                         int l_continentId;
@@ -190,7 +213,7 @@ public class CommandValidator {
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
                         if(l_i + 1 >= p_parsedCommand.length) {
-                            System.out.println("\'-add\' option requires two arguments.");
+                            System.out.println("'-add' option requires two arguments.");
                             return false;
                         }
                         int l_countryId, l_continentId;
@@ -208,7 +231,7 @@ public class CommandValidator {
                     }
                     case MapEditorCommand.REMOVE -> {
                         if(l_i >= p_parsedCommand.length) {
-                            System.out.println("\'-remove\' option requires one argument.");
+                            System.out.println("'-remove' option requires one argument.");
                             return false;
                         }
                         int l_countryId;
@@ -241,18 +264,18 @@ public class CommandValidator {
             int l_i = 1;
             while(l_i < p_parsedCommand.length) {
                 String l_operation = p_parsedCommand[l_i++];
+                int l_countryId, l_neighbourId;
+                try {
+                    l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                    l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Value of ID must be an integer.");
+                    return false;
+                }
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
                         if(l_i + 1 >= p_parsedCommand.length) {
-                            System.out.println("\'-add\' option requires two arguments.");
-                            return false;
-                        }
-                        int l_countryId, l_neighbourId;
-                        try {
-                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
-                            l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Value of ID must be an integer.");
+                            System.out.println("'-add' option requires two arguments.");
                             return false;
                         }
                         if(l_countryId < 0 || l_neighbourId < 0) {
@@ -266,15 +289,7 @@ public class CommandValidator {
                     }
                     case MapEditorCommand.REMOVE -> {
                         if(l_i >= p_parsedCommand.length) {
-                            System.out.println("\'-remove\' option requires one argument.");
-                            return false;
-                        }
-                        int l_countryId, l_neighbourId;
-                        try {
-                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
-                            l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Value of ID must be an integer.");
+                            System.out.println("'-remove' option requires one argument.");
                             return false;
                         }
                         if(l_countryId < 0 ||  l_neighbourId < 0) {
@@ -283,7 +298,7 @@ public class CommandValidator {
                         }
                     }
                     default -> {
-                        System.out.println("Unexpected option \'" + l_operation + "\'.");
+                        System.out.println("Unexpected option '" + l_operation + "'.");
                         return false;
                     }
                 }
@@ -324,6 +339,11 @@ public class CommandValidator {
         return false;
     }
 
+    /**
+     * Validates the StartUp command in depth
+     * @param p_parsedCommand - the raw command after splitting based on spaces.
+     * @return Returns true if this Start Up command is valid , else returns false
+     */
     private static boolean isCommandValidInStartup(String[] p_parsedCommand) {
         String l_commandType = p_parsedCommand[0];
 
@@ -342,6 +362,7 @@ public class CommandValidator {
 
             String l_operation = p_parsedCommand[1];
 
+            // Loop through all -add and -remove operations in the command
             for(int l_i = 1; l_i < p_parsedCommand.length; l_i++) {
                 if(l_i % 2 == 1) {
                     if(!StartupCommand.ADD.equals(l_operation) && !StartupCommand.REMOVE.equals(l_operation)) {
@@ -394,6 +415,12 @@ public class CommandValidator {
         return false;
     }
 
+    /**
+     * This validates the showmap function
+     *
+     * @param p_parsedCommand - the raw command after splitting based on spaces.
+     * @return Returns true if this 'showmap' command is valid , else returns false
+     */
     private static boolean validateShowMapCommand(String[] p_parsedCommand) {
         if(p_parsedCommand.length != 1) {
             System.out.println("This command has too many arguments.");
@@ -402,6 +429,11 @@ public class CommandValidator {
         return true;
     }
 
+    /**
+     *
+     * @param p_parsedCommand - the raw command after splitting based on spaces.
+     * @return Returns true if this 'back' command is valid , else returns false
+     */
     private static boolean validateBackCommand(String[] p_parsedCommand) {
         if(p_parsedCommand.length != 1) {
             System.out.println("This command has too many arguments, so its invalid.");

@@ -2,16 +2,19 @@ package com.fsociety.warzone.game.order;
 
 import com.fsociety.warzone.game.GameEngine;
 
+/**
+ * This class handles everything related to Deploying armies
+ */
 public class Deploy implements IOrder {
 
-    private int l_troopsCount;
-    private int l_countryId;
-    private int l_playerId;
+    private final int d_troopsCount;
+    private final int d_countryId;
+    private final int d_playerId;
 
     public Deploy(int p_countryId, int p_troopsCount, int p_playerId) {
-        this.l_countryId = p_countryId;
-        this.l_troopsCount = p_troopsCount;
-        this.l_playerId = p_playerId;
+        this.d_countryId = p_countryId;
+        this.d_troopsCount = p_troopsCount;
+        this.d_playerId = p_playerId;
     }
 
     /**
@@ -19,7 +22,7 @@ public class Deploy implements IOrder {
      */
     @Override
     public void execute() {
-        GameEngine.getWZMap().updateGameState(l_countryId, l_playerId, l_troopsCount);
-        System.out.println(GameEngine.getPlayerList().get(l_playerId).getName() + " deployed " + l_troopsCount + " reinforcements to " + l_countryId);
+        GameEngine.getWZMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
+        System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId);
     }
 }
