@@ -5,9 +5,19 @@ import com.fsociety.warzone.map.MapEditor;
 
 import java.util.Scanner;
 
+/**
+ * This class is the main runner for the whole game which includes the Map Editor and the Gameplay itself.
+ *
+ */
 public class Application {
 
+    // Global scanner for the whole program
     public static Scanner SCANNER;
+
+    /**
+     * The main function.
+     * @param args - command line arguments
+     */
     public static void main(String[] args) {
         Application.SCANNER = new Scanner(System.in);
         System.out.println("Welcome to Warzone!");
@@ -15,6 +25,9 @@ public class Application {
         System.out.println("Thanks for playing Warzone!");
     }
 
+    /**
+     * This function starts the main menu for the game.
+     */
     private static void mainMenu() {
         String l_choice;
         do {

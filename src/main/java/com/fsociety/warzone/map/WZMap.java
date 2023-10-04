@@ -1,11 +1,16 @@
 package com.fsociety.warzone.map;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
-import com.fsociety.warzone.util.UserInstruction;
 
 /**
  * This class implements the connected graph structure of the map. This map is used both for editing and in gameplay.
@@ -32,6 +37,9 @@ public class WZMap {
 
     private String d_mapFileName;
 
+    /**
+     * Default constructor initializes the WZMap Object with empty lists and maps.
+     */
     public WZMap() {
         this.d_adjacencyMap = new LinkedHashMap<>();
         this.d_continentBonusMap = new HashMap<>();
@@ -51,7 +59,7 @@ public class WZMap {
             final Integer p_continentId,
             final Integer p_continentBonus) {
         if (d_continentCountriesMap.get(p_continentId) != null) {
-            UserInstruction.promptUser("Continent already exists.");
+            System.out.println("Continent already exists.");
             return;
         }
         d_continentCountriesMap.put(p_continentId, new LinkedHashSet<>());
@@ -70,7 +78,7 @@ public class WZMap {
         if (d_continentCountriesMap.get(p_continentId) == null) {
             throw new IllegalArgumentException("Continent does not exist in the Map.");
         } else if (d_adjacencyMap.get(p_countryId) != null) {
-            UserInstruction.promptUser("Country already exists.");
+            System.out.println("Country already exists.");
         } else {
             d_adjacencyMap.put(p_countryId, new LinkedHashSet<>());
             d_continentCountriesMap.get(p_continentId).add(p_countryId);
@@ -87,9 +95,9 @@ public class WZMap {
             final int p_countryId,
             final int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
-            UserInstruction.promptUser("Country cannot be neighbour of itself.");
+            System.out.println("Country cannot be neighbour of itself.");
         } else if (d_adjacencyMap.get(p_countryId) == null) {
-            UserInstruction.promptUser("Country does not exist or is invalid.");
+            System.out.println("Country does not exist or is invalid.");
         } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
             throw new IllegalArgumentException("Neighbour Country does not exist or is invalid.");
         } else {
@@ -98,8 +106,12 @@ public class WZMap {
         }
     }
 
-    public void setFileName(String name) {
-        this.d_mapFileName = name;
+    /**
+     * This function stores the file name of the map
+     * @param p_fileName - the name of the file
+     */
+    public void setFileName(String p_fileName) {
+        this.d_mapFileName = p_fileName;
     }
 
     /**
@@ -112,9 +124,9 @@ public class WZMap {
             final int p_countryId,
             final int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
-            UserInstruction.promptUser("Country cannot be neighbour of itself.");
+            System.out.println("Country cannot be neighbour of itself.");
         } else if (d_adjacencyMap.get(p_countryId) == null) {
-            UserInstruction.promptUser("Country does not exist or is invalid.");
+            System.out.println("Country does not exist or is invalid.");
         } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
             throw new IllegalArgumentException("Neighbour Country does not exist or is invalid.");
         } else {
@@ -130,7 +142,7 @@ public class WZMap {
      */
     public void removeContinent(final Integer p_continentId) {
         if (d_continentCountriesMap.get(p_continentId) == null) {
-            UserInstruction.promptUser("Continent does not exist.");
+            System.out.println("Continent does not exist.");
         } else {
             d_continentCountriesMap.get(p_continentId).forEach(this::removeAdjacency);
             d_continentBonusMap.remove(p_continentId);
@@ -139,8 +151,7 @@ public class WZMap {
     }
 
     /**
-     * Removes the adjacency to all neighbouring countries for the given country
-     *
+     * Removes the adjacency to all neighbouring countries for the given country.
      * Removing current country from neighbours so that it doesn't point to a
      * country that doesn't exist. It can mainly happen when the current country is
      * adjacent to a country in a different continent.
@@ -160,7 +171,7 @@ public class WZMap {
      */
     public void removeCountry(final int p_countryId) {
         if (d_adjacencyMap.get(p_countryId) == null) {
-            UserInstruction.promptUser("Country does not exist.");
+            System.out.println("Country does not exist.");
         } else {
             removeAdjacency(p_countryId);
             int l_continentId = getContinentIdForCountry(p_countryId);

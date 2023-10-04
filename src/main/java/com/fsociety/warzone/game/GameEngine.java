@@ -10,31 +10,14 @@ import com.fsociety.warzone.model.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class handles everything related to the game play session.
+ */
 public class GameEngine {
 
     private static ArrayList<Player> d_players;
     private static HashMap<Integer, Player> d_playerList;
     private static WZMap d_wzMap;
-
-    // Getters and Setters
-    public static ArrayList<Player> getPlayers() {
-        return d_players;
-    }
-    public static void setPlayers(ArrayList<Player> p_players) {
-        d_players = p_players;
-    }
-
-    public static HashMap<Integer, Player> getPlayerList() {
-        return d_playerList;
-    }
-
-    public static WZMap getWZMap() {
-        return d_wzMap;
-    }
-
-    public static void setWZMap(WZMap p_wzMap) {
-        d_wzMap = p_wzMap;
-    }
 
     /**
      * This method implements a game engine by running the start-up phase, and upon success, the main loop that
@@ -88,11 +71,30 @@ public class GameEngine {
      * This method creates a map between Player objects and their playerIDs to be stored in the GameEngine.
      */
     public static void initPlayerList() {
-        d_playerList = new HashMap<Integer, Player>();
+        d_playerList = new HashMap<>();
         for (Player dPlayer : d_players) {
             d_playerList.put(dPlayer.getId(), dPlayer);
         }
     }
 
+    // Getters and Setters
+    public static ArrayList<Player> getPlayers() {
+        return d_players;
+    }
+    public static void setPlayers(ArrayList<Player> p_players) {
+        d_players = p_players;
+    }
+
+    public static HashMap<Integer, Player> getPlayerList() {
+        return d_playerList;
+    }
+
+    public static WZMap getWZMap() {
+        return d_wzMap;
+    }
+
+    public static void setWZMap(WZMap p_wzMap) {
+        d_wzMap = p_wzMap;
+    }
 
 }

@@ -9,8 +9,15 @@ import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
+/**
+ * This class handles all the start-up phase functionalities. It loads up a map, adds / removes players, and assigns
+ * countries to random players.
+ */
 public class StartUp {
 
     /**
@@ -168,21 +175,21 @@ public class StartUp {
      */
     public static void assignCountries() {
 
-        WZMap wzMap = GameEngine.getWZMap();
+        WZMap l_wzMap = GameEngine.getWZMap();
         ArrayList<Player> l_players = GameEngine.getPlayers();
 
-        ArrayList<Integer> l_countryIds = new ArrayList<>(wzMap.getAdjacencyMap().keySet());
+        ArrayList<Integer> l_countryIds = new ArrayList<>(l_wzMap.getAdjacencyMap().keySet());
 
-        Random random = new Random();
+        Random l_random = new Random();
 
         int l_counter = 0;
         while (!l_countryIds.isEmpty()) {
             Player l_player = l_players.get(l_counter%l_players.size()); // Cycles through the players in round-robin
-            int randomIndex = random.nextInt(l_countryIds.size());
+            int randomIndex = l_random.nextInt(l_countryIds.size());
             int l_countryId = l_countryIds.remove(randomIndex);
-            wzMap.updateGameState(l_countryId, l_player.getId(), 0);
-            l_player.addCountry(wzMap.getGameState(l_countryId));
-            wzMap.getGameState(l_countryId).setPlayer(l_player);
+            l_wzMap.updateGameState(l_countryId, l_player.getId(), 0);
+            l_player.addCountry(l_wzMap.getGameState(l_countryId));
+            l_wzMap.getGameState(l_countryId).setPlayer(l_player);
             l_counter++;
         }
     }

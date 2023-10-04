@@ -3,15 +3,29 @@ package com.fsociety.warzone.util;
 import com.fsociety.warzone.map.WZMap;
 
 import java.io.BufferedReader;
-import java.io.*;
+
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Set;
 
+/**
+ * This class provides all the functionality to read from Domination type .map files and store them in WZMap.
+ * It can also validate the map and save the map into a new file.
+ */
 public class MapTools {
 
+    /**
+     * Reads the file from system and loads it into the WZMap. Validates the map before loading it in and then
+     * logically validates it again before returning it.
+     *
+     * @param p_fileName - the name of the file to be opened
+     * @return - returns an instance of the WZMap object ready
+     */
     public static WZMap loadAndValidateMap(String p_fileName) {
         WZMap mapValues;
         try {
+            // Read the file line by line
             mapValues = new WZMap();
             String l_filePath = "src/main/resources/" + p_fileName;
             FileReader mapFile = new FileReader(l_filePath);
@@ -25,12 +39,16 @@ public class MapTools {
                     line = mapReader.readLine();
                 }
             }
+
+            // Ensure that there are countries, continents and neighbours
             if (data.toString().toLowerCase().contains("[continents]") && data.toString().toLowerCase().contains("[countries]") && data.toString().toLowerCase().contains("[borders]")) {
                 mapValues.setFileName(p_fileName);
             } else {
                 System.out.println("Missing Information/Not in correct format");
                 return null;
             }
+
+            // Load the data into the WZMap object
             String[] continentData = data.substring(data.toString().toLowerCase().indexOf("[continents]")+13, data.toString().toLowerCase().indexOf("[countries]")).split("\n");
             String[] countryData = data.substring(data.toString().toLowerCase().indexOf("[countries]")+12, data.toString().toLowerCase().indexOf("[borders]")).split("\n");
             String[] neighborData = data.substring(data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
@@ -66,7 +84,22 @@ public class MapTools {
     }
 
 
+    /**
+     *
+     * This functions validates the map before saving into a physical file on the system
+     *
+     * @param p_mapData - the WZMap to save to the file
+     * @param p_fileNameForSave - name of the new save file
+     * @return true if the file was saved successfully, false otherwise
+     */
     public static boolean saveMapFile(WZMap p_mapData, String p_fileNameForSave) {
+
+        // Ensure the map is valid
+        if(!validateMap(p_mapData)) {
+            return false;
+        }
+
+        // Serialise the data
         StringBuilder data = new StringBuilder();
         data.append("[continents]\n");
         p_mapData.getContinentBonusMap().forEach((key,values) -> {
@@ -81,10 +114,9 @@ public class MapTools {
         p_mapData.getAdjacencyMap().forEach((key,values) -> {
             data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
         });
+
+        // Write the data to the file
         PrintWriter write;
-        if(!validateMap(p_mapData)) {
-            return false;
-        }
         try {
             write = new PrintWriter("src/main/resources/"+p_fileNameForSave);
             write.write(String.valueOf(data));
@@ -97,6 +129,12 @@ public class MapTools {
         }
     }
 
+    /**
+     * Logically validates the WZMap object
+     *
+     * @param p_mapData - the WZMap object that needs to be validated
+     * @return true if the map is valid, false otherwise
+     */
     public static boolean validateMap(WZMap p_mapData) {
         if(!checkEmptyContinent(p_mapData)) {
             return !checkEmptyNeighbours(p_mapData);
@@ -105,6 +143,11 @@ public class MapTools {
             return false;
     }
 
+    /**
+     * Check if the continent is empty , i.e, has no countries
+     * @param p_mapData - the WZMap object that needs to be checked
+     * @return true if the continent doesn't have any countries, false otherwise
+     */
     public static boolean checkEmptyContinent(WZMap p_mapData) {
         if(p_mapData.getContinentBonusMap().isEmpty())
             return true;
@@ -119,6 +162,12 @@ public class MapTools {
         return false;
     }
 
+    /**
+     * Checks if there are any countries with empty neighbours.
+     *
+     * @param p_mapData - the WZMap object that needs to be checked
+     * @return true if the neighbours are empty, false otherwise
+     */
     public static boolean checkEmptyNeighbours(WZMap p_mapData) {
         for(Set<Integer> neighbours:p_mapData.getAdjacencyMap().values())
             if(neighbours.isEmpty()) {
