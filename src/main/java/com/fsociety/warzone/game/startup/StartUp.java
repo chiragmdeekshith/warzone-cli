@@ -5,7 +5,7 @@ import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.WZMap;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.MapTools;
-import com.fsociety.warzone.util.command.CommandHandler;
+import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
@@ -30,7 +30,7 @@ public class StartUp {
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
-            if(!CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
+            if(!CommandValidator.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
                 System.out.println("Invalid command. Please start by loading a map. Try 'loadmap [filename].map'");
                 continue;
             }
@@ -101,7 +101,7 @@ public class StartUp {
             l_inputRawCommand = Application.SCANNER.nextLine();
 
             // Ensure the command is valid for the current phase
-            if(CommandHandler.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
+            if(CommandValidator.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
                 String[] l_splitCommand = l_inputRawCommand.split(" ");
                 String l_commandType = l_splitCommand[0];
 

@@ -3,7 +3,7 @@ package com.fsociety.warzone.util;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class UserInstructionUtils {
+public class UserInstruction {
 
     public static void promptUser(
             final String message,

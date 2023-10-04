@@ -2,7 +2,7 @@ package com.fsociety.warzone.map;
 
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.util.MapTools;
-import com.fsociety.warzone.util.command.CommandHandler;
+import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.MapEditorCommand;
 import com.fsociety.warzone.util.command.constant.Phase;
 
@@ -17,7 +17,7 @@ public class MapEditor {
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
 
-            if(!CommandHandler.isValidCommand(l_inputRawCommand, Phase.MAP_EDITOR)) {
+            if(!CommandValidator.isValidCommand(l_inputRawCommand, Phase.MAP_EDITOR)) {
                 System.out.println("Invalid command. Please start by loading a map.");
                 continue;
             }
