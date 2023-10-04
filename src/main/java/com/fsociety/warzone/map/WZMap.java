@@ -35,6 +35,8 @@ public class WZMap {
     // country id -> game state of continent
     private final Map<Integer, Continent> d_countryContinentGameStateMap;
 
+    // file name of the map
+
     private String d_mapFileName;
 
     /**
