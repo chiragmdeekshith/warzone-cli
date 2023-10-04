@@ -321,7 +321,7 @@ public class WZMap {
      * @param p_countryId the country ID
      * @return the continent ID for a country
      */
-    private Integer getContinentIdForCountry(Integer p_countryId) {
+    public Integer getContinentIdForCountry(Integer p_countryId) {
         List<Integer> l_continentIds = new ArrayList<>(d_continentCountriesMap.keySet());
         for(Integer l_id : l_continentIds) {
             if(d_continentCountriesMap.get(l_id).contains(p_countryId)) {

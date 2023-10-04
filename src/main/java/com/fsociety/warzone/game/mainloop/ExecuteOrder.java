@@ -18,18 +18,18 @@ public class ExecuteOrder {
      */
     public static void executeOrders(ArrayList<Player> p_players) {
         int l_totalOrders = 0;
-        for (Player pPlayer : p_players) {
-            l_totalOrders += pPlayer.getOrdersCount();
+        for (Player p_player : p_players) {
+            l_totalOrders += p_player.getOrdersCount();
         }
         while (l_totalOrders > 0) {
-            for (Player pPlayer : p_players) {
-                if (pPlayer.getOrdersCount() > 0) {
-                    pPlayer.nextOrder();
+            for (Player p_player : p_players) {
+                if (p_player.getOrdersCount() > 0) {
+                    p_player.nextOrder();
                 }
             }
             l_totalOrders = 0;
-            for (Player pPlayer : p_players) {
-                l_totalOrders += pPlayer.getOrdersCount();
+            for (Player p_player : p_players) {
+                l_totalOrders += p_player.getOrdersCount();
             }
         }
     }
