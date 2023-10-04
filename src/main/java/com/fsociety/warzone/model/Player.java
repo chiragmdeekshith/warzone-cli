@@ -13,7 +13,7 @@ import com.fsociety.warzone.util.command.constant.StartupCommand;
 import java.util.ArrayList;
 
 /**
- * This class deals with everything related to the game player and the order that the player issues
+ * This class represents a Player object and handles issuing orders for the player.
  */
 public class Player {
 
@@ -25,7 +25,7 @@ public class Player {
 
 
     /**
-     * Parameterised constructor to initialise the object
+     * Parameterised constructor to initialise the object.
      *
      * @param p_player_name - The name of the player
      */
@@ -38,7 +38,8 @@ public class Player {
     }
 
     /**
-     * Add country to the list countries owned by player
+     * Add country to the list countries owned by player.
+     *
      * @param p_country - the country object to be added
      */
     public void addCountry(Country p_country) {
@@ -100,7 +101,7 @@ public class Player {
     }
 
     /**
-     * Issues deploy command
+     * Issues deploy command.
      *
      * @param p_parameters - command entered by the user
      * @return true if command is issued properly, false otherwise

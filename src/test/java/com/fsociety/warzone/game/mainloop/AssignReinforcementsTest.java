@@ -74,6 +74,11 @@ class AssignReinforcementsTest {
         System.out.println("Torn down");
     }
 
+
+    /**
+     * Verifies bonus reinforcements are being properly allocated to continent owners using created game state.
+     * Test method for {@link com.fsociety.warzone.game.mainloop.AssignReinforcements#assignReinforcements(Player)}
+     */
     @Test
     void assignReinforcements() {
         Assertions.assertEquals(12, d_player1.getAvailableReinforcements());

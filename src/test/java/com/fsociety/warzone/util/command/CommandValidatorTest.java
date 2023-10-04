@@ -1,5 +1,6 @@
 package com.fsociety.warzone.util.command;
 
+import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.command.constant.Phase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,10 @@ class CommandValidatorTest {
         System.out.println("Finished testing command validator");
     }
 
+    /**
+     * Verifies proper behaviour of Command Validator when given valid commands based on the game phase.
+     * Test method for {@link CommandValidator#isValidCommand(String, Phase)}
+     */
     @Test
     void isValidCommand_success() {
         assertTrue(CommandValidator.isValidCommand("loadmap euro.map", Phase.START_UP));
@@ -32,6 +37,10 @@ class CommandValidatorTest {
 
     }
 
+    /**
+     * Verifies proper behaviour of Command Validator when given invalid commands based on the game phase.
+     * Test method for {@link CommandValidator#isValidCommand(String, Phase)}
+     */
     @Test
     void isValidCommand_fail() {
         assertFalse(CommandValidator.isValidCommand("", Phase.START_UP));

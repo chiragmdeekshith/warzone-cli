@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class handles everything related to the game play session.
+ * This class handles everything related to playing a game of Warzone.
  */
 public class GameEngine {
 

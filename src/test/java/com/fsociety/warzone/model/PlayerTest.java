@@ -80,6 +80,10 @@ class PlayerTest {
         System.out.println("Torn down");
     }
 
+    /**
+     * Ensures that a player cannot deploy more reinforcement armies than they currently hold.
+     * Test method for {@link Player#issueDeployCommand(String[])}
+     */
     @Test
     void issueDeployCommand() {
         assertFalse(l_player1.issueDeployCommand("deploy 1 13".split(" ")));
@@ -88,6 +92,10 @@ class PlayerTest {
         assertTrue(l_player2.issueDeployCommand("deploy 4 2".split(" ")));
     }
 
+    /**
+     * Ensures that the Deploy command accurately affects the number of troops on the map.
+     * Test method for {@link Player#nextOrder()}
+     */
     @Test
     void nextOrder() {
         int armies = l_wzMap.getGameState(1).getArmies();
