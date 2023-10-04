@@ -74,6 +74,7 @@ class AssignReinforcementsTest {
         System.out.println("Torn down");
     }
 
+    
     @Test
     void assignReinforcements() {
         Assertions.assertEquals(12, d_player1.getAvailableReinforcements());
