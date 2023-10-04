@@ -44,7 +44,6 @@ public class CommandValidator {
         }
 
         if(!l_validCommands.contains(l_commandType)) {
-            System.out.println("This command is not valid in the " + p_phase + " phase.");
             return false;
         }
 
@@ -91,7 +90,7 @@ public class CommandValidator {
             return validateShowMapCommand(p_parsedCommand);
         }
 
-        System.out.println("Unrecognised command in current phase");
+        System.out.println("Unrecognised command in current phase.");
         return false;
     }
 
@@ -106,7 +105,7 @@ public class CommandValidator {
         // Validate the EDIT_MAP command
         if(l_commandType.equals(MapEditorCommand.EDIT_MAP.getCommand())) {
             if(p_parsedCommand.length != 2){
-                System.out.println("There are unexpected number of arguments passed.");
+                System.out.println("Unexpected number of arguments.");
                 return false;
             }
             String l_fileName = p_parsedCommand[1];
@@ -132,7 +131,7 @@ public class CommandValidator {
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
                         if(l_i + 1 >= p_parsedCommand.length) {
-                            System.out.println("ADD needs two arguments - ID and Value");
+                            System.out.println("\'-add\' requires two arguments.");
                             return false;
                         }
                         int l_continentId, l_continentValue;
@@ -140,33 +139,33 @@ public class CommandValidator {
                             l_continentId = Integer.parseInt(p_parsedCommand[l_i++]);
                             l_continentValue = Integer.parseInt(p_parsedCommand[l_i++]);
                         } catch (NumberFormatException e) {
-                            System.out.println("Invalid argument type passed - Integers required.");
+                            System.out.println("Invalid argument type passed: Integers required.");
                             return false;
                         }
                         if(l_continentId < 0 || l_continentValue < 0) {
-                            System.out.println("Continent ID or Continent value cannot be less than 0");
+                            System.out.println("Continent ID or bonus value cannot be less than 0");
                             return false;
                         }
                     }
                     case MapEditorCommand.REMOVE -> {
                         if(l_i >= p_parsedCommand.length) {
-                            System.out.println("REMOVE needs one argument - ID");
+                            System.out.println("\'-remove\' requires one argument.");
                             return false;
                         }
                         int l_continentId;
                         try {
                             l_continentId = Integer.parseInt(p_parsedCommand[l_i++]);
                         } catch (NumberFormatException e) {
-                            System.out.println("Invalid argument type passed - Integer required.");
+                            System.out.println("Invalid argument type passed: Integer required.");
                             return false;
                         }
                         if(l_continentId < 0) {
-                            System.out.println("Continent ID or Continent value cannot be less than 0");
+                            System.out.println("Continent ID or bonus value cannot be less than 0.");
                             return false;
                         }
                     }
                     default -> {
-                        System.out.println("Incorrect ordering of command options and values at index " + l_i);
+                        System.out.println("Incorrect ordering of command options and values at index " + l_i + ".");
                         return false;
                     }
                 }
@@ -179,7 +178,7 @@ public class CommandValidator {
         if(l_commandType.equals(MapEditorCommand.EDIT_COUNTRY.getCommand())){
 
             if(p_parsedCommand.length < 3){
-                System.out.println("This command needs at least 2 arguments passed to it");
+                System.out.println("This command requires at least 2 arguments.");
                 return false;
             }
 
@@ -191,7 +190,7 @@ public class CommandValidator {
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
                         if(l_i + 1 >= p_parsedCommand.length) {
-                            System.out.println("ADD COUNTRY command requires two arguments");
+                            System.out.println("\'-add\' option requires two arguments.");
                             return false;
                         }
                         int l_countryId, l_continentId;
@@ -209,7 +208,7 @@ public class CommandValidator {
                     }
                     case MapEditorCommand.REMOVE -> {
                         if(l_i >= p_parsedCommand.length) {
-                            System.out.println("REMOVE COUNTRY command requires one argument");
+                            System.out.println("\'-remove\' option requires one argument.");
                             return false;
                         }
                         int l_countryId;
@@ -225,7 +224,7 @@ public class CommandValidator {
                         }
                     }
                     default -> {
-                        System.out.println("Command arguments and values are not in order at index "+ l_i);
+                        System.out.println("Command arguments and values are not in order at index " + l_i + ".");
                         return false;
                     }
                 }
@@ -245,7 +244,7 @@ public class CommandValidator {
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
                         if(l_i + 1 >= p_parsedCommand.length) {
-                            System.out.println("ADD Neighbour command requires two arguments");
+                            System.out.println("\'-add\' option requires two arguments.");
                             return false;
                         }
                         int l_countryId, l_neighbourId;
@@ -267,7 +266,7 @@ public class CommandValidator {
                     }
                     case MapEditorCommand.REMOVE -> {
                         if(l_i >= p_parsedCommand.length) {
-                            System.out.println("REMOVE Neighbour command requires one argument");
+                            System.out.println("\'-remove\' option requires one argument.");
                             return false;
                         }
                         int l_countryId, l_neighbourId;
@@ -284,7 +283,7 @@ public class CommandValidator {
                         }
                     }
                     default -> {
-                        System.out.println("Unexpected option " + l_operation);
+                        System.out.println("Unexpected option \'" + l_operation + "\'.");
                         return false;
                     }
                 }
@@ -296,7 +295,7 @@ public class CommandValidator {
         // Validate the VALIDATE_MAP command
         if(l_commandType.equals(MapEditorCommand.VALIDATE_MAP.getCommand())) {
             if(p_parsedCommand.length != 1) {
-                System.out.println("This command has too many arguments, so its invalid");
+                System.out.println("This command has too many arguments.");
                 return false;
             }
             return true;
@@ -305,7 +304,7 @@ public class CommandValidator {
         // Validate the SAVE_MAP command
         if(l_commandType.equals(MapEditorCommand.SAVE_MAP.getCommand())) {
             if(p_parsedCommand.length != 2){
-                System.out.println("Unexpected number of arguments passed. ");
+                System.out.println("Unexpected number of arguments passed.");
                 return false;
             }
             String l_fileName = p_parsedCommand[1];
@@ -321,7 +320,7 @@ public class CommandValidator {
             return validateShowMapCommand(p_parsedCommand);
         }
 
-        System.out.println("Unrecognised command in current phase");
+        System.out.println("Unrecognised command in current phase.");
         return false;
     }
 
@@ -346,14 +345,14 @@ public class CommandValidator {
             for(int l_i = 1; l_i < p_parsedCommand.length; l_i++) {
                 if(l_i % 2 == 1) {
                     if(!StartupCommand.ADD.equals(l_operation) && !StartupCommand.REMOVE.equals(l_operation)) {
-                        System.out.println("Unrecognised operation " + l_operation + " at index " + l_i);
+                        System.out.println("Unrecognised operation " + l_operation + " at index " + l_i + ".");
                         return false;
                     }
                 }
                 if(l_i % 2 == 0) {
                     String l_playerName = p_parsedCommand[l_i];
                     if(!l_playerName.matches("[A-Za-z0-9]+")) {
-                        System.out.println("Player name must be alphanumeric");
+                        System.out.println("Player name must be alphanumeric.");
                         return false;
                     }
                 }
@@ -365,7 +364,7 @@ public class CommandValidator {
         // Validate the ASSIGN_COUNTRIES command
         if(l_commandType.equals(StartupCommand.ASSIGN_COUNTRIES.getCommand())) {
             if(p_parsedCommand.length != 1) {
-                System.out.println("This command has no arguments");
+                System.out.println("This command requires no arguments.");
                 return false;
             }
             return true;
@@ -374,7 +373,7 @@ public class CommandValidator {
         // Validate the LOAD_MAP command
         if(l_commandType.equals(StartupCommand.LOAD_MAP.getCommand())) {
             if(p_parsedCommand.length != 2){
-                System.out.println("Expected one argument - filename");
+                System.out.println("Expected one argument: filename.");
                 return false;
             }
             String l_fileName = p_parsedCommand[1];
@@ -391,13 +390,13 @@ public class CommandValidator {
             return validateShowMapCommand(p_parsedCommand);
         }
 
-        System.out.println("Unrecognised Command in current phase");
+        System.out.println("Unrecognised command in current phase.");
         return false;
     }
 
     private static boolean validateShowMapCommand(String[] p_parsedCommand) {
         if(p_parsedCommand.length != 1) {
-            System.out.println("This command has too many arguments, so its invalid");
+            System.out.println("This command has too many arguments.");
             return false;
         }
         return true;
@@ -405,7 +404,7 @@ public class CommandValidator {
 
     private static boolean validateBackCommand(String[] p_parsedCommand) {
         if(p_parsedCommand.length != 1) {
-            System.out.println("This command has too many arguments, so its invalid");
+            System.out.println("This command has too many arguments, so its invalid.");
             return false;
         }
         return true;

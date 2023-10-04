@@ -7,6 +7,9 @@ import com.fsociety.warzone.model.Player;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * This class implements the assignReinforcements() method.
+ */
 public class AssignReinforcements {
 
     /**

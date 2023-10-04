@@ -4,6 +4,9 @@ import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
 
+/**
+ * This class implements the issueOrders() method.
+ */
 public class IssueOrder {
 
     /**
@@ -17,20 +20,20 @@ public class IssueOrder {
      */
     public static boolean issueOrders(ArrayList<Player> p_players) {
         int l_totalReinforcements = 0;
-        for (int i = 0; i < p_players.size(); i++) {
-            l_totalReinforcements += p_players.get(i).getAvailableReinforcements();
+        for (Player pPlayer : p_players) {
+            l_totalReinforcements += pPlayer.getAvailableReinforcements();
         }
         while (l_totalReinforcements > 0) {
-            for (int i = 0; i < p_players.size(); i++) {
-                if (p_players.get(i).getAvailableReinforcements() > 0) {
-                    if (!p_players.get(i).issueOrder()) {
+            for (Player pPlayer : p_players) {
+                if (pPlayer.getAvailableReinforcements() > 0) {
+                    if (!pPlayer.issueOrder()) {
                         return false;
                     }
                 }
             }
             l_totalReinforcements = 0;
-            for (int i = 0; i < p_players.size(); i++) {
-                l_totalReinforcements += p_players.get(i).getAvailableReinforcements();
+            for (Player pPlayer : p_players) {
+                l_totalReinforcements += pPlayer.getAvailableReinforcements();
             }
         }
         return true;

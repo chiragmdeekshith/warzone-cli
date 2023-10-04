@@ -46,7 +46,7 @@ public class StartUp {
                     System.out.println("Failed to load the map! Please try another map file.");
                     continue;
                 }
-                System.out.println("Loaded map  \"" + l_fileName + "\"");
+                System.out.println("Loaded map \"" + l_fileName + "\"");
                 if(!editPlayers()) {
                     return false;
                 }
@@ -157,7 +157,7 @@ public class StartUp {
                 }
 
             } else {
-                System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'");
+                System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'.");
             }
         }
     }

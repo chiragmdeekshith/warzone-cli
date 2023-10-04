@@ -9,14 +9,14 @@ import com.fsociety.warzone.util.command.constant.Phase;
 public class MapEditor {
     private static WZMap d_wzMap;
     public static void editMap() {
-        System.out.println("Map Editor selected. Please start by loading a map.");
+        System.out.println("Map Editor selected. Please start by loading a map. Type 'back' to go to the previous menu.");
         String l_inputRawCommand;
 
         while(true) {
-            System.out.println("Enter command. (Type 'back' to go to the previous menu.)");
+            System.out.println("Enter command.");
             System.out.print("> ");
             l_inputRawCommand = Application.SCANNER.nextLine();
-            
+
             if(!CommandValidator.isValidCommand(l_inputRawCommand, Phase.MAP_EDITOR)) {
                 continue;
             }
@@ -37,7 +37,7 @@ public class MapEditor {
                     continue;
                 }
                 System.out.println("Loaded map \"" + l_filename + "\"");
-                System.out.println("Edit continents / countries");
+                System.out.println("Edit the map by using the 'editcontinent', 'editcountry' and 'editneighbor' commands.");
             }
 
             if(null == d_wzMap) {
@@ -54,8 +54,12 @@ public class MapEditor {
                         case MapEditorCommand.ADD -> {
                             int l_continentBonusValue = Integer.parseInt(l_splitCommand[l_i++]);
                             d_wzMap.addContinent(l_continentId, l_continentBonusValue);
+                            System.out.println("Continent " + l_continentId + " with bonus of " + l_continentBonusValue + " added.");
                         }
-                        case MapEditorCommand.REMOVE -> d_wzMap.removeContinent(l_continentId);
+                        case MapEditorCommand.REMOVE -> {
+                            d_wzMap.removeContinent(l_continentId);
+                            System.out.println("Continent " + l_continentId + " removed.");
+                        }
                     }
                 }
             }
@@ -69,8 +73,12 @@ public class MapEditor {
                         case MapEditorCommand.ADD -> {
                             int l_continentId = Integer.parseInt(l_splitCommand[l_i++]);
                             d_wzMap.addCountry(l_countryId, l_continentId);
+                            System.out.println("Country " + l_countryId + " added to continent " + l_continentId + ".");
                         }
-                        case MapEditorCommand.REMOVE -> d_wzMap.removeCountry(l_countryId);
+                        case MapEditorCommand.REMOVE -> {
+                            d_wzMap.removeCountry(l_countryId);
+                            System.out.println("Country " + l_countryId + " removed.");
+                        }
                     }
                 }
             }
@@ -84,9 +92,11 @@ public class MapEditor {
                     switch (l_operation) {
                         case MapEditorCommand.ADD -> {
                             d_wzMap.addNeighbour(l_countryId, l_neighbourCountryId);
+                            System.out.println("Country " + l_neighbourCountryId + " added as neighbour to country " + l_countryId + ".");
                         }
                         case MapEditorCommand.REMOVE -> {
                             d_wzMap.removeNeighbour(l_countryId, l_neighbourCountryId);
+                            System.out.println("Country " + l_neighbourCountryId + " removed as neighbour to country " + l_countryId + ".");
                         }
                     }
                 }
@@ -107,9 +117,9 @@ public class MapEditor {
                 String l_fileNameForSave = l_splitCommand[1];
                 boolean isSaveSuccessful = MapTools.saveMapFile(d_wzMap, l_fileNameForSave);
                 if(isSaveSuccessful) {
-                    System.out.println("File saved successfully - " + l_fileNameForSave);
+                    System.out.println("File saved successfully: \"" + l_fileNameForSave + "\".");
                 } else {
-                    System.out.println("File save failed! - " + l_fileNameForSave);
+                    System.out.println("File save for file \"" + l_fileNameForSave + "\" failed!");
                 }
             }
 

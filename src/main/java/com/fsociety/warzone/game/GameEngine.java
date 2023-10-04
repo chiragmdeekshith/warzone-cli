@@ -64,8 +64,8 @@ public class GameEngine {
                 d_wzMap.getContinents().get(continentId).setContinentOwner();
             });
             // Assign Reinforcements Phase
-            for (int i = 0; i < d_players.size(); i++) {
-                AssignReinforcements.assignReinforcements(d_players.get(i));
+            for (Player dPlayer : d_players) {
+                AssignReinforcements.assignReinforcements(dPlayer);
             }
 
             // Issue Orders Phase
@@ -89,8 +89,8 @@ public class GameEngine {
      */
     public static void initPlayerList() {
         d_playerList = new HashMap<Integer, Player>();
-        for (int i = 0; i < d_players.size(); i++) {
-            d_playerList.put(d_players.get(i).getId(), d_players.get(i));
+        for (Player dPlayer : d_players) {
+            d_playerList.put(dPlayer.getId(), dPlayer);
         }
     }
 

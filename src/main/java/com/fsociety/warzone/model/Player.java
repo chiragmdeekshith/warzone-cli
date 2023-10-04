@@ -16,8 +16,8 @@ public class Player {
 
     private final String d_name;
     private final Integer d_id;
-    private ArrayList<IOrder> d_orders;
-    private ArrayList<Country> d_countries;
+    private final ArrayList<IOrder> d_orders;
+    private final ArrayList<Country> d_countries;
     private int d_availableReinforcements;
 
 
@@ -55,8 +55,8 @@ public class Player {
      */
     public ArrayList<Integer> getCountryIds() {
         ArrayList<Integer> l_countryIds = new ArrayList<>();
-        for (int i = 0; i < d_countries.size(); i++) {
-            l_countryIds.add(d_countries.get(i).getCountryId());
+        for (Country dCountry : d_countries) {
+            l_countryIds.add(dCountry.getCountryId());
         }
         return l_countryIds;
     }

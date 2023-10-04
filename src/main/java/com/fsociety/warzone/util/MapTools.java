@@ -10,12 +10,12 @@ import java.util.Set;
 public class MapTools {
 
     public static WZMap loadAndValidateMap(String p_fileName) {
-        WZMap mapValues = null;
+        WZMap mapValues;
         try {
             mapValues = new WZMap();
             String l_filePath = "src/main/resources/" + p_fileName;
             FileReader mapFile = new FileReader(l_filePath);
-            String line = null;
+            String line;
             StringBuilder data = new StringBuilder();
             BufferedReader mapReader = new BufferedReader(mapFile);
             line = mapReader.readLine();
@@ -26,7 +26,7 @@ public class MapTools {
                 }
             }
             if (data.toString().toLowerCase().contains("[continents]") && data.toString().toLowerCase().contains("[countries]") && data.toString().toLowerCase().contains("[borders]")) {
-                mapValues.setName(p_fileName);
+                mapValues.setFileName(p_fileName);
             } else {
                 System.out.println("Missing Information/Not in correct format");
                 return null;
@@ -46,7 +46,7 @@ public class MapTools {
                 int countryID= Integer.parseInt(temp[0]);
                 for (int i=1;i<temp.length;i++) {
                     if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0) {
-                        System.out.println("Duplicate Neighbours cannot exist");
+                        System.out.println("Duplicate Neighbors cannot exist");
                         return null;
                     }
                     arr[i] = Integer.parseInt(temp[i]);
@@ -81,7 +81,7 @@ public class MapTools {
         p_mapData.getAdjacencyMap().forEach((key,values) -> {
             data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
         });
-        PrintWriter write = null;
+        PrintWriter write;
         if(!validateMap(p_mapData)) {
             return false;
         }
