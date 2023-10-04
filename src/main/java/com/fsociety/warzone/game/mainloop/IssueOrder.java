@@ -20,20 +20,20 @@ public class IssueOrder {
      */
     public static boolean issueOrders(ArrayList<Player> p_players) {
         int l_totalReinforcements = 0;
-        for (Player p_player : p_players) {
-            l_totalReinforcements += p_player.getAvailableReinforcements();
+        for (Player l_player : p_players) {
+            l_totalReinforcements += l_player.getAvailableReinforcements();
         }
         while (l_totalReinforcements > 0) {
-            for (Player p_player : p_players) {
-                if (p_player.getAvailableReinforcements() > 0) {
-                    if (!p_player.issueOrder()) {
+            for (Player l_player : p_players) {
+                if (l_player.getAvailableReinforcements() > 0) {
+                    if (!l_player.issueOrder()) {
                         return false;
                     }
                 }
             }
             l_totalReinforcements = 0;
-            for (Player p_player : p_players) {
-                l_totalReinforcements += p_player.getAvailableReinforcements();
+            for (Player l_player : p_players) {
+                l_totalReinforcements += l_player.getAvailableReinforcements();
             }
         }
         return true;
