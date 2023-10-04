@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * {@link MapTools#loadAndValidateMap(String)}
+ */
 class MapToolsTest {
 
     public String informationMissing;
@@ -25,37 +28,37 @@ class MapToolsTest {
 
     @Test
     void testInformationMissing() {
-        System.out.println("\nTest Case 1: Missing Information");
+        System.out.println("Test Case 1: Missing Information");
         assertNull(MapTools.loadAndValidateMap(informationMissing));
     }
 
     @Test
     void testContinentWithNoCountry() {
-        System.out.println("\nTest Case 2: Continent With No Country");
+        System.out.println("Test Case 2: Continent With No Country");
         assertNull(MapTools.loadAndValidateMap(continentWithNoCountry));
     }
 
     @Test
     void testCountryWithNoNeighbour() {
-        System.out.println("\nTest Case 3: Country With No Neighbour");
+        System.out.println("Test Case 3: Country With No Neighbour");
         assertNull(MapTools.loadAndValidateMap(countryWithNoNeighbour));
     }
 
     @Test
     void testDuplicateNeighbours() {
-        System.out.println("\nTest Case 4: Duplicate Neighbours");
+        System.out.println("Test Case 4: Duplicate Neighbours");
         assertNull(MapTools.loadAndValidateMap(duplicateNeighbours));
     }
 
     @Test
     void testContinentNotConnected() {
-        System.out.println("\nTest Case 6: Continent Not Connected");
+        System.out.println("Test Case 6: Continent Not Connected");
         assertNull(MapTools.loadAndValidateMap("continentNotConnected.map"));
     }
 
     @Test
     void testValidMap() {
-        System.out.println("\nTest Case 5: Valid Map");
+        System.out.println("Test Case 5: Valid Map");
         assertNotNull(MapTools.loadAndValidateMap(validMap));
     }
 }
