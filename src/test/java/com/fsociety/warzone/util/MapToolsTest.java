@@ -11,6 +11,7 @@ class MapToolsTest {
     public String continentWithNoCountry;
     public String countryWithNoNeighbour;
     public String duplicateNeighbours;
+    public String continentNotConnected;
     public String validMap;
     @BeforeEach
     void setUp() {
@@ -18,6 +19,7 @@ class MapToolsTest {
         continentWithNoCountry = "continentWithNoCountry.map";
         countryWithNoNeighbour = "countryWithNoNeighbour.map";
         duplicateNeighbours = "duplicateNeighbours.map";
+        continentNotConnected = "continentNotConnected.map";
         validMap = "validMap.map";
     }
 
@@ -43,6 +45,12 @@ class MapToolsTest {
     void testDuplicateNeighbours() {
         System.out.println("\nTest Case 4: Duplicate Neighbours");
         assertNull(MapTools.loadAndValidateMap(duplicateNeighbours));
+    }
+
+    @Test
+    void testContinentNotConnected() {
+        System.out.println("\nTest Case 6: Continent Not Connected");
+        assertNull(MapTools.loadAndValidateMap("continentNotConnected.map"));
     }
 
     @Test
