@@ -2,6 +2,9 @@ package com.fsociety.warzone.model;
 
 import java.util.ArrayList;
 
+/**
+ * A POJO class which represents the Country in a map.
+ */
 public class Country {
 
     private int d_playerId;

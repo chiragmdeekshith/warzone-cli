@@ -265,17 +265,17 @@ public class CommandValidator {
             while(l_i < p_parsedCommand.length) {
                 String l_operation = p_parsedCommand[l_i++];
                 int l_countryId, l_neighbourId;
-                try {
-                    l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
-                    l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
-                } catch (NumberFormatException e) {
-                    System.out.println("Value of ID must be an integer.");
-                    return false;
-                }
                 switch (l_operation) {
                     case MapEditorCommand.ADD -> {
                         if(l_i + 1 >= p_parsedCommand.length) {
                             System.out.println("'-add' option requires two arguments.");
+                            return false;
+                        }
+                        try {
+                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                            l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Value of ID must be an integer.");
                             return false;
                         }
                         if(l_countryId < 0 || l_neighbourId < 0) {
@@ -290,6 +290,13 @@ public class CommandValidator {
                     case MapEditorCommand.REMOVE -> {
                         if(l_i >= p_parsedCommand.length) {
                             System.out.println("'-remove' option requires one argument.");
+                            return false;
+                        }
+                        try {
+                            l_countryId = Integer.parseInt(p_parsedCommand[l_i++]);
+                            l_neighbourId = Integer.parseInt(p_parsedCommand[l_i++]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Value of ID must be an integer.");
                             return false;
                         }
                         if(l_countryId < 0 ||  l_neighbourId < 0) {
