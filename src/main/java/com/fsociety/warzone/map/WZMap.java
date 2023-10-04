@@ -159,8 +159,8 @@ public class WZMap {
      * @param p_countryId the country to remove the adjacency
      */
     public void removeAdjacency(final int p_countryId) {
-        final Set<Integer> neighbours = d_adjacencyMap.get(p_countryId);
-        neighbours.forEach(neighbourId -> d_adjacencyMap.get(neighbourId).remove(p_countryId));
+        final Set<Integer> l_neighbours = d_adjacencyMap.get(p_countryId);
+        l_neighbours.forEach(neighbourId -> d_adjacencyMap.get(neighbourId).remove(p_countryId));
         d_adjacencyMap.remove(p_countryId);
     }
 
@@ -218,8 +218,8 @@ public class WZMap {
      * 
      */
     public void initGameStates() {
-        d_adjacencyMap.keySet().forEach(countryId -> {
-            d_countryGameStateMap.put(countryId, new Country(countryId));
+        d_adjacencyMap.keySet().forEach(l_countryId -> {
+            d_countryGameStateMap.put(l_countryId, new Country(l_countryId));
         });
         d_continentCountriesMap.keySet().forEach(continentId -> {
             d_continentGameStateMap.put(continentId, new Continent(d_continentCountriesMap.get(continentId), d_countryGameStateMap, d_continentBonusMap.get(continentId)));
