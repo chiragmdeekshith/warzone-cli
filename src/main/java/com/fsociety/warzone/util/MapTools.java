@@ -117,27 +117,27 @@ public class MapTools {
         }
 
         // Serialise the data
-        StringBuilder data = new StringBuilder();
-        data.append("[continents]\n");
+        StringBuilder l_data = new StringBuilder();
+        l_data.append("[continents]\n");
         p_mapData.getContinentBonusMap().forEach((key,values) -> {
-            data.append(key).append(" ").append(values).append("\n");
+            l_data.append(key).append(" ").append(values).append("\n");
         });
-        data.append("\n[countries]\n");
+        l_data.append("\n[countries]\n");
         p_mapData.getContinentCountriesMap().forEach((key,values) -> {
             for(Integer c:values)
-                data.append(c).append(" ").append(key).append("\n");
+                l_data.append(c).append(" ").append(key).append("\n");
         });
-        data.append("\n[borders]");
+        l_data.append("\n[borders]");
         p_mapData.getAdjacencyMap().forEach((key,values) -> {
-            data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
+            l_data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
         });
 
         // Write the data to the file
-        PrintWriter write;
+        PrintWriter l_write;
         try {
-            write = new PrintWriter("src/main/resources/"+p_fileNameForSave);
-            write.write(String.valueOf(data));
-            write.close();
+            l_write = new PrintWriter("src/main/resources/"+p_fileNameForSave);
+            l_write.write(String.valueOf(l_data));
+            l_write.close();
             return true;
         }
         catch (Exception e) {
