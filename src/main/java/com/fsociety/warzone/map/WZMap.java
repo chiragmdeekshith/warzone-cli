@@ -1,12 +1,11 @@
 package com.fsociety.warzone.map;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
-import com.fsociety.warzone.util.UserInstructionUtils;
+import com.fsociety.warzone.util.UserInstruction;
 
 public class WZMap {
 
@@ -63,7 +62,8 @@ public class WZMap {
             final Integer p_continentId,
             final Integer p_continentBonus) {
         if (d_continentCountriesMap.get(p_continentId) != null) {
-            UserInstructionUtils.promptUser("Continent already exists");
+            UserInstruction.promptUser("Continent already exists");
+            return;
         }
         d_continentCountriesMap.put(p_continentId, new LinkedHashSet<>());
         d_continentBonusMap.put(p_continentId, p_continentBonus);
@@ -81,7 +81,7 @@ public class WZMap {
         if (d_continentCountriesMap.get(p_continentId) == null) {
             throw new IllegalArgumentException("Continent does not exist in the Map");
         } else if (d_adjacencyMap.get(p_countryId) != null) {
-            UserInstructionUtils.promptUser("Country already exists");
+            UserInstruction.promptUser("Country already exists");
         } else {
             d_adjacencyMap.put(p_countryId, new LinkedHashSet<>());
             d_continentCountriesMap.get(p_continentId).add(p_countryId);
@@ -98,9 +98,9 @@ public class WZMap {
             final int p_countryId,
             final int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
-            UserInstructionUtils.promptUser("Country cannot be neighbour of itself");
+            UserInstruction.promptUser("Country cannot be neighbour of itself");
         } else if (d_adjacencyMap.get(p_countryId) == null) {
-            UserInstructionUtils.promptUser("Country does not exist or is invalid");
+            UserInstruction.promptUser("Country does not exist or is invalid");
         } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
             throw new IllegalArgumentException("Neighbour Country does not exist or is invalid");
         } else {
@@ -123,9 +123,9 @@ public class WZMap {
             final int p_countryId,
             final int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
-            UserInstructionUtils.promptUser("Country cannot be neighbour of itself");
+            UserInstruction.promptUser("Country cannot be neighbour of itself");
         } else if (d_adjacencyMap.get(p_countryId) == null) {
-            UserInstructionUtils.promptUser("Country does not exist or is invalid");
+            UserInstruction.promptUser("Country does not exist or is invalid");
         } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
             throw new IllegalArgumentException("Neighbour Country does not exist or is invalid");
         } else {
@@ -141,7 +141,7 @@ public class WZMap {
      */
     public void removeContinent(final Integer p_continentId) {
         if (d_continentCountriesMap.get(p_continentId) == null) {
-            UserInstructionUtils.promptUser("Continent does not exist");
+            UserInstruction.promptUser("Continent does not exist");
         } else {
             d_continentCountriesMap.get(p_continentId).forEach(this::removeAdjacency);
             d_continentBonusMap.remove(p_continentId);
@@ -150,7 +150,7 @@ public class WZMap {
     }
 
     /**
-     * Removes a adjacency to all neighbouring countries for the given contry
+     * Removes the adjacency to all neighbouring countries for the given country
      * 
      * @param p_countryId the country to remove the adjacency
      */
@@ -172,7 +172,7 @@ public class WZMap {
      */
     public void removeCountry(final int p_countryId) {
         if (d_adjacencyMap.get(p_countryId) == null) {
-            UserInstructionUtils.promptUser("Country does not exist");
+            UserInstruction.promptUser("Country does not exist");
         } else {
             removeAdjacency(p_countryId);
             int l_continentId = getContinentIdForCountry(p_countryId);
@@ -202,6 +202,11 @@ public class WZMap {
         return new HashMap<>(d_continentCountriesMap);
     }
 
+    /**
+     * Get the instance of continent game state map
+     *
+     * @return continent game state map
+     */
     public Map<Integer, Continent> getContinents() { return this.d_continentGameStateMap; }
 
     /**
@@ -240,7 +245,7 @@ public class WZMap {
             final int p_countryId,
             final int p_playerId,
             final int p_armies) {
-        final Integer l_currentPlayerId = d_countryGameStateMap.get(p_countryId).getPlayerId();
+        final int l_currentPlayerId = d_countryGameStateMap.get(p_countryId).getPlayerId();
         if (l_currentPlayerId != p_playerId) {
             if (l_currentPlayerId == -1) {
                 d_countryContinentGameStateMap.get(p_countryId).initCountryCount(p_playerId);
@@ -255,7 +260,7 @@ public class WZMap {
     /**
      * get the current game state for a country
      *
-     * @param p_countryId
+     * @param p_countryId the country ID
      * @return the current game state for a country
      */
     public Country getGameState(final int p_countryId) {
@@ -281,12 +286,6 @@ public class WZMap {
         for (Map.Entry<Integer, Set<Integer>> entry : this.d_adjacencyMap.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue().toString());
         }
-
-        //this.d_continentBonusMap;
-        //this.d_continentCountriesMap;
-        //this.d_countryGameStateMap;
-        //this.d_continentGameStateMap;
-        //this.d_countryContinentGameStateMap.print();
     }
 
     /**
@@ -318,7 +317,7 @@ public class WZMap {
     /**
      * get the continent ID for a country
      *
-     * @param p_countryId
+     * @param p_countryId the country ID
      * @return the continent ID for a country
      */
     private Integer getContinentIdForCountry(Integer p_countryId) {

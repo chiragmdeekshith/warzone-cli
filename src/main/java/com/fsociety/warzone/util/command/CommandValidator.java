@@ -1,4 +1,4 @@
-package com.fsociety.warzone.util.command.validator;
+package com.fsociety.warzone.util.command;
 
 import com.fsociety.warzone.util.command.constant.GameplayCommand;
 import com.fsociety.warzone.util.command.constant.MapEditorCommand;
