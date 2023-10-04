@@ -85,17 +85,8 @@ public class Player {
                 }
 
                 if(GameplayCommand.DEPLOY.getCommand().equals(l_commandType)) {
-                    if (Integer.parseInt(l_parameters[2]) <= d_availableReinforcements) {
-                        if (getCountryIds().contains(Integer.parseInt(l_parameters[1]))) {
-                            System.out.println(l_parameters[2] + " reinforcement armies will be deployed to " + l_parameters[1] + ".");
-                            d_orders.add(new Deploy(Integer.parseInt(l_parameters[1]), Integer.parseInt(l_parameters[2]), this.d_id));
-                            this.d_availableReinforcements -= Integer.parseInt(l_parameters[2]);
-                            return true;
-                        } else {
-                            System.out.println("You do not own this country!");
-                        }
-                    } else {
-                        System.out.println("Insufficient reinforcements!");
+                    if(issueDeployCommand(l_parameters)) {
+                        return true;
                     }
                 }
 
@@ -105,6 +96,29 @@ public class Player {
             } else {
                 System.out.println("Invalid command. Please use the 'deploy' command.");
             }
+        }
+    }
+
+    /**
+     * Issues deploy command
+     *
+     * @param p_parameters - command entered by the user
+     * @return true if command is issued properly, false otherwise
+     */
+    public boolean issueDeployCommand(String[] p_parameters) {
+        if (Integer.parseInt(p_parameters[2]) <= d_availableReinforcements) {
+            if (getCountryIds().contains(Integer.parseInt(p_parameters[1]))) {
+                System.out.println(p_parameters[2] + " reinforcement armies will be deployed to " + p_parameters[1] + ".");
+                d_orders.add(new Deploy(Integer.parseInt(p_parameters[1]), Integer.parseInt(p_parameters[2]), this.d_id));
+                this.d_availableReinforcements -= Integer.parseInt(p_parameters[2]);
+                return true;
+            } else {
+                System.out.println("You do not own this country!");
+                return false;
+            }
+        } else {
+            System.out.println("Insufficient reinforcements!");
+            return false;
         }
     }
 
