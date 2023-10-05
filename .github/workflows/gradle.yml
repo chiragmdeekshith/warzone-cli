@@ -9,7 +9,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "main", "release" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main", "release" ]
 
@@ -29,6 +29,8 @@ jobs:
         java-version: '17'
         distribution: 'oracle'
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      run: ./gradlew build
+    - name: Gradle run tests
+      run: ./gradlew test
+    - name: Compile Javadoc
+      run: ./gradlew javadoc
