@@ -214,7 +214,7 @@ public class MapTools {
      * Checks if the continents are connected
      *
      * @param p_mapData - the WZMap object that needs to be checked
-     * @return true if the map is a connected graph, false otherwise
+     * @return true if the continent is a connected graph, false otherwise
      */
     public static boolean checkConnectedContinent(WZMap p_mapData) {
         boolean isContinentConnected = false;

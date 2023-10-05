@@ -10,14 +10,21 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Test class for AssignReinforcements
+ */
 class AssignReinforcementsTest {
 
     Player d_player1, d_player2;
     WZMap d_wzMap;
 
+    /**
+     * Setup function to prepare mock data for testing
+     */
     @BeforeEach
     void setUp() {
 
+        // new WZmap object
         d_wzMap = new WZMap();
 
         d_wzMap.addContinent(1, 7);
@@ -34,6 +41,7 @@ class AssignReinforcementsTest {
 
         d_wzMap.initGameStates();
 
+        //create players
         d_player1 = new Player("r");
         d_player2 = new Player("c");
 
@@ -45,6 +53,7 @@ class AssignReinforcementsTest {
         GameEngine.initPlayerList();
         GameEngine.setWZMap(d_wzMap);
 
+        // Start modifying the maps
         d_wzMap.updateGameState(1, d_player1.getId(), 0);
         d_player1.addCountry(d_wzMap.getGameState(1));
         d_wzMap.getGameState(1).setPlayer(d_player1);
@@ -65,13 +74,9 @@ class AssignReinforcementsTest {
             d_wzMap.getContinents().get(continentId).setContinentOwner();
         });
 
+        //Assert
         AssignReinforcements.assignReinforcements(d_player1);
         AssignReinforcements.assignReinforcements(d_player2);
-    }
-
-    @AfterEach
-    void tearDown() {
-        System.out.println("Torn down");
     }
 
 

@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import com.fsociety.warzone.model.Continent;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.jupiter.api.Assertions;
 
+/**
+ * Test class for WZMap
+ */
 public class WZMapTest {
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#addAdjacency(int, int)}
+     * Test method for {@link com.fsociety.warzone.map.WZMap#addContinent(Integer, Integer)}
      */
     @Test
     void testAddContinent_success() {
@@ -25,7 +25,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#addCountry(int, int)}
+     * Test method for {@link com.fsociety.warzone.map.WZMap#addCountry(Integer, Integer)}
      */
     @Test
     void testAddCountry_success() {
@@ -35,7 +35,7 @@ public class WZMapTest {
 
         Assertions.assertEquals(1, l_map.getAdjacencyMap().size());
         Assertions.assertEquals(1, l_map.getContinentCountriesMap().get(1).size());
-        Assertions.assertEquals(new HashSet<>(Arrays.asList(1)), l_map.getContinentCountriesMap().get(1));
+        Assertions.assertEquals(new HashSet<>(List.of(1)), l_map.getContinentCountriesMap().get(1));
     }
 
     /**
@@ -110,7 +110,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#getCountryOwner(int)}
+     * Test method for {@link com.fsociety.warzone.map.WZMap#getGameState(int)}
      */
     @Test
     void testGetGameState() {
@@ -166,7 +166,7 @@ public class WZMapTest {
     }
 
     /** 
-     * Test method for {@link com.fsociety.warzone.map.WZMap#removeContinent(int)}
+     * Test method for {@link com.fsociety.warzone.map.WZMap#removeContinent(Integer)}
      */
     @Test
     void testRemoveContinent() {

@@ -1,6 +1,5 @@
 package com.fsociety.warzone.util.command;
 
-import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.command.constant.Phase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,17 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for CommandValidator class
+ */
 class CommandValidatorTest {
-
-    @BeforeEach
-    void setUp() {
-        System.out.println("Testing the command validator");
-    }
-
-    @AfterEach
-    void tearDown() {
-        System.out.println("Finished testing command validator");
-    }
 
     /**
      * Verifies proper behaviour of Command Validator when given valid commands based on the game phase.
