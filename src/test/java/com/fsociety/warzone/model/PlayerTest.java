@@ -17,13 +17,20 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for Player class
+ */
 class PlayerTest {
 
     Player l_player1, l_player2;
     WZMap l_wzMap;
 
+    /**
+     * Setup mock data for testing
+     */
     @BeforeEach
     void setUp() {
+        //New wzMap object
         l_wzMap = new WZMap();
 
         l_wzMap.addContinent(1, 7);
@@ -40,6 +47,7 @@ class PlayerTest {
 
         l_wzMap.initGameStates();
 
+        //Create players
         l_player1 = new Player("r");
         l_player2 = new Player("c");
 
@@ -51,6 +59,7 @@ class PlayerTest {
         GameEngine.initPlayerList();
         GameEngine.setWZMap(l_wzMap);
 
+        // Change the state of the game
         l_wzMap.updateGameState(1, l_player1.getId(), 0);
         l_player1.addCountry(l_wzMap.getGameState(1));
         l_wzMap.getGameState(1).setPlayer(l_player1);
@@ -71,14 +80,11 @@ class PlayerTest {
             l_wzMap.getContinents().get(continentId).setContinentOwner();
         });
 
+        // Asserts
         AssignReinforcements.assignReinforcements(l_player1);
         AssignReinforcements.assignReinforcements(l_player2);
     }
 
-    @AfterEach
-    void tearDown() {
-        System.out.println("Torn down");
-    }
 
     /**
      * Ensures that a player cannot deploy more reinforcement armies than they currently hold.
