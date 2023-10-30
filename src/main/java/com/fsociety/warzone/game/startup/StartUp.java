@@ -2,6 +2,7 @@ package com.fsociety.warzone.game.startup;
 
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.map.WZMap;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.MapTools;
@@ -79,11 +80,11 @@ public class StartUp {
      * @return returns false if the map fails to load properly, and true otherwise
      */
     public static boolean loadMap(String p_fileName) {
-        WZMap l_wzMap = MapTools.loadAndValidateMap(p_fileName);
-        if(null == l_wzMap) {
-            return false;
-        }
-        GameEngine.setWZMap(l_wzMap);
+//        PlayMap l_wzMap = MapTools.loadAndValidateMap(p_fileName);
+//        if(null == l_wzMap) {
+//            return false;
+//        }
+//        GameEngine.setWZMap(l_wzMap);
         return true;
     }
 
