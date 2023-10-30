@@ -44,7 +44,7 @@ public class GameEngine {
 
             // Get updated continent owner for each continent
             d_wzMap.getContinents().keySet().forEach(continentId -> {
-                d_wzMap.getContinents().get(continentId).setContinentOwner();
+                d_wzMap.getContinents().get(continentId).computeAndSetContinentOwner();
             });
             // Assign Reinforcements Phase
             for (Player l_player : d_players) {
