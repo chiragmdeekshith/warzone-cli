@@ -1,19 +1,12 @@
 package com.fsociety.warzone.model;
 
-import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.mainloop.AssignReinforcements;
 import com.fsociety.warzone.map.WZMap;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -77,7 +70,7 @@ class PlayerTest {
         l_wzMap.getGameState(4).setPlayer(l_player2);
 
         l_wzMap.getContinents().keySet().forEach(continentId -> {
-            l_wzMap.getContinents().get(continentId).setContinentOwner();
+            l_wzMap.getContinents().get(continentId).computeAndSetContinentOwner();
         });
 
         // Asserts
