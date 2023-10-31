@@ -1,9 +1,20 @@
 package com.fsociety.warzone.map;
 
-import java.util.*;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * This class is used by the Map Editor for physically altering the map based on user input
+ */
 public class EditMap extends AbstractMap {
 
+    /**
+     * Default constructor calling the super class' constructor
+     */
     public EditMap(){
         super();
     }
@@ -108,6 +119,9 @@ public class EditMap extends AbstractMap {
         }
     }
 
+    /**
+     * Display the current Map for the map editor. Show continents, countries and neighbours
+     */
     @Override
     void showMap() {
         System.out.println("\nMap: " + d_fileName);

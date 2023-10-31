@@ -50,7 +50,7 @@ class PlayerTest {
 
         GameEngine.setPlayers(l_players);
         GameEngine.initPlayerList();
-        GameEngine.setWZMap(l_wzMap);
+        GameEngine.setPlayMap(l_wzMap);
 
         // Change the state of the game
         l_wzMap.updateGameState(1, l_player1.getId(), 0);
