@@ -1,6 +1,7 @@
 package com.fsociety.warzone.util;
 
 import com.fsociety.warzone.map.EditMap;
+import com.fsociety.warzone.map.PlayMap;
 
 import java.io.BufferedReader;
 
@@ -238,5 +239,15 @@ public class MapTools {
             }
         }
         return true;
+    }
+
+    // TODO: Implement this for Playable map.
+    public static PlayMap loadAndValidateMapForPlayMap(String p_fileName) {
+        return new PlayMap();
+        // Rename the function to something more sensible. At the end Return a playable map.
+        // After validating the map, call the initGameMapElements() method before returning it.
+        // Create objects / whatever similar to whats happening in EditMap.
+        // Explicitly do the validation and create the class objects here. The addContinent and other add
+        // functions are not available in this class. Figure out a way plis
     }
 }

@@ -50,7 +50,7 @@ class AssignReinforcementsTest {
 
         GameEngine.setPlayers(l_players);
         GameEngine.initPlayerList();
-        GameEngine.setWZMap(d_wzMap);
+        GameEngine.setPlayMap(d_wzMap);
 
         // Start modifying the maps
         d_wzMap.updateGameState(1, d_player1.getId(), 0);

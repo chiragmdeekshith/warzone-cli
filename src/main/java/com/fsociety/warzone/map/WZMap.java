@@ -224,9 +224,7 @@ public class WZMap {
         });
         d_countriesInContinent.keySet().forEach(l_continentId -> {
             d_continents.put(l_continentId, new Continent(l_continentId, d_countriesInContinent.get(l_continentId), d_countries, d_continents.get(l_continentId).getArmiesBonus()));
-            d_countriesInContinent.get(l_continentId).forEach(countryId -> {
-                d_continentOfCountry.put(countryId, d_continents.get(l_continentId));
-            });
+            d_countriesInContinent.get(l_continentId).forEach(countryId -> d_continentOfCountry.put(countryId, d_continents.get(l_continentId)));
         });
     }
 

@@ -4,7 +4,7 @@ import com.fsociety.warzone.game.mainloop.ExecuteOrder;
 import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.mainloop.AssignReinforcements;
 import com.fsociety.warzone.game.startup.StartUp;
-import com.fsociety.warzone.map.WZMap;
+import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class GameEngine {
 
     private static ArrayList<Player> d_players;
     private static HashMap<Integer, Player> d_playerList;
-    private static WZMap d_wzMap;
+    private static PlayMap d_playMap;
 
     /**
      * This method implements a game engine by running the start-up phase, and upon success, the main loop that
@@ -43,8 +43,8 @@ public class GameEngine {
             System.out.println("Turn " + l_turns);
 
             // Get updated continent owner for each continent
-            d_wzMap.getContinents().keySet().forEach(continentId -> {
-                d_wzMap.getContinents().get(continentId).computeAndSetContinentOwner();
+            d_playMap.getContinents().keySet().forEach(continentId -> {
+                d_playMap.getContinents().get(continentId).computeAndSetContinentOwner();
             });
             // Assign Reinforcements Phase
             for (Player l_player : d_players) {
@@ -89,12 +89,12 @@ public class GameEngine {
         return d_playerList;
     }
 
-    public static WZMap getWZMap() {
-        return d_wzMap;
+    public static PlayMap getPlayMap() {
+        return d_playMap;
     }
 
-    public static void setWZMap(WZMap p_wzMap) {
-        d_wzMap = p_wzMap;
+    public static void setPlayMap(PlayMap p_playMap) {
+        d_playMap = p_playMap;
     }
 
 }

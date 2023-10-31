@@ -20,16 +20,14 @@ public class Continent {
      * Creates a new object of type Continent
      *
      * @param p_countryIds - list of country IDs
-     * @param p_countryGameStateMap - the country id -> game state of country map
+     * @param p_countries - the country id -> game state of country map
      * @param p_bonus - bonus armies
      */
-    public Continent(int p_continentId, Set<Integer> p_countryIds, Map<Integer, Country> p_countryGameStateMap, int p_bonus) {
+    public Continent(int p_continentId, Set<Integer> p_countryIds, Map<Integer, Country> p_countries, int p_bonus) {
         this.d_continentId = p_continentId;
         this.d_armiesBonus = p_bonus;
         this.d_countries = new ArrayList<>();
-        p_countryIds.forEach(d_countryId -> {
-            this.d_countries.add(p_countryGameStateMap.get(d_countryId));
-        });
+        p_countryIds.forEach(d_countryId -> this.d_countries.add(p_countries.get(d_countryId)));
     }
 
     /**
@@ -69,7 +67,11 @@ public class Continent {
         return this.d_continentOwner;
     }
 
-    public int getD_continentId() {
+    /**
+     * Get the continent id
+     * @return the continent id
+     */
+    public int getContinentId() {
         return d_continentId;
     }
 

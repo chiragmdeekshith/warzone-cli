@@ -22,7 +22,7 @@ public class Deploy implements IOrder {
      */
     @Override
     public void execute() {
-        GameEngine.getWZMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
+        GameEngine.getPlayMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
         System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId);
     }
 }
