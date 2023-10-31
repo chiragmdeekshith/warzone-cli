@@ -1,6 +1,5 @@
 package com.fsociety.warzone.model;
 
-import java.util.ArrayList;
 
 /**
  * A POJO class which represents the Country in a map.
@@ -37,23 +36,5 @@ public class Country {
         this.d_playerId = -1;
         this.d_player = null;
         this.d_armies = 0;
-    }
-
-    /**
-     * Print the country object
-     *
-     * @param countries - list of countries
-     * @return printedCountries - Countried to be printed
-     */
-    public static String printCountries(ArrayList<Country> countries) {
-        StringBuilder printedCountries = new StringBuilder();
-        if(countries != null && !countries.isEmpty()) {
-            for (int i = 0; i < countries.size(); i++ ) {
-                printedCountries.append(countries.get(i).d_countryId);
-                if(i!=countries.size()-1){
-                    printedCountries.append(", ");}
-            }
-        }
-        return printedCountries.toString();
     }
 }

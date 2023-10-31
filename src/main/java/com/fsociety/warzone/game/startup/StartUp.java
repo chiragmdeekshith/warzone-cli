@@ -2,7 +2,7 @@ package com.fsociety.warzone.game.startup;
 
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
-import com.fsociety.warzone.map.WZMap;
+import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.util.command.CommandValidator;
@@ -10,6 +10,7 @@ import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -60,10 +61,10 @@ public class StartUp {
                 break;
             }
             if(StartupCommand.SHOW_MAP.getCommand().equals((l_commandType))) {
-                if(null == GameEngine.getWZMap()) {
+                if(null == GameEngine.getPlayMap()) {
                     System.out.println("Please load a map before trying to display it.");
                 } else {
-                    GameEngine.getWZMap().showMapForGame();
+                    GameEngine.getPlayMap().showMap();
                 }
             }
         }
@@ -79,11 +80,11 @@ public class StartUp {
      * @return returns false if the map fails to load properly, and true otherwise
      */
     public static boolean loadMap(String p_fileName) {
-        WZMap l_wzMap = MapTools.loadAndValidateMap(p_fileName);
-        if(null == l_wzMap) {
+        PlayMap l_playMap = MapTools.loadAndValidateMapForPlayMap(p_fileName);
+        if(null == l_playMap) {
             return false;
         }
-        GameEngine.setWZMap(l_wzMap);
+        GameEngine.setPlayMap(l_playMap);
         return true;
     }
 
@@ -118,7 +119,7 @@ public class StartUp {
 
                 if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
                     if(!l_players.isEmpty()) {
-                        if (l_players.size() <= GameEngine.getWZMap().getAdjacencyMap().keySet().size()) {
+                        if (l_players.size() <= GameEngine.getPlayMap().getNeighbours().keySet().size()) {
                             GameEngine.setPlayers(new ArrayList<>(l_players.values()));
                             GameEngine.initPlayerList();
                             return true;
@@ -160,7 +161,7 @@ public class StartUp {
                 }
 
                 if(StartupCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
-                    GameEngine.getWZMap().showMapForGame();
+                    GameEngine.getPlayMap().showMap();
                 }
 
             } else {
@@ -175,10 +176,10 @@ public class StartUp {
      */
     public static void assignCountries() {
 
-        WZMap l_wzMap = GameEngine.getWZMap();
-        ArrayList<Player> l_players = GameEngine.getPlayers();
+        PlayMap l_playMap = GameEngine.getPlayMap();
+        List<Player> l_players = GameEngine.getPlayers();
 
-        ArrayList<Integer> l_countryIds = new ArrayList<>(l_wzMap.getAdjacencyMap().keySet());
+        List<Integer> l_countryIds = new ArrayList<Integer>(l_playMap.getNeighbours().keySet());
 
         Random l_random = new Random();
 
@@ -187,9 +188,9 @@ public class StartUp {
             Player l_player = l_players.get(l_counter%l_players.size()); // Cycles through the players in round-robin
             int randomIndex = l_random.nextInt(l_countryIds.size());
             int l_countryId = l_countryIds.remove(randomIndex);
-            l_wzMap.updateGameState(l_countryId, l_player.getId(), 0);
-            l_player.addCountry(l_wzMap.getGameState(l_countryId));
-            l_wzMap.getGameState(l_countryId).setPlayer(l_player);
+            l_playMap.updateGameState(l_countryId, l_player.getId(), 0);
+            l_player.addCountry(l_playMap.getCountryState(l_countryId));
+            l_playMap.getCountryState(l_countryId).setPlayer(l_player);
             l_counter++;
         }
     }

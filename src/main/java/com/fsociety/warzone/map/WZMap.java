@@ -18,37 +18,36 @@ import com.fsociety.warzone.model.Country;
 public class WZMap {
 
     // country id -> Set of ids of neighbours
-    private final Map<Integer, Set<Integer>> d_adjacencyMap;
+    private final Map<Integer, Set<Integer>> d_neighbours;
 
     // continent id -> Set of ids of countries
-    private final Map<Integer, Set<Integer>> d_continentCountriesMap;
+    private final Map<Integer, Set<Integer>> d_countriesInContinent;
 
     // continent id -> bonus for control of continent
-    private final Map<Integer, Integer> d_continentBonusMap;
+    private final Map<Integer, Integer> d_continentBonuses;
 
     // country id -> game state of country
-    private final Map<Integer, Country> d_countryGameStateMap;
+    private final Map<Integer, Country> d_countries;
 
     // continent id -> game state of continent
-    private final Map<Integer, Continent> d_continentGameStateMap;
+    private final Map<Integer, Continent> d_continents;
 
     // country id -> game state of continent
-    private final Map<Integer, Continent> d_countryContinentGameStateMap;
+    private final Map<Integer, Continent> d_continentOfCountry;
 
     // file name of the map
-
     private String d_mapFileName;
 
     /**
      * Default constructor initializes the WZMap Object with empty lists and maps.
      */
     public WZMap() {
-        this.d_adjacencyMap = new LinkedHashMap<>();
-        this.d_continentBonusMap = new HashMap<>();
-        this.d_continentCountriesMap = new HashMap<>();
-        this.d_countryGameStateMap = new HashMap<>();
-        this.d_continentGameStateMap = new HashMap<>();
-        this.d_countryContinentGameStateMap = new HashMap<>();
+        this.d_neighbours = new LinkedHashMap<>();
+        this.d_continentBonuses = new HashMap<>();
+        this.d_countriesInContinent = new HashMap<>();
+        this.d_countries = new HashMap<>();
+        this.d_continents = new HashMap<>();
+        this.d_continentOfCountry = new HashMap<>();
     }
 
     /**
@@ -60,12 +59,12 @@ public class WZMap {
     public void addContinent(
             final Integer p_continentId,
             final Integer p_continentBonus) {
-        if (d_continentCountriesMap.get(p_continentId) != null) {
+        if (d_countriesInContinent.get(p_continentId) != null) {
             System.out.println("Continent already exists.");
             return;
         }
-        d_continentCountriesMap.put(p_continentId, new LinkedHashSet<>());
-        d_continentBonusMap.put(p_continentId, p_continentBonus);
+        d_countriesInContinent.put(p_continentId, new LinkedHashSet<>());
+        d_continentBonuses.put(p_continentId, p_continentBonus);
     }
 
     /**
@@ -77,13 +76,13 @@ public class WZMap {
     public void addCountry(
             final Integer p_countryId,
             final Integer p_continentId) {
-        if (d_continentCountriesMap.get(p_continentId) == null) {
+        if (d_countriesInContinent.get(p_continentId) == null) {
             System.out.println("Continent does not exist in the Map.");
-        } else if (d_adjacencyMap.get(p_countryId) != null) {
+        } else if (d_neighbours.get(p_countryId) != null) {
             System.out.println("Country already exists.");
         } else {
-            d_adjacencyMap.put(p_countryId, new LinkedHashSet<>());
-            d_continentCountriesMap.get(p_continentId).add(p_countryId);
+            d_neighbours.put(p_countryId, new LinkedHashSet<>());
+            d_countriesInContinent.get(p_continentId).add(p_countryId);
         }
     }
 
@@ -98,13 +97,13 @@ public class WZMap {
             final int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
             System.out.println("Country cannot be neighbour of itself.");
-        } else if (d_adjacencyMap.get(p_countryId) == null) {
+        } else if (d_neighbours.get(p_countryId) == null) {
             System.out.println("Country does not exist or is invalid.");
-        } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
+        } else if (d_neighbours.get(p_neighbourCountryId) == null) {
             System.out.println("Neighbour Country does not exist or is invalid.");
         } else {
-            d_adjacencyMap.get(p_countryId).add(p_neighbourCountryId);
-            d_adjacencyMap.get(p_neighbourCountryId).add(p_countryId);
+            d_neighbours.get(p_countryId).add(p_neighbourCountryId);
+            d_neighbours.get(p_neighbourCountryId).add(p_countryId);
         }
     }
 
@@ -127,13 +126,13 @@ public class WZMap {
             final int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
             System.out.println("Country cannot be neighbour of itself.");
-        } else if (d_adjacencyMap.get(p_countryId) == null) {
+        } else if (d_neighbours.get(p_countryId) == null) {
             System.out.println("Country does not exist or is invalid.");
-        } else if (d_adjacencyMap.get(p_neighbourCountryId) == null) {
+        } else if (d_neighbours.get(p_neighbourCountryId) == null) {
             System.out.println("Neighbour Country does not exist or is invalid.");
         } else {
-            d_adjacencyMap.get(p_countryId).remove(p_neighbourCountryId);
-            d_adjacencyMap.get(p_neighbourCountryId).remove(p_countryId);
+            d_neighbours.get(p_countryId).remove(p_neighbourCountryId);
+            d_neighbours.get(p_neighbourCountryId).remove(p_countryId);
         }
     }
 
@@ -143,12 +142,12 @@ public class WZMap {
      * @param p_continentId the continent to remove
      */
     public void removeContinent(final Integer p_continentId) {
-        if (d_continentCountriesMap.get(p_continentId) == null) {
+        if (d_countriesInContinent.get(p_continentId) == null) {
             System.out.println("Continent does not exist.");
         } else {
-            d_continentCountriesMap.get(p_continentId).forEach(this::removeAdjacency);
-            d_continentBonusMap.remove(p_continentId);
-            d_continentCountriesMap.remove(p_continentId);
+            d_countriesInContinent.get(p_continentId).forEach(this::removeAdjacency);
+            d_continentBonuses.remove(p_continentId);
+            d_countriesInContinent.remove(p_continentId);
         }
     }
 
@@ -161,9 +160,9 @@ public class WZMap {
      * @param p_countryId the country to remove the adjacency
      */
     public void removeAdjacency(final int p_countryId) {
-        final Set<Integer> l_neighbours = d_adjacencyMap.get(p_countryId);
-        l_neighbours.forEach(neighbourId -> d_adjacencyMap.get(neighbourId).remove(p_countryId));
-        d_adjacencyMap.remove(p_countryId);
+        final Set<Integer> l_neighbours = d_neighbours.get(p_countryId);
+        l_neighbours.forEach(neighbourId -> d_neighbours.get(neighbourId).remove(p_countryId));
+        d_neighbours.remove(p_countryId);
     }
 
     /**
@@ -172,12 +171,12 @@ public class WZMap {
      * @param p_countryId   the country to remove
      */
     public void removeCountry(final int p_countryId) {
-        if (d_adjacencyMap.get(p_countryId) == null) {
+        if (d_neighbours.get(p_countryId) == null) {
             System.out.println("Country does not exist.");
         } else {
             removeAdjacency(p_countryId);
             int l_continentId = getContinentIdForCountry(p_countryId);
-            d_continentCountriesMap.get(l_continentId).remove(p_countryId);
+            d_countriesInContinent.get(l_continentId).remove(p_countryId);
         }
     }
 
@@ -187,7 +186,7 @@ public class WZMap {
      * @return adjacencies of all the countries in the map
      */
     public Map<Integer, Set<Integer>> getAdjacencyMap() {
-        return new LinkedHashMap<>(d_adjacencyMap);
+        return new LinkedHashMap<>(d_neighbours);
     }
 
     /**
@@ -196,7 +195,7 @@ public class WZMap {
      * @return continent -> country mappings
      */
     public Map<Integer, Set<Integer>> getContinentCountriesMap() {
-        return new HashMap<>(d_continentCountriesMap);
+        return new HashMap<>(d_countriesInContinent);
     }
 
     /**
@@ -204,7 +203,7 @@ public class WZMap {
      *
      * @return continent game state map
      */
-    public Map<Integer, Continent> getContinents() { return this.d_continentGameStateMap; }
+    public Map<Integer, Continent> getContinents() { return this.d_continents; }
 
     /**
      * get continent -> bonus mappings
@@ -212,7 +211,7 @@ public class WZMap {
      * @return continent -> bonus mappings
      */
     public Map<Integer, Integer> getContinentBonusMap() {
-        return new HashMap<>(d_continentBonusMap);
+        return new HashMap<>(d_continentBonuses);
     }
 
     /**
@@ -220,14 +219,12 @@ public class WZMap {
      * 
      */
     public void initGameStates() {
-        d_adjacencyMap.keySet().forEach(l_countryId -> {
-            d_countryGameStateMap.put(l_countryId, new Country(l_countryId));
+        d_neighbours.keySet().forEach(l_countryId -> {
+            d_countries.put(l_countryId, new Country(l_countryId));
         });
-        d_continentCountriesMap.keySet().forEach(continentId -> {
-            d_continentGameStateMap.put(continentId, new Continent(d_continentCountriesMap.get(continentId), d_countryGameStateMap, d_continentBonusMap.get(continentId)));
-            d_continentCountriesMap.get(continentId).forEach(countryId -> {
-                d_countryContinentGameStateMap.put(countryId, d_continentGameStateMap.get(continentId));
-            });
+        d_countriesInContinent.keySet().forEach(l_continentId -> {
+            d_continents.put(l_continentId, new Continent(l_continentId, d_countriesInContinent.get(l_continentId), d_countries, d_continents.get(l_continentId).getArmiesBonus()));
+            d_countriesInContinent.get(l_continentId).forEach(countryId -> d_continentOfCountry.put(countryId, d_continents.get(l_continentId)));
         });
     }
 
@@ -242,17 +239,9 @@ public class WZMap {
             final int p_countryId,
             final int p_playerId,
             final int p_armies) {
-        final int l_currentPlayerId = d_countryGameStateMap.get(p_countryId).getPlayerId();
-        if (l_currentPlayerId != p_playerId) {
-            if (l_currentPlayerId == -1) {
-                d_countryContinentGameStateMap.get(p_countryId).initCountryCount(p_playerId);
-            } else {
-                d_countryContinentGameStateMap.get(p_countryId).updateCountryCount(l_currentPlayerId, p_playerId);
-            }
-        }
-        d_countryGameStateMap.get(p_countryId).setPlayerId(p_playerId);
-        d_countryGameStateMap.get(p_countryId).setArmies(p_armies);
-        d_countryGameStateMap.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
+        d_countries.get(p_countryId).setPlayerId(p_playerId);
+        d_countries.get(p_countryId).setArmies(p_armies);
+        d_countries.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
     }
 
     /**
@@ -262,7 +251,7 @@ public class WZMap {
      * @return the current game state for a country
      */
     public Country getGameState(final int p_countryId) {
-        return d_countryGameStateMap.get(p_countryId);
+        return d_countries.get(p_countryId);
     }
 
     /**
@@ -272,17 +261,17 @@ public class WZMap {
         System.out.println("\nMap: " + d_mapFileName);
         System.out.println("--------------------");
         System.out.println("Continents and their bonuses");
-        for (Map.Entry<Integer, Integer> entry : this.d_continentBonusMap.entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : this.d_continentBonuses.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue().toString());
         }
         System.out.println("--------------------");
         System.out.println("Continents and their Countries");
-        for (Map.Entry<Integer, Set<Integer>> entry : this.d_continentCountriesMap.entrySet()) {
+        for (Map.Entry<Integer, Set<Integer>> entry : this.d_countriesInContinent.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue().toString());
         }
         System.out.println("--------------------");
         System.out.println("Borders");
-        for (Map.Entry<Integer, Set<Integer>> entry : this.d_adjacencyMap.entrySet()) {
+        for (Map.Entry<Integer, Set<Integer>> entry : this.d_neighbours.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue().toString());
         }
         System.out.println("--------------------\n");
@@ -296,20 +285,20 @@ public class WZMap {
         System.out.println("--------------------");
         System.out.println("Continents");
         System.out.println("Continent: Bonus - [Countries]");
-        for (Map.Entry<Integer, Continent> entry : this.d_continentGameStateMap.entrySet()) {
-            entry.getValue().printContinent(entry.getKey(), entry.getValue());
+        for (Continent l_continent : this.d_continents.values()) {
+            System.out.println(l_continent);
         }
         System.out.println("--------------------");
         System.out.println("Borders");
         System.out.println("Country: Owned by, \tArmies - [Neighbours]");
 
-        for (Map.Entry<Integer, Country> entry : this.d_countryGameStateMap.entrySet()) {
+        for (Map.Entry<Integer, Country> entry : this.d_countries.entrySet()) {
             int l_countryId = entry.getKey();
             Country l_country = entry.getValue();
             if(null != l_country.getPlayer()) {
                 System.out.print(l_countryId + ": " + l_country.getPlayer().getName() + ",\t");
                 System.out.print(l_country.getArmies() + " - ");
-                System.out.println(d_adjacencyMap.get(l_countryId));
+                System.out.println(d_neighbours.get(l_countryId));
             }
         }
         System.out.println("--------------------\n");
@@ -322,9 +311,9 @@ public class WZMap {
      * @return the continent ID for a country
      */
     public Integer getContinentIdForCountry(Integer p_countryId) {
-        List<Integer> l_continentIds = new ArrayList<>(d_continentCountriesMap.keySet());
+        List<Integer> l_continentIds = new ArrayList<>(d_countriesInContinent.keySet());
         for(Integer l_id : l_continentIds) {
-            if(d_continentCountriesMap.get(l_id).contains(p_countryId)) {
+            if(d_countriesInContinent.get(l_id).contains(p_countryId)) {
                 return l_id;
             }
         }
