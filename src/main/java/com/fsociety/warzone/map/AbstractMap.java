@@ -1,9 +1,6 @@
 package com.fsociety.warzone.map;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class acts as a superclass for the Editable Map and the Playable Map
@@ -101,4 +98,22 @@ public abstract class AbstractMap {
     public void setContinentBonuses(Map<Integer, Integer> p_continentBonuses) {
         this.d_continentBonuses = p_continentBonuses;
     }
+
+    /**
+     * Get the continent ID for a country
+     *
+     * @param p_countryId the country ID
+     * @return the continent ID for a country
+     */
+    public int getContinentIdForCountry(int p_countryId) {
+        List<Integer> l_continentIds = new ArrayList<>(d_countriesInContinent.keySet());
+        for(int l_id : l_continentIds) {
+            if(d_countriesInContinent.get(l_id).contains(p_countryId)) {
+                return l_id;
+            }
+        }
+        // Shouldn't reach this return
+        return -1;
+    }
+
 }

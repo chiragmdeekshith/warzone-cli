@@ -4,15 +4,27 @@ import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class PlayMap extends AbstractMap {
+    // continent id -> game state of continent
+    private Map<Integer, Continent> d_continents;
 
     // country id -> game state of country
     private Map<Integer, Country> d_countries;
 
-    // continent id -> game state of continent
-    private Map<Integer, Continent> d_continents;
+    /**
+     * Parameterized constructor getting values of the map from the EditMap object
+     */
+    public PlayMap(EditMap l_loadMap) {
+        this.d_countriesInContinent = l_loadMap.d_countriesInContinent;
+        this.d_continentBonuses = l_loadMap.d_continentBonuses;
+        this.d_neighbours = l_loadMap.d_neighbours;
+        this.d_fileName = l_loadMap.d_fileName;
+        this.d_countries = new HashMap<>();
+        this.d_continents = new HashMap<>();
+    }
 
     /**
      * Initialize the game state for all the countries in the map
@@ -30,7 +42,7 @@ public class PlayMap extends AbstractMap {
                                 l_continentId,
                                 d_countriesInContinent.get(l_continentId),
                                 d_countries,
-                                d_continents.get(l_continentId).getArmiesBonus()
+                                d_continentBonuses.get(l_continentId)
                         )
                 ));
     }
