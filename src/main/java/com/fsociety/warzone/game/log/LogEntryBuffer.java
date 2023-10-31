@@ -7,7 +7,7 @@ import java.util.Observable;
  */
 public class LogEntryBuffer extends Observable {
 
-    private static LogEntryBuffer instance;
+    private static LogEntryBuffer d_instance;
 
     /**
      * Private constructor to prevent external instantiation.
@@ -22,19 +22,19 @@ public class LogEntryBuffer extends Observable {
      * @return The LogEntryBuffer singleton instance.
      */
     public static LogEntryBuffer getInstance() {
-        if (instance == null) {
-            instance = new LogEntryBuffer();
+        if (d_instance == null) {
+            d_instance = new LogEntryBuffer();
         }
-        return instance;
+        return d_instance;
     }
 
     /**
      * Adds a log entry to the buffer and notifies observers of the change.
      *
-     * @param message The log message to be added.
+     * @param p_message The log message to be added.
      */
-    public void addLogEntry(String message) {
-        LogEntry logEntry = new LogEntry(message);
+    public void addLogEntry(String p_message) {
+        LogEntry logEntry = new LogEntry(p_message);
         setChanged();
         notifyObservers(logEntry);
     }
