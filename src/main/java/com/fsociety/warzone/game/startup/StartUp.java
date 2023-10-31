@@ -80,7 +80,7 @@ public class StartUp {
      * @return returns false if the map fails to load properly, and true otherwise
      */
     public static boolean loadMap(String p_fileName) {
-        PlayMap l_playMap = MapTools.loadAndValidateMapForPlayMap(p_fileName);
+        PlayMap l_playMap = MapTools.loadAndValidatePlayableMap(p_fileName);
         if(null == l_playMap) {
             return false;
         }

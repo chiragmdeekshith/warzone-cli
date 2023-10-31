@@ -1,5 +1,6 @@
 package com.fsociety.warzone.util;
 
+import com.fsociety.warzone.map.AbstractMap;
 import com.fsociety.warzone.map.EditMap;
 import com.fsociety.warzone.map.PlayMap;
 
@@ -21,13 +22,13 @@ import java.util.Set;
 public class MapTools {
 
     /**
-     * Reads the file from system and loads it into the WZMap. Validates the map before loading it in and then
+     * Reads the file from system and loads it into the EditMap. Verifies the format of the map file before loading it in and then
      * logically validates it again before returning it.
      *
      * @param p_fileName - the name of the file to be opened
-     * @return - returns an instance of the WZMap object ready
+     * @return - returns an instance of the EditMap object ready
      */
-    public static EditMap loadAndValidateMap(String p_fileName) {
+    public static EditMap loadAndValidateEditableMap(String p_fileName) {
         EditMap l_editMap;
         try {
             // Read the file line by line
@@ -55,44 +56,13 @@ public class MapTools {
                     line = mapReader.readLine();
                 }
             }
-
-            // Ensure that there are countries, continents and neighbours
-            if (data.toString().toLowerCase().contains("[continents]") && data.toString().toLowerCase().contains("[countries]") && data.toString().toLowerCase().contains("[borders]")) {
-                l_editMap.setFileName(p_fileName);
-            } else {
-                System.out.println("Missing Information/Not in correct format");
-                return null;
-            }
-
-            // Load the data into the WZMap object
-            String[] continentData = data.substring(data.toString().toLowerCase().indexOf("[continents]")+13, data.toString().toLowerCase().indexOf("[countries]")).split("\n");
-            String[] countryData = data.substring(data.toString().toLowerCase().indexOf("[countries]")+12, data.toString().toLowerCase().indexOf("[borders]")).split("\n");
-            String[] neighborData = data.substring(data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
-            int l_counter = 0;
-            for(String s:continentData) {
-                int l_continentId = ++l_counter;
-                String[] l_splitData = s.split(" ");
-                int l_continentBonusValue = Integer.parseInt(l_splitData[1]);
-                l_editMap.addContinent(l_continentId, l_continentBonusValue);
-            }
-            for(String s:countryData) {
-                String[] l_splitData = s.split(" ");
-                int l_countryId = Integer.parseInt(l_splitData[0]);
-                int l_continentId = Integer.parseInt(l_splitData[2]);
-                l_editMap.addCountry(l_countryId, l_continentId);
-            }
-            for(String s:neighborData) {
-                String[] temp = s.split(" ");
-                int[] arr = new int[temp.length];
-                int countryID= Integer.parseInt(temp[0]);
-                for (int i=1;i<temp.length;i++) {
-                    if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0) {
-                        System.out.println("Duplicate Neighbors cannot exist");
-                        return null;
-                    }
-                    arr[i] = Integer.parseInt(temp[i]);
-                    l_editMap.addNeighbour(countryID,arr[i]);
+            if (validateFileFormat(l_editMap, data, p_fileName)) {
+                if (!loadDataFromFile(l_editMap, data)) {
+                    return null;
                 }
+            }
+            else {
+                return null;
             }
         }
         catch (NumberFormatException e) {
@@ -107,6 +77,97 @@ public class MapTools {
             return l_editMap;
         }
         return null;
+    }
+
+    /**
+     * Reads the file from system and loads it into the PlayMap. Verifies the format of the map file before loading it in and then
+     * logically validates it again before returning it.
+     *
+     * @param p_fileName - the name of the file to be opened
+     * @return - returns an instance of the PlayMap object ready
+     */
+    public static PlayMap loadAndValidatePlayableMap(String p_fileName) {
+        PlayMap l_playMap;
+        EditMap l_loadMap;
+        try {
+            l_loadMap = new EditMap();
+            String l_filePath = "src/main/resources/" + p_fileName;
+            FileReader mapFile;
+            mapFile = new FileReader(l_filePath);
+            String line;
+            StringBuilder data = new StringBuilder();
+            BufferedReader mapReader = new BufferedReader(mapFile);
+            line = mapReader.readLine();
+            while(line !=null) {
+                if(!line.equals("\n")){
+                    data.append(line).append("\n");
+                    line = mapReader.readLine();
+                }
+            }
+            if (validateFileFormat(l_loadMap, data, p_fileName)) {
+                if (!loadDataFromFile(l_loadMap, data)) {
+                    return null;
+                }
+                l_playMap = new PlayMap(l_loadMap);
+            }
+            else {
+                return null;
+            }
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Cant parseInt");
+            return null;
+        }
+        catch (Exception e) {
+            System.out.println("File does not exist!");
+            return null;
+        }
+        if(validateMap(l_playMap)) {
+            l_playMap.initGameMapElements();
+            return l_playMap;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * This functions checks if the file is in the correct format
+     *
+     * @param p_map - the Map object that we need to load data into
+     * @param p_data - the StringBuilder object that contains the data from the file
+     * @return true if the data is loaded in correctly, false otherwise
+     */
+    public static boolean loadDataFromFile(EditMap p_map, StringBuilder p_data) {
+        String[] continentData = p_data.substring(p_data.toString().toLowerCase().indexOf("[continents]")+13, p_data.toString().toLowerCase().indexOf("[countries]")).split("\n");
+        String[] countryData = p_data.substring(p_data.toString().toLowerCase().indexOf("[countries]")+12, p_data.toString().toLowerCase().indexOf("[borders]")).split("\n");
+        String[] neighborData = p_data.substring(p_data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
+        int l_counter = 0;
+        for(String s:continentData) {
+            int l_continentId = ++l_counter;
+            String[] l_splitData = s.split(" ");
+            int l_continentBonusValue = Integer.parseInt(l_splitData[1]);
+            p_map.addContinent(l_continentId, l_continentBonusValue);
+        }
+        for(String s:countryData) {
+            String[] l_splitData = s.split(" ");
+            int l_countryId = Integer.parseInt(l_splitData[0]);
+            int l_continentId = Integer.parseInt(l_splitData[2]);
+            p_map.addCountry(l_countryId, l_continentId);
+        }
+        for(String s:neighborData) {
+            String[] temp = s.split(" ");
+            int[] arr = new int[temp.length];
+            int countryID= Integer.parseInt(temp[0]);
+            for (int i=1;i<temp.length;i++) {
+                if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0) {
+                    System.out.println("Duplicate Neighbors cannot exist");
+                    return false;
+                }
+                arr[i] = Integer.parseInt(temp[i]);
+                p_map.addNeighbour(countryID,arr[i]);
+            }
+        }
+        return true;
     }
 
 
@@ -156,12 +217,31 @@ public class MapTools {
     }
 
     /**
+     *
+     * This functions checks if the file is in the correct format
+     *
+     * @param p_map - the EditMap object that we need to check format of
+     * @param p_data - the StringBuilder object that contains the data from the file
+     * @param p_fileName - name of the file
+     * @return the EditMap object if the file is in the correct format, null otherwise
+     */
+    public static boolean validateFileFormat(AbstractMap p_map, StringBuilder p_data, String p_fileName) {
+        if (p_data.toString().toLowerCase().contains("[continents]") && p_data.toString().toLowerCase().contains("[countries]") && p_data.toString().toLowerCase().contains("[borders]")) {
+            p_map.setFileName(p_fileName);
+            return true;
+        } else {
+            System.out.println("Missing Information/Not in correct format");
+            return false;
+        }
+    }
+
+    /**
      * Logically validates the WZMap object
      *
      * @param p_mapData - the WZMap object that needs to be validated
      * @return true if the map is valid, false otherwise
      */
-    public static boolean validateMap(EditMap p_mapData) {
+    public static boolean validateMap(AbstractMap p_mapData) {
         if(!checkEmptyContinent(p_mapData)) {
             if(!checkEmptyNeighbours(p_mapData)) {
                 return checkConnectedContinent(p_mapData);
@@ -181,7 +261,7 @@ public class MapTools {
      * @param p_mapData - the WZMap object that needs to be checked
      * @return true if the continent doesn't have any countries, false otherwise
      */
-    public static boolean checkEmptyContinent(EditMap p_mapData) {
+    public static boolean checkEmptyContinent(AbstractMap p_mapData) {
         if(p_mapData.getContinentBonuses().isEmpty())
             return true;
         else {
@@ -201,7 +281,7 @@ public class MapTools {
      * @param p_mapData - the WZMap object that needs to be checked
      * @return true if the neighbours are empty, false otherwise
      */
-    public static boolean checkEmptyNeighbours(EditMap p_mapData) {
+    public static boolean checkEmptyNeighbours(AbstractMap p_mapData) {
         for(Set<Integer> neighbours:p_mapData.getNeighbours().values())
             if(neighbours.isEmpty()) {
                 System.out.println("Country has no neighbours");
@@ -216,7 +296,7 @@ public class MapTools {
      * @param p_mapData - the WZMap object that needs to be checked
      * @return true if the continent is a connected graph, false otherwise
      */
-    public static boolean checkConnectedContinent(EditMap p_mapData) {
+    public static boolean checkConnectedContinent(AbstractMap p_mapData) {
         boolean isContinentConnected = false;
         for (Map.Entry<Integer, Set<Integer>> entry : p_mapData.getCountriesInContinent().entrySet()) {
             Integer l_continentId = entry.getKey();
@@ -241,13 +321,4 @@ public class MapTools {
         return true;
     }
 
-    // TODO: Implement this for Playable map.
-    public static PlayMap loadAndValidateMapForPlayMap(String p_fileName) {
-        return new PlayMap();
-        // Rename the function to something more sensible. At the end Return a playable map.
-        // After validating the map, call the initGameMapElements() method before returning it.
-        // Create objects / whatever similar to whats happening in EditMap.
-        // Explicitly do the validation and create the class objects here. The addContinent and other add
-        // functions are not available in this class. Figure out a way plis
-    }
 }

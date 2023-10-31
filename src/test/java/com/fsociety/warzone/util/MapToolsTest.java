@@ -1,28 +1,28 @@
 package com.fsociety.warzone.util;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The Test class for MapTools
- * {@link MapTools#loadAndValidateMap(String)}
+ * {@link MapTools#loadAndValidateEditableMap(String)}
  */
 class MapToolsTest {
 
-    public String informationMissing;
-    public String continentWithNoCountry;
-    public String countryWithNoNeighbour;
-    public String duplicateNeighbours;
-    public String continentNotConnected;
-    public String validMap;
+    public static String informationMissing;
+    public static String continentWithNoCountry;
+    public static String countryWithNoNeighbour;
+    public static String duplicateNeighbours;
+    public static String continentNotConnected;
+    public static String validMap;
 
     /**
      * Setting up mack maps for testing
      */
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         informationMissing = "informationMissing.map";
         continentWithNoCountry = "continentWithNoCountry.map";
         countryWithNoNeighbour = "countryWithNoNeighbour.map";
@@ -37,7 +37,7 @@ class MapToolsTest {
     @Test
     void testInformationMissing() {
         System.out.println("Test Case 1: Missing Information");
-        assertNull(MapTools.loadAndValidateMap(informationMissing));
+        assertNull(MapTools.loadAndValidateEditableMap(informationMissing));
     }
 
     /**
@@ -46,7 +46,7 @@ class MapToolsTest {
     @Test
     void testContinentWithNoCountry() {
         System.out.println("Test Case 2: Continent With No Country");
-        assertNull(MapTools.loadAndValidateMap(continentWithNoCountry));
+        assertNull(MapTools.loadAndValidateEditableMap(continentWithNoCountry));
     }
 
     /**
@@ -55,7 +55,7 @@ class MapToolsTest {
     @Test
     void testCountryWithNoNeighbour() {
         System.out.println("Test Case 3: Country With No Neighbour");
-        assertNull(MapTools.loadAndValidateMap(countryWithNoNeighbour));
+        assertNull(MapTools.loadAndValidateEditableMap(countryWithNoNeighbour));
     }
 
     /**
@@ -64,7 +64,7 @@ class MapToolsTest {
     @Test
     void testDuplicateNeighbours() {
         System.out.println("Test Case 4: Duplicate Neighbours");
-        assertNull(MapTools.loadAndValidateMap(duplicateNeighbours));
+        assertNull(MapTools.loadAndValidateEditableMap(duplicateNeighbours));
     }
 
     /**
@@ -73,7 +73,7 @@ class MapToolsTest {
     @Test
     void testContinentNotConnected() {
         System.out.println("Test Case 6: Continent Not Connected");
-        assertNull(MapTools.loadAndValidateMap("continentNotConnected.map"));
+        assertNull(MapTools.loadAndValidateEditableMap("continentNotConnected.map"));
     }
 
     /**
@@ -82,6 +82,6 @@ class MapToolsTest {
     @Test
     void testValidMap() {
         System.out.println("Test Case 5: Valid Map");
-        assertNotNull(MapTools.loadAndValidateMap(validMap));
+        assertNotNull(MapTools.loadAndValidateEditableMap(validMap));
     }
 }

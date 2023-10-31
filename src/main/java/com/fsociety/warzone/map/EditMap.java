@@ -25,13 +25,15 @@ public class EditMap extends AbstractMap {
      * @param p_continentId    the id of the continent to add
      * @param p_continentBonus the bonus for the control of the continent to add
      */
-    public void addContinent(int p_continentId, int p_continentBonus) {
+    public boolean addContinent(int p_continentId, int p_continentBonus) {
         if (d_countriesInContinent.get(p_continentId) != null) {
             System.out.println("Continent already exists.");
-            return;
+            return false;
+        } else {
+            d_countriesInContinent.put(p_continentId, new LinkedHashSet<>());
+            d_continentBonuses.put(p_continentId, p_continentBonus);
+            return true;
         }
-        d_countriesInContinent.put(p_continentId, new LinkedHashSet<>());
-        d_continentBonuses.put(p_continentId, p_continentBonus);
     }
 
     /**
@@ -39,13 +41,15 @@ public class EditMap extends AbstractMap {
      *
      * @param p_continentId the continent to remove
      */
-    void removeContinent(int p_continentId){
+    boolean removeContinent(int p_continentId){
         if (d_countriesInContinent.get(p_continentId) == null) {
             System.out.println("Continent does not exist.");
+            return false;
         } else {
             d_countriesInContinent.get(p_continentId).forEach(this::removeAdjacency);
             d_continentBonuses.remove(p_continentId);
             d_countriesInContinent.remove(p_continentId);
+            return true;
         }
     }
 
@@ -55,14 +59,17 @@ public class EditMap extends AbstractMap {
      * @param p_countryId   the id of the country to add
      * @param p_continentId the id of the continent to add the country to
      */
-    public void addCountry(int p_countryId, int p_continentId) {
+    public boolean addCountry(int p_countryId, int p_continentId) {
         if (d_countriesInContinent.get(p_continentId) == null) {
             System.out.println("Continent does not exist in the Map.");
+            return false;
         } else if (d_neighbours.get(p_countryId) != null) {
             System.out.println("Country already exists.");
+            return false;
         } else {
             d_neighbours.put(p_countryId, new LinkedHashSet<>());
             d_countriesInContinent.get(p_continentId).add(p_countryId);
+            return true;
         }
     }
 
@@ -71,13 +78,15 @@ public class EditMap extends AbstractMap {
      *
      * @param p_countryId   the country to remove
      */
-    void removeCountry(int p_countryId){
+    boolean removeCountry(int p_countryId){
         if (d_neighbours.get(p_countryId) == null) {
             System.out.println("Country does not exist.");
+            return false;
         } else {
             this.removeAdjacency(p_countryId);
             int l_continentId = getContinentIdForCountry(p_countryId);
             d_countriesInContinent.get(l_continentId).remove(p_countryId);
+            return true;
         }
     }
 
@@ -87,16 +96,20 @@ public class EditMap extends AbstractMap {
      * @param p_countryId          the id of the country to add the neighbour to
      * @param p_neighbourCountryId the id of the neighbour to add
      */
-    public void addNeighbour(int p_countryId, int p_neighbourCountryId) {
+    public boolean addNeighbour(int p_countryId, int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
             System.out.println("Country cannot be neighbour of itself.");
+            return false;
         } else if (d_neighbours.get(p_countryId) == null) {
             System.out.println("Country does not exist or is invalid.");
+            return false;
         } else if (d_neighbours.get(p_neighbourCountryId) == null) {
             System.out.println("Neighbour Country does not exist or is invalid.");
+            return false;
         } else {
             d_neighbours.get(p_countryId).add(p_neighbourCountryId);
             d_neighbours.get(p_neighbourCountryId).add(p_countryId);
+            return true;
         }
     }
 
@@ -106,16 +119,20 @@ public class EditMap extends AbstractMap {
      * @param p_countryId          the id of the country to remove the neighbour
      * @param p_neighbourCountryId the id of the neighbour to remove
      */
-    void removeNeighbour(int p_countryId, int p_neighbourCountryId){
+    boolean removeNeighbour(int p_countryId, int p_neighbourCountryId){
         if (p_countryId == p_neighbourCountryId) {
             System.out.println("Country cannot be neighbour of itself.");
+            return false;
         } else if (d_neighbours.get(p_countryId) == null) {
             System.out.println("Country does not exist or is invalid.");
+            return false;
         } else if (d_neighbours.get(p_neighbourCountryId) == null) {
             System.out.println("Neighbour Country does not exist or is invalid.");
+            return false;
         } else {
             d_neighbours.get(p_countryId).remove(p_neighbourCountryId);
             d_neighbours.get(p_neighbourCountryId).remove(p_countryId);
+            return true;
         }
     }
 
@@ -143,22 +160,6 @@ public class EditMap extends AbstractMap {
         System.out.println("--------------------\n");
     }
 
-    /**
-     * Get the continent ID for a country
-     *
-     * @param p_countryId the country ID
-     * @return the continent ID for a country
-     */
-    public int getContinentIdForCountry(int p_countryId) {
-        List<Integer> l_continentIds = new ArrayList<>(d_countriesInContinent.keySet());
-        for(int l_id : l_continentIds) {
-            if(d_countriesInContinent.get(l_id).contains(p_countryId)) {
-                return l_id;
-            }
-        }
-        // Shouldn't reach this return
-        return -1;
-    }
 
     /**
      * Removes the adjacency to all neighbouring countries for the given country.

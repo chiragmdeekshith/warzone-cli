@@ -43,7 +43,7 @@ public class MapEditor {
 
             if(MapEditorCommand.EDIT_MAP.getCommand().equals(l_commandType)) {
                 String l_filename = l_splitCommand[1];
-                d_editMap = MapTools.loadAndValidateMap(l_filename);
+                d_editMap = MapTools.loadAndValidateEditableMap(l_filename);
                 if(null == d_editMap) {
                     System.out.println("Failed to load the map from file! Please try another map file.");
                     continue;
@@ -68,12 +68,14 @@ public class MapEditor {
                     switch (l_operation) {
                         case MapEditorCommand.ADD -> {
                             int l_continentBonusValue = Integer.parseInt(l_splitCommand[l_i++]);
-                            d_editMap.addContinent(l_continentId, l_continentBonusValue);
-                            System.out.println("Continent " + l_continentId + " with bonus of " + l_continentBonusValue + " added.");
+                            if (d_editMap.addContinent(l_continentId, l_continentBonusValue)) {
+                                System.out.println("Continent " + l_continentId + " with bonus of " + l_continentBonusValue + " added.");
+                            }
                         }
                         case MapEditorCommand.REMOVE -> {
-                            d_editMap.removeContinent(l_continentId);
-                            System.out.println("Continent " + l_continentId + " removed.");
+                            if (d_editMap.removeContinent(l_continentId)) {
+                                System.out.println("Continent " + l_continentId + " removed.");
+                            }
                         }
                     }
                 }
@@ -87,12 +89,14 @@ public class MapEditor {
                     switch (l_operation) {
                         case MapEditorCommand.ADD -> {
                             int l_continentId = Integer.parseInt(l_splitCommand[l_i++]);
-                            d_editMap.addCountry(l_countryId, l_continentId);
-                            System.out.println("Country " + l_countryId + " added to continent " + l_continentId + ".");
+                            if (d_editMap.addCountry(l_countryId, l_continentId)) {
+                                System.out.println("Country " + l_countryId + " added to continent " + l_continentId + ".");
+                            }
                         }
                         case MapEditorCommand.REMOVE -> {
-                            d_editMap.removeCountry(l_countryId);
-                            System.out.println("Country " + l_countryId + " removed.");
+                            if (d_editMap.removeCountry(l_countryId)) {
+                                System.out.println("Country " + l_countryId + " removed.");
+                            }
                         }
                     }
                 }
@@ -107,14 +111,16 @@ public class MapEditor {
                         case MapEditorCommand.ADD -> {
                             int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
                             int l_neighbourCountryId = Integer.parseInt(l_splitCommand[l_i++]);
-                            d_editMap.addNeighbour(l_countryId, l_neighbourCountryId);
-                            System.out.println("Country " + l_neighbourCountryId + " added as neighbour to country " + l_countryId + ".");
+                            if (d_editMap.addNeighbour(l_countryId, l_neighbourCountryId)) {
+                                System.out.println("Country " + l_neighbourCountryId + " added as neighbour to country " + l_countryId + ".");
+                            }
                         }
                         case MapEditorCommand.REMOVE -> {
                             int l_countryId = Integer.parseInt(l_splitCommand[l_i++]);
                             int l_neighbourCountryId = Integer.parseInt(l_splitCommand[l_i++]);
-                            d_editMap.removeNeighbour(l_countryId, l_neighbourCountryId);
-                            System.out.println("Country " + l_neighbourCountryId + " removed as neighbour to country " + l_countryId + ".");
+                            if (d_editMap.removeNeighbour(l_countryId, l_neighbourCountryId)) {
+                                System.out.println("Country " + l_neighbourCountryId + " removed as neighbour to country " + l_countryId + ".");
+                            }
                         }
                     }
                 }
