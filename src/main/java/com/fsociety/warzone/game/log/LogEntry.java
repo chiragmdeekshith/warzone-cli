@@ -4,7 +4,7 @@ package com.fsociety.warzone.game.log;
  * The LogEntry class represents individual log entries with a message.
  */
 public class LogEntry {
-    private String d_message;
+    private final String d_message;
 
     /**
      * Constructs a LogEntry with the specified log message.
