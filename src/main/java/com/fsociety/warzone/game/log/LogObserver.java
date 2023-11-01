@@ -17,7 +17,6 @@ public class LogObserver implements Observer {
      * file.
      *
      * @param p_filename The name of the log file to write to.
-     * @throws IOException If an I/O error occurs while opening the log file.
      */
     public LogObserver(final String p_filename) {
         try {
