@@ -3,7 +3,6 @@ package com.fsociety.warzone.game.mainloop;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.WZMap;
 import com.fsociety.warzone.model.Player;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,7 @@ class AssignReinforcementsTest {
 
         GameEngine.setPlayers(l_players);
         GameEngine.initPlayerList();
-        GameEngine.setWZMap(d_wzMap);
+        GameEngine.setPlayMap(d_wzMap);
 
         // Start modifying the maps
         d_wzMap.updateGameState(1, d_player1.getId(), 0);
@@ -71,7 +70,7 @@ class AssignReinforcementsTest {
         d_wzMap.getGameState(4).setPlayer(d_player2);
 
         d_wzMap.getContinents().keySet().forEach(continentId -> {
-            d_wzMap.getContinents().get(continentId).setContinentOwner();
+            d_wzMap.getContinents().get(continentId).computeAndSetContinentOwner();
         });
 
         //Assert

@@ -24,7 +24,7 @@ public class AssignReinforcements {
 
         AtomicInteger l_reinforcements = new AtomicInteger(5); // Base reinforcements
 
-        Map<Integer, Continent> l_continents = GameEngine.getWZMap().getContinents();
+        Map<Integer, Continent> l_continents = GameEngine.getPlayMap().getContinents();
         l_continents.keySet().forEach(continentId -> {
             if (l_continents.get(continentId).getContinentOwner() != null && p_player.equals(l_continents.get(continentId).getContinentOwner())) {
                 l_reinforcements.addAndGet(l_continents.get(continentId).getArmiesBonus());
