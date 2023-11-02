@@ -15,7 +15,7 @@ public class HandOfCards {
         BOMB, BLOCKADE, AIRLIFT, DIPLOMACY;
     }
 
-    HandOfCards(String p_playerName) {
+    public HandOfCards(String p_playerName) {
         this.d_playerName = p_playerName;
         this.d_bombCards = 0;
         this.d_blockadeCards = 0;
@@ -81,7 +81,7 @@ public class HandOfCards {
         return false;
     }
 
-    
+
     @Override
     public String toString() {
         String l_asString = d_playerName + "'s Cards:\n";

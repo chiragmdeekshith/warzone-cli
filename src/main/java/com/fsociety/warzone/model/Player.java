@@ -3,6 +3,7 @@ package com.fsociety.warzone.model;
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Deploy;
+import com.fsociety.warzone.game.order.HandOfCards;
 import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.util.IdGenerator;
 import com.fsociety.warzone.util.command.CommandValidator;
@@ -22,6 +23,7 @@ public class Player {
     private final ArrayList<Order> d_orders;
     private final ArrayList<Country> d_countries;
     private int d_availableReinforcements;
+    private HandOfCards d_handOfCards;
 
 
     /**
@@ -31,10 +33,11 @@ public class Player {
      */
     public Player(String p_player_name) {
          this.d_name = p_player_name;
-         d_orders = new ArrayList<>();
-         d_countries = new ArrayList<>();
-         d_availableReinforcements = 0;
-         d_id = IdGenerator.generateId();
+         this.d_orders = new ArrayList<>();
+         this.d_countries = new ArrayList<>();
+         this.d_availableReinforcements = 0;
+         this.d_handOfCards = new HandOfCards(this.d_name);
+         this.d_id = IdGenerator.generateId();
     }
 
     /**
