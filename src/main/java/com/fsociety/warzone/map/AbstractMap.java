@@ -3,7 +3,7 @@ package com.fsociety.warzone.map;
 import java.util.*;
 
 /**
- * This class acts as a superclass for the Editable Map and the Playable Map
+ * This class acts as a superclass for the Editable Map and the Playable Map.
  */
 public abstract class AbstractMap {
 

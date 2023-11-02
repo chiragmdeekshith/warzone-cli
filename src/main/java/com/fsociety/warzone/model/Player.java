@@ -3,7 +3,7 @@ package com.fsociety.warzone.model;
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Deploy;
-import com.fsociety.warzone.game.order.IOrder;
+import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.util.IdGenerator;
 import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.GameplayCommand;
@@ -19,7 +19,7 @@ public class Player {
 
     private final String d_name;
     private final Integer d_id;
-    private final ArrayList<IOrder> d_orders;
+    private final ArrayList<Order> d_orders;
     private final ArrayList<Country> d_countries;
     private int d_availableReinforcements;
 

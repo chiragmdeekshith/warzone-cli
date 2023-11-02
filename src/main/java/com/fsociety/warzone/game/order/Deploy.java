@@ -5,7 +5,7 @@ import com.fsociety.warzone.game.GameEngine;
 /**
  * This class handles everything related to Deploying armies
  */
-public class Deploy implements IOrder {
+public class Deploy implements Order {
 
     private final int d_troopsCount;
     private final int d_countryId;

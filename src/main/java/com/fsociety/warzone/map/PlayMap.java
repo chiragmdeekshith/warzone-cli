@@ -27,7 +27,7 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * Initialize the game state for all the countries in the map
+     * Initialize map elements for all the countries and continents in the map.
      *
      */
     public void initGameMapElements() {
@@ -48,7 +48,7 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * update the game state for a country after a turn
+     * Update the game state for a country after a turn.
      *
      * @param p_countryId the id of the country to update
      * @param p_playerId  the id of the player to update
@@ -61,7 +61,7 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * Display the current Map for the gameplay details. Show owner and armies
+     * Display the current Map for the gameplay details. Show owner and armies.
      */
     @Override
     public void showMap() {
