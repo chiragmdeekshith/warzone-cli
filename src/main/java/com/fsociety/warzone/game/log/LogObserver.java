@@ -1,5 +1,6 @@
 package com.fsociety.warzone.game.log;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.io.FileWriter;
@@ -9,44 +10,41 @@ import java.io.IOException;
  * The LogObserver class writes log entries to a file.
  */
 public class LogObserver implements Observer {
-    private FileWriter fileWriter;
+    private final FileWriter d_fileWriter;
 
     /**
      * Constructs a LogObserver instance that writes log entries to the specified
      * file.
      *
-     * @param filename The name of the log file to write to.
-     * @throws IOException If an I/O error occurs while opening the log file.
+     * @param p_filename The name of the log file to write to.
      */
-    public LogObserver(final String filename) throws IOException {
-        this.fileWriter = new FileWriter(filename);
+    public LogObserver(final String p_filename) {
+        try {
+            this.d_fileWriter = new FileWriter(p_filename);
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "Exception while initializing file to write logs : \n" + e.getMessage());
+        }
     }
 
     /**
      * Updates the observer with a new log entry and writes it to the log file.
      *
-     * @param o   The Observable object (not used in this implementation).
-     * @param arg The log entry to be written to the log file.
+     * @param p_o   The Observable object (not used in this implementation).
+     * @param p_arg The log entry to be written to the log file.
      */
     @Override
-    public void update(final Observable o, final Object arg) {
-        if (arg instanceof LogEntry) {
-            LogEntry logEntry = (LogEntry) arg;
+    public void update(final Observable p_o, final Object p_arg) {
+        if (p_arg instanceof List<?>) {
+            final List<LogEntry> logEntries = (List<LogEntry>) p_arg;
             try {
-                fileWriter.write(logEntry.getMessage() + "\n");
-                fileWriter.flush();
+                for (LogEntry logEntry : logEntries) {
+                    d_fileWriter.write(logEntry.getMessage() + "\n");
+                }
+                d_fileWriter.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException("Exception while writing logs: " + e.getMessage());
             }
         }
-    }
-
-    /**
-     * Closes the log file writer, releasing associated resources.
-     *
-     * @throws IOException If an I/O error occurs while closing the log file.
-     */
-    public void close() throws IOException {
-        fileWriter.close();
     }
 }
