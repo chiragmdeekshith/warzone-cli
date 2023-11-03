@@ -1,7 +1,10 @@
-package com.fsociety.warzone.game.order;
+package com.fsociety.warzone.game.order.card;
 
 import java.util.Random;
 
+/**
+ * This class implements a hand of cards for the player which can be added to and played from.
+ */
 public class HandOfCards {
 
     private int d_bombCards;
@@ -24,23 +27,15 @@ public class HandOfCards {
     }
 
     /**
-     * This method draws one card of a random type, to be called at the start of a round for each player.
+     * This method draws one card of a random type and adds it to the player's hand.
      */
     public void drawCards() {
         int l_choice = rand.nextInt(0,4);
         switch (l_choice) {
-            case 0:
-                d_bombCards++;
-                break;
-            case 1:
-                d_blockadeCards++;
-                break;
-            case 2:
-                d_airliftCards++;
-                break;
-            case 3:
-                d_diplomacyCards++;
-                break;
+            case 0 -> d_bombCards++;
+            case 1 -> d_blockadeCards++;
+            case 2 -> d_airliftCards++;
+            case 3 -> d_diplomacyCards++;
         }
     }
 

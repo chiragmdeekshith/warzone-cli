@@ -54,10 +54,14 @@ public class PlayMap extends AbstractMap {
      * @param p_playerId  the id of the player to update
      * @param p_armies    the number of armies to update
      */
-    public void updateGameState(int p_countryId, int p_playerId, int p_armies){
+    public void updateGameState(int p_countryId, int p_playerId, int p_armies) {
         d_countries.get(p_countryId).setPlayerId(p_playerId);
         d_countries.get(p_countryId).setArmies(p_armies);
         d_countries.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
+    }
+
+    public void updateGameState(int p_countryId, int p_armies) {
+        d_countries.get(p_countryId).setArmies(p_armies);
     }
 
     /**

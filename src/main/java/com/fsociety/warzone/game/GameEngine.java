@@ -9,6 +9,8 @@ import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class handles everything related to playing a game of Warzone.
@@ -18,6 +20,7 @@ public class GameEngine {
     private static ArrayList<Player> d_players;
     private static HashMap<Integer, Player> d_playerList;
     private static PlayMap d_playMap;
+    private static HashMap<Integer, HashSet<Integer>> d_truces;
 
     /**
      * This method implements a game engine by running the start-up phase, and upon success, the main loop that
@@ -62,10 +65,21 @@ public class GameEngine {
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);
 
+            resetTruces();
+
+            // TODO: Check for winner
+
             System.out.println("All orders executed. Turn " + l_turns + " over.");
         }
 
     }
+
+    private static void resetTruces() {
+        for (Player l_player : d_players) {
+            d_truces.put(l_player.getId(), new HashSet<>());
+        }
+    }
+
 
     /**
      * This method creates a map between Player objects and their playerIDs to be stored in the GameEngine.
@@ -91,6 +105,10 @@ public class GameEngine {
 
     public static PlayMap getPlayMap() {
         return d_playMap;
+    }
+
+    public static HashMap<Integer, HashSet<Integer>> getTruces() {
+        return d_truces;
     }
 
     public static void setPlayMap(PlayMap p_playMap) {

@@ -3,7 +3,7 @@ package com.fsociety.warzone.model;
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Deploy;
-import com.fsociety.warzone.game.order.HandOfCards;
+import com.fsociety.warzone.game.order.card.HandOfCards;
 import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.util.IdGenerator;
 import com.fsociety.warzone.util.command.CommandValidator;

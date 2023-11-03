@@ -18,11 +18,15 @@ public class Deploy implements Order {
     }
 
     /**
-     * This method implements the Deploy command as per the Warzone rules and updates the map accordingly.
+     * This method implements the Deploy command as per the Warzone rules and updates the map accordingly: troops are
+     * deployed to a country owned by the player.
+     * The Deploy command will go through as long as the country still belongs to the player.
      */
     @Override
     public void execute() {
-        GameEngine.getPlayMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
-        System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId);
+        if (GameEngine.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId) {
+            GameEngine.getPlayMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
+            System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId);
+        }
     }
 }
