@@ -24,6 +24,7 @@ public class Player {
     private final ArrayList<Country> d_countries;
     private int d_availableReinforcements;
     private HandOfCards d_handOfCards;
+    private boolean cardDrawn;
 
 
     /**
@@ -38,6 +39,7 @@ public class Player {
          this.d_availableReinforcements = 0;
          this.d_handOfCards = new HandOfCards(this.d_name);
          this.d_id = IdGenerator.generateId();
+         this.cardDrawn = false;
     }
 
     /**
@@ -135,6 +137,24 @@ public class Player {
             (d_orders.remove(0)).execute();
         }
 
+    }
+
+    /**
+     * This method adds a card to the player's hand. It is called once per turn when they conquer a country.
+     */
+    public void drawCard() {
+        if (!cardDrawn) {
+            cardDrawn = true;
+            d_handOfCards.drawCards();
+        }
+    }
+
+    /**
+     * This method resets the cardDrawn boolean to false at the end of each turn. This ensures the player can draw a
+     * card again next turn.
+     */
+    public void resetCardDrawn() {
+        cardDrawn = false;
     }
 
     // Getters and setters

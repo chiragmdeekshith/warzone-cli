@@ -65,7 +65,7 @@ public class GameEngine {
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);
 
-            resetTruces();
+            resetRound();
 
             // TODO: Check for winner
 
@@ -74,9 +74,10 @@ public class GameEngine {
 
     }
 
-    private static void resetTruces() {
+    private static void resetRound() {
         for (Player l_player : d_players) {
             d_truces.put(l_player.getId(), new HashSet<>());
+            l_player.resetCardDrawn();
         }
     }
 

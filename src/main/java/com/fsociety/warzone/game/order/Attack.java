@@ -32,11 +32,12 @@ public abstract class Attack implements Order {
             if (GameEngine.getPlayMap().getCountryState(d_sourceCountryId).getPlayerId() == d_playerId && l_currTroops > 0) {
                 int l_advancingTroops = Math.min(d_troopsCount, l_currTroops);
                 GameEngine.getPlayMap().updateGameState(d_sourceCountryId, l_currTroops - l_advancingTroops);
+                String l_outcome;
                 // If the player owns the target country, just advance troops
                 if (GameEngine.getPlayMap().getCountryState(d_targetCountryId).getPlayerId() == d_playerId) {
                     GameEngine.getPlayMap().updateGameState(d_targetCountryId, GameEngine.getPlayMap().getCountryState(d_targetCountryId).getArmies() + l_advancingTroops);
-                    System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " advanced " + l_advancingTroops + " from " + d_sourceCountryId + " to " + d_targetCountryId + ".");
-                    // Otherwise a battle takes place
+                    l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " advanced " + l_advancingTroops + " from " + d_sourceCountryId + " to " + d_targetCountryId + ".";
+                // Otherwise a battle takes place
                 } else {
                     int l_enemyTroops = GameEngine.getPlayMap().getCountryState(d_targetCountryId).getArmies();
                     int l_kills = 0; // Number of enemies killed
@@ -56,14 +57,16 @@ public abstract class Attack implements Order {
                     // If the enemy army is vanquished, move remaining troops to the conquered country
                     if (l_enemyTroops == 0) {
                         GameEngine.getPlayMap().updateGameState(d_targetCountryId, d_playerId, l_advancingTroops);
-                        System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " conquered " + d_targetCountryId + " and has stationed " + l_advancingTroops + " armies there.");
+                        GameEngine.getPlayers().get(d_playerId).drawCard();
+                        l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " conquered " + d_targetCountryId + " and has stationed " + l_advancingTroops + " armies there.";
                     // Otherwise, remaining troops return to the source country
                     } else {
                         GameEngine.getPlayMap().updateGameState(d_targetCountryId, l_enemyTroops);
                         GameEngine.getPlayMap().updateGameState(d_sourceCountryId, GameEngine.getPlayMap().getCountryState(d_sourceCountryId).getArmies() + l_advancingTroops);
-                        System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " failed to conquer " + d_targetCountryId + ".");
+                        l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " failed to conquer " + d_targetCountryId + ".";
                     }
                 }
+                System.out.println(l_outcome);
             }
         }
     }
