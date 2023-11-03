@@ -175,4 +175,10 @@ public class Player {
         return this.d_id;
     }
 
+    /**
+     * Return the number of countries the player owns
+     * @return the number of countries
+     */
+    public int getCountriesCount() { return this.d_countries.size(); }
+
 }
