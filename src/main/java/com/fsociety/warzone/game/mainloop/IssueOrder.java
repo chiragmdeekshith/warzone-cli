@@ -31,6 +31,7 @@ public class IssueOrder {
                     }
                 }
             }
+            // TODO: why did i do it this way?
             l_totalReinforcements = 0;
             for (Player l_player : p_players) {
                 l_totalReinforcements += l_player.getAvailableReinforcements();

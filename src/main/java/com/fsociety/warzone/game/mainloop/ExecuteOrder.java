@@ -27,6 +27,7 @@ public class ExecuteOrder {
                     p_player.nextOrder();
                 }
             }
+            // TODO: why did i do it this way
             l_totalOrders = 0;
             for (Player p_player : p_players) {
                 l_totalOrders += p_player.getOrdersCount();

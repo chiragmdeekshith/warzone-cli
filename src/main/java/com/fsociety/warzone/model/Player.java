@@ -23,7 +23,7 @@ public class Player {
     private final ArrayList<Order> d_orders;
     private final ArrayList<Country> d_countries;
     private int d_availableReinforcements;
-    private HandOfCards d_handOfCards;
+    private final HandOfCards d_handOfCards;
     private boolean cardDrawn;
 
 
