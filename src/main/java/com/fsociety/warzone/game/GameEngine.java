@@ -50,9 +50,7 @@ public class GameEngine {
                 d_playMap.getContinents().get(continentId).computeAndSetContinentOwner();
             });
             // Assign Reinforcements Phase
-            for (Player l_player : d_players) {
-                AssignReinforcements.assignReinforcements(l_player);
-            }
+            AssignReinforcements.assignReinforcements(d_players);
 
             // Issue Orders Phase
             if (!IssueOrder.issueOrders(d_players)) {
