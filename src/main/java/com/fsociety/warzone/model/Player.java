@@ -5,6 +5,7 @@ import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.game.order.card.HandOfCards;
 import com.fsociety.warzone.game.order.Order;
+import com.fsociety.warzone.util.Console;
 import com.fsociety.warzone.util.IdGenerator;
 import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.GameplayCommand;
@@ -80,7 +81,7 @@ public class Player {
             System.out.print(this.getName() + ": You have " + this.getAvailableReinforcements() + " available reinforcements. ");
             System.out.println("Please issue a valid order.");
             System.out.print("> ");
-            l_inputRawCommand = Application.SCANNER.nextLine();
+            l_inputRawCommand = Console.commandPrompt();
             String[] l_parameters = l_inputRawCommand.split(" ");
 
             if(CommandValidator.isValidCommand(l_inputRawCommand, Phase.GAME_PLAY)) {

@@ -4,6 +4,7 @@ import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.util.Console;
 import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.Phase;
@@ -32,7 +33,7 @@ public class StartUp {
         while(true) {
 
             System.out.print("> ");
-            l_inputRawCommand = Application.SCANNER.nextLine();
+            l_inputRawCommand = Console.commandPrompt();
 
             if(!CommandValidator.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
                 System.out.println("Invalid command. Please start by loading a map. Try 'loadmap [filename].map'");
@@ -102,7 +103,7 @@ public class StartUp {
 
             System.out.println("Enter command.");
             System.out.print("> ");
-            l_inputRawCommand = Application.SCANNER.nextLine();
+            l_inputRawCommand = Console.commandPrompt();
 
             // Ensure the command is valid for the current phase
             if(CommandValidator.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
