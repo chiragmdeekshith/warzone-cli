@@ -159,6 +159,11 @@ public class Player {
     }
 
     /**
+     * This method resets the truth value of the committed boolean to false at the end of each turn.
+     */
+    public void resetCommitted() { committed = false; }
+
+    /**
      * This method resets the cardDrawn boolean to false at the end of each turn. This ensures the player can draw a
      * card again next turn.
      */

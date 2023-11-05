@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class ExecuteOrder {
 
     /**
-     * This method calls the execute() method of each order in each player's list of orders in round-robin fashion
-     * until no orders are left on any player's list.
+     * This method returns each order in each player's list of orders in round-robin fashion until no orders are left
+     * on any player's list.
      *
      * @param p_players the list of players of the game
      */

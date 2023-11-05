@@ -9,11 +9,7 @@ import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.Phase;
 import com.fsociety.warzone.util.command.constant.StartupCommand;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * This class handles all the start-up phase functionalities. It loads up a map, adds / removes players, and assigns
@@ -122,6 +118,12 @@ public class StartUp {
                         if (l_players.size() <= GameEngine.getPlayMap().getNeighbours().keySet().size()) {
                             GameEngine.setPlayers(new ArrayList<>(l_players.values()));
                             GameEngine.initPlayerList();
+                            // Set up the truce list
+                            HashMap<Integer, HashSet<Integer>> l_truces = new HashMap<>();
+                            for (Player l_player : GameEngine.getPlayers()) {
+                                l_truces.put(l_player.getId(), new HashSet<>());
+                            }
+                            GameEngine.setTruces(l_truces);
                             return true;
                         } else {
                             System.out.println("Too many players for this map. Please remove players to continue.");

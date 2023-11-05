@@ -35,7 +35,6 @@ public class IssueOrder {
                 break;
             }
         }
-
         return true;
     }
 }

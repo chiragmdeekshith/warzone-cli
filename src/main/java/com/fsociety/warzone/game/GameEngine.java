@@ -75,6 +75,7 @@ public class GameEngine {
     private static void resetRound() {
         for (Player l_player : d_players) {
             d_truces.put(l_player.getId(), new HashSet<>());
+            l_player.resetCommitted();
             l_player.resetCardDrawn();
         }
     }
@@ -112,6 +113,10 @@ public class GameEngine {
 
     public static void setPlayMap(PlayMap p_playMap) {
         d_playMap = p_playMap;
+    }
+
+    public  static void setTruces(HashMap<Integer, HashSet<Integer>> p_truces) {
+        d_truces = p_truces;
     }
 
 }
