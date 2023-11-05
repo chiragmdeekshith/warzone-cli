@@ -27,7 +27,7 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * Initialize the game state for all the countries in the map
+     * Initialize map elements for all the countries and continents in the map.
      *
      */
     public void initGameMapElements() {
@@ -48,20 +48,24 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * update the game state for a country after a turn
+     * Update the game state for a country after a turn.
      *
      * @param p_countryId the id of the country to update
      * @param p_playerId  the id of the player to update
      * @param p_armies    the number of armies to update
      */
-    public void updateGameState(int p_countryId, int p_playerId, int p_armies){
+    public void updateGameState(int p_countryId, int p_playerId, int p_armies) {
         d_countries.get(p_countryId).setPlayerId(p_playerId);
         d_countries.get(p_countryId).setArmies(p_armies);
         d_countries.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
     }
 
+    public void updateGameState(int p_countryId, int p_armies) {
+        d_countries.get(p_countryId).setArmies(p_armies);
+    }
+
     /**
-     * Display the current Map for the gameplay details. Show owner and armies
+     * Display the current Map for the gameplay details. Show owner and armies.
      */
     @Override
     public void showMap() {

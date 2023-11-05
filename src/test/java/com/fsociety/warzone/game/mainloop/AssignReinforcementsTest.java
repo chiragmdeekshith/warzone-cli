@@ -74,14 +74,13 @@ class AssignReinforcementsTest {
         });
 
         //Assert
-        AssignReinforcements.assignReinforcements(d_player1);
-        AssignReinforcements.assignReinforcements(d_player2);
+        AssignReinforcements.assignReinforcements(l_players);
     }
 
 
     /**
      * Verifies bonus reinforcements are being properly allocated to continent owners using created game state.
-     * Test method for {@link com.fsociety.warzone.game.mainloop.AssignReinforcements#assignReinforcements(Player)}
+     * Test method for {@link com.fsociety.warzone.game.mainloop.AssignReinforcements#assignReinforcements(ArrayList)}
      */
     @Test
     void assignReinforcements() {

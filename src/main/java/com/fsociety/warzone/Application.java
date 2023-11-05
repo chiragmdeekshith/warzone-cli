@@ -2,6 +2,7 @@ package com.fsociety.warzone;
 
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.MapEditor;
+import com.fsociety.warzone.util.Console;
 
 import java.util.Scanner;
 
@@ -13,6 +14,7 @@ public class Application {
 
     // Global scanner for the whole program
     public static Scanner SCANNER;
+    public static Console CONSOLE;
 
     /**
      * The main function.
@@ -20,6 +22,7 @@ public class Application {
      */
     public static void main(String[] args) {
         Application.SCANNER = new Scanner(System.in);
+        Application.CONSOLE = new Console();
         System.out.println("Welcome to Warzone!");
         mainMenu();
         System.out.println("Thanks for playing Warzone!");
