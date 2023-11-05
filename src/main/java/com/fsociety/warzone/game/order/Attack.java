@@ -1,5 +1,6 @@
 package com.fsociety.warzone.game.order;
 
+import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 
 /**
@@ -66,7 +67,7 @@ public abstract class Attack implements Order {
                         l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " failed to conquer " + d_targetCountryId + ".";
                     }
                 }
-                System.out.println(l_outcome);
+                Application.CONSOLE.print(l_outcome);
             }
         }
     }

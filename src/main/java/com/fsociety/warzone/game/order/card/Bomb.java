@@ -1,4 +1,5 @@
 package com.fsociety.warzone.game.order.card;
+import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Order;
 
@@ -28,7 +29,8 @@ public class Bomb implements Order {
         if (GameEngine.getPlayMap().getCountryState(d_sourceCountryId).getPlayerId() == d_playerId && GameEngine.getPlayMap().getCountryState(d_targetCountryId).getPlayerId() != d_playerId) {
             int l_troopsCount = GameEngine.getPlayMap().getCountryState(d_targetCountryId).getArmies();
             GameEngine.getPlayMap().updateGameState(d_targetCountryId, l_troopsCount/2);
-            System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " bombed " + d_targetCountryId + " and destroyed " + (l_troopsCount - l_troopsCount/2) + " armies.");
+            String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " bombed " + d_targetCountryId + " and destroyed " + (l_troopsCount - l_troopsCount/2) + " armies.";
+            Application.CONSOLE.print(l_outcome);
         }
     }
 

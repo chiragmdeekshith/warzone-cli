@@ -1,5 +1,6 @@
 package com.fsociety.warzone.game.order;
 
+import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 
 /**
@@ -26,7 +27,8 @@ public class Deploy implements Order {
     public void execute() {
         if (GameEngine.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId) {
             GameEngine.getPlayMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
-            System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId);
+            String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId + ".";
+            Application.CONSOLE.print(l_outcome);
         }
     }
 }

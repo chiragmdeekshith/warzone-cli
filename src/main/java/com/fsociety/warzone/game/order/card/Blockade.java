@@ -1,4 +1,5 @@
 package com.fsociety.warzone.game.order.card;
+import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Order;
 
@@ -26,7 +27,8 @@ public class Blockade implements Order {
         if (GameEngine.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId && GameEngine.getPlayMap().getCountryState(d_countryId).getArmies() > 0) {
             int l_troopsCount = GameEngine.getPlayMap().getCountryState(d_countryId).getArmies();
             GameEngine.getPlayMap().updateGameState(d_countryId, l_troopsCount * 3);
-            System.out.println(GameEngine.getPlayerList().get(d_playerId).getName() + " blockaded " + d_countryId + ".");
+            String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " blockaded " + d_countryId + ".";
+            Application.CONSOLE.print(l_outcome);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.fsociety.warzone.game.order.card;
 
+import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Order;
 
@@ -24,6 +25,8 @@ public class Diplomacy implements Order {
     public void execute() {
         GameEngine.getTruces().get(d_playerId).add(d_enemyId);
         GameEngine.getTruces().get(d_enemyId).add(d_playerId);
+        String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " has declared a truce with " + GameEngine.getPlayerList().get(d_enemyId).getName() + ".";
+        Application.CONSOLE.print(l_outcome);
     }
 
 }
