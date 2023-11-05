@@ -25,6 +25,7 @@ public class Player {
     private int d_availableReinforcements;
     private final HandOfCards d_handOfCards;
     private boolean cardDrawn;
+    private boolean committed;
 
 
     /**
@@ -132,11 +133,11 @@ public class Player {
      * This method removes the first order from the player's list of orders and executes the order by calling its
      * execute() method.
      */
-    public void nextOrder() {
+    public Order nextOrder() {
         if (!d_orders.isEmpty()) {
-            (d_orders.remove(0)).execute();
+            return d_orders.remove(0);
         }
-
+        return null;
     }
 
     /**
@@ -147,6 +148,14 @@ public class Player {
             cardDrawn = true;
             d_handOfCards.drawCards();
         }
+    }
+
+    /**
+     * This method confirms whether the player has committed their orders for the current turn.
+     * @return True if the player has committed their orders, False otherwise
+     */
+    public boolean hasCommitted() {
+        return committed;
     }
 
     /**
