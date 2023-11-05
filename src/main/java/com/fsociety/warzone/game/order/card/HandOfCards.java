@@ -14,7 +14,7 @@ public class HandOfCards {
     private final String d_playerName;
 
     private static final Random rand = new Random();
-    public enum CardType {
+    public enum Card {
         BOMB, BLOCKADE, AIRLIFT, DIPLOMACY;
     }
 
@@ -46,32 +46,32 @@ public class HandOfCards {
      * @param p_type the desired card type
      * @return True if the card exists in the player's hand, and False otherwise.
      */
-    public boolean playCard(CardType p_type) {
+    public boolean playCard(Card p_type) {
         switch (p_type) {
-            case BOMB:
+            case BOMB -> {
                 if (d_bombCards > 0) {
                     d_bombCards--;
                     return true;
                 }
-                break;
-            case BLOCKADE:
+            }
+            case BLOCKADE -> {
                 if (d_blockadeCards > 0) {
                     d_blockadeCards--;
                     return true;
                 }
-                break;
-            case AIRLIFT:
+            }
+            case AIRLIFT -> {
                 if (d_airliftCards > 0) {
                     d_airliftCards--;
                     return true;
                 }
-                break;
-            case DIPLOMACY:
+            }
+            case DIPLOMACY -> {
                 if (d_diplomacyCards > 0) {
                     d_diplomacyCards--;
                     return true;
                 }
-                break;
+            }
         }
         return false;
     }
