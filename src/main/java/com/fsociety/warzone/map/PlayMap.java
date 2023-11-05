@@ -15,15 +15,11 @@ public class PlayMap extends AbstractMap {
     private Map<Integer, Country> d_countries;
 
     /**
-     * Parameterized constructor getting values of the map from the EditMap object
+     * Default constructor
      */
-    public PlayMap(EditMap l_loadMap) {
-        this.d_countriesInContinent = l_loadMap.d_countriesInContinent;
-        this.d_continentBonuses = l_loadMap.d_continentBonuses;
-        this.d_neighbours = l_loadMap.d_neighbours;
-        this.d_fileName = l_loadMap.d_fileName;
-        this.d_countries = new HashMap<>();
-        this.d_continents = new HashMap<>();
+    public PlayMap(){
+        d_continents = new HashMap<>();
+        d_countries = new HashMap<>();
     }
 
     /**

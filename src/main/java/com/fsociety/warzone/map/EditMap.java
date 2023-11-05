@@ -13,13 +13,6 @@ import java.util.Set;
 public class EditMap extends AbstractMap {
 
     /**
-     * Default constructor calling the super class' constructor
-     */
-    public EditMap(){
-        super();
-    }
-
-    /**
      * Adds a new continent to the map.
      *
      * @param p_continentId    the id of the continent to add

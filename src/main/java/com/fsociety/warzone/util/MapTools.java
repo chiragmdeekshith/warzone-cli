@@ -11,9 +11,9 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.File;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.Map;
 
 /**
  * This class provides all the functionality to read from Domination type .map files and store them in WZMap Objects.
@@ -88,9 +88,8 @@ public class MapTools {
      */
     public static PlayMap loadAndValidatePlayableMap(String p_fileName) {
         PlayMap l_playMap;
-        EditMap l_loadMap;
         try {
-            l_loadMap = new EditMap();
+            l_playMap = new PlayMap();
             String l_filePath = "src/main/resources/" + p_fileName;
             FileReader mapFile;
             mapFile = new FileReader(l_filePath);
@@ -104,11 +103,10 @@ public class MapTools {
                     line = mapReader.readLine();
                 }
             }
-            if (validateFileFormat(l_loadMap, data, p_fileName)) {
-                if (!loadDataFromFile(l_loadMap, data)) {
+            if (validateFileFormat(l_playMap, data, p_fileName)) {
+                if (!loadDataFromFile(l_playMap, data)) {
                     return null;
                 }
-                l_playMap = new PlayMap(l_loadMap);
             }
             else {
                 return null;
@@ -137,7 +135,7 @@ public class MapTools {
      * @param p_data - the StringBuilder object that contains the data from the file
      * @return true if the data is loaded in correctly, false otherwise
      */
-    public static boolean loadDataFromFile(EditMap p_map, StringBuilder p_data) {
+    public static boolean loadDataFromFile(AbstractMap p_map, StringBuilder p_data) {
         String[] continentData = p_data.substring(p_data.toString().toLowerCase().indexOf("[continents]")+13, p_data.toString().toLowerCase().indexOf("[countries]")).split("\n");
         String[] countryData = p_data.substring(p_data.toString().toLowerCase().indexOf("[countries]")+12, p_data.toString().toLowerCase().indexOf("[borders]")).split("\n");
         String[] neighborData = p_data.substring(p_data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
@@ -146,13 +144,17 @@ public class MapTools {
             int l_continentId = ++l_counter;
             String[] l_splitData = s.split(" ");
             int l_continentBonusValue = Integer.parseInt(l_splitData[1]);
-            p_map.addContinent(l_continentId, l_continentBonusValue);
+            if (!loadContinent(p_map,l_continentId, l_continentBonusValue)){
+                return false;
+            }
         }
         for(String s:countryData) {
             String[] l_splitData = s.split(" ");
             int l_countryId = Integer.parseInt(l_splitData[0]);
             int l_continentId = Integer.parseInt(l_splitData[2]);
-            p_map.addCountry(l_countryId, l_continentId);
+            if (!loadCountry(p_map,l_countryId, l_continentId)) {
+                return false;
+            }
         }
         for(String s:neighborData) {
             String[] temp = s.split(" ");
@@ -164,18 +166,81 @@ public class MapTools {
                     return false;
                 }
                 arr[i] = Integer.parseInt(temp[i]);
-                p_map.addNeighbour(countryID,arr[i]);
+                if (!loadNeighbour(p_map,countryID,arr[i])) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
+    /**
+     * Loads a new continent to the map.
+     *
+     * @param p_map            the AbstractMap object to which we are adding the continent to
+     * @param p_continentId    the id of the continent to add
+     * @param p_continentBonus the bonus for the control of the continent to add
+     */
+    private static boolean loadContinent(AbstractMap p_map, int p_continentId, int p_continentBonus) {
+        if (p_map.getCountriesInContinent().get(p_continentId) != null) {
+            System.out.println("Continent already exists.");
+            return false;
+        } else {
+            p_map.getCountriesInContinent().put(p_continentId, new LinkedHashSet<>());
+            p_map.getContinentBonuses().put(p_continentId, p_continentBonus);
+            return true;
+        }
+    }
 
+    /**
+     * Loads a country to the map.
+     *
+     * @param p_map         the AbstractMap object to which we are adding the country to
+     * @param p_countryId   the id of the country to add
+     * @param p_continentId the id of the continent to add the country to
+     */
+    private static boolean loadCountry(AbstractMap p_map, int p_countryId, int p_continentId) {
+        if (p_map.getCountriesInContinent().get(p_continentId) == null) {
+            System.out.println("Continent does not exist in the Map.");
+            return false;
+        } else if (p_map.getNeighbours().get(p_countryId) != null) {
+            System.out.println("Country already exists.");
+            return false;
+        } else {
+            p_map.getNeighbours().put(p_countryId, new LinkedHashSet<>());
+            p_map.getCountriesInContinent().get(p_continentId).add(p_countryId);
+            return true;
+        }
+    }
+
+    /**
+     * Loads a neighbour to a country
+     *
+     * @param p_map                the AbstractMap object to which we are adding the country to
+     * @param p_countryId          the id of the country to add the neighbour to
+     * @param p_neighbourCountryId the id of the neighbour to add
+     */
+    private static boolean loadNeighbour(AbstractMap p_map, int p_countryId, int p_neighbourCountryId) {
+        if (p_countryId == p_neighbourCountryId) {
+            System.out.println("Country cannot be neighbour of itself.");
+            return false;
+        } else if (p_map.getNeighbours().get(p_countryId) == null) {
+            System.out.println("Country does not exist or is invalid.");
+            return false;
+        } else if (p_map.getNeighbours().get(p_neighbourCountryId) == null) {
+            System.out.println("Neighbour Country does not exist or is invalid.");
+            return false;
+        } else {
+            p_map.getNeighbours().get(p_countryId).add(p_neighbourCountryId);
+            p_map.getNeighbours().get(p_neighbourCountryId).add(p_countryId);
+            return true;
+        }
+    }
     /**
      *
      * This functions validates the map before saving into a physical file on the system
      *
-     * @param p_mapData - the WZMap to save to the file
+     * @param p_mapData - the EditMap object to save to the file
      * @param p_fileNameForSave - name of the new save file
      * @return true if the file was saved successfully, false otherwise
      */
@@ -236,9 +301,9 @@ public class MapTools {
     }
 
     /**
-     * Logically validates the WZMap object
+     * Logically validates the AbstractMap object
      *
-     * @param p_mapData - the WZMap object that needs to be validated
+     * @param p_mapData - the AbstractMap object that needs to be validated
      * @return true if the map is valid, false otherwise
      */
     public static boolean validateMap(AbstractMap p_mapData) {
@@ -258,7 +323,7 @@ public class MapTools {
     /**
      * Check if the continent is empty , i.e, has no countries
      *
-     * @param p_mapData - the WZMap object that needs to be checked
+     * @param p_mapData - the AbstractMap object that needs to be checked
      * @return true if the continent doesn't have any countries, false otherwise
      */
     public static boolean checkEmptyContinent(AbstractMap p_mapData) {
@@ -278,7 +343,7 @@ public class MapTools {
     /**
      * Checks if there are any countries with empty neighbours.
      *
-     * @param p_mapData - the WZMap object that needs to be checked
+     * @param p_mapData - the AbstractMap object that needs to be checked
      * @return true if the neighbours are empty, false otherwise
      */
     public static boolean checkEmptyNeighbours(AbstractMap p_mapData) {
@@ -293,7 +358,7 @@ public class MapTools {
     /**
      * Checks if the continents are connected
      *
-     * @param p_mapData - the WZMap object that needs to be checked
+     * @param p_mapData - the AbstractMap object that needs to be checked
      * @return true if the continent is a connected graph, false otherwise
      */
     public static boolean checkConnectedContinent(AbstractMap p_mapData) {
@@ -307,7 +372,7 @@ public class MapTools {
             for (Integer l_countryID : l_countryIDs) {
                 isContinentConnected=false;
                 for (Integer l_neighbourID : p_mapData.getNeighbours().get(l_countryID)) {
-                    if(Objects.equals(p_mapData.getContinentIdForCountry(l_neighbourID), p_mapData.getContinentIdForCountry(l_countryID))) {
+                    if(p_mapData.getContinentIdForCountry(l_neighbourID) == p_mapData.getContinentIdForCountry(l_countryID)) {
                         isContinentConnected = true;
                         break;
                     }
