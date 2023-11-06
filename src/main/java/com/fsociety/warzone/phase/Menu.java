@@ -1,9 +1,10 @@
 package com.fsociety.warzone.phase;
 
 import com.fsociety.warzone.command.Command;
+import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.Console;
 
-public class Menu extends Phase{
+public class Menu extends Phase {
 
     Command[] d_validCommands = {Command.PLAY_GAME, Command.MAP_EDITOR, Command.EXIT, Command.BACK};
 
@@ -60,12 +61,12 @@ public class Menu extends Phase{
     }
 
     @Override
-    public void deploy() {
+    public void deploy(Player p_player, int p_countryId, int p_troopsCount) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void advance() {
+    public void advance(Player l_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
         printInvalidCommandMessage();
     }
 

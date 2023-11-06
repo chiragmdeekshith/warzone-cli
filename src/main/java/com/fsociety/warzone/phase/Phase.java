@@ -1,6 +1,7 @@
 package com.fsociety.warzone.phase;
 
 import com.fsociety.warzone.command.Command;
+import com.fsociety.warzone.model.Player;
 
 public abstract class Phase {
 
@@ -21,8 +22,8 @@ public abstract class Phase {
     public abstract void assignCountries();
 
     // Gameplay commands
-    public abstract void deploy();
-    public abstract void advance();
+    public abstract void deploy(Player p_player, int p_countryId, int p_troopsCount);
+    public abstract void advance(Player l_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
     public abstract void bomb();
     public abstract void blockade();
     public abstract void airlift();

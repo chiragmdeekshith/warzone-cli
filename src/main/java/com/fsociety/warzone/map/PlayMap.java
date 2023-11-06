@@ -93,6 +93,20 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
+     * This method verifies whether the given country neighbours a country owned by the given player.
+     * @param p_countryId the country ID
+     * @param p_playerId the player ID
+     * @return True if the country neighbours a country owned by the given player, false otherwise
+     */
+    public boolean isNeighbourOf(int p_countryId, int p_playerId) {
+        for (Integer l_neighbouringCountry : d_neighbours.get(p_countryId))
+            if (d_countries.get(l_neighbouringCountry).getPlayerId() == p_playerId) {
+                return true;
+            }
+        return false;
+    }
+
+    /**
      * get the current status of a country instance
      *
      * @param p_countryId the country ID
