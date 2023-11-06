@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class IssueOrder {
 
     public static HashMap<Integer, Integer> d_availableTroopsOnMap;
+    private static Player d_currentPlayer;
 
     /**
      * This method calls the issueOrder() method of each player in round-robin fashion until all players have committed
@@ -33,6 +34,7 @@ public class IssueOrder {
         while (true) {
             int l_committed = 0;
             for (Player p_player : p_players) {
+                d_currentPlayer = p_player;
                 if (p_player.hasCommitted()) {
                     l_committed++;
                 } else {
@@ -56,5 +58,8 @@ public class IssueOrder {
         Console.print(l_output);
     }
 
+    public static Player getCurrentPlayer() {
+        return d_currentPlayer;
+    }
 
 }

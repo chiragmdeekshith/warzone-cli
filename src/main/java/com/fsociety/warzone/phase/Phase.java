@@ -22,13 +22,13 @@ public abstract class Phase {
     public abstract void assignCountries();
 
     // Gameplay commands
-    public abstract void deploy(Player p_player, int p_countryId, int p_troopsCount);
-    public abstract void advance(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
-    public abstract void bomb(Player p_issuer, int p_targetCountryId);
-    public abstract void blockade(Player p_issuer, int p_countryId);
-    public abstract void airlift(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
-    public abstract void negotiate(Player p_issuer, int p_targetPlayerId);
-    public abstract void commit(Player p_issuer);
+    public abstract void deploy(int p_countryId, int p_troopsCount);
+    public abstract void advance(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
+    public abstract void bomb(int p_targetCountryId);
+    public abstract void blockade(int p_countryId);
+    public abstract void airlift(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
+    public abstract void negotiate(int p_targetPlayerId);
+    public abstract void commit();
 
     // Map Editor commands
     public abstract void editMap();

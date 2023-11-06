@@ -23,44 +23,44 @@ public class Attack extends MainPlay {
     }
 
     @Override
-    public void advance(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
+    public void advance(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
         String l_confirmation = p_troopsCount + " will advance to " + p_targetCountryId + " from " + p_sourceCountryId + ".";
         IssueOrder.d_availableTroopsOnMap.put(p_sourceCountryId, IssueOrder.d_availableTroopsOnMap.get(p_sourceCountryId) - p_troopsCount);
-        p_issuer.addOrder(new Advance(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_issuer.getId()));
+        IssueOrder.getCurrentPlayer().addOrder(new Advance(p_sourceCountryId, p_targetCountryId, p_troopsCount, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
     }
 
     @Override
-    public void bomb(Player p_issuer, int p_targetCountryId) {
+    public void bomb(int p_targetCountryId) {
         String l_confirmation = p_targetCountryId + " will be bombed.";
-        p_issuer.addOrder(new Bomb(p_targetCountryId, p_issuer.getId()));
+        IssueOrder.getCurrentPlayer().addOrder(new Bomb(p_targetCountryId, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
     }
 
     @Override
-    public void blockade(Player p_issuer, int p_countryId) {
+    public void blockade(int p_countryId) {
         String l_confirmation = p_countryId + " will be blockaded.";
-        p_issuer.addOrder(new Blockade(p_countryId, p_issuer.getId()));
+        IssueOrder.getCurrentPlayer().addOrder(new Blockade(p_countryId, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
     }
 
     @Override
-    public void airlift(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
+    public void airlift(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
         String l_confirmation = p_troopsCount + " will be airlifted to " + p_targetCountryId + " from " + p_sourceCountryId + ".";
         IssueOrder.d_availableTroopsOnMap.put(p_sourceCountryId, IssueOrder.d_availableTroopsOnMap.get(p_sourceCountryId) - p_troopsCount);
-        p_issuer.addOrder(new Airlift(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_issuer.getId()));
+        IssueOrder.getCurrentPlayer().addOrder(new Airlift(p_sourceCountryId, p_targetCountryId, p_troopsCount, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
     }
 
     @Override
-    public void negotiate(Player p_issuer, int p_targetPlayerId) {
+    public void negotiate(int p_targetPlayerId) {
         String l_confirmation = p_targetPlayerId + " will be negotiated with.";
-        p_issuer.addOrder(new Diplomacy(p_issuer.getId(), p_targetPlayerId));
+        IssueOrder.getCurrentPlayer().addOrder(new Diplomacy(IssueOrder.getCurrentPlayer().getId(), p_targetPlayerId));
         Console.print(l_confirmation);
     }
 
     @Override
-    public void commit(Player p_issuer) {
-        p_issuer.commit();
+    public void commit() {
+        IssueOrder.getCurrentPlayer().commit();
     }
 }
