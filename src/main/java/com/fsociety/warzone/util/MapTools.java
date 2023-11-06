@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Map;
+import java.util.ArrayList;
+
 
 /**
  * This class provides all the functionality to read from Domination type .map files and store them in WZMap Objects.
@@ -301,23 +303,116 @@ public class MapTools {
     }
 
     /**
+     * This class is used to create a graph of the Map to check for connectivity.
+     */
+    private static class Graph {
+
+        // Number of vertices in the graph
+        private int vertices;
+
+        // Adjacency list for the graph
+        private ArrayList<Integer>[] adjacencyList;
+
+        /**
+         * Default constructor for creating a new graph
+         *
+         * @param p_vertex - the number of vertices in the graph
+         */
+        Graph(int p_vertex) {
+            this.vertices = p_vertex;
+            adjacencyList = new ArrayList[vertices];
+            for(int i = 0; i < vertices; i++) {
+                adjacencyList[i] = new ArrayList<Integer>();
+            }
+        }
+
+        /**
+         * Adds an edge to the graph
+         *
+         * @param p_vertex - the vertex to which the edge is to be added
+         * @param p_edge - the edge to be added
+         */
+        void addEdge(int p_vertex, int p_edge) {
+            adjacencyList[p_vertex].add(p_edge);
+        }
+
+        /**
+         * Used to recursively traverse the graph
+         *
+         * @param p_vertex - the vertex to start the traversal from
+         * @param p_visited - the boolean array to keep track of visited vertices
+         */
+        void dfsTraversal(int p_vertex, boolean[] p_visited) {
+            p_visited[p_vertex] = true;
+            for (int l_next : adjacencyList[p_vertex]) {
+                if (!p_visited[l_next]) {
+                    dfsTraversal(l_next, p_visited);
+                }
+            }
+        }
+
+        /**
+         * Gets the transpose of the graph
+         *
+         * @return the transpose of the graph
+         */
+        Graph getTranspose(){
+            Graph l_graph = new Graph(vertices);
+            for (int l_vertex = 0; l_vertex < vertices; l_vertex++) {
+                for (Integer l_integer : adjacencyList[l_vertex]) {
+                    l_graph.adjacencyList[l_integer].add(l_vertex);
+                }
+            }
+            return l_graph;
+        }
+
+        /**
+         * Checks if the graph is strongly connected
+         *
+         * @return true if the graph is strongly connected, false otherwise
+         */
+        Boolean isStronglyConnected() {
+            boolean[] l_visited = new boolean[vertices];
+            for(int l_vertex = 0; l_vertex < vertices; l_vertex++) {
+                l_visited[l_vertex] = false;
+            }
+            dfsTraversal(0, l_visited);
+            for (boolean l_vertex : l_visited) {
+                if (!l_vertex) {
+                    return false;
+                }
+            }
+            Graph l_transpose = getTranspose();
+            for(int l_vertex = 0; l_vertex < vertices; l_vertex++) {
+                l_visited[l_vertex] = false;
+            }
+            l_transpose.dfsTraversal(0, l_visited);
+            for (boolean l_vertex : l_visited) {
+                if (!l_vertex) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    /**
      * Logically validates the AbstractMap object
      *
      * @param p_mapData - the AbstractMap object that needs to be validated
      * @return true if the map is valid, false otherwise
      */
     public static boolean validateMap(AbstractMap p_mapData) {
-        if(!checkEmptyContinent(p_mapData)) {
-            if(!checkEmptyNeighbours(p_mapData)) {
-                return checkConnectedContinent(p_mapData);
-            }
-            else {
-                return false;
-            }
-        }
-        else {
+        if(checkEmptyContinent(p_mapData)) {
             return false;
         }
+        if(checkEmptyNeighbours(p_mapData)) {
+            return false;
+        }
+        if(!checkConnectedContinent(p_mapData)) {
+            return false;
+        }
+        return checkConnectedMap(p_mapData);
     }
 
     /**
@@ -386,4 +481,25 @@ public class MapTools {
         return true;
     }
 
+    /**
+     * Checks if the map is a connected graph
+     *
+     * @param p_mapData - the AbstractMap object that needs to be checked
+     * @return true if the map is a connected graph, false otherwise
+     */
+    public static boolean checkConnectedMap(AbstractMap p_mapData) {
+        Graph l_graph = new Graph(p_mapData.getNeighbours().keySet().size());
+        for (Map.Entry<Integer, Set<Integer>> entry : p_mapData.getNeighbours().entrySet()) {
+            Integer l_countryId = entry.getKey();
+            Set<Integer> l_neighbourIds = entry.getValue();
+            for (Integer l_neighbourId : l_neighbourIds) {
+                l_graph.addEdge(l_countryId-1, l_neighbourId-1);
+            }
+        }
+        if (!l_graph.isStronglyConnected()){
+            System.out.println("The Map is not Strongly Connected");
+            return false;
+        }
+        return true;
+    }
 }
