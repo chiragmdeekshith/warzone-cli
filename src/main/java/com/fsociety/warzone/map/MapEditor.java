@@ -1,6 +1,7 @@
 package com.fsociety.warzone.map;
 
 import com.fsociety.warzone.Application;
+import com.fsociety.warzone.util.Console;
 import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.util.command.CommandValidator;
 import com.fsociety.warzone.util.command.constant.MapEditorCommand;
@@ -24,7 +25,7 @@ public class MapEditor {
         while(true) {
             System.out.println("Enter command.");
             System.out.print("> ");
-            l_inputRawCommand = Application.SCANNER.nextLine();
+            l_inputRawCommand = Console.commandPrompt();
 
             if(!CommandValidator.isValidCommand(l_inputRawCommand, Phase.MAP_EDITOR)) {
                 continue;

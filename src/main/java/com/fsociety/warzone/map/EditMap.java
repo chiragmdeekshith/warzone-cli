@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class is used by the Map Editor for physically altering the map based on user input
+ * This class is used by the Map Editor for physically altering the map based on user input.
  */
 public class EditMap extends AbstractMap {
 
@@ -84,7 +84,7 @@ public class EditMap extends AbstractMap {
     }
 
     /**
-     * Adds a neighbour to a country
+     * Adds a neighbour to a country.
      *
      * @param p_countryId          the id of the country to add the neighbour to
      * @param p_neighbourCountryId the id of the neighbour to add
@@ -107,7 +107,7 @@ public class EditMap extends AbstractMap {
     }
 
     /**
-     * Removes a neighbour from a country
+     * Removes a neighbour from a country.
      *
      * @param p_countryId          the id of the country to remove the neighbour
      * @param p_neighbourCountryId the id of the neighbour to remove
@@ -130,7 +130,7 @@ public class EditMap extends AbstractMap {
     }
 
     /**
-     * Display the current Map for the map editor. Show continents, countries and neighbours
+     * Display the current Map for the map editor: show continents, countries and neighbours.
      */
     @Override
     void showMap() {

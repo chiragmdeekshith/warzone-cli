@@ -1,5 +1,6 @@
 package com.fsociety.warzone.game.mainloop;
 
+import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
@@ -10,27 +11,32 @@ import java.util.ArrayList;
 public class ExecuteOrder {
 
     /**
-     * This method calls the execute() method of each order in each player's list of orders in round-robin fashion
-     * until no orders are left on any player's list. This is done by keeping count of the total number of pending
-     * orders that all players have. If a player has no pending orders, they are skipped.
+     * This method returns each order in each player's list of orders in round-robin fashion until no orders are left
+     * on any player's list.
      *
      * @param p_players the list of players of the game
      */
     public static void executeOrders(ArrayList<Player> p_players) {
+
         int l_totalOrders = 0;
         for (Player p_player : p_players) {
             l_totalOrders += p_player.getOrdersCount();
         }
+
+        ArrayList<Order> l_orders = new ArrayList<>();
+
         while (l_totalOrders > 0) {
             for (Player p_player : p_players) {
-                if (p_player.getOrdersCount() > 0) {
-                    p_player.nextOrder();
+                Order l_currentOrder = p_player.nextOrder();
+                if (l_currentOrder != null) {
+                    l_orders.add(p_player.nextOrder());
+                    l_totalOrders--;
                 }
             }
-            l_totalOrders = 0;
-            for (Player p_player : p_players) {
-                l_totalOrders += p_player.getOrdersCount();
-            }
+        }
+
+        for (Order l_order : l_orders) {
+            l_order.execute();
         }
     }
 }

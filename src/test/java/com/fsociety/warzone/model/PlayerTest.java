@@ -74,8 +74,7 @@ class PlayerTest {
         });
 
         // Asserts
-        AssignReinforcements.assignReinforcements(l_player1);
-        AssignReinforcements.assignReinforcements(l_player2);
+        AssignReinforcements.assignReinforcements(l_players);
     }
 
 
