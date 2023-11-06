@@ -192,6 +192,10 @@ public class Player {
         }
     }
 
+    public void commit() {
+        committed = true;
+    }
+
     /**
      * This method adds an order to the player's list of orders.
      * @param p_order the order to be added to the list

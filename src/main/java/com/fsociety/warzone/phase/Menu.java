@@ -71,27 +71,27 @@ public class Menu extends Phase {
     }
 
     @Override
-    public void bomb() {
+    public void bomb(Player l_issuer, int p_targetCountryId) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void blockade() {
+    public void blockade(Player p_issuer, int p_countryId) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void airlift() {
+    public void airlift(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void negotiate() {
+    public void negotiate(Player p_issuer, int p_targetPlayerId) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void commit() {
+    public void commit(Player p_issuer) {
         printInvalidCommandMessage();
     }
 

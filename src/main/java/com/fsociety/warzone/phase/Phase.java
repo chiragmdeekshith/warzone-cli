@@ -24,11 +24,11 @@ public abstract class Phase {
     // Gameplay commands
     public abstract void deploy(Player p_player, int p_countryId, int p_troopsCount);
     public abstract void advance(Player l_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
-    public abstract void bomb();
-    public abstract void blockade();
-    public abstract void airlift();
-    public abstract void negotiate();
-    public abstract void commit();
+    public abstract void bomb(Player l_issuer, int p_targetCountryId);
+    public abstract void blockade(Player p_issuer, int p_countryId);
+    public abstract void airlift(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
+    public abstract void negotiate(Player p_issuer, int p_targetPlayerId);
+    public abstract void commit(Player p_issuer);
 
     // Map Editor commands
     public abstract void editMap();
