@@ -1,8 +1,10 @@
 package com.fsociety.warzone.game.mainloop;
 
-import com.fsociety.warzone.game.GameEngine;
-import com.fsociety.warzone.map.WZMap;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.controllers.GameEngineController;
+import com.fsociety.warzone.models.map.WZMap;
+import com.fsociety.warzone.models.Player;
+import com.fsociety.warzone.models.command.AssignReinforcements;
+import com.fsociety.warzone.models.map.PlayMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,9 +50,9 @@ class AssignReinforcementsTest {
         l_players.add(d_player1);
         l_players.add(d_player2);
 
-        GameEngine.setPlayers(l_players);
-        GameEngine.initPlayerList();
-        GameEngine.setPlayMap(d_wzMap);
+        PlayMap.setPlayers(l_players);
+        PlayMap.initPlayerList();
+        //PlayMap.setPlayMap(d_wzMap);
 
         // Start modifying the maps
         d_wzMap.updateGameState(1, d_player1.getId(), 0);
@@ -81,7 +83,7 @@ class AssignReinforcementsTest {
 
     /**
      * Verifies bonus reinforcements are being properly allocated to continent owners using created game state.
-     * Test method for {@link com.fsociety.warzone.game.mainloop.AssignReinforcements#assignReinforcements(Player)}
+     * Test method for {@link AssignReinforcements#assignReinforcements(Player)}
      */
     @Test
     void assignReinforcements() {
