@@ -1,5 +1,7 @@
 package com.fsociety.warzone.phase.play.mainplay;
 
+import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.Console;
@@ -17,10 +19,11 @@ public class Reinforcement extends MainPlay {
     }
 
     @Override
-    public void deploy(Player p_issuer, int p_countryId, int p_troopsCount) {
+    public void deploy(int p_countryId, int p_troopsCount) {
+        Player l_currentPlayer = IssueOrder.getCurrentPlayer();
         String l_confirmation = p_troopsCount + " reinforcement armies will be deployed to " + p_countryId + ".";
-        p_issuer.addOrder(new Deploy(p_countryId, p_troopsCount, p_issuer.getId()));
-        p_issuer.setAvailableReinforcements(p_issuer.getAvailableReinforcements() - p_troopsCount);
+        l_currentPlayer.setAvailableReinforcements(l_currentPlayer.getAvailableReinforcements() - p_troopsCount);
+        l_currentPlayer.addOrder(new Deploy(p_countryId, p_troopsCount, l_currentPlayer.getId()));
         Console.print(l_confirmation);
     }
 
