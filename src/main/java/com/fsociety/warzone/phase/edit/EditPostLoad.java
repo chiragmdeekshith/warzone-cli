@@ -12,8 +12,7 @@ public class EditPostLoad extends Edit {
 
     @Override
     public void help() {
-        String help = "Please enter one of the following commands: \n" +
-                getValidCommands() +
+        String help = "Please enter one of the following commands: \n" + getValidCommands() +
                 "Tip - use the following general format for commands: command -flag [arguments] / -flag [arguments]";
         Console.print(help);
     }

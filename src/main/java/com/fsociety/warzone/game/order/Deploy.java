@@ -28,7 +28,6 @@ public class Deploy implements Order {
     public void execute() {
         if (GameEngine.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId) {
             GameEngine.getPlayMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
-            GameEngine.getPlayers().get(d_playerId).setAvailableReinforcements(GameEngine.getPlayers().get(d_playerId).getAvailableReinforcements() - d_troopsCount);
             String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId + ".";
             Console.print(l_outcome);
         }

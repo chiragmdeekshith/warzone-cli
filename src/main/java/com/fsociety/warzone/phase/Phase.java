@@ -23,8 +23,8 @@ public abstract class Phase {
 
     // Gameplay commands
     public abstract void deploy(Player p_player, int p_countryId, int p_troopsCount);
-    public abstract void advance(Player l_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
-    public abstract void bomb(Player l_issuer, int p_targetCountryId);
+    public abstract void advance(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
+    public abstract void bomb(Player p_issuer, int p_targetCountryId);
     public abstract void blockade(Player p_issuer, int p_countryId);
     public abstract void airlift(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
     public abstract void negotiate(Player p_issuer, int p_targetPlayerId);

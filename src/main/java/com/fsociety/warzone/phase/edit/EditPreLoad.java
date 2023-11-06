@@ -9,8 +9,7 @@ public class EditPreLoad extends Edit {
 
     @Override
     public void help() {
-        String help = "Please enter one of the following commands: " +
-                getValidCommands();
+        String help = "Please enter one of the following commands: \n" + getValidCommands();
         Console.print(help);
     }
 

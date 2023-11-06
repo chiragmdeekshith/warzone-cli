@@ -8,7 +8,7 @@ import com.fsociety.warzone.util.Console;
 
 public class GameRunner {
 
-    private Phase d_phase;
+    private static Phase d_phase;
 
     /**
      * This function starts the main menu for the game.
@@ -41,11 +41,11 @@ public class GameRunner {
         } while(result);
     }
 
-    public Phase getPhase() {
+    public static Phase getPhase() {
         return d_phase;
     }
 
-    public void setPhase(Phase p_phase) {
-        this.d_phase = p_phase;
+    public static void setPhase(Phase p_phase) {
+        d_phase = p_phase;
     }
 }

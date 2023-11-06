@@ -1,6 +1,7 @@
 package com.fsociety.warzone.phase.play.mainplay;
 
 import com.fsociety.warzone.command.Command;
+import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.order.card.Airlift;
 import com.fsociety.warzone.game.order.card.Blockade;
 import com.fsociety.warzone.game.order.card.Bomb;
@@ -16,8 +17,7 @@ public class Attack extends MainPlay {
 
     @Override
     public void help() {
-        String help = "Please enter one of the following commands: " +
-                getValidCommands() +
+        String help = "Please enter one of the following commands: \n" + getValidCommands() +
                 "Tip - use the following general format for commands: command [arguments]";
         Console.print(help);
     }
@@ -25,6 +25,7 @@ public class Attack extends MainPlay {
     @Override
     public void advance(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
         String l_confirmation = p_troopsCount + " will advance to " + p_targetCountryId + " from " + p_sourceCountryId + ".";
+        IssueOrder.d_availableTroopsOnMap.put(p_sourceCountryId, IssueOrder.d_availableTroopsOnMap.get(p_sourceCountryId) - p_troopsCount);
         p_issuer.addOrder(new Advance(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_issuer.getId()));
         Console.print(l_confirmation);
     }
@@ -46,6 +47,7 @@ public class Attack extends MainPlay {
     @Override
     public void airlift(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
         String l_confirmation = p_troopsCount + " will be airlifted to " + p_targetCountryId + " from " + p_sourceCountryId + ".";
+        IssueOrder.d_availableTroopsOnMap.put(p_sourceCountryId, IssueOrder.d_availableTroopsOnMap.get(p_sourceCountryId) - p_troopsCount);
         p_issuer.addOrder(new Airlift(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_issuer.getId()));
         Console.print(l_confirmation);
     }
