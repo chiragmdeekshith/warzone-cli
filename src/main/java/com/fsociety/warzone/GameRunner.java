@@ -1,5 +1,6 @@
 package com.fsociety.warzone;
 
+import com.fsociety.warzone.command.CommandProcessor;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.MapEditor;
 import com.fsociety.warzone.phase.Phase;
@@ -17,25 +18,27 @@ public class GameRunner {
         Console.print("2) Map Editor");
         Console.print("3) Exit");
         String l_command;
+        boolean result;
         do {
-            Console.print("Please enter a command.");
             l_command = Console.commandPrompt();
-            switch(l_command) {
-                case "1" -> {
-                    Console.print("New Game");
-                    GameEngine.playGame();
-                }
-                case "2" -> {
-                    Console.print("Map Editor");
-                    MapEditor.editMap();
-                }
-                case "3" -> {
-                    Console.print("Exiting...");
-                    return;
-                }
-                default -> Console.print("Invalid choice!");
-            }
-        } while(true);
+            result = CommandProcessor.processCommand(l_command);
+
+//            switch(l_command) {
+//                case "1" -> {
+//                    Console.print("New Game");
+//                    GameEngine.playGame();
+//                }
+//                case "2" -> {
+//                    Console.print("Map Editor");
+//                    MapEditor.editMap();
+//                }
+//                case "3" -> {
+//                    Console.print("Exiting...");
+//                    return;
+//                }
+//                default -> Console.print("Invalid choice!");
+//            }
+        } while(result);
     }
 
     public Phase getPhase() {
