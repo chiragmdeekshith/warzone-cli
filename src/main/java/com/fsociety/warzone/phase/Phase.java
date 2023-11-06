@@ -1,6 +1,10 @@
 package com.fsociety.warzone.phase;
 
+import com.fsociety.warzone.command.Command;
+
 public abstract class Phase {
+
+    protected Command[] d_validCommands;
 
     // Main Menu
     public abstract void playGame();
@@ -36,5 +40,16 @@ public abstract class Phase {
     // Common commands
     public abstract void exit();
     public abstract void printInvalidCommandMessage();
+
+    /**
+     *  This method formats the valid commands for a given phase in order to be printed as part of the help message.
+     */
+    protected String getValidCommands() {
+        String l_validCommands = "";
+        for (Command l_command : d_validCommands) {
+            l_validCommands += "\t" + l_command.getCommand() + " " + l_command.getHelpMessage() + "\n";
+        }
+        return l_validCommands;
+    }
 
 }

@@ -2,26 +2,27 @@ package com.fsociety.warzone.command;
 
 public enum Command {
 
-    BACK("back", "s;rgnsrjlef"),
-    DEPLOY("deploy", "s;ejfnsnedf"),
-    SHOW_MAP("showmap", "soeifjesjf"),
-    EDIT_MAP("editmap", "soeifjesjf"),
-    EDIT_CONTINENT("editcontinent", "soeifjesjf"),
-    EDIT_COUNTRY("editcountry", "soeifjesjf"),
-    EDIT_NEIGHBOUR("editneighbor", "soeifjesjf"),
-    VALIDATE_MAP("validatemap", "soeifjesjf"),
-    SAVE_MAP("savemap", "soeifjesjf"),
-    GAME_PLAYER("gameplayer", "soeifjesjf"),
-    ASSIGN_COUNTRIES("assigncountries", "soeifjesjf"),
-    LOAD_MAP("loadmap", "soeifjesjf"),
-    PLAY_GAME("playgame", "soeifjesjf"),
-    MAP_EDITOR("mapeditor", "soeifjesjf"),
-    ADVANCE("advance", "soeifjesjf"),
-    COMMIT("commit", "soeifjesjf"),
-    BOMB("bomb", "soeifjesjf"),
-    AIRLIFT("airlift", "soeifjesjf"),
-    NEGOTIATE("negotiate", "soeifjesjf"),
-    BLOCKADE("blockade", "soeifjesjf");
+    PLAY_GAME("playgame", ""),
+    MAP_EDITOR("mapeditor", ""),
+    BACK("back", ""),
+    EXIT("exit", ""),
+    SHOW_MAP("showmap", ""),
+    EDIT_CONTINENT("editcontinent", "-add [continentID bonusValue] / -remove [continentID]"),
+    EDIT_COUNTRY("editcountry", "-add [countryID continentID] / -remove [countryID]"),
+    EDIT_NEIGHBOUR("editneighbor", "-add [countryID neighborCountryID] / -remove [countryID neighborCountryID]"),
+    VALIDATE_MAP("validatemap", ""),
+    EDIT_MAP("editmap", "[filename]"),
+    SAVE_MAP("savemap", "[filename]"),
+    LOAD_MAP("loadmap", "[filename]"),
+    GAME_PLAYER("gameplayer", "-add [name] / -remove [name]"),
+    ASSIGN_COUNTRIES("assigncountries", ""),
+    DEPLOY("deploy", "[sourceCountryID targetCountryID numArmies]"),
+    ADVANCE("advance", "[sourceCountryID targetCountryID numArmies]"),
+    BOMB("bomb", "[targetCountryID]"),
+    AIRLIFT("airlift", "[sourceCountryID targetCountryID numArmies]"),
+    NEGOTIATE("negotiate", "[playerID]"),
+    BLOCKADE("blockade", "[countryID]"),
+    COMMIT("commit", "");
 
 
     // Arguments for commands

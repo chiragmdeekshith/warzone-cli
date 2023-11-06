@@ -1,9 +1,17 @@
 package com.fsociety.warzone.phase;
 
+import com.fsociety.warzone.command.Command;
+import com.fsociety.warzone.util.Console;
+
 public class Menu extends Phase{
+
+    Command[] d_validCommands = {Command.PLAY_GAME, Command.MAP_EDITOR, Command.EXIT, Command.BACK};
 
     @Override
     public void help() {
+        String help = "Please enter one of the following commands: " +
+                getValidCommands();
+        Console.print(help);
     }
     @Override
     public void playGame() {

@@ -17,6 +17,7 @@ public class ExecuteOrder {
      * @param p_players the list of players of the game
      */
     public static void executeOrders(ArrayList<Player> p_players) {
+
         int l_totalOrders = 0;
         for (Player p_player : p_players) {
             l_totalOrders += p_player.getOrdersCount();
