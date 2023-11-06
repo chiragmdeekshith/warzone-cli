@@ -193,6 +193,7 @@ public class GamePlayController {
             return false;
         }
         l_playMap.setPlayMap(l_playMap);
+        d_playMap = l_playMap;
         return true;
     }
 
