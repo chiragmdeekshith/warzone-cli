@@ -5,10 +5,9 @@ import com.fsociety.warzone.util.Console;
 
 public class EditPreLoad extends Edit {
 
-    Command[] d_validCommands = {Command.SHOW_MAP, Command.EDIT_MAP};
-
     @Override
     public void help() {
+        Command[] d_validCommands = {Command.SHOW_MAP, Command.EDIT_MAP};
         String help = "Please enter one of the following commands: " +
                 getValidCommands(d_validCommands);
         Console.print(help);

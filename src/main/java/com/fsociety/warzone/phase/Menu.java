@@ -1,7 +1,10 @@
 package com.fsociety.warzone.phase;
 
+import com.fsociety.warzone.GameRunner;
 import com.fsociety.warzone.command.Command;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.phase.edit.EditPreLoad;
+import com.fsociety.warzone.phase.play.playsetup.PlayPreLoad;
+import com.fsociety.warzone.phase.play.playsetup.PlaySetup;
 import com.fsociety.warzone.util.Console;
 
 import java.util.Map;
@@ -18,10 +21,12 @@ public class Menu extends Phase {
     }
     @Override
     public void playGame() {
+        GameRunner.setPhase(new PlayPreLoad());
     }
 
     @Override
     public void mapEditor() {
+        GameRunner.setPhase(new EditPreLoad());
     }
 
     @Override

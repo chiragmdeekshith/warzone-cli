@@ -10,11 +10,12 @@ public class End extends Menu {
 
     @Override
     public void showMap() {
-
+        //TODO showmap
     }
 
     @Override
     public void back() {
+        //TODO back
 
     }
 
