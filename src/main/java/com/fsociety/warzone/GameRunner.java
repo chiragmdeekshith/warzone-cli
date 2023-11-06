@@ -8,7 +8,7 @@ import com.fsociety.warzone.util.Console;
 
 public class GameRunner {
 
-    private Phase d_phase;
+    private static Phase d_phase;
 
     /**
      * This function starts the main menu for the game.
@@ -18,27 +18,10 @@ public class GameRunner {
         Console.print("2) Map Editor");
         Console.print("3) Exit");
         String l_command;
-        boolean result;
-        do {
+        while(true) {
             l_command = Console.commandPrompt();
-            result = CommandProcessor.processCommand(l_command);
-
-//            switch(l_command) {
-//                case "1" -> {
-//                    Console.print("New Game");
-//                    GameEngine.playGame();
-//                }
-//                case "2" -> {
-//                    Console.print("Map Editor");
-//                    MapEditor.editMap();
-//                }
-//                case "3" -> {
-//                    Console.print("Exiting...");
-//                    return;
-//                }
-//                default -> Console.print("Invalid choice!");
-//            }
-        } while(result);
+            CommandProcessor.processCommand(l_command, d_phase);
+        }
     }
 
     public Phase getPhase() {
