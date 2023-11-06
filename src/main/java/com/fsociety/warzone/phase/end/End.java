@@ -21,7 +21,7 @@ public class End extends Menu {
     @Override
     public void help() {
         String help = "Please enter one of the following commands: " +
-                getValidCommands();
+                getValidCommands(d_validCommands);
         Console.print(help);
     }
 

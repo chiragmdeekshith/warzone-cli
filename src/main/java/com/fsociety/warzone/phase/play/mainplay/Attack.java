@@ -11,13 +11,12 @@ import com.fsociety.warzone.util.Console;
 
 public class Attack extends MainPlay {
 
-    Command[] d_validCommands = {Command.SHOW_MAP, Command.ADVANCE, Command.BOMB, Command.BLOCKADE, Command.AIRLIFT,
-            Command.NEGOTIATE, Command.COMMIT};
-
     @Override
     public void help() {
+        Command[] l_validCommands = {Command.SHOW_MAP, Command.ADVANCE, Command.BOMB, Command.BLOCKADE, Command.AIRLIFT,
+                Command.NEGOTIATE, Command.COMMIT};
         String help = "Please enter one of the following commands: " +
-                getValidCommands() +
+                getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command [arguments]";
         Console.print(help);
     }
@@ -58,7 +57,7 @@ public class Attack extends MainPlay {
     }
 
     @Override
-    public void commit(Player p_issuer) {
-        p_issuer.commit();
+    public void commit() {
+        // TODO do commit stuff
     }
 }
