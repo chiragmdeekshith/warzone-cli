@@ -20,7 +20,11 @@ public class GameRunner {
         String l_command;
         while(true) {
             l_command = Console.commandPrompt();
+<<<<<<< Updated upstream
             CommandProcessor.processCommand(l_command);
+=======
+            CommandProcessor.processCommand(l_command, d_phase);
+>>>>>>> Stashed changes
         }
     }
 
