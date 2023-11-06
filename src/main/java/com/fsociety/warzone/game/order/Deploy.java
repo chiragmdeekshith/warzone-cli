@@ -2,6 +2,7 @@ package com.fsociety.warzone.game.order;
 
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.util.Console;
 
 /**
  * This class handles everything related to Deploying armies
@@ -28,7 +29,7 @@ public class Deploy implements Order {
         if (GameEngine.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId) {
             GameEngine.getPlayMap().updateGameState(d_countryId, d_playerId, d_troopsCount);
             String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " deployed " + d_troopsCount + " reinforcements to " + d_countryId + ".";
-            Application.CONSOLE.print(l_outcome);
+            Console.print(l_outcome);
         }
     }
 }

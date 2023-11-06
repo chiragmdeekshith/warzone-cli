@@ -72,13 +72,54 @@ public class Player {
      *
      * @return returns false if a user types in the 'back' command in order to return to the main menu
      */
-    public boolean issueOrder() {
+    public boolean issueDeployOrder() {
 
         String l_inputRawCommand;
 
         while (true) {
 
             System.out.print(this.getName() + ": You have " + this.getAvailableReinforcements() + " available reinforcements. ");
+            System.out.println("Please issue a valid order.");
+            System.out.print("> ");
+            l_inputRawCommand = Console.commandPrompt();
+            String[] l_parameters = l_inputRawCommand.split(" ");
+
+            if(CommandValidator.isValidCommand(l_inputRawCommand, Phase.GAME_PLAY)) {
+                String[] l_splitCommand = l_inputRawCommand.split(" ");
+                String l_commandType = l_splitCommand[0];
+
+                if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
+                    return false;
+                }
+
+                if(GameplayCommand.DEPLOY.getCommand().equals(l_commandType)) {
+                    if(issueDeployCommand(l_parameters)) {
+                        return true;
+                    }
+                }
+
+                if(GameplayCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
+                    GameEngine.getPlayMap().showMap();
+                }
+            } else {
+                System.out.println("Invalid command. Please use the 'deploy' command.");
+            }
+        }
+    }
+
+    /**
+     * Creates and adds an object of type IOrder to the player's list of orders during the Issue Orders phase of
+     * gameplay. The 'showmap' command can be used here to display the map.
+     *
+     * @return returns false if a user types in the 'back' command in order to return to the main menu
+     */
+    public boolean issueOrder() {
+
+        String l_inputRawCommand;
+
+        while (true) {
+
+            System.out.print(this.getName() + ": ");
             System.out.println("Please issue a valid order.");
             System.out.print("> ");
             l_inputRawCommand = Console.commandPrompt();
@@ -149,6 +190,18 @@ public class Player {
             cardDrawn = true;
             d_handOfCards.drawCards();
         }
+    }
+
+    public void commit() {
+        committed = true;
+    }
+
+    /**
+     * This method adds an order to the player's list of orders.
+     * @param p_order the order to be added to the list
+     */
+    public void addOrder(Order p_order) {
+        d_orders.add(p_order);
     }
 
     /**

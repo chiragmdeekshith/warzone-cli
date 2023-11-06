@@ -9,6 +9,7 @@ public class Console {
     public static void print(String p_message) {
         System.out.println(p_message);
     }
+
     public static String commandPrompt() {
         System.out.println("Please enter a command.");
         System.out.println("> ");
