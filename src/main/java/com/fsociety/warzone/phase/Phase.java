@@ -19,7 +19,7 @@ public abstract class Phase {
 
     // Startup commands
     public abstract void loadMap(String p_fileName);
-    public abstract void gamePlayer();
+    public abstract void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove);
     public abstract void assignCountries();
 
     // Gameplay commands

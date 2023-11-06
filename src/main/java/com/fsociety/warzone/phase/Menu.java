@@ -65,7 +65,7 @@ public class Menu extends Phase {
     }
 
     @Override
-    public void gamePlayer() {
+    public void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove) {
         printInvalidCommandMessage();
     }
 

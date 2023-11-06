@@ -1,6 +1,7 @@
 package com.fsociety.warzone.command;
 
 import com.fsociety.warzone.GameRunner;
+import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.phase.Phase;
 import com.fsociety.warzone.util.Console;
 import com.fsociety.warzone.util.command.constant.MapEditorCommand;
@@ -386,26 +387,51 @@ public class CommandProcessor {
             case SAVE_MAP -> l_phase.saveMap(p_splitCommand[1]);
             case LOAD_MAP -> l_phase.loadMap(p_splitCommand[1]);
             case GAME_PLAYER -> {
+                Set<String> l_gamePlayersToAdd = new HashSet<>();
+                Set<String> l_gamePlayersToRemove = new HashSet<>();
 
+                for (int i = 1; i < p_splitCommand.length; i+=2) {
+
+                    String l_operation = p_splitCommand[i];
+                    String l_playerName = p_splitCommand[i+1];
+
+                    switch (l_operation) {
+                        case Command.ADD -> l_gamePlayersToAdd.add(l_playerName);
+                        case Command.REMOVE -> l_gamePlayersToRemove.add(l_playerName);
+                    }
+                }
+
+                l_phase.gamePlayer(l_gamePlayersToAdd, l_gamePlayersToRemove);
             }
             case ASSIGN_COUNTRIES -> l_phase.assignCountries();
             case DEPLOY -> {
-
+                int l_countryId = Integer.parseInt(p_splitCommand[1]);
+                int l_troopsCount = Integer.parseInt(p_splitCommand[2]);
+                l_phase.deploy(l_countryId, l_troopsCount);
             }
             case ADVANCE -> {
-
+                int l_sourceCountryId = Integer.parseInt(p_splitCommand[1]);
+                int l_targetCountryId = Integer.parseInt(p_splitCommand[2]);
+                int l_troopsCount = Integer.parseInt(p_splitCommand[3]);
+                l_phase.advance(l_sourceCountryId, l_targetCountryId, l_troopsCount);
             }
             case BOMB -> {
-
+                int l_targetCountryId = Integer.parseInt(p_splitCommand[1]);
+                l_phase.bomb(l_targetCountryId);
             }
             case AIRLIFT -> {
-
+                int l_sourceCountryId = Integer.parseInt(p_splitCommand[1]);
+                int l_targetCountryId = Integer.parseInt(p_splitCommand[2]);
+                int l_troopsCount = Integer.parseInt(p_splitCommand[3]);
+                l_phase.airlift(l_sourceCountryId, l_targetCountryId, l_troopsCount);
             }
             case NEGOTIATE -> {
-
+                int l_targetCountryId = Integer.parseInt(p_splitCommand[1]);
+                l_phase.negotiate(l_targetCountryId);
             }
             case BLOCKADE -> {
-
+                int l_countryId = Integer.parseInt(p_splitCommand[1]);
+                l_phase.blockade(l_countryId);
             }
             case COMMIT -> l_phase.commit();
         }

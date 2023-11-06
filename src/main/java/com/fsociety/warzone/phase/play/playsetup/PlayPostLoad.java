@@ -3,6 +3,8 @@ package com.fsociety.warzone.phase.play.playsetup;
 import com.fsociety.warzone.command.Command;
 import com.fsociety.warzone.util.Console;
 
+import java.util.Set;
+
 public class PlayPostLoad extends PlaySetup{
 
     @Override
@@ -25,7 +27,7 @@ public class PlayPostLoad extends PlaySetup{
     }
 
     @Override
-    public void gamePlayer() {
-
+    public void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove) {
+        //TODO game player stuff
     }
 }
