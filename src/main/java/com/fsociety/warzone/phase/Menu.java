@@ -4,14 +4,16 @@ import com.fsociety.warzone.command.Command;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.Console;
 
-public class Menu extends Phase {
+import java.util.Map;
+import java.util.Set;
 
-    Command[] d_validCommands = {Command.PLAY_GAME, Command.MAP_EDITOR, Command.EXIT, Command.BACK};
+public class Menu extends Phase {
 
     @Override
     public void help() {
+        Command[] l_validCommands = {Command.PLAY_GAME, Command.MAP_EDITOR, Command.EXIT, Command.BACK};
         String help = "Please enter one of the following commands: " +
-                getValidCommands();
+                getValidCommands(l_validCommands);
         Console.print(help);
     }
     @Override
@@ -35,9 +37,21 @@ public class Menu extends Phase {
 
     @Override
     public void printInvalidCommandMessage() {
-        System.out.println("Invalid command in phase "
+        Console.print("Invalid command in phase "
                 + this.getClass().getSimpleName()
                 + ". Please use the 'help' command to print a list of valid commands.");
+    }
+
+    /**
+     *  This method formats the valid commands for a given phase in order to be printed as part of the help message.
+     */
+    protected String getValidCommands(Command[] p_commands) {
+        StringBuilder l_validCommands = new StringBuilder();
+        l_validCommands.append("Phase: ").append(this.getClass().getSimpleName()).append("\n");
+        for (Command l_command : p_commands) {
+            l_validCommands.append("\t").append(l_command.getCommand()).append(" ").append(l_command.getHelpMessage()).append("\n");
+        }
+        return l_validCommands.toString();
     }
 
     @Override
@@ -46,7 +60,7 @@ public class Menu extends Phase {
     }
 
     @Override
-    public void loadMap() {
+    public void loadMap(String p_fileName) {
         printInvalidCommandMessage();
     }
 
@@ -91,32 +105,32 @@ public class Menu extends Phase {
     }
 
     @Override
-    public void commit(Player p_issuer) {
+    public void commit() {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void editMap() {
+    public void editMap(String p_fileName) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void saveMap() {
+    public void saveMap(String p_fileName) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void editContinent() {
+    public void editContinent(Map<Integer, Integer> p_continentsToAdd, Set<Integer> p_continentsToRemove) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void editCountry() {
+    public void editCountry(Map<Integer, Integer> p_countriesToAdd, Set<Integer> p_countriesToRemove) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void editNeighbour() {
+    public void editNeighbour(Map<Integer, Integer> p_neighboursToAdd, Map<Integer, Integer> p_neighboursToRemove) {
         printInvalidCommandMessage();
     }
 

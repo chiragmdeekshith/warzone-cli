@@ -10,9 +10,15 @@ public class Console {
         System.out.println(p_message);
     }
 
+    public static void print(String p_message, boolean p_logToFile) {
+        print(p_message);
+        if (p_logToFile) {
+            //Call the logger here.
+        }
+    }
+
     public static String commandPrompt() {
-        System.out.println("Please enter a command.");
-        System.out.println("> ");
+        print("Please enter a command.\n> ");
         return SCANNER.nextLine();
     }
 

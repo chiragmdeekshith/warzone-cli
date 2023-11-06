@@ -3,9 +3,10 @@ package com.fsociety.warzone.phase;
 import com.fsociety.warzone.command.Command;
 import com.fsociety.warzone.model.Player;
 
-public abstract class Phase {
+import java.util.Map;
+import java.util.Set;
 
-    protected Command[] d_validCommands;
+public abstract class Phase {
 
     // Main Menu
     public abstract void playGame();
@@ -17,7 +18,7 @@ public abstract class Phase {
     public abstract void help();
 
     // Startup commands
-    public abstract void loadMap();
+    public abstract void loadMap(String p_fileName);
     public abstract void gamePlayer();
     public abstract void assignCountries();
 
@@ -28,29 +29,19 @@ public abstract class Phase {
     public abstract void blockade(Player p_issuer, int p_countryId);
     public abstract void airlift(Player p_issuer, int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
     public abstract void negotiate(Player p_issuer, int p_targetPlayerId);
-    public abstract void commit(Player p_issuer);
+    public abstract void commit();
 
     // Map Editor commands
-    public abstract void editMap();
-    public abstract void saveMap();
-    public abstract void editContinent();
-    public abstract void editCountry();
-    public abstract void editNeighbour();
+    public abstract void editMap(String p_fileName);
+    public abstract void saveMap(String p_fileName);
+    public abstract void editContinent(Map<Integer, Integer> p_continentsToAdd, Set<Integer> p_continentsToRemove);
+    public abstract void editCountry(Map<Integer, Integer> p_countriesToAdd, Set<Integer> p_countriesToRemove);
+    public abstract void editNeighbour(Map<Integer, Integer> p_neighboursToAdd, Map<Integer, Integer> p_neighboursToRemove);
     public abstract void validateMap();
 
     // Common commands
     public abstract void exit();
     public abstract void printInvalidCommandMessage();
-
-    /**
-     *  This method formats the valid commands for a given phase in order to be printed as part of the help message.
-     */
-    protected String getValidCommands() {
-        String l_validCommands = "";
-        for (Command l_command : d_validCommands) {
-            l_validCommands += "\t" + l_command.getCommand() + " " + l_command.getHelpMessage() + "\n";
-        }
-        return l_validCommands;
-    }
+    protected abstract String getValidCommands(Command[] p_commands);
 
 }
