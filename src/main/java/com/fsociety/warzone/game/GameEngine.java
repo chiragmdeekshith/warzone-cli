@@ -5,6 +5,7 @@ import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.mainloop.AssignReinforcements;
 import com.fsociety.warzone.game.startup.StartUp;
 import com.fsociety.warzone.map.PlayMap;
+import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.Player;
 
 import java.util.ArrayList;
@@ -63,9 +64,13 @@ public class GameEngine {
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);
 
-            resetRound();
+            if (checkWinCondition()) {
+                //set win state and enter win loop
+                return;
+            }
 
-            // TODO: Check for winner
+
+            resetRound();
 
             System.out.println("All orders executed. Turn " + l_turns + " over.");
         }
@@ -78,6 +83,17 @@ public class GameEngine {
             l_player.resetCommitted();
             l_player.resetCardDrawn();
         }
+    }
+
+    /**
+     * This method checks whether one player owns every country on the map.
+     */
+    private static boolean checkWinCondition() {
+        HashSet<Integer> l_playerIds = new HashSet<>();
+        for (Country l_country : d_playMap.getCountries().values()) {
+            l_playerIds.add(l_country.getPlayerId());
+        }
+        return (l_playerIds.size() == 1);
     }
 
 

@@ -21,7 +21,6 @@ public class Reinforcement extends MainPlay {
     public void deploy(Player p_issuer, int p_countryId, int p_troopsCount) {
         String l_confirmation = p_troopsCount + " reinforcement armies will be deployed to " + p_countryId + ".";
         p_issuer.addOrder(new Deploy(p_countryId, p_troopsCount, p_issuer.getId()));
-        p_issuer.setAvailableReinforcements(p_issuer.getAvailableReinforcements() - p_troopsCount);
         Console.print(l_confirmation);
     }
 
