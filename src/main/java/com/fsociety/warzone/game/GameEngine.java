@@ -64,7 +64,6 @@ public class GameEngine {
             if (d_gameWon) {
                 Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!");
                 GameRunner.setPhase(new End());
-                endGame();
                 return;
             }
 
@@ -143,18 +142,6 @@ public class GameEngine {
         for (Player l_player : GameEngine.getPlayers()) {
             d_truces.put(l_player.getId(), new HashSet<>());
         }
-    }
-
-    /**
-     * This method allows for the post-game phase when a player has won. Certain commands, such as showmap, still work
-     * in this phase so that players can look back on the game they played before returning to the main menu.
-     */
-    public static void endGame() {
-        //TODO: make this work
-        //while(true) {
-        //    String l_command = Console.commandPrompt();
-        //    CommandProcessor.processCommand(l_command);
-        //}
     }
 
     // Getters and Setters
