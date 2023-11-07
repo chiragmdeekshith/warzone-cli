@@ -193,11 +193,6 @@ public class Attack extends MainPlay {
     }
 
     @Override
-    public void showCards() {
-        IssueOrder.getCurrentPlayer().getHandOfCards().showCards();
-    }
-
-    @Override
     public void showAvailableArmies() {
         IssueOrder.showAvailableTroops(IssueOrder.getCurrentPlayer());
     }
