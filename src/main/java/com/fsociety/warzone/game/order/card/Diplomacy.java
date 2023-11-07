@@ -26,7 +26,7 @@ public class Diplomacy implements Order {
     public void execute() {
         GameEngine.getTruces().get(d_playerId).add(d_enemyId);
         GameEngine.getTruces().get(d_enemyId).add(d_playerId);
-        String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " has declared a truce with " + GameEngine.getPlayerList().get(d_enemyId).getName() + ".";
+        String l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " has declared a truce with " + GameEngine.getPlayerNameFromId(d_enemyId) + ".";
         Console.print(l_outcome);
     }
 

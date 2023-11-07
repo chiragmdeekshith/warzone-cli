@@ -36,6 +36,7 @@ public class CommandProcessor {
         Phase l_phase = GameRunner.getPhase();
         String l_commandName = p_splitCommand[0];
         switch (d_commands.get(l_commandName)) {
+            case HELP -> l_phase.help();
             case PLAY_GAME -> l_phase.playGame();
             case MAP_EDITOR -> l_phase.mapEditor();
             case BACK -> l_phase.back();
@@ -118,6 +119,7 @@ public class CommandProcessor {
                     switch (l_operation) {
                         case Command.ADD -> l_gamePlayersToAdd.add(l_playerName);
                         case Command.REMOVE -> l_gamePlayersToRemove.add(l_playerName);
+                        default -> Console.print("Invalid syntax.");
                     }
                 }
 

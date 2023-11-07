@@ -53,7 +53,7 @@ public class PlayMap extends AbstractMap {
     public void updateGameState(int p_countryId, int p_playerId, int p_armies) {
         d_countries.get(p_countryId).setPlayerId(p_playerId);
         d_countries.get(p_countryId).setArmies(p_armies);
-        d_countries.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
+        d_countries.get(p_countryId).setPlayer(GameEngine.getPlayerNameMap().get(GameEngine.getPlayerNameFromId(p_playerId)));
     }
 
     public void updateGameState(int p_countryId, int p_armies) {

@@ -11,7 +11,7 @@ public class PlayPreLoad extends PlaySetup {
 
     @Override
     public void help() {
-        Command[] l_validCommands = {Command.LOAD_MAP};
+        Command[] l_validCommands = {Command.LOAD_MAP, Command.BACK, Command.EXIT};
         String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands);
         Console.print(l_help);
@@ -21,9 +21,11 @@ public class PlayPreLoad extends PlaySetup {
     public void loadMap(String p_fileName) {
         PlayMap l_playMap = MapTools.loadAndValidatePlayableMap(p_fileName);
         if(null == l_playMap) {
+            Console.print("Failed to load the map! Please try another map file.");
             return;
         }
         GameEngine.setPlayMap(l_playMap);
+        Console.print("Loaded map \"" + p_fileName + "\"");
         GameRunner.setPhase(new PlayPostLoad());
     }
 }

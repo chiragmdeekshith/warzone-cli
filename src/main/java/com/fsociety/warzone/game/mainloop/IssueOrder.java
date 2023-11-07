@@ -33,12 +33,13 @@ public class IssueOrder {
 
         while (true) {
             int l_committed = 0;
-            for (Player p_player : p_players) {
-                d_currentPlayer = p_player;
-                if (p_player.hasCommitted()) {
+            for (Player l_player : p_players) {
+                d_currentPlayer = l_player;
+                if (l_player.hasCommitted()) {
                     l_committed++;
                 } else {
-                    p_player.issueOrder();
+                    Console.print(l_player.getName() + ": ");
+                    l_player.issueOrder();
                 }
             }
             if (l_committed == p_players.size()) {
@@ -48,15 +49,23 @@ public class IssueOrder {
     }
 
     public static void showAvailableTroops(Player p_player) {
-        String l_output = p_player.getName() + "'s Available Armies: \n";
+        StringBuilder l_output = new StringBuilder(p_player.getName() + "'s Available Armies: \n");
         for (int l_countryId : p_player.getCountryIds()) {
-            l_output += "Country " + l_countryId + " has " + d_availableTroopsOnMap.get(l_countryId) + " available armies.\n";
+            l_output.append("Country ")
+                    .append(l_countryId)
+                    .append(" has ")
+                    .append(d_availableTroopsOnMap.get(l_countryId))
+                    .append(" available armies.\n");
         }
-        Console.print(l_output);
+        Console.print(l_output.toString());
     }
 
     public static Player getCurrentPlayer() {
         return d_currentPlayer;
+    }
+
+    public static void setCurrentPlayer(Player p_player) {
+        d_currentPlayer = p_player;
     }
 
 }

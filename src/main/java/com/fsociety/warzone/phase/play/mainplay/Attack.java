@@ -162,7 +162,7 @@ public class Attack extends MainPlay {
     @Override
     public void negotiate(String p_targetPlayerName) {
 
-        Player l_enemy = GameEngine.getPlayersByName(p_targetPlayerName);
+        Player l_enemy = GameEngine.getPlayerNameMap().get(p_targetPlayerName);
         boolean l_playerExists = l_enemy != null;
         if (!l_playerExists) {
             Console.print("Player does not exist!");

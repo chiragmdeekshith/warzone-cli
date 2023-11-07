@@ -1,17 +1,10 @@
 package com.fsociety.warzone.model;
 
-import com.fsociety.warzone.Application;
 import com.fsociety.warzone.command.CommandProcessor;
-import com.fsociety.warzone.game.GameEngine;
-import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.game.order.card.HandOfCards;
 import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.util.Console;
 import com.fsociety.warzone.util.IdGenerator;
-import com.fsociety.warzone.util.command.CommandValidator;
-import com.fsociety.warzone.util.command.constant.GameplayCommand;
-import com.fsociety.warzone.util.command.constant.Phase;
-import com.fsociety.warzone.util.command.constant.StartupCommand;
 
 import java.util.ArrayList;
 
@@ -26,9 +19,9 @@ public class Player {
     private final ArrayList<Country> d_countries;
     private int d_availableReinforcements;
     private final HandOfCards d_handOfCards;
-    private boolean cardDrawn;
-    private boolean committed;
-    private boolean orderIssued;
+    private boolean d_cardDrawn;
+    private boolean d_committed;
+    private boolean d_orderIssued;
 
 
     /**
@@ -73,11 +66,10 @@ public class Player {
      */
     public void issueOrder() {
         while (true) {
-            Console.print(this.getName() + ": ");
             String l_command = Console.commandPrompt();
             CommandProcessor.processCommand(l_command);
-            if(orderIssued) {
-                orderIssued = false;
+            if(d_orderIssued) {
+                d_orderIssued = false;
                 return;
             }
         }
@@ -98,14 +90,14 @@ public class Player {
      * This method adds a card to the player's hand. It is called once per turn when they conquer a country.
      */
     public void drawCard() {
-        if (!cardDrawn) {
-            cardDrawn = true;
+        if (!d_cardDrawn) {
+            d_cardDrawn = true;
             d_handOfCards.drawCards();
         }
     }
 
     public void commit() {
-        committed = true;
+        d_committed = true;
     }
 
     public boolean isEliminated() {
@@ -125,24 +117,24 @@ public class Player {
      * @return True if the player has committed their orders, False otherwise
      */
     public boolean hasCommitted() {
-        return committed;
+        return d_committed;
     }
 
     /**
      * This method resets the truth value of the committed boolean to false at the end of each turn.
      */
-    public void resetCommitted() { committed = false; }
+    public void resetCommitted() { d_committed = false; }
 
     /**
      * This method resets the cardDrawn boolean to false at the end of each turn. This ensures the player can draw a
      * card again next turn.
      */
     public void resetCardDrawn() {
-        cardDrawn = false;
+        d_cardDrawn = false;
     }
 
     public void setOrderIssued() {
-        orderIssued = true;
+        d_orderIssued = true;
     }
 
     // Getters and setters
