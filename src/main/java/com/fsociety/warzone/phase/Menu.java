@@ -26,7 +26,7 @@ public class Menu extends Phase {
 
     @Override
     public void mapEditor() {
-        Console.print("Welcome to the map editor.");
+        Console.print("Map Editor selected. Please start by loading a map. Type 'back' to go to the previous menu.");
         GameRunner.setPhase(new EditPreLoad());
     }
 

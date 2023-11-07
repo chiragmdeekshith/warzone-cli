@@ -11,7 +11,7 @@ import com.fsociety.warzone.util.command.constant.Phase;
  * This class handles everything related to Editing maps. This class can be thought of as a Map Engine.
  */
 public class MapEditor {
-    private static EditMap d_editMap;
+    public static EditMap d_editMap;
 
     /**
      * The editMap() function loads a map (creates one if it doesn't exist), validates a map, and allows the user to edit the map by adding
@@ -33,31 +33,6 @@ public class MapEditor {
 
             String[] l_splitCommand = l_inputRawCommand.split(" ");
             String l_commandType = l_splitCommand[0];
-
-            // Return to main menu
-            if(MapEditorCommand.BACK.getCommand().equals(l_commandType)) {
-                d_editMap = null;
-                break;
-            }
-
-            // Try to load map first before any other command
-
-            if(MapEditorCommand.EDIT_MAP.getCommand().equals(l_commandType)) {
-                String l_filename = l_splitCommand[1];
-                d_editMap = MapTools.loadAndValidateEditableMap(l_filename);
-                if(null == d_editMap) {
-                    System.out.println("Failed to load the map from file! Please try another map file.");
-                    continue;
-                }
-                System.out.println("Map '" + l_filename + "' is ready.");
-                System.out.println("Edit the map by using the 'editcontinent', 'editcountry' and 'editneighbor' commands.");
-            }
-
-            // Ensure that the map is loaded into memory before proceeding with other
-            if(null == d_editMap) {
-                System.out.println("Please load a map before trying to continue with other commands.");
-                continue;
-            }
 
             // Logic for each command
 
@@ -127,31 +102,28 @@ public class MapEditor {
                 }
             }
 
-            if(MapEditorCommand.VALIDATE_MAP.getCommand().equals(l_commandType)) {
-                boolean isMapValid = MapTools.validateMap(d_editMap);
-                if(isMapValid) {
-                    System.out.println("The map is valid!");
-                }
-                else {
-                    System.out.println("The map is not valid!");
-                }
-            }
-
-            if(MapEditorCommand.SAVE_MAP.getCommand().equals(l_commandType)) {
-                String l_fileNameForSave = l_splitCommand[1];
-                boolean isSaveSuccessful = MapTools.saveMapFile(d_editMap, l_fileNameForSave);
-                if(isSaveSuccessful) {
-                    System.out.println("File saved successfully: \"" + l_fileNameForSave + "\".");
-                } else {
-                    System.out.println("File save for file \"" + l_fileNameForSave + "\" failed!");
-                }
-            }
-
-            if(MapEditorCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
-                d_editMap.showMap();
-            }
-
         }
 
     }
+
+    public static void resetMapEditor() {
+        d_editMap = null;
+    }
+
+    public static boolean validateMap() {
+        return MapTools.validateMap(d_editMap);
+    }
+
+    public static boolean saveMap(String p_fileName) {
+        return MapTools.saveMapFile(d_editMap, p_fileName);
+    }
+
+    public static EditMap getEditMap() {
+        return d_editMap;
+    }
+
+    public static void setEditMap(EditMap p_editMap) {
+        d_editMap = p_editMap;
+    }
+
 }
