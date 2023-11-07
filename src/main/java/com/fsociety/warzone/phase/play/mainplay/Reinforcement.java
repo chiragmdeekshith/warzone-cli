@@ -12,7 +12,7 @@ public class Reinforcement extends MainPlay {
     @Override
     public void help() {
 
-        Command[] l_validCommands = {Command.SHOW_MAP, Command.DEPLOY, Command.BACK, Command.EXIT};
+        Command[] l_validCommands = {Command.SHOW_MAP, Command.DEPLOY, Command.BACK, Command.EXIT, Command.SHOW_PLAYERS};
         String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command [arguments]\n";

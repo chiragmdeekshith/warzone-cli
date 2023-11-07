@@ -1,9 +1,11 @@
 package com.fsociety.warzone.game.mainloop;
 
+import com.fsociety.warzone.GameRunner;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.phase.Menu;
 import com.fsociety.warzone.util.Console;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class AssignReinforcements {
             Console.print("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
         }
 
+        // Issue and Execute the Deploy orders before moving to the attack phase, where are other orders are processed
         issueDeployOrder(p_players);
         executeDeployOrders(p_players);
     }

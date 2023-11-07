@@ -9,6 +9,7 @@ import com.fsociety.warzone.util.log.Log;
 public class GameRunner {
 
     private static Phase d_phase;
+    private static boolean d_isMenu;
 
     /**
      * This function starts the main menu for the game.
@@ -17,7 +18,7 @@ public class GameRunner {
         Log.initLogEntryBuffer("src/main/resources/logs/" + System.currentTimeMillis() + ".log");
         GameRunner.setPhase(new Menu());
         String l_command;
-        while(true) {
+        while (true) {
             l_command = Console.commandPrompt();
             CommandProcessor.processCommand(l_command);
         }
@@ -30,4 +31,5 @@ public class GameRunner {
     public static void setPhase(Phase p_phase) {
         d_phase = p_phase;
     }
+
 }

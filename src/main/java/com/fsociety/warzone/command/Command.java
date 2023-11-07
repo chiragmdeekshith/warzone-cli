@@ -25,7 +25,8 @@ public enum Command {
     BLOCKADE("blockade", "[countryID]"),
     COMMIT("commit", ""),
     SHOW_CARDS("showcards", ""),
-    SHOW_AVAILABLE_ARMIES("showtroops", "");
+    SHOW_AVAILABLE_ARMIES("showtroops", ""),
+    SHOW_PLAYERS("showplayers", "");
 
 
     // Arguments for commands

@@ -119,6 +119,9 @@ public class Menu extends Phase {
     public void showCards() { printInvalidCommandMessage(); }
 
     @Override
+    public void showPlayers() { printInvalidCommandMessage(); }
+
+    @Override
     public void showAvailableArmies() { printInvalidCommandMessage(); }
 
     @Override

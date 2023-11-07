@@ -15,4 +15,9 @@ public abstract class MainPlay extends Play {
         IssueOrder.getCurrentPlayer().getHandOfCards().showCards();
     }
 
+    @Override
+    public void showPlayers() {
+        GameEngine.printPlayers();
+    }
+
 }
