@@ -12,18 +12,20 @@ public class Reinforcement extends MainPlay {
     @Override
     public void help() {
         Command[] l_validCommands = {Command.SHOW_MAP, Command.DEPLOY};
-        String help = "Please enter one of the following commands: " +
+        String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command [arguments]\n";
-        Console.print(help);
+        Console.print(l_help);
     }
 
     @Override
     public void deploy(int p_countryId, int p_troopsCount) {
+
         boolean l_playerOwnsCountry = GameEngine.getPlayMap().getCountryState(p_countryId).getPlayerId() == IssueOrder.getCurrentPlayer().getId();
         boolean l_playerHasEnoughReinforcements = IssueOrder.getCurrentPlayer().getAvailableReinforcements() >= p_troopsCount;
+        boolean l_countryExists = GameEngine.getPlayMap().getCountryState(p_countryId) != null;
 
-        if (l_playerOwnsCountry && l_playerHasEnoughReinforcements) {
+        if (l_playerOwnsCountry && l_playerHasEnoughReinforcements && l_countryExists) {
             Player l_currentPlayer = IssueOrder.getCurrentPlayer();
             String l_confirmation = p_troopsCount + " reinforcement armies will be deployed to " + p_countryId + ".";
             l_currentPlayer.setAvailableReinforcements(l_currentPlayer.getAvailableReinforcements() - p_troopsCount);
@@ -38,6 +40,9 @@ public class Reinforcement extends MainPlay {
         }
         if (!l_playerHasEnoughReinforcements) {
             Console.print("Insufficient reinforcements!");
+        }
+        if (!l_countryExists) {
+            Console.print("Country " + p_countryId + " does not exist!");
         }
     }
 

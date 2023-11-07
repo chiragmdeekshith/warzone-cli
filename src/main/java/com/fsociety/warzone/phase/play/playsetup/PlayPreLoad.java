@@ -12,9 +12,9 @@ public class PlayPreLoad extends PlaySetup {
     @Override
     public void help() {
         Command[] l_validCommands = {Command.LOAD_MAP};
-        String help = "Please enter one of the following commands: " +
+        String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands);
-        Console.print(help);
+        Console.print(l_help);
     }
 
     @Override
