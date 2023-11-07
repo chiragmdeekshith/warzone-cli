@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.Map;
 
 public class PlayPostLoad extends PlaySetup{
 
@@ -32,20 +33,29 @@ public class PlayPostLoad extends PlaySetup{
     @Override
     public void assignCountries() {
         PlayMap l_playMap = GameEngine.getPlayMap();
-        List<Player> l_players = GameEngine.getPlayers();
+        Map<String, Player> l_playerNameMap = GameEngine.getPlayerNameMap();
 
-        if(l_players.isEmpty()) {
-            Console.print("List of players cannot be empty.");
+        if(l_playerNameMap.isEmpty()) {
+            Console.print("Please add at least one player to the game to continue.");
             return;
         }
 
-        List<Integer> l_countryIds = new ArrayList<>(l_playMap.getNeighbours().keySet());
+        if (l_playerNameMap.size() > GameEngine.getPlayMap().getNeighbours().keySet().size()) {
+            Console.print("Too many players for this map. Please remove players to continue.");
+            return;
+        }
 
+        GameEngine.finalizePlayers();
+        GameEngine.initTruces();
+
+        List<Integer> l_countryIds = new ArrayList<>(l_playMap.getNeighbours().keySet());
+        List<Player> l_players = GameEngine.getPlayers();
         Random l_random = new Random();
 
+        // Randomly assign countries to players
         int l_counter = 0;
         while (!l_countryIds.isEmpty()) {
-            Player l_player = l_players.get(l_counter%l_players.size()); // Cycles through the players in round-robin
+            Player l_player = l_players.get(l_counter % l_players.size()); // Cycles through the players in round-robin
             int randomIndex = l_random.nextInt(l_countryIds.size());
             int l_countryId = l_countryIds.remove(randomIndex);
             l_playMap.updateGameState(l_countryId, l_player.getId(), 0);
@@ -54,11 +64,28 @@ public class PlayPostLoad extends PlaySetup{
             l_counter++;
         }
 
-        GameRunner.setPhase(new Reinforcement());
+        // Start the main loop
+        GameEngine.mainLoop();
     }
 
     @Override
     public void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove) {
-        // TODO game player stuff
+        Map<String, Player> l_playerNameMap = GameEngine.getPlayerNameMap();
+        for(String l_playerName : p_gamePlayersToAdd) {
+            if(l_playerNameMap.containsKey(l_playerName)) {
+                Console.print("Player " + l_playerName + " is already present. Add operation failed.");
+            } else {
+                l_playerNameMap.put(l_playerName, new Player(l_playerName));
+                Console.print("Player " + l_playerName + " added.");
+            }
+        }
+        for(String l_playerName : p_gamePlayersToRemove) {
+            if(l_playerNameMap.containsKey(l_playerName)) {
+                l_playerNameMap.remove(l_playerName);
+                Console.print("Player " + l_playerName + " removed.");
+            } else {
+                Console.print("Player " + l_playerName + " does not exist. Remove operation failed.");
+            }
+        }
     }
 }

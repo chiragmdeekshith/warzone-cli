@@ -118,13 +118,9 @@ public class StartUp {
                     if(!l_players.isEmpty()) {
                         if (l_players.size() <= GameEngine.getPlayMap().getNeighbours().keySet().size()) {
                             GameEngine.setPlayers(new ArrayList<>(l_players.values()));
-                            GameEngine.initPlayerList();
+                            GameEngine.finalizePlayers();
                             // Set up the truce list
-                            HashMap<Integer, HashSet<Integer>> l_truces = new HashMap<>();
-                            for (Player l_player : GameEngine.getPlayers()) {
-                                l_truces.put(l_player.getId(), new HashSet<>());
-                            }
-                            GameEngine.setTruces(l_truces);
+                            GameEngine.initTruces();
                             return true;
                         } else {
                             System.out.println("Too many players for this map. Please remove players to continue.");

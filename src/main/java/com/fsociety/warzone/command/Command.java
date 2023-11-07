@@ -2,6 +2,7 @@ package com.fsociety.warzone.command;
 
 public enum Command {
 
+    HELP("help", ""),
     PLAY_GAME("playgame", ""),
     MAP_EDITOR("mapeditor", ""),
     BACK("back", ""),
@@ -16,7 +17,7 @@ public enum Command {
     LOAD_MAP("loadmap", "[filename]"),
     GAME_PLAYER("gameplayer", "-add [name] / -remove [name]"),
     ASSIGN_COUNTRIES("assigncountries", ""),
-    DEPLOY("deploy", "[sourceCountryID targetCountryID numArmies]"),
+    DEPLOY("deploy", "[countryID numArmies]"),
     ADVANCE("advance", "[sourceCountryID targetCountryID numArmies]"),
     BOMB("bomb", "[targetCountryID]"),
     AIRLIFT("airlift", "[sourceCountryID targetCountryID numArmies]"),

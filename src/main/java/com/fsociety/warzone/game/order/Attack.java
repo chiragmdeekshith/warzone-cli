@@ -47,7 +47,7 @@ public abstract class Attack implements Order {
         // Otherwise, a battle takes place
         if (GameEngine.getPlayMap().getCountryState(d_targetCountryId).getPlayerId() == d_playerId) {
             GameEngine.getPlayMap().updateGameState(d_targetCountryId, GameEngine.getPlayMap().getCountryState(d_targetCountryId).getArmies() + l_advancingTroops);
-            l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " advanced " + l_advancingTroops + " from " + d_sourceCountryId + " to " + d_targetCountryId + ".";
+            l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " advanced " + l_advancingTroops + " from " + d_sourceCountryId + " to " + d_targetCountryId + ".";
         } else {
             int l_enemyTroops = GameEngine.getPlayMap().getCountryState(d_targetCountryId).getArmies();
             int l_kills = 0; // Number of enemies killed
@@ -69,11 +69,11 @@ public abstract class Attack implements Order {
             if (l_enemyTroops == 0) {
                 GameEngine.getPlayMap().updateGameState(d_targetCountryId, d_playerId, l_advancingTroops);
                 GameEngine.getPlayers().get(d_playerId).drawCard(); // Draw a card since the player conquered a country
-                l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " conquered " + d_targetCountryId + " and has stationed " + l_advancingTroops + " armies there.";
+                l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " conquered " + d_targetCountryId + " and has stationed " + l_advancingTroops + " armies there.";
             } else {
                 GameEngine.getPlayMap().updateGameState(d_targetCountryId, l_enemyTroops);
                 GameEngine.getPlayMap().updateGameState(d_sourceCountryId, GameEngine.getPlayMap().getCountryState(d_sourceCountryId).getArmies() + l_advancingTroops);
-                l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " failed to conquer " + d_targetCountryId + ".";
+                l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " failed to conquer " + d_targetCountryId + ".";
             }
         }
         Console.print(l_outcome);
