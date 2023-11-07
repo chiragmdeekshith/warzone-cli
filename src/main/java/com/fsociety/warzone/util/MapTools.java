@@ -35,7 +35,7 @@ public class MapTools {
         try {
             // Read the file line by line
             l_editMap = new EditMap();
-            String l_filePath = "src/main/resources/" + p_fileName;
+            String l_filePath = "src/main/resources/maps" + p_fileName;
             FileReader mapFile;
             try {
                 mapFile = new FileReader(l_filePath);
@@ -92,7 +92,7 @@ public class MapTools {
         PlayMap l_playMap;
         try {
             l_playMap = new PlayMap();
-            String l_filePath = "src/main/resources/" + p_fileName;
+            String l_filePath = "src/main/resources/maps" + p_fileName;
             FileReader mapFile;
             mapFile = new FileReader(l_filePath);
             String line;
@@ -272,7 +272,7 @@ public class MapTools {
         // Write the data to the file
         PrintWriter l_write;
         try {
-            l_write = new PrintWriter("src/main/resources/"+p_fileNameForSave);
+            l_write = new PrintWriter("src/main/resources/maps"+p_fileNameForSave);
             l_write.write(String.valueOf(l_data));
             l_write.close();
             return true;

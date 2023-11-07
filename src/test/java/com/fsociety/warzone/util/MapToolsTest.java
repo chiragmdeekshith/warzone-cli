@@ -24,13 +24,13 @@ class MapToolsTest {
      */
     @BeforeAll
     static void setUp() {
-        informationMissing = "informationMissing.map";
-        continentWithNoCountry = "continentWithNoCountry.map";
-        countryWithNoNeighbour = "countryWithNoNeighbour.map";
-        duplicateNeighbours = "duplicateNeighbours.map";
-        continentNotConnected = "continentNotConnected.map";
-        mapNotConnected = "mapNotConnected.map";
-        validMap = "validMap.map";
+        informationMissing = "maps/informationMissing.map";
+        continentWithNoCountry = "maps/continentWithNoCountry.map";
+        countryWithNoNeighbour = "maps/countryWithNoNeighbour.map";
+        duplicateNeighbours = "maps/duplicateNeighbours.map";
+        continentNotConnected = "maps/continentNotConnected.map";
+        mapNotConnected = "maps/mapNotConnected.map";
+        validMap = "maps/validMap.map";
     }
 
     /**

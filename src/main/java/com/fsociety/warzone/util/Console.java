@@ -1,5 +1,7 @@
 package com.fsociety.warzone.util;
 
+import com.fsociety.warzone.util.log.Log;
+
 import java.util.Scanner;
 
 public class Console {
@@ -13,7 +15,7 @@ public class Console {
     public static void print(String p_message, boolean p_logToFile) {
         print(p_message);
         if (p_logToFile) {
-            //Call the logger here.
+            Log.log(p_message);
         }
     }
 

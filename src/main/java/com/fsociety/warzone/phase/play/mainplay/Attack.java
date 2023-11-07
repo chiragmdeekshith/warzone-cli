@@ -31,7 +31,7 @@ public class Attack extends MainPlay {
         boolean l_targetCountryExists = GameEngine.getPlayMap().getCountryState(p_targetCountryId) != null;
 
         if (l_playerOwnsCountry && l_countriesAreDifferent && l_countriesAreNeighbours && l_sourceCountryHasEnoughTroops && l_sourceCountryExists && l_targetCountryExists) {
-            String l_confirmation = p_troopsCount + " will advance to " + p_targetCountryId + " from " + p_sourceCountryId + ".";
+            String l_confirmation = p_troopsCount + " troops will advance to country " + p_targetCountryId + " from country " + p_sourceCountryId + ".";
             IssueOrder.d_availableTroopsOnMap.put(p_sourceCountryId, IssueOrder.d_availableTroopsOnMap.get(p_sourceCountryId) - p_troopsCount);
             IssueOrder.getCurrentPlayer().addOrder(new Advance(p_sourceCountryId, p_targetCountryId, p_troopsCount, IssueOrder.getCurrentPlayer().getId()));
             Console.print(l_confirmation);

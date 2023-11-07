@@ -57,8 +57,8 @@ public class CommandValidator {
                                 Console.print("Invalid argument type passed: Integers required.");
                                 return false;
                             }
-                            if(l_continentId < 0 || l_continentValue < 0) {
-                                Console.print("Continent ID or bonus value cannot be less than 0");
+                            if(l_continentId < 1 || l_continentValue < 1) {
+                                Console.print("Continent ID or bonus value cannot be less than 1");
                                 return false;
                             }
                         }
@@ -163,8 +163,8 @@ public class CommandValidator {
                                 Console.print("Value of ID must be an integer.");
                                 return false;
                             }
-                            if(l_countryId < 0 || l_neighbourId < 0) {
-                                Console.print("Value of countryID and neighbourID must not be lesser than 0.");
+                            if(l_countryId < 1 || l_neighbourId < 1) {
+                                Console.print("Value of countryID and neighbourID must not be lesser than 1.");
                                 return false;
                             }
                             if(l_countryId == l_neighbourId) {
@@ -184,8 +184,8 @@ public class CommandValidator {
                                 Console.print("Value of ID must be an integer.");
                                 return false;
                             }
-                            if(l_countryId < 0 ||  l_neighbourId < 0) {
-                                Console.print("Value of countryID and neighbourID must not be lesser than 0.");
+                            if(l_countryId < 1 ||  l_neighbourId < 1) {
+                                Console.print("Value of countryID and neighbourID must not be lesser than 1.");
                                 return false;
                             }
                         }
@@ -228,15 +228,15 @@ public class CommandValidator {
                     Console.print("This command does not have required 2 arguments.");
                     return false;
                 }
-                int countryId, armies;
+                int l_countryId, l_armies;
                 try {
-                    countryId = Integer.parseInt(p_splitCommand[1]);
-                    armies = Integer.parseInt(p_splitCommand[2]);
+                    l_countryId = Integer.parseInt(p_splitCommand[1]);
+                    l_armies = Integer.parseInt(p_splitCommand[2]);
                 } catch(NumberFormatException e) {
                     Console.print("This command is not valid because the second or third argument is not an integer.");
                     return false;
                 }
-                if(countryId < 1 && armies < 1) {
+                if(l_countryId < 1 || l_armies < 1) {
                     Console.print("The Country ID and the Armies have to be greater than 0.");
                     return false;
                 }
@@ -247,16 +247,16 @@ public class CommandValidator {
                     Console.print("This command does not have required 3 arguments.");
                     return false;
                 }
-                int fromCountryId, toCountryId, armies;
+                int l_fromCountryId, l_toCountryId, l_armies;
                 try {
-                    fromCountryId = Integer.parseInt(p_splitCommand[1]);
-                    toCountryId = Integer.parseInt(p_splitCommand[2]);
-                    armies = Integer.parseInt(p_splitCommand[3]);
+                    l_fromCountryId = Integer.parseInt(p_splitCommand[1]);
+                    l_toCountryId = Integer.parseInt(p_splitCommand[2]);
+                    l_armies = Integer.parseInt(p_splitCommand[3]);
                 } catch(NumberFormatException e) {
                     Console.print("This command is not valid because the second or third argument is not an integer.");
                     return false;
                 }
-                if(fromCountryId < 1 && toCountryId < 1 && armies < 1) {
+                if(l_fromCountryId < 1 || l_toCountryId < 1 || l_armies < 1) {
                     Console.print("The Country IDs and the Armies have to be greater than 0");
                     return false;
                 }
@@ -267,14 +267,14 @@ public class CommandValidator {
                     Console.print("This command does not have required 1 argument.");
                     return false;
                 }
-                int countryId;
+                int l_countryId;
                 try {
-                    countryId = Integer.parseInt(p_splitCommand[1]);
+                    l_countryId = Integer.parseInt(p_splitCommand[1]);
                 } catch(NumberFormatException e) {
                     Console.print("Country ID must be an integer.");
                     return false;
                 }
-                if(countryId < 1) {
+                if(l_countryId < 1) {
                     Console.print("The Country ID has to be greater than 0");
                     return false;
                 }

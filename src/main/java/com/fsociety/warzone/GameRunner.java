@@ -4,6 +4,7 @@ import com.fsociety.warzone.command.CommandProcessor;
 import com.fsociety.warzone.phase.Menu;
 import com.fsociety.warzone.phase.Phase;
 import com.fsociety.warzone.util.Console;
+import com.fsociety.warzone.util.log.Log;
 
 public class GameRunner {
 
@@ -13,6 +14,7 @@ public class GameRunner {
      * This function starts the main menu for the game.
      */
     public static void mainMenu() {
+        Log.initLogEntryBuffer("src/main/resources/logs/" + System.currentTimeMillis() + ".log");
         GameRunner.setPhase(new Menu());
         String l_command;
         while(true) {
