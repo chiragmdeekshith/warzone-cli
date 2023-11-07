@@ -154,6 +154,8 @@ public class CommandProcessor {
                 l_phase.blockade(l_countryId);
             }
             case COMMIT -> l_phase.commit();
+            case SHOW_CARDS -> l_phase.showCards();
+            case SHOW_AVAILABLE_ARMIES -> l_phase.showAvailableArmies();
         }
     }
 }
