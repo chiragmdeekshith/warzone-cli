@@ -1,8 +1,9 @@
 package com.fsociety.warzone.map;
 
+import com.fsociety.warzone.models.map.WZMap;
 import org.junit.jupiter.api.Test;
 
-import com.fsociety.warzone.model.Continent;
+import com.fsociety.warzone.models.Continent;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.Assertions;
  */
 public class WZMapTest {
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#addContinent(Integer, Integer)}
+     * Test method for {@link WZMap#addContinent(Integer, Integer)}
      */
     @Test
     void testAddContinent_success() {
@@ -25,7 +26,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#addCountry(Integer, Integer)}
+     * Test method for {@link WZMap#addCountry(Integer, Integer)}
      */
     @Test
     void testAddCountry_success() {
@@ -39,7 +40,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#addNeighbour(int, int)}
+     * Test method for {@link WZMap#addNeighbour(int, int)}
      */
     @Test
     void testAddNeighbour_success() {
@@ -55,7 +56,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#getAdjacencyMap()}
+     * Test method for {@link WZMap#getAdjacencyMap()}
      */
     @Test
     void testGetAdjacencyMap_success() {
@@ -71,7 +72,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#getContinentBonusMap()}
+     * Test method for {@link WZMap#getContinentBonusMap()}
      */
     @Test
     void testGetContinentBonusMap_success() {
@@ -82,7 +83,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#getContinentCountriesMap()}
+     * Test method for {@link WZMap#getContinentCountriesMap()}
      */
     @Test
     void testGetContinentCountriesMap_success() {
@@ -95,7 +96,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#getContinents()}
+     * Test method for {@link WZMap#getContinents()}
      */
     @Test
     void testGetContinents_success() {
@@ -110,7 +111,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#getGameState(int)}
+     * Test method for {@link WZMap#getGameState(int)}
      */
     @Test
     void testGetGameState() {
@@ -124,7 +125,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#initGameStates()}
+     * Test method for {@link WZMap#initGameStates()}
      */
     @Test
     void testInitGameStates_success() {
@@ -136,7 +137,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#initGameStates()}
+     * Test method for {@link WZMap#initGameStates()}
      */
     @Test
     void testInitGameStates_failure() {
@@ -148,7 +149,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#removeAdjacency(int)}
+     * Test method for {@link WZMap#removeAdjacency(int)}
      */
     @Test
     void testRemoveAdjacency() {
@@ -166,7 +167,7 @@ public class WZMapTest {
     }
 
     /** 
-     * Test method for {@link com.fsociety.warzone.map.WZMap#removeContinent(Integer)}
+     * Test method for {@link WZMap#removeContinent(Integer)}
      */
     @Test
     void testRemoveContinent() {
@@ -179,7 +180,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#removeCountry(int)}
+     * Test method for {@link WZMap#removeCountry(int)}
      */
     @Test
     void testRemoveCountry() {
@@ -193,7 +194,7 @@ public class WZMapTest {
     }
 
     /**
-     * Test method for {@link com.fsociety.warzone.map.WZMap#removeNeighbour(int, int)}
+     * Test method for {@link WZMap#removeNeighbour(int, int)}
      */
     @Test
     void testRemoveNeighbour() {

@@ -1,7 +1,8 @@
 package com.fsociety.warzone;
 
-import com.fsociety.warzone.game.GameEngine;
-import com.fsociety.warzone.map.MapEditor;
+import com.fsociety.warzone.controllers.GameEngineController;
+import com.fsociety.warzone.controllers.GamePlayController;
+import com.fsociety.warzone.controllers.MapEditorController;
 
 import java.util.Scanner;
 
@@ -31,19 +32,16 @@ public class Application {
     private static void mainMenu() {
         String l_choice;
         do {
-            System.out.println("1) Play game");
-            System.out.println("2) Map Editor");
-            System.out.println("3) Exit");
-            System.out.println("Enter your choice: \t");
+            InitialOptions();
             l_choice = Application.SCANNER.nextLine();
             switch(l_choice) {
                 case "1" -> {
                     System.out.println("New game");
-                    GameEngine.playGame();
+                    GameEngineController.playGame();
                 }
                 case "2" -> {
                     System.out.println("Map Editor");
-                    MapEditor.editMap();
+                    MapEditorController.editMap();
                 }
                 case "3" -> {
                     System.out.println("Exiting...");
@@ -53,5 +51,12 @@ public class Application {
 
             }
         } while(true);
+    }
+
+    private static void InitialOptions() {
+        System.out.println("1) Play game");
+        System.out.println("2) Map Editor");
+        System.out.println("3) Exit");
+        System.out.println("Enter your choice: \t");
     }
 }
