@@ -8,6 +8,7 @@ import com.fsociety.warzone.game.startup.StartUp;
 import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.phase.Menu;
 import com.fsociety.warzone.phase.end.End;
 import com.fsociety.warzone.phase.play.mainplay.Attack;
 import com.fsociety.warzone.phase.play.mainplay.Reinforcement;
@@ -139,10 +140,19 @@ public class GameEngine {
 
     public  static void initTruces() {
         d_truces = new HashMap<>();
-        for (Player l_player : GameEngine.getPlayers()) {
+        for (Player l_player : d_players) {
             d_truces.put(l_player.getId(), new HashSet<>());
         }
     }
+
+    public static void printPlayers() {
+        StringBuilder l_players = new StringBuilder();
+        for (Player l_player : d_players) {
+            l_players.append(l_player.getName()).append("\n");
+        }
+        Console.print(l_players.toString());
+    }
+
 
     // Getters and Setters
     public static ArrayList<Player> getPlayers() {

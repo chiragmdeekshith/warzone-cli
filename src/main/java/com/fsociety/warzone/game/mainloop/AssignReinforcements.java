@@ -41,6 +41,7 @@ public class AssignReinforcements {
             Console.print("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
         }
 
+        // Issue and Execute the Deploy orders before moving to the attack phase, where are other orders are processed
         issueDeployOrder(p_players);
         executeDeployOrders(p_players);
     }

@@ -27,7 +27,7 @@ public class CommandValidator {
 
         switch (d_commands.get(l_commandName)) {
             case HELP, PLAY_GAME, MAP_EDITOR, BACK, EXIT, SHOW_MAP, VALIDATE_MAP,
-                    ASSIGN_COUNTRIES, COMMIT, SHOW_CARDS, SHOW_AVAILABLE_ARMIES -> {
+                    ASSIGN_COUNTRIES, COMMIT, SHOW_CARDS, SHOW_AVAILABLE_ARMIES, SHOW_PLAYERS -> {
                 return validateNoArgsCommand(p_splitCommand);
             }
             case EDIT_MAP, SAVE_MAP, LOAD_MAP -> {

@@ -31,6 +31,7 @@ public abstract class Phase {
     public abstract void commit();
     public abstract void showCards();
     public abstract void showAvailableArmies();
+    public abstract void showPlayers();
 
     // Map Editor commands
     public abstract void editMap(String p_fileName);

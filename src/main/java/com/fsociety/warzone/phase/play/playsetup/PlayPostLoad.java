@@ -1,11 +1,9 @@
 package com.fsociety.warzone.phase.play.playsetup;
 
-import com.fsociety.warzone.GameRunner;
 import com.fsociety.warzone.command.Command;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.model.Player;
-import com.fsociety.warzone.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.util.Console;
 
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ public class PlayPostLoad extends PlaySetup{
 
     @Override
     public void help() {
-        Command[] l_validCommands = {Command.SHOW_MAP, Command.GAME_PLAYER, Command.ASSIGN_COUNTRIES};
+        Command[] l_validCommands = {Command.SHOW_MAP, Command.GAME_PLAYER, Command.ASSIGN_COUNTRIES, Command.SHOW_PLAYERS};
         String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command -flag [arguments] / -flag [arguments]";
@@ -28,6 +26,14 @@ public class PlayPostLoad extends PlaySetup{
     @Override
     public void showMap() {
         GameEngine.getPlayMap().showMap();
+    }
+
+    public void showPlayers() {
+        if (GameEngine.getPlayers() == null) {
+            Console.print("List of players is empty.");
+        } else {
+            GameEngine.printPlayers();
+        }
     }
 
     @Override

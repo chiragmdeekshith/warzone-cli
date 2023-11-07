@@ -17,7 +17,7 @@ public class GameRunner {
         Log.initLogEntryBuffer("src/main/resources/logs/" + System.currentTimeMillis() + ".log");
         GameRunner.setPhase(new Menu());
         String l_command;
-        while(true) {
+        while (true) {
             l_command = Console.commandPrompt();
             CommandProcessor.processCommand(l_command);
         }

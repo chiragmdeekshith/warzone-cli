@@ -13,6 +13,14 @@ public abstract class Play extends Menu {
     public void back() {
         GameEngine.resetGameState();
         GameRunner.setPhase(new Menu());
+        Console.print("Returning to Main Menu...");
+        Console.print("""
+                                                          \s
+                 _ _ _ _____ _____ _____ _____ _____ _____\s
+                | | | |  _  | __  |__   |     |   | |   __|
+                | | | |     |    -|   __|  |  | | | |   __|
+                |_____|__|__|__|__|_____|_____|_|___|_____|
+                                                          \s""");
     }
 
     @Override
