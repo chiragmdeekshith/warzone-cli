@@ -241,7 +241,7 @@ public class WZMap {
             final int p_armies) {
         d_countries.get(p_countryId).setPlayerId(p_playerId);
         d_countries.get(p_countryId).setArmies(p_armies);
-        d_countries.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
+        //d_countries.get(p_countryId).setPlayer(GameEngine.getPlayerList().get(p_playerId));
     }
 
     /**

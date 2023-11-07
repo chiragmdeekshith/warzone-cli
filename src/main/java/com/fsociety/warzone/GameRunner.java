@@ -14,9 +14,6 @@ public class GameRunner {
      */
     public static void mainMenu() {
         GameRunner.setPhase(new Menu());
-        Console.print("1) Play Game");
-        Console.print("2) Map Editor");
-        Console.print("3) Exit");
         String l_command;
         while(true) {
             l_command = Console.commandPrompt();

@@ -21,11 +21,12 @@ public class CommandValidator {
 
         // If the command is not present in the list of valid commands, the command is not valid
         if(!d_commands.containsKey(l_commandName)) {
+            Console.print("Unrecognized command.");
             return false;
         }
 
         switch (d_commands.get(l_commandName)) {
-            case PLAY_GAME, MAP_EDITOR, BACK, EXIT, SHOW_MAP, VALIDATE_MAP,
+            case HELP, PLAY_GAME, MAP_EDITOR, BACK, EXIT, SHOW_MAP, VALIDATE_MAP,
                     ASSIGN_COUNTRIES, COMMIT, SHOW_CARDS, SHOW_AVAILABLE_ARMIES -> {
                 return validateNoArgsCommand(p_splitCommand);
             }

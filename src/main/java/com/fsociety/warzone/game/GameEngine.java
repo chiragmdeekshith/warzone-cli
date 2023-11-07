@@ -15,17 +15,20 @@ import com.fsociety.warzone.util.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * This class handles everything related to playing a game of Warzone.
  */
 public class GameEngine {
 
-    private static ArrayList<Player> d_players = new ArrayList<>();
-    private static HashMap<Integer, Player> d_playerList;
+    private static ArrayList<Player> d_players;
+    private static Map<String, Player> d_playerNameMap = new HashMap<>();
+
+    private static Map<Integer, String> d_playerIdMap = new HashMap<>();
     private static PlayMap d_playMap;
     private static HashMap<Integer, HashSet<Integer>> d_truces;
-    private static boolean gameWon = false;
+    private static boolean d_gameWon = false;
 
     /**
      * This method implements a game engine by running the start-up phase, and upon success, the main loop that
@@ -69,7 +72,7 @@ public class GameEngine {
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);
 
-            if (gameWon) {
+            if (d_gameWon) {
                 GameRunner.setPhase(new End());
                 endGame();
                 return;
@@ -113,26 +116,34 @@ public class GameEngine {
      * This method sets the gameWon variable to true which is checked in the main loop to assure the game has ended.
      */
     public static void setGameWon() {
-        gameWon = true;
+        d_gameWon = true;
     }
 
     /**
-     * This method creates a map between Player objects and their playerIDs to be stored in the GameEngine.
+     * This method creates a list of Player objects to be stored in the GameEngine.
      */
-    public static void initPlayerList() {
-        d_playerList = new HashMap<>();
-        for (Player l_player : d_players) {
-            d_playerList.put(l_player.getId(), l_player);
+    public static void finalizePlayers() {
+        d_players = new ArrayList<>(d_playerNameMap.values());
+        d_playerIdMap = new HashMap<>();
+        for(Player l_player: d_players) {
+            d_playerIdMap.put(l_player.getId(), l_player.getName());
         }
     }
 
-    public static Player getPlayersByName(String p_name) {
-        for (Player l_player : d_players) {
-            if (l_player.getName().equals(p_name)) {
-                return l_player;
-            }
+    public static void resetGameState() {
+        d_players = null;
+        d_playerNameMap = new HashMap<>();
+        d_playerIdMap = new HashMap<>();
+        d_playMap = null;
+        d_truces = null;
+        d_gameWon = false;
+    }
+
+    public  static void initTruces() {
+        d_truces = new HashMap<>();
+        for (Player l_player : GameEngine.getPlayers()) {
+            d_truces.put(l_player.getId(), new HashSet<>());
         }
-        return null;
     }
 
     /**
@@ -155,8 +166,8 @@ public class GameEngine {
         d_players = p_players;
     }
 
-    public static HashMap<Integer, Player> getPlayerList() {
-        return d_playerList;
+    public static Map<String, Player> getPlayerNameMap() {
+        return d_playerNameMap;
     }
 
     public static PlayMap getPlayMap() {
@@ -171,8 +182,7 @@ public class GameEngine {
         d_playMap = p_playMap;
     }
 
-    public  static void setTruces(HashMap<Integer, HashSet<Integer>> p_truces) {
-        d_truces = p_truces;
+    public static String getPlayerNameFromId(Integer p_playerId) {
+        return d_playerIdMap.get(p_playerId);
     }
-
 }

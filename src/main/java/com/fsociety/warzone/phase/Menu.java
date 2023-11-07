@@ -4,7 +4,6 @@ import com.fsociety.warzone.GameRunner;
 import com.fsociety.warzone.command.Command;
 import com.fsociety.warzone.phase.edit.EditPreLoad;
 import com.fsociety.warzone.phase.play.playsetup.PlayPreLoad;
-import com.fsociety.warzone.phase.play.playsetup.PlaySetup;
 import com.fsociety.warzone.util.Console;
 
 import java.util.Map;
@@ -21,11 +20,13 @@ public class Menu extends Phase {
     }
     @Override
     public void playGame() {
+        Console.print("Starting a new game.");
         GameRunner.setPhase(new PlayPreLoad());
     }
 
     @Override
     public void mapEditor() {
+        Console.print("Welcome to the map editor.");
         GameRunner.setPhase(new EditPreLoad());
     }
 
@@ -42,9 +43,9 @@ public class Menu extends Phase {
 
     @Override
     public void printInvalidCommandMessage() {
-        Console.print("Invalid command in phase "
+        Console.print("Invalid command in the "
                 + this.getClass().getSimpleName()
-                + ". Please use the 'help' command to print a list of valid commands.");
+                + " phase. Please use the 'help' command to print a list of valid commands.");
     }
 
     /**
@@ -52,7 +53,7 @@ public class Menu extends Phase {
      */
     protected String getValidCommands(Command[] p_commands) {
         StringBuilder l_validCommands = new StringBuilder();
-        l_validCommands.append("Phase: ").append(this.getClass().getSimpleName()).append("\n");
+        l_validCommands.append("(Phase - ").append(this.getClass().getSimpleName()).append(")\n");
         for (Command l_command : p_commands) {
             l_validCommands.append("\t").append(l_command.getCommand()).append(" ").append(l_command.getHelpMessage()).append("\n");
         }

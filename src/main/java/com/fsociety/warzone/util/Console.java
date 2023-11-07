@@ -18,7 +18,7 @@ public class Console {
     }
 
     public static String commandPrompt() {
-        print("Please enter a command.\n> ");
+        System.out.print("Please enter a command.\n> ");
         return SCANNER.nextLine();
     }
 

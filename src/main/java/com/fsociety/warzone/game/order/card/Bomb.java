@@ -28,7 +28,7 @@ public class Bomb implements Order {
         if (GameEngine.getPlayMap().isNeighbourOf(d_targetCountryId, d_playerId) && GameEngine.getPlayMap().getCountryState(d_targetCountryId).getPlayerId() != d_playerId) {
             int l_troopsCount = GameEngine.getPlayMap().getCountryState(d_targetCountryId).getArmies();
             GameEngine.getPlayMap().updateGameState(d_targetCountryId, l_troopsCount/2);
-            String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " bombed " + d_targetCountryId + " and destroyed " + (l_troopsCount - l_troopsCount/2) + " armies.";
+            String l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " bombed " + d_targetCountryId + " and destroyed " + (l_troopsCount - l_troopsCount/2) + " armies.";
             Console.print(l_outcome);
         }
     }
