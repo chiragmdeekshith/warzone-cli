@@ -1,10 +1,8 @@
 package com.fsociety.warzone.game.mainloop;
 
-import com.fsociety.warzone.GameRunner;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.Player;
-import com.fsociety.warzone.phase.Menu;
 import com.fsociety.warzone.util.Console;
 
 import java.util.ArrayList;

@@ -42,5 +42,4 @@ public abstract class Play extends Menu {
     public void mapEditor() {
         printInvalidCommandMessage();
     }
-
 }
