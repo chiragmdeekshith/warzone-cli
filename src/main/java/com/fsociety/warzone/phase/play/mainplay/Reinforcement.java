@@ -24,6 +24,7 @@ public class Reinforcement extends MainPlay {
         l_currentPlayer.setAvailableReinforcements(l_currentPlayer.getAvailableReinforcements() - p_troopsCount);
         l_currentPlayer.addOrder(new Deploy(p_countryId, p_troopsCount, l_currentPlayer.getId()));
         Console.print(l_confirmation);
+        IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
 }

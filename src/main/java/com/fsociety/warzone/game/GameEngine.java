@@ -9,8 +9,9 @@ import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.phase.end.End;
+import com.fsociety.warzone.phase.play.mainplay.Attack;
+import com.fsociety.warzone.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.util.Console;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,7 +44,7 @@ public class GameEngine {
      * Execute Orders. At each phase, each player is looped over and the corresponding method is called.
      */
     public static void mainLoop() {
-        System.out.println("Game Start!");
+        Console.print("Game Start!");
         int l_turns = 0;
         while (true) {
 
@@ -54,19 +55,16 @@ public class GameEngine {
             d_playMap.getContinents().keySet().forEach(continentId -> {
                 d_playMap.getContinents().get(continentId).computeAndSetContinentOwner();
             });
-            // Assign Reinforcements Phase
-            AssignReinforcements.assignReinforcements(d_players);
 
-            String l_assignReinforcementsEnd = "All players have deployed their reinforcements.";
-            Console.print(l_assignReinforcementsEnd);
+            // Assign Reinforcements Phase
+            GameRunner.setPhase(new Reinforcement());
+            AssignReinforcements.assignReinforcements(d_players);
+            Console.print("All players have deployed their reinforcements.");
 
             // Issue Orders Phase
-            if (!IssueOrder.issueOrders(d_players)) {
-                return; // Return to main menu
-            }
-
-            String l_issueOrdersEnd = "All players have committed their list of orders.\nExecuting orders...";
-            Console.print(l_issueOrdersEnd);
+            GameRunner.setPhase(new Attack());
+            IssueOrder.issueOrders(d_players);
+            Console.print("All players have committed their list of orders.\nExecuting orders...");
 
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);

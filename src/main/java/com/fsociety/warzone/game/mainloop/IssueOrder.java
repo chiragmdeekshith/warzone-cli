@@ -24,7 +24,7 @@ public class IssueOrder {
      * @return returns false if a player enters the 'back' command within the issueOrder() method of the Player class.
      *         This causes the game to return to the main menu.
      */
-    public static boolean issueOrders(ArrayList<Player> p_players) {
+    public static void issueOrders(ArrayList<Player> p_players) {
 
         d_availableTroopsOnMap = new HashMap<>();
         for (Country l_country : GameEngine.getPlayMap().getCountries().values()) {
@@ -38,16 +38,13 @@ public class IssueOrder {
                 if (p_player.hasCommitted()) {
                     l_committed++;
                 } else {
-                    if (!p_player.issueOrder()) {
-                        return false;
-                    }
+                    p_player.issueOrder();
                 }
             }
             if (l_committed == p_players.size()) {
                 break;
             }
         }
-        return true;
     }
 
     public static void showAvailableTroops(Player p_player) {

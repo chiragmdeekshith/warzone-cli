@@ -27,6 +27,7 @@ public class Attack extends MainPlay {
         IssueOrder.d_availableTroopsOnMap.put(p_sourceCountryId, IssueOrder.d_availableTroopsOnMap.get(p_sourceCountryId) - p_troopsCount);
         IssueOrder.getCurrentPlayer().addOrder(new Advance(p_sourceCountryId, p_targetCountryId, p_troopsCount, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
+        IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
     @Override
@@ -34,6 +35,7 @@ public class Attack extends MainPlay {
         String l_confirmation = p_targetCountryId + " will be bombed.";
         IssueOrder.getCurrentPlayer().addOrder(new Bomb(p_targetCountryId, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
+        IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
     @Override
@@ -41,6 +43,7 @@ public class Attack extends MainPlay {
         String l_confirmation = p_countryId + " will be blockaded.";
         IssueOrder.getCurrentPlayer().addOrder(new Blockade(p_countryId, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
+        IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
     @Override
@@ -49,6 +52,7 @@ public class Attack extends MainPlay {
         IssueOrder.d_availableTroopsOnMap.put(p_sourceCountryId, IssueOrder.d_availableTroopsOnMap.get(p_sourceCountryId) - p_troopsCount);
         IssueOrder.getCurrentPlayer().addOrder(new Airlift(p_sourceCountryId, p_targetCountryId, p_troopsCount, IssueOrder.getCurrentPlayer().getId()));
         Console.print(l_confirmation);
+        IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
     @Override
@@ -56,11 +60,13 @@ public class Attack extends MainPlay {
         String l_confirmation = p_targetPlayerId + " will be negotiated with.";
         IssueOrder.getCurrentPlayer().addOrder(new Diplomacy(IssueOrder.getCurrentPlayer().getId(), p_targetPlayerId));
         Console.print(l_confirmation);
+        IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
     @Override
     public void commit() {
         IssueOrder.getCurrentPlayer().commit();
+        IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
     @Override

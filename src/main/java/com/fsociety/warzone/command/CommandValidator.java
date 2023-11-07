@@ -74,7 +74,7 @@ public class CommandValidator {
                                 return false;
                             }
                             if(l_continentId < 0) {
-                                Console.print("Continent ID or bonus value cannot be less than 0.");
+                                Console.print("Continent ID cannot be less than 0.");
                                 return false;
                             }
                         }
