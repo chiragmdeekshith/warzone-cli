@@ -33,4 +33,9 @@ public class Bomb implements Order {
         }
     }
 
+    @Override
+    public int getIssuerId() {
+        return this.d_playerId;
+    }
+
 }

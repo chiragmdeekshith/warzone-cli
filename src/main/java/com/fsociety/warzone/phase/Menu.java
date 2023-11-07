@@ -105,7 +105,7 @@ public class Menu extends Phase {
     }
 
     @Override
-    public void negotiate(int p_targetPlayerId) {
+    public void negotiate(String p_targetPlayerId) {
         printInvalidCommandMessage();
     }
 
@@ -113,6 +113,12 @@ public class Menu extends Phase {
     public void commit() {
         printInvalidCommandMessage();
     }
+
+    @Override
+    public void showCards() { printInvalidCommandMessage(); }
+
+    @Override
+    public void showAvailableArmies() { printInvalidCommandMessage(); }
 
     @Override
     public void editMap(String p_fileName) {

@@ -22,7 +22,9 @@ public enum Command {
     AIRLIFT("airlift", "[sourceCountryID targetCountryID numArmies]"),
     NEGOTIATE("negotiate", "[playerID]"),
     BLOCKADE("blockade", "[countryID]"),
-    COMMIT("commit", "");
+    COMMIT("commit", ""),
+    SHOW_CARDS("showcards", ""),
+    SHOW_AVAILABLE_ARMIES("showtroops", "");
 
 
     // Arguments for commands

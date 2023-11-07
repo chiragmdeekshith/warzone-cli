@@ -3,6 +3,7 @@ package com.fsociety.warzone.game.mainloop;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.util.Console;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class AssignReinforcements {
                 }
             });
             l_player.setAvailableReinforcements(l_reinforcements.get());
-            System.out.println("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
+            Console.print("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
         }
 
         issueDeployOrder(p_players);
@@ -52,17 +53,18 @@ public class AssignReinforcements {
      */
     public static void issueDeployOrder(ArrayList<Player> p_players) {
         int l_total_troops = 0;
-        for (Player pPlayer : p_players) {
-            l_total_troops += pPlayer.getAvailableReinforcements();
+        for (Player l_player : p_players) {
+            l_total_troops += l_player.getAvailableReinforcements();
         }
         while (l_total_troops > 0) {
-            for (Player pPlayer : p_players) {
-                if (pPlayer.getAvailableReinforcements() > 0) {
-                    pPlayer.issueOrder();
+            for (Player l_player : p_players) {
+                if (l_player.getAvailableReinforcements() > 0) {
+                    Console.print(l_player.getName() + ": You have " + l_player.getAvailableReinforcements() + " available reinforcements. ");
+                    l_player.issueOrder();
                 }
             }
-            for (Player pPlayer : p_players) {
-                l_total_troops += pPlayer.getAvailableReinforcements();
+            for (Player l_player : p_players) {
+                l_total_troops += l_player.getAvailableReinforcements();
             }
         }
     }

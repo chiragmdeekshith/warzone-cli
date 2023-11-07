@@ -9,8 +9,9 @@ import com.fsociety.warzone.map.PlayMap;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.phase.end.End;
+import com.fsociety.warzone.phase.play.mainplay.Attack;
+import com.fsociety.warzone.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.util.Console;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ public class GameEngine {
     private static HashMap<Integer, Player> d_playerList;
     private static PlayMap d_playMap;
     private static HashMap<Integer, HashSet<Integer>> d_truces;
+    private static boolean gameWon = false;
 
     /**
      * This method implements a game engine by running the start-up phase, and upon success, the main loop that
@@ -42,7 +44,7 @@ public class GameEngine {
      * Execute Orders. At each phase, each player is looped over and the corresponding method is called.
      */
     public static void mainLoop() {
-        System.out.println("Game Start!");
+        Console.print("Game Start!");
         int l_turns = 0;
         while (true) {
 
@@ -53,34 +55,29 @@ public class GameEngine {
             d_playMap.getContinents().keySet().forEach(continentId -> {
                 d_playMap.getContinents().get(continentId).computeAndSetContinentOwner();
             });
-            // Assign Reinforcements Phase
-            AssignReinforcements.assignReinforcements(d_players);
 
-            String l_assignReinforcementsEnd = "All players have deployed their reinforcements.";
-            Console.print(l_assignReinforcementsEnd);
+            // Assign Reinforcements Phase
+            GameRunner.setPhase(new Reinforcement());
+            AssignReinforcements.assignReinforcements(d_players);
+            Console.print("All players have deployed their reinforcements.");
 
             // Issue Orders Phase
-            if (!IssueOrder.issueOrders(d_players)) {
-                return; // Return to main menu
-            }
-
-            String l_issueOrdersEnd = "All players have committed their list of orders.\nExecuting orders...";
-            Console.print(l_issueOrdersEnd);
+            GameRunner.setPhase(new Attack());
+            IssueOrder.issueOrders(d_players);
+            Console.print("All players have committed their list of orders.\nExecuting orders...");
 
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);
 
-            if (checkWinCondition()) {
+            if (gameWon) {
                 GameRunner.setPhase(new End());
-                //set win state and enter win loop
+                endGame();
                 return;
             }
 
-
             resetRound();
 
-            String l_turnEnd = "All orders executed. Turn " + l_turns + " over.";
-            Console.print(l_turnEnd);
+            Console.print("All orders executed. Turn " + l_turns + " over.");
         }
 
     }
@@ -91,6 +88,10 @@ public class GameEngine {
      */
     private static void resetRound() {
         for (Player l_player : d_players) {
+            if (l_player.isEliminated()) {
+                d_players.remove(l_player);
+                continue;
+            }
             d_truces.put(l_player.getId(), new HashSet<>());
             l_player.resetCommitted();
             l_player.resetCardDrawn();
@@ -100,7 +101,7 @@ public class GameEngine {
     /**
      * This method checks whether one player owns every country on the map.
      */
-    private static boolean checkWinCondition() {
+    public static boolean checkWinCondition() {
         HashSet<Integer> l_playerIds = new HashSet<>();
         for (Country l_country : d_playMap.getCountries().values()) {
             l_playerIds.add(l_country.getPlayerId());
@@ -108,6 +109,12 @@ public class GameEngine {
         return (l_playerIds.size() == 1);
     }
 
+    /**
+     * This method sets the gameWon variable to true which is checked in the main loop to assure the game has ended.
+     */
+    public static void setGameWon() {
+        gameWon = true;
+    }
 
     /**
      * This method creates a map between Player objects and their playerIDs to be stored in the GameEngine.
@@ -117,6 +124,27 @@ public class GameEngine {
         for (Player l_player : d_players) {
             d_playerList.put(l_player.getId(), l_player);
         }
+    }
+
+    public static Player getPlayersByName(String p_name) {
+        for (Player l_player : d_players) {
+            if (l_player.getName().equals(p_name)) {
+                return l_player;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method allows for the post-game phase when a player has won. Certain commands, such as showmap, still work
+     * in this phase so that players can look back on the game they played before returning to the main menu.
+     */
+    public static void endGame() {
+        //TODO: make this work
+        //while(true) {
+        //    String l_command = Console.commandPrompt();
+        //    CommandProcessor.processCommand(l_command);
+        //}
     }
 
     // Getters and Setters

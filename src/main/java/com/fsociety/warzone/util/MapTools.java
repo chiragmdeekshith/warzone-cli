@@ -68,11 +68,11 @@ public class MapTools {
             }
         }
         catch (NumberFormatException e) {
-            System.out.println("Cant parseInt");
+            Console.print("Cannot parse integer.");
             return null;
         }
         catch (Exception e) {
-            System.out.println("File does not exist!");
+            Console.print("File does not exist!");
             return null;
         }
         if(validateMap(l_editMap)) {
@@ -115,11 +115,11 @@ public class MapTools {
             }
         }
         catch (NumberFormatException e) {
-            System.out.println("Cant parseInt");
+            Console.print("Cannot parse integer.");
             return null;
         }
         catch (Exception e) {
-            System.out.println("File does not exist!");
+            Console.print("File does not exist!");
             return null;
         }
         if(validateMap(l_playMap)) {
@@ -164,7 +164,7 @@ public class MapTools {
             int countryID= Integer.parseInt(temp[0]);
             for (int i=1;i<temp.length;i++) {
                 if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0) {
-                    System.out.println("Duplicate Neighbors cannot exist");
+                    Console.print("Duplicate neighbours cannot exist.");
                     return false;
                 }
                 arr[i] = Integer.parseInt(temp[i]);
@@ -185,7 +185,7 @@ public class MapTools {
      */
     private static boolean loadContinent(AbstractMap p_map, int p_continentId, int p_continentBonus) {
         if (p_map.getCountriesInContinent().get(p_continentId) != null) {
-            System.out.println("Continent already exists.");
+            Console.print("Continent already exists.");
             return false;
         } else {
             p_map.getCountriesInContinent().put(p_continentId, new LinkedHashSet<>());
@@ -203,10 +203,10 @@ public class MapTools {
      */
     private static boolean loadCountry(AbstractMap p_map, int p_countryId, int p_continentId) {
         if (p_map.getCountriesInContinent().get(p_continentId) == null) {
-            System.out.println("Continent does not exist in the Map.");
+            Console.print("Continent does not exist.");
             return false;
         } else if (p_map.getNeighbours().get(p_countryId) != null) {
-            System.out.println("Country already exists.");
+            Console.print("Country already exists.");
             return false;
         } else {
             p_map.getNeighbours().put(p_countryId, new LinkedHashSet<>());
@@ -224,13 +224,13 @@ public class MapTools {
      */
     private static boolean loadNeighbour(AbstractMap p_map, int p_countryId, int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
-            System.out.println("Country cannot be neighbour of itself.");
+            Console.print("Country cannot be neighbour of itself.");
             return false;
         } else if (p_map.getNeighbours().get(p_countryId) == null) {
-            System.out.println("Country does not exist or is invalid.");
+            Console.print("Country does not exist or is invalid.");
             return false;
         } else if (p_map.getNeighbours().get(p_neighbourCountryId) == null) {
-            System.out.println("Neighbour Country does not exist or is invalid.");
+            Console.print("Neighbour Country does not exist or is invalid.");
             return false;
         } else {
             p_map.getNeighbours().get(p_countryId).add(p_neighbourCountryId);
@@ -278,7 +278,7 @@ public class MapTools {
             return true;
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            Console.print(e.getMessage());
             return false;
         }
     }
@@ -297,7 +297,7 @@ public class MapTools {
             p_map.setFileName(p_fileName);
             return true;
         } else {
-            System.out.println("Missing Information/Not in correct format");
+            Console.print("File is missing information or is in the wrong format.");
             return false;
         }
     }
@@ -427,7 +427,7 @@ public class MapTools {
         else {
             for(Set<Integer> countries:p_mapData.getCountriesInContinent().values()) {
                 if(countries.isEmpty()) {
-                    System.out.println("Continent has no countries");
+                    Console.print("Continent has no countries.");
                     return true;
                 }
             }
@@ -444,7 +444,7 @@ public class MapTools {
     public static boolean checkEmptyNeighbours(AbstractMap p_mapData) {
         for(Set<Integer> neighbours:p_mapData.getNeighbours().values())
             if(neighbours.isEmpty()) {
-                System.out.println("Country has no neighbours");
+                Console.print("Country has no neighbours.");
                 return true;
             }
         return false;
@@ -473,7 +473,7 @@ public class MapTools {
                     }
                 }
                 if(!isContinentConnected) {
-                    System.out.println("Continent " + l_continentId + " is not connected");
+                    Console.print("Continent " + l_continentId + " is not connected.");
                     return false;
                 }
             }
@@ -497,7 +497,7 @@ public class MapTools {
             }
         }
         if (!l_graph.isStronglyConnected()){
-            System.out.println("The Map is not Strongly Connected");
+            Console.print("The map is not strongly connected.");
             return false;
         }
         return true;

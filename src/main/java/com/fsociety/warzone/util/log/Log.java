@@ -1,4 +1,4 @@
-package com.fsociety.warzone.game.log;
+package com.fsociety.warzone.util.log;
 
 /**
  * Utility class for game logging.

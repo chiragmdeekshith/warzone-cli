@@ -26,7 +26,7 @@ public class CommandValidator {
 
         switch (d_commands.get(l_commandName)) {
             case PLAY_GAME, MAP_EDITOR, BACK, EXIT, SHOW_MAP, VALIDATE_MAP,
-                    ASSIGN_COUNTRIES, COMMIT -> {
+                    ASSIGN_COUNTRIES, COMMIT, SHOW_CARDS, SHOW_AVAILABLE_ARMIES -> {
                 return validateNoArgsCommand(p_splitCommand);
             }
             case EDIT_MAP, SAVE_MAP, LOAD_MAP -> {
@@ -74,7 +74,7 @@ public class CommandValidator {
                                 return false;
                             }
                             if(l_continentId < 0) {
-                                Console.print("Continent ID or bonus value cannot be less than 0.");
+                                Console.print("Continent ID cannot be less than 0.");
                                 return false;
                             }
                         }

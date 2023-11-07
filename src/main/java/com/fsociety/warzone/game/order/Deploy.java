@@ -32,4 +32,10 @@ public class Deploy implements Order {
             Console.print(l_outcome);
         }
     }
+
+    @Override
+    public int getIssuerId() {
+        return this.d_playerId;
+    }
+
 }

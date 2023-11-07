@@ -1,5 +1,6 @@
 package com.fsociety.warzone.util.command;
 
+import com.fsociety.warzone.util.Console;
 import com.fsociety.warzone.util.command.constant.GameplayCommand;
 import com.fsociety.warzone.util.command.constant.MapEditorCommand;
 import com.fsociety.warzone.util.command.constant.Phase;
@@ -23,7 +24,7 @@ public class CommandValidator {
     public static boolean isValidCommand(String p_rawCommand, Phase p_phase) {
 
         if(p_rawCommand.isEmpty()) {
-            System.out.println("Command is empty. It cannot be empty.");
+            Console.print("Command is empty. It cannot be empty.");
             return false;
         }
 

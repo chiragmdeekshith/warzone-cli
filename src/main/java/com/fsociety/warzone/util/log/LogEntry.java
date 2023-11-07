@@ -1,4 +1,4 @@
-package com.fsociety.warzone.game.log;
+package com.fsociety.warzone.util.log;
 
 /**
  * The LogEntry class represents individual log entries with a message.
