@@ -84,29 +84,6 @@ public class Player {
     }
 
     /**
-     * Issues deploy command.
-     *
-     * @param p_parameters - command entered by the user
-     * @return true if command is issued properly, false otherwise
-     */
-    public boolean issueDeployCommand(String[] p_parameters) {
-        if (Integer.parseInt(p_parameters[2]) <= d_availableReinforcements) {
-            if (getCountryIds().contains(Integer.parseInt(p_parameters[1]))) {
-                System.out.println(p_parameters[2] + " reinforcement armies will be deployed to " + p_parameters[1] + ".");
-                d_orders.add(new Deploy(Integer.parseInt(p_parameters[1]), Integer.parseInt(p_parameters[2]), this.d_id));
-                this.d_availableReinforcements -= Integer.parseInt(p_parameters[2]);
-                return true;
-            } else {
-                System.out.println("You do not own this country!");
-                return false;
-            }
-        } else {
-            System.out.println("Insufficient reinforcements!");
-            return false;
-        }
-    }
-
-    /**
      * This method removes the first order from the player's list of orders and executes the order by calling its
      * execute() method.
      */
