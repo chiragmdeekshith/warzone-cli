@@ -2,6 +2,7 @@ package com.fsociety.warzone.game.log;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.fsociety.warzone.util.log.Log;
 import org.junit.jupiter.api.Test;
 
 class LogTest {

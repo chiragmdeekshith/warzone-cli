@@ -273,4 +273,8 @@ public class Player {
      */
     public int getCountriesCount() { return this.d_countries.size(); }
 
+    public HandOfCards getHandOfCards() {
+        return d_handOfCards;
+    }
+
 }

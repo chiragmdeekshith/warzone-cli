@@ -6,7 +6,6 @@ import com.fsociety.warzone.game.order.card.Airlift;
 import com.fsociety.warzone.game.order.card.Blockade;
 import com.fsociety.warzone.game.order.card.Bomb;
 import com.fsociety.warzone.game.order.card.Diplomacy;
-import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.game.order.Advance;
 import com.fsociety.warzone.util.Console;
 
@@ -15,7 +14,7 @@ public class Attack extends MainPlay {
     @Override
     public void help() {
         Command[] l_validCommands = {Command.SHOW_MAP, Command.ADVANCE, Command.BOMB, Command.BLOCKADE, Command.AIRLIFT,
-                Command.NEGOTIATE, Command.COMMIT};
+                Command.NEGOTIATE, Command.COMMIT, Command.SHOW_CARDS, Command.SHOW_AVAILABLE_ARMIES};
         String help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command [arguments]";
@@ -63,4 +62,15 @@ public class Attack extends MainPlay {
     public void commit() {
         IssueOrder.getCurrentPlayer().commit();
     }
+
+    @Override
+    public void showCards() {
+        IssueOrder.getCurrentPlayer().getHandOfCards().showCards();
+    }
+
+    @Override
+    public void showAvailableArmies() {
+        IssueOrder.showAvailableTroops(IssueOrder.getCurrentPlayer());
+    }
+
 }

@@ -29,6 +29,8 @@ public abstract class Phase {
     public abstract void airlift(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
     public abstract void negotiate(int p_targetPlayerId);
     public abstract void commit();
+    public abstract void showCards();
+    public abstract void showAvailableArmies();
 
     // Map Editor commands
     public abstract void editMap(String p_fileName);

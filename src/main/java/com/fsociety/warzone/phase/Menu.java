@@ -115,6 +115,12 @@ public class Menu extends Phase {
     }
 
     @Override
+    public void showCards() { printInvalidCommandMessage(); }
+
+    @Override
+    public void showAvailableArmies() { printInvalidCommandMessage(); }
+
+    @Override
     public void editMap(String p_fileName) {
         printInvalidCommandMessage();
     }

@@ -1,4 +1,4 @@
-package com.fsociety.warzone.game.log;
+package com.fsociety.warzone.util.log;
 
 import java.util.ArrayList;
 import java.util.List;

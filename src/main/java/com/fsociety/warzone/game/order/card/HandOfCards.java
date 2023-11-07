@@ -1,5 +1,7 @@
 package com.fsociety.warzone.game.order.card;
 
+import com.fsociety.warzone.util.Console;
+
 import java.util.Random;
 
 /**
@@ -76,15 +78,13 @@ public class HandOfCards {
         return false;
     }
 
-
-    @Override
-    public String toString() {
+    public void showCards() {
         String l_asString = d_playerName + "'s Cards:\n";
         l_asString += "Bomb Cards: " + d_bombCards + "\n";
         l_asString += "Blockade Cards: " + d_blockadeCards + "\n";
         l_asString += "Airlift Cards: " + d_airliftCards + "\n";
         l_asString += "Diplomacy Cards: " + d_diplomacyCards + "\n";
-        return l_asString;
+        Console.print(l_asString);
     }
 
 }
