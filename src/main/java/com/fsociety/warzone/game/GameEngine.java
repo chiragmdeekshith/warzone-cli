@@ -1,8 +1,6 @@
 package com.fsociety.warzone.game;
 
 import com.fsociety.warzone.GameRunner;
-import com.fsociety.warzone.command.Command;
-import com.fsociety.warzone.command.CommandProcessor;
 import com.fsociety.warzone.game.mainloop.ExecuteOrder;
 import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.mainloop.AssignReinforcements;
@@ -16,14 +14,13 @@ import com.fsociety.warzone.util.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class handles everything related to playing a game of Warzone.
  */
 public class GameEngine {
 
-    private static ArrayList<Player> d_players;
+    private static ArrayList<Player> d_players = new ArrayList<>();
     private static HashMap<Integer, Player> d_playerList;
     private static PlayMap d_playMap;
     private static HashMap<Integer, HashSet<Integer>> d_truces;
@@ -137,10 +134,10 @@ public class GameEngine {
      */
     public static void endGame() {
         //TODO: make this work
-        while(true) {
-            String l_command = Console.commandPrompt();
-            CommandProcessor.processCommand(l_command);
-        }
+        //while(true) {
+        //    String l_command = Console.commandPrompt();
+        //    CommandProcessor.processCommand(l_command);
+        //}
     }
 
     // Getters and Setters
