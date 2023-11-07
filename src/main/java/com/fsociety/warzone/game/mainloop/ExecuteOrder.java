@@ -30,14 +30,14 @@ public class ExecuteOrder {
             for (Player p_player : p_players) {
                 Order l_currentOrder = p_player.nextOrder();
                 if (l_currentOrder != null) {
-                    l_orders.add(p_player.nextOrder());
+                    l_orders.add(l_currentOrder);
                     l_totalOrders--;
                 }
             }
         }
 
         for (Order l_order : l_orders) {
-            if (!GameEngine.getPlayers().get(l_order.getIssuerId()).isEliminated()) {
+            if (!GameEngine.getPlayerNameMap().get(GameEngine.getPlayerNameFromId(l_order.getIssuerId())).isEliminated()) {
                 l_order.execute();
                 if (GameEngine.checkWinCondition()) {
                     GameEngine.setGameWon();

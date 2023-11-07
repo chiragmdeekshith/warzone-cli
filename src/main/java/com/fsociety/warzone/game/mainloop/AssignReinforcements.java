@@ -1,6 +1,7 @@
 package com.fsociety.warzone.game.mainloop;
 
 import com.fsociety.warzone.game.GameEngine;
+import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.Console;
@@ -41,7 +42,7 @@ public class AssignReinforcements {
         }
 
         issueDeployOrder(p_players);
-
+        executeDeployOrders(p_players);
     }
 
     /**
@@ -60,13 +61,41 @@ public class AssignReinforcements {
             for (Player l_player : p_players) {
                 IssueOrder.setCurrentPlayer(l_player);
                 if (l_player.getAvailableReinforcements() > 0) {
-                    Console.print(l_player.getName() + ": You have " + l_player.getAvailableReinforcements() + " available reinforcements. ");
+                    Console.print(l_player.getName() + ": You have " + l_player.getAvailableReinforcements() + " available reinforcements.");
                     l_player.issueOrder();
                 }
             }
+            l_total_troops = 0;
             for (Player l_player : p_players) {
                 l_total_troops += l_player.getAvailableReinforcements();
             }
+        }
+    }
+
+    /**
+     * This method ensures that all Players have deployed their available reinforcements before proceeding to the
+     * attack phase. Each player is called to deploy in round-robin fashion unless they have no available
+     * reinforcements.
+     *
+     * @param p_players the list of players of the game
+     */
+    public static void executeDeployOrders(ArrayList<Player> p_players) {
+        int l_totalOrders = 0;
+        for (Player p_player : p_players) {
+            l_totalOrders += p_player.getOrdersCount();
+        }
+        ArrayList<Order> l_orders = new ArrayList<>();
+        while (l_totalOrders > 0) {
+            for (Player p_player : p_players) {
+                Order l_currentOrder = p_player.nextOrder();
+                if (l_currentOrder != null) {
+                    l_orders.add(l_currentOrder);
+                    l_totalOrders--;
+                }
+            }
+        }
+        for (Order l_order : l_orders) {
+            l_order.execute();
         }
     }
 

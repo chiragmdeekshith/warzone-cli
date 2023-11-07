@@ -33,12 +33,26 @@ public class HandOfCards {
      */
     public void drawCards() {
         int l_choice = rand.nextInt(0,4);
+        String l_type = "";
         switch (l_choice) {
-            case 0 -> d_bombCards++;
-            case 1 -> d_blockadeCards++;
-            case 2 -> d_airliftCards++;
-            case 3 -> d_diplomacyCards++;
+            case 0 -> {
+                d_bombCards++;
+                l_type = "Bomb";
+            }
+            case 1 -> {
+                d_blockadeCards++;
+                l_type = "Blockade";
+            }
+            case 2 -> {
+                d_airliftCards++;
+                l_type = "Airlift";
+            }
+            case 3 -> {
+                d_diplomacyCards++;
+                l_type = "Diplomacy";
+            }
         }
+        Console.print(d_playerName + " drew a " + l_type + " card.");
     }
 
     /**

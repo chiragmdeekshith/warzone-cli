@@ -19,10 +19,10 @@ public class PlayPostLoad extends PlaySetup{
     @Override
     public void help() {
         Command[] l_validCommands = {Command.SHOW_MAP, Command.GAME_PLAYER, Command.ASSIGN_COUNTRIES};
-        String help = "Please enter one of the following commands: " +
+        String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command -flag [arguments] / -flag [arguments]";
-        Console.print(help);
+        Console.print(l_help);
     }
 
     @Override
