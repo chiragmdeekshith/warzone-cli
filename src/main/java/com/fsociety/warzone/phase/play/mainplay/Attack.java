@@ -5,6 +5,7 @@ import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.order.card.*;
 import com.fsociety.warzone.game.order.Advance;
+import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.util.Console;
 
 public class Attack extends MainPlay {
@@ -135,23 +136,31 @@ public class Attack extends MainPlay {
     }
 
     @Override
-    public void negotiate(int p_targetPlayerId) {
+    public void negotiate(String p_targetPlayerName) {
 
-        boolean l_playersAreDifferent = p_targetPlayerId != IssueOrder.getCurrentPlayer().getId();
+        Player l_enemy = GameEngine.getPlayersByName(p_targetPlayerName);
+        boolean l_playerExists = l_enemy != null;
+        if (!l_playerExists) {
+            Console.print("Player does not exist!");
+            return;
+        }
+
+        boolean l_playersAreDifferent = l_enemy.getId() != IssueOrder.getCurrentPlayer().getId();
 
         if (l_playersAreDifferent) {
             if (IssueOrder.getCurrentPlayer().getHandOfCards().playCard(HandOfCards.Card.DIPLOMACY)) {
-                String l_confirmation = p_targetPlayerId + " will be negotiated with.";
-                IssueOrder.getCurrentPlayer().addOrder(new Diplomacy(IssueOrder.getCurrentPlayer().getId(), p_targetPlayerId));
+                String l_confirmation = p_targetPlayerName + " will be negotiated with.";
+                IssueOrder.getCurrentPlayer().addOrder(new Diplomacy(IssueOrder.getCurrentPlayer().getId(), l_enemy.getId()));
                 Console.print(l_confirmation);
                 IssueOrder.getCurrentPlayer().setOrderIssued();
             } else {
                 Console.print("You do not have a Diplomacy card!");
+                return;
             }
-            return;
         } else {
             Console.print("You cannot negotiate with yourself!");
         }
+
     }
 
     @Override

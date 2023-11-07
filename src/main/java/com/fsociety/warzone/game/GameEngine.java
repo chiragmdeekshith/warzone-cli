@@ -126,6 +126,15 @@ public class GameEngine {
         }
     }
 
+    public static Player getPlayersByName(String p_name) {
+        for (Player l_player : d_players) {
+            if (l_player.getName().equals(p_name)) {
+                return l_player;
+            }
+        }
+        return null;
+    }
+
     /**
      * This method allows for the post-game phase when a player has won. Certain commands, such as showmap, still work
      * in this phase so that players can look back on the game they played before returning to the main menu.

@@ -146,8 +146,8 @@ public class CommandProcessor {
                 l_phase.airlift(l_sourceCountryId, l_targetCountryId, l_troopsCount);
             }
             case NEGOTIATE -> {
-                int l_targetCountryId = Integer.parseInt(p_splitCommand[1]);
-                l_phase.negotiate(l_targetCountryId);
+                String l_playerName = p_splitCommand[1];
+                l_phase.negotiate(l_playerName);
             }
             case BLOCKADE -> {
                 int l_countryId = Integer.parseInt(p_splitCommand[1]);

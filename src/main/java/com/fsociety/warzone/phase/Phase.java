@@ -27,7 +27,7 @@ public abstract class Phase {
     public abstract void bomb(int p_targetCountryId);
     public abstract void blockade(int p_countryId);
     public abstract void airlift(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount);
-    public abstract void negotiate(int p_targetPlayerId);
+    public abstract void negotiate(String p_targetPlayer);
     public abstract void commit();
     public abstract void showCards();
     public abstract void showAvailableArmies();

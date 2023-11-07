@@ -105,7 +105,7 @@ public class Menu extends Phase {
     }
 
     @Override
-    public void negotiate(int p_targetPlayerId) {
+    public void negotiate(String p_targetPlayerId) {
         printInvalidCommandMessage();
     }
 
