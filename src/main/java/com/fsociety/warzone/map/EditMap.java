@@ -1,6 +1,8 @@
 package com.fsociety.warzone.map;
 
 
+import com.fsociety.warzone.util.Console;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -20,13 +22,12 @@ public class EditMap extends AbstractMap {
      */
     public boolean addContinent(int p_continentId, int p_continentBonus) {
         if (d_countriesInContinent.get(p_continentId) != null) {
-            System.out.println("Continent already exists.");
+            Console.print("Continent "+ p_continentId +" already exists.");
             return false;
-        } else {
-            d_countriesInContinent.put(p_continentId, new LinkedHashSet<>());
-            d_continentBonuses.put(p_continentId, p_continentBonus);
-            return true;
         }
+        d_countriesInContinent.put(p_continentId, new LinkedHashSet<>());
+        d_continentBonuses.put(p_continentId, p_continentBonus);
+        return true;
     }
 
     /**
@@ -34,16 +35,15 @@ public class EditMap extends AbstractMap {
      *
      * @param p_continentId the continent to remove
      */
-    boolean removeContinent(int p_continentId){
+    public boolean removeContinent(int p_continentId){
         if (d_countriesInContinent.get(p_continentId) == null) {
-            System.out.println("Continent does not exist.");
+            Console.print("Continent " + p_continentId + " does not exist.");
             return false;
-        } else {
-            d_countriesInContinent.get(p_continentId).forEach(this::removeAdjacency);
-            d_continentBonuses.remove(p_continentId);
-            d_countriesInContinent.remove(p_continentId);
-            return true;
         }
+        d_countriesInContinent.get(p_continentId).forEach(this::removeAdjacency);
+        d_continentBonuses.remove(p_continentId);
+        d_countriesInContinent.remove(p_continentId);
+        return true;
     }
 
     /**
@@ -54,16 +54,16 @@ public class EditMap extends AbstractMap {
      */
     public boolean addCountry(int p_countryId, int p_continentId) {
         if (d_countriesInContinent.get(p_continentId) == null) {
-            System.out.println("Continent does not exist in the Map.");
+            Console.print("Continent "+ p_continentId +" does not exist in the Map.");
             return false;
-        } else if (d_neighbours.get(p_countryId) != null) {
-            System.out.println("Country already exists.");
-            return false;
-        } else {
-            d_neighbours.put(p_countryId, new LinkedHashSet<>());
-            d_countriesInContinent.get(p_continentId).add(p_countryId);
-            return true;
         }
+        if (d_neighbours.get(p_countryId) != null) {
+            Console.print("Country "+ p_countryId +" already exists.");
+            return false;
+        }
+        d_neighbours.put(p_countryId, new LinkedHashSet<>());
+        d_countriesInContinent.get(p_continentId).add(p_countryId);
+        return true;
     }
 
     /**
@@ -71,16 +71,15 @@ public class EditMap extends AbstractMap {
      *
      * @param p_countryId   the country to remove
      */
-    boolean removeCountry(int p_countryId){
+    public boolean removeCountry(int p_countryId){
         if (d_neighbours.get(p_countryId) == null) {
-            System.out.println("Country does not exist.");
+            Console.print("Country "+ p_countryId +" does not exist.");
             return false;
-        } else {
-            this.removeAdjacency(p_countryId);
-            int l_continentId = getContinentIdForCountry(p_countryId);
-            d_countriesInContinent.get(l_continentId).remove(p_countryId);
-            return true;
         }
+        this.removeAdjacency(p_countryId);
+        int l_continentId = getContinentIdForCountry(p_countryId);
+        d_countriesInContinent.get(l_continentId).remove(p_countryId);
+        return true;
     }
 
     /**
@@ -91,19 +90,20 @@ public class EditMap extends AbstractMap {
      */
     public boolean addNeighbour(int p_countryId, int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
-            System.out.println("Country cannot be neighbour of itself.");
+            Console.print("Country "+ p_countryId +" cannot be neighbour of itself.");
             return false;
-        } else if (d_neighbours.get(p_countryId) == null) {
-            System.out.println("Country does not exist or is invalid.");
-            return false;
-        } else if (d_neighbours.get(p_neighbourCountryId) == null) {
-            System.out.println("Neighbour Country does not exist or is invalid.");
-            return false;
-        } else {
-            d_neighbours.get(p_countryId).add(p_neighbourCountryId);
-            d_neighbours.get(p_neighbourCountryId).add(p_countryId);
-            return true;
         }
+        if (d_neighbours.get(p_countryId) == null) {
+            Console.print("Country "+ p_countryId +" does not exist or is invalid.");
+            return false;
+        }
+        if (d_neighbours.get(p_neighbourCountryId) == null) {
+            Console.print("Neighbour Country " + p_neighbourCountryId + " does not exist or is invalid.");
+            return false;
+        }
+        d_neighbours.get(p_countryId).add(p_neighbourCountryId);
+        d_neighbours.get(p_neighbourCountryId).add(p_countryId);
+        return true;
     }
 
     /**
@@ -112,45 +112,46 @@ public class EditMap extends AbstractMap {
      * @param p_countryId          the id of the country to remove the neighbour
      * @param p_neighbourCountryId the id of the neighbour to remove
      */
-    boolean removeNeighbour(int p_countryId, int p_neighbourCountryId){
+    public boolean removeNeighbour(int p_countryId, int p_neighbourCountryId){
         if (p_countryId == p_neighbourCountryId) {
-            System.out.println("Country cannot be neighbour of itself.");
+            Console.print("Country "+ p_countryId +" cannot be neighbour of itself.");
             return false;
-        } else if (d_neighbours.get(p_countryId) == null) {
-            System.out.println("Country does not exist or is invalid.");
-            return false;
-        } else if (d_neighbours.get(p_neighbourCountryId) == null) {
-            System.out.println("Neighbour Country does not exist or is invalid.");
-            return false;
-        } else {
-            d_neighbours.get(p_countryId).remove(p_neighbourCountryId);
-            d_neighbours.get(p_neighbourCountryId).remove(p_countryId);
-            return true;
         }
+        if (d_neighbours.get(p_countryId) == null) {
+            Console.print("Country "+ p_countryId +" does not exist or is invalid.");
+            return false;
+        }
+        if (d_neighbours.get(p_neighbourCountryId) == null) {
+            Console.print("Neighbour Country "+ p_neighbourCountryId +" does not exist or is invalid.");
+            return false;
+        }
+        d_neighbours.get(p_countryId).remove(p_neighbourCountryId);
+        d_neighbours.get(p_neighbourCountryId).remove(p_countryId);
+        return true;
     }
 
     /**
      * Display the current Map for the map editor: show continents, countries and neighbours.
      */
     @Override
-    void showMap() {
-        System.out.println("\nMap: " + d_fileName);
-        System.out.println("--------------------");
-        System.out.println("Continents and their bonuses");
+    public void showMap() {
+        Console.print("\nMap: " + d_fileName);
+        Console.print("--------------------");
+        Console.print("Continents and their bonuses");
         for (Map.Entry<Integer, Integer> entry : this.d_continentBonuses.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue().toString());
+            Console.print(entry.getKey() + ": " + entry.getValue().toString());
         }
-        System.out.println("--------------------");
-        System.out.println("Continents and their Countries");
+        Console.print("--------------------");
+        Console.print("Continents and their Countries");
         for (Map.Entry<Integer, Set<Integer>> entry : this.d_countriesInContinent.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue().toString());
+            Console.print(entry.getKey() + ": " + entry.getValue().toString());
         }
-        System.out.println("--------------------");
-        System.out.println("Borders");
+        Console.print("--------------------");
+        Console.print("Borders");
         for (Map.Entry<Integer, Set<Integer>> entry : this.d_neighbours.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue().toString());
+            Console.print(entry.getKey() + ": " + entry.getValue().toString());
         }
-        System.out.println("--------------------\n");
+        Console.print("--------------------\n");
     }
 
 
