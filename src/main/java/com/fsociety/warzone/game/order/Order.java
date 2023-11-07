@@ -10,4 +10,6 @@ public interface Order {
      */
     void execute();
 
+    int getIssuerId();
+
 }

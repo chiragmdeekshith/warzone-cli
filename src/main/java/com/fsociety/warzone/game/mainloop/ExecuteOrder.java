@@ -1,5 +1,6 @@
 package com.fsociety.warzone.game.mainloop;
 
+import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Order;
 import com.fsociety.warzone.model.Player;
 
@@ -36,7 +37,14 @@ public class ExecuteOrder {
         }
 
         for (Order l_order : l_orders) {
-            l_order.execute();
+            if (!GameEngine.getPlayers().get(l_order.getIssuerId()).isEliminated()) {
+                l_order.execute();
+                if (GameEngine.checkWinCondition()) {
+                    GameEngine.setGameWon();
+                    return;
+                }
+            }
         }
     }
+
 }

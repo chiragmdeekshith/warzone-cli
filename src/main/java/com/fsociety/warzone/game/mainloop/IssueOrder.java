@@ -50,7 +50,7 @@ public class IssueOrder {
         return true;
     }
 
-    public static void showActiveTroops(Player p_player) {
+    public static void showAvailableTroops(Player p_player) {
         String l_output = p_player.getName() + "'s Available Armies: \n";
         for (int l_countryId : p_player.getCountryIds()) {
             l_output += "Country " + l_countryId + " has " + d_availableTroopsOnMap.get(l_countryId) + " available armies.\n";

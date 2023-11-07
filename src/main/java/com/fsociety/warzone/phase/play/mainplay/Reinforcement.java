@@ -1,6 +1,5 @@
 package com.fsociety.warzone.phase.play.mainplay;
 
-import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.mainloop.IssueOrder;
 import com.fsociety.warzone.game.order.Deploy;
 import com.fsociety.warzone.model.Player;

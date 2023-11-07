@@ -2,6 +2,7 @@ package com.fsociety.warzone.game.order.card;
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Order;
+import com.fsociety.warzone.util.Console;
 
 /**
  * This class handles everything related to Blockade cards
@@ -28,7 +29,13 @@ public class Blockade implements Order {
             int l_troopsCount = GameEngine.getPlayMap().getCountryState(d_countryId).getArmies();
             GameEngine.getPlayMap().updateGameState(d_countryId, l_troopsCount * 3);
             String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " blockaded " + d_countryId + ".";
-            Application.CONSOLE.print(l_outcome);
+            Console.print(l_outcome);
         }
     }
+
+    @Override
+    public int getIssuerId() {
+        return this.d_playerId;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.fsociety.warzone.game.order.card;
 import com.fsociety.warzone.Application;
 import com.fsociety.warzone.game.GameEngine;
 import com.fsociety.warzone.game.order.Order;
+import com.fsociety.warzone.util.Console;
 
 /**
  * This class handles everything related to Diplomacy cards
@@ -26,7 +27,12 @@ public class Diplomacy implements Order {
         GameEngine.getTruces().get(d_playerId).add(d_enemyId);
         GameEngine.getTruces().get(d_enemyId).add(d_playerId);
         String l_outcome = GameEngine.getPlayerList().get(d_playerId).getName() + " has declared a truce with " + GameEngine.getPlayerList().get(d_enemyId).getName() + ".";
-        Application.CONSOLE.print(l_outcome);
+        Console.print(l_outcome);
+    }
+
+    @Override
+    public int getIssuerId() {
+        return this.d_playerId;
     }
 
 }
