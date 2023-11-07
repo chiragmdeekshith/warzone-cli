@@ -29,18 +29,7 @@ public class GameEngine {
     private static PlayMap d_playMap;
     private static HashMap<Integer, HashSet<Integer>> d_truces;
     private static boolean d_gameWon = false;
-
-    /**
-     * This method implements a game engine by running the start-up phase, and upon success, the main loop that
-     * implements the gameplay. The return statement allows the user to return to the main menu if the 'back'
-     * command is used within the startUp() or mainLoop() methods.
-     */
-    public static void playGame() {
-        if(!StartUp.startUp()){
-            return; // Return to main menu
-        }
-        mainLoop();
-    }
+    public static Player d_winner;
 
     /**
      * This method implements the loop through the three main game phases: Assign Reinforcements, Issue Orders, and
@@ -73,6 +62,7 @@ public class GameEngine {
             ExecuteOrder.executeOrders(d_players);
 
             if (d_gameWon) {
+                Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!");
                 GameRunner.setPhase(new End());
                 endGame();
                 return;
@@ -109,7 +99,15 @@ public class GameEngine {
         for (Country l_country : d_playMap.getCountries().values()) {
             l_playerIds.add(l_country.getPlayerId());
         }
-        return (l_playerIds.size() == 1);
+        if (l_playerIds.size() == 1) {
+            for (Player l_player : d_players) {
+                if (l_playerIds.contains(l_player.getId())) {
+                    d_winner = l_player;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -137,6 +135,7 @@ public class GameEngine {
         d_playMap = null;
         d_truces = null;
         d_gameWon = false;
+        d_winner = null;
     }
 
     public  static void initTruces() {

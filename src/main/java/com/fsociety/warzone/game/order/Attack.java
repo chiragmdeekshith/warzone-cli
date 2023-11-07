@@ -63,17 +63,19 @@ public abstract class Attack implements Order {
                 }
             }
             l_enemyTroops -= l_kills;
+            l_enemyTroops = Math.max(l_enemyTroops, 0);
             l_advancingTroops -= l_enemyKills;
+            l_advancingTroops = Math.max(l_advancingTroops, 0);
             // If the enemy army is vanquished, move remaining troops to the conquered country
             // Otherwise, remaining troops return to the source country
             if (l_enemyTroops == 0) {
                 GameEngine.getPlayMap().updateGameState(d_targetCountryId, d_playerId, l_advancingTroops);
-                GameEngine.getPlayers().get(d_playerId).drawCard(); // Draw a card since the player conquered a country
                 l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " conquered " + d_targetCountryId + " and has stationed " + l_advancingTroops + " armies there.";
+                GameEngine.getPlayerNameMap().get(GameEngine.getPlayerNameFromId(d_playerId)).drawCard(); // Draw a card since the player conquered a country
             } else {
                 GameEngine.getPlayMap().updateGameState(d_targetCountryId, l_enemyTroops);
                 GameEngine.getPlayMap().updateGameState(d_sourceCountryId, GameEngine.getPlayMap().getCountryState(d_sourceCountryId).getArmies() + l_advancingTroops);
-                l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " failed to conquer " + d_targetCountryId + ".";
+                l_outcome = GameEngine.getPlayerNameFromId(d_playerId) + " failed to conquer " + d_targetCountryId + ". " + l_advancingTroops + " troops returning home.";
             }
         }
         Console.print(l_outcome);

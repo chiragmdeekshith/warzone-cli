@@ -60,10 +60,11 @@ public class AssignReinforcements {
             for (Player l_player : p_players) {
                 IssueOrder.setCurrentPlayer(l_player);
                 if (l_player.getAvailableReinforcements() > 0) {
-                    Console.print(l_player.getName() + ": You have " + l_player.getAvailableReinforcements() + " available reinforcements. ");
+                    Console.print(l_player.getName() + ": You have " + l_player.getAvailableReinforcements() + " available reinforcements.");
                     l_player.issueOrder();
                 }
             }
+            l_total_troops = 0;
             for (Player l_player : p_players) {
                 l_total_troops += l_player.getAvailableReinforcements();
             }
