@@ -17,7 +17,7 @@ import com.fsociety.warzone.view.log.Log;
 import java.util.*;
 
 /**
- * This class handles everything related to playing a game of Warzone.
+ * This class controls the turn-based gameplay loop.
  */
 public class GameplayController {
 
@@ -32,7 +32,8 @@ public class GameplayController {
 
     /**
      * This method implements the loop through the three main game phases: Assign Reinforcements, Issue Orders, and
-     * Execute Orders. At each phase, each player is looped over and the corresponding method is called.
+     * Execute Orders. Print statements update the user as to which phase is taking place. The game ends when the win
+     * condition is met, which causes a change to the End Game phase. At the end of each round, the round is reset.
      */
     public static void gamePlayLoop() {
         Console.print("Game Start!");
@@ -76,8 +77,9 @@ public class GameplayController {
     }
 
     /**
-     * This method resets variables that must be in a certain state at the beginning of each round, this being the set
-     * of truces modified when Diplomacy cards are played, and the committed and cardDrawn variables for each player.
+     * This method resets variables that must be in a certain state at the beginning of each round and removes any
+     * players that were eliminated during the round. The values being reset are the list of truces (used for the
+     * Diplomacy card), whether the player has committed their orders, and whether the player has drawn a card.
      */
     private static void resetRound() {
         List<Player> l_playersToRemove = new ArrayList<>();
@@ -96,6 +98,10 @@ public class GameplayController {
         }
     }
 
+    /**
+     * This method removes references to the player from several data structures used during gameplay.
+     * @param p_player the player to be removed
+     */
     private static void removePlayer(Player p_player) {
         d_players.remove(p_player);
         d_playerNameMap.remove(p_player.getName());
@@ -107,6 +113,7 @@ public class GameplayController {
      */
     public static boolean checkWinCondition() {
         HashSet<Integer> l_playerIds = new HashSet<>();
+        // Gather the IDs of the players that own countries, and return true if this set contains only 1 player
         for (Country l_country : d_playMap.getCountries().values()) {
             l_playerIds.add(l_country.getPlayerId());
         }
@@ -129,7 +136,8 @@ public class GameplayController {
     }
 
     /**
-     * This method creates a list of Player objects to be stored in the GameEngine.
+     * This method creates a list of Player objects and map of Player ID to Player Names to be stored in the
+     * GameplayController.
      */
     public static void finalizePlayers() {
         d_players = new ArrayList<>(d_playerNameMap.values());
@@ -139,6 +147,10 @@ public class GameplayController {
         }
     }
 
+    /**
+     * This method resets the state of the game when a player returns to the main menu. This ensures the user can
+     * start a new game after finishing a previous one.
+     */
     public static void resetGameState() {
         d_players = null;
         d_playerNameMap = new HashMap<>();
@@ -149,6 +161,9 @@ public class GameplayController {
         d_winner = null;
     }
 
+    /**
+     * This method initializes the map of truces, creating one set per player in the game.
+     */
     public  static void initTruces() {
         d_truces = new HashMap<>();
         for (Player l_player : d_players) {
@@ -156,6 +171,9 @@ public class GameplayController {
         }
     }
 
+    /**
+     * This method prints the current list of players.
+     */
     public static void printPlayers() {
         StringBuilder l_players = new StringBuilder();
         for (Player l_player : d_playerNameMap.values()) {

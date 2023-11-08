@@ -7,7 +7,9 @@ import com.fsociety.warzone.model.Player;
 import java.util.ArrayList;
 
 /**
- * This class implements the executeOrders() method.
+ * This class implements the Execute Orders phase of the gameplay, where all the orders issued during the Issue Orders
+ * phase are retrieved for execution If any conditions that were true when the order was issued are no longer
+ * applicable, the order is skipped.
  */
 public class ExecuteOrder {
 
