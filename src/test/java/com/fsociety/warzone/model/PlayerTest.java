@@ -1,5 +1,6 @@
 package com.fsociety.warzone.model;
 
+import com.fsociety.warzone.asset.order.Order;
 import com.fsociety.warzone.model.map.PlayMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.Test;
  * Test class for Player class
  */
 class PlayerTest {
+
+    private Player player;
+    private Country country;
+    private Order order;
 
     Player d_player1, d_player2;
     PlayMap d_playMap;
