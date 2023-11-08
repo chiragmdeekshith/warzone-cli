@@ -7,11 +7,17 @@ import com.fsociety.warzone.asset.order.Deploy;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.view.Console;
 
+/**
+ * This Class implements the commands that are valid during the Assign Reinforcements phase of gameplay.
+ */
 public class Reinforcement extends MainPlay {
 
+    /**
+     * This method compiles and prints a help message of valid commands for the MainPlay phase when the 'help'
+     * command is entered.
+     */
     @Override
     public void help() {
-
         Command[] l_validCommands = {Command.SHOW_MAP, Command.DEPLOY, Command.BACK, Command.EXIT, Command.SHOW_PLAYERS};
         String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
@@ -19,6 +25,13 @@ public class Reinforcement extends MainPlay {
         Console.print(l_help);
     }
 
+    /**
+     * This method creates and adds an order of type Deploy to the player's list of orders when they enter the
+     * 'deploy' command during the Reinforcement phase. The method checks any relevant conditions and prints an
+     * error message if the order cannot be created.
+     * @param p_countryId the country to be deployed to
+     * @param p_troopsCount the number of troops to be deployed
+     */
     @Override
     public void deploy(int p_countryId, int p_troopsCount) {
 
