@@ -3,14 +3,17 @@ package com.fsociety.warzone.util;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * The Test class for MapTools
  * {@link MapTools#loadAndValidateEditableMap(String)}
  */
 class MapToolsTest {
-
+    /**
+     * Map file names
+     */
     public static String informationMissing;
     public static String continentWithNoCountry;
     public static String countryWithNoNeighbour;
@@ -20,7 +23,7 @@ class MapToolsTest {
     public static String validMap;
 
     /**
-     * Setting up mack maps for testing
+     * Setting up mock maps for testing
      */
     @BeforeAll
     static void setUp() {

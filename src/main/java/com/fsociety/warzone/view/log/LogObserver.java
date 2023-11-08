@@ -1,6 +1,5 @@
 package com.fsociety.warzone.view.log;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.io.FileWriter;
