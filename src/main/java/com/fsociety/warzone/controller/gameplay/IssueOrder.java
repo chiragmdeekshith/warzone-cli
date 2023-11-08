@@ -13,7 +13,14 @@ import java.util.HashMap;
  */
 public class IssueOrder {
 
+    /**
+     * The troops available at each country. CountryId to Armies collection.
+     */
     public static HashMap<Integer, Integer> d_availableTroopsOnMap;
+
+    /**
+     * The player who issued the order
+     */
     private static Player d_currentPlayer;
 
     /**
