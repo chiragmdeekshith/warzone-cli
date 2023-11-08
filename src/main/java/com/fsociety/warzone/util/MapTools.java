@@ -132,9 +132,9 @@ public class MapTools {
 
     /**
      *
-     * This functions checks if the file is in the correct format
+     * This functions checks if the file is in the correct format.
      *
-     * @param p_map - the Map object that we need to load data into
+     * @param p_map - the AbstractMap object that we need to load data into
      * @param p_data - the StringBuilder object that contains the data from the file
      * @return true if the data is loaded in correctly, false otherwise
      */
@@ -178,7 +178,7 @@ public class MapTools {
     }
 
     /**
-     * Loads a new continent to the map.
+     * Loads a new continent to the AbstractMap object.
      *
      * @param p_map            the AbstractMap object to which we are adding the continent to
      * @param p_continentId    the id of the continent to add
@@ -196,7 +196,7 @@ public class MapTools {
     }
 
     /**
-     * Loads a country to the map.
+     * Loads a country to the AbstractMap object, and it's to the respective continent.
      *
      * @param p_map         the AbstractMap object to which we are adding the country to
      * @param p_countryId   the id of the country to add
@@ -217,7 +217,7 @@ public class MapTools {
     }
 
     /**
-     * Loads a neighbour to a country
+     * Loads a neighbour to a AbstractMap object, and it's to the respective country.
      *
      * @param p_map                the AbstractMap object to which we are adding the country to
      * @param p_countryId          the id of the country to add the neighbour to
@@ -241,7 +241,7 @@ public class MapTools {
     }
     /**
      *
-     * This functions validates the map before saving into a physical file on the system
+     * This functions validates the map before saving into a physical file on the system.
      *
      * @param p_mapData - the EditMap object to save to the file
      * @param p_fileNameForSave - name of the new save file
@@ -286,12 +286,12 @@ public class MapTools {
 
     /**
      *
-     * This functions checks if the file is in the correct format
+     * This functions checks if the file is in the correct format.
      *
-     * @param p_map - the EditMap object that we need to check format of
+     * @param p_map - the AbstractMap object that we need to check format of
      * @param p_data - the StringBuilder object that contains the data from the file
      * @param p_fileName - name of the file
-     * @return the EditMap object if the file is in the correct format, null otherwise
+     * @return true if the file is in the correct format, false otherwise
      */
     public static boolean validateFileFormat(AbstractMap p_map, StringBuilder p_data, String p_fileName) {
         if (p_data.toString().toLowerCase().contains("[continents]") && p_data.toString().toLowerCase().contains("[countries]") && p_data.toString().toLowerCase().contains("[borders]")) {
@@ -315,7 +315,7 @@ public class MapTools {
         private ArrayList<Integer>[] adjacencyList;
 
         /**
-         * Default constructor for creating a new graph
+         * Default constructor for creating a new graph.
          *
          * @param p_vertex - the number of vertices in the graph
          */
@@ -329,7 +329,7 @@ public class MapTools {
         }
 
         /**
-         * Adds an edge to the graph
+         * Adds an edge to the graph.
          *
          * @param p_vertex - the vertex to which the edge is to be added
          * @param p_edge - the edge to be added
@@ -339,7 +339,7 @@ public class MapTools {
         }
 
         /**
-         * Used to recursively traverse the graph
+         * Used to recursively traverse the graph.
          *
          * @param p_vertex - the vertex to start the traversal from
          * @param p_visited - the boolean array to keep track of visited vertices
@@ -354,7 +354,7 @@ public class MapTools {
         }
 
         /**
-         * Gets the transpose of the graph
+         * Gets the transpose of the graph.
          *
          * @return the transpose of the graph
          */
@@ -369,7 +369,7 @@ public class MapTools {
         }
 
         /**
-         * Checks if the graph is strongly connected
+         * Checks if the graph is strongly connected.
          *
          * @return true if the graph is strongly connected, false otherwise
          */
@@ -399,7 +399,7 @@ public class MapTools {
     }
 
     /**
-     * Logically validates the AbstractMap object
+     * Logically validates the AbstractMap object.
      *
      * @param p_mapData - the AbstractMap object that needs to be validated
      * @return true if the map is valid, false otherwise
@@ -418,7 +418,7 @@ public class MapTools {
     }
 
     /**
-     * Check if the continent is empty , i.e, has no countries
+     * Check if the continent is empty , i.e, has no countries.
      *
      * @param p_mapData - the AbstractMap object that needs to be checked
      * @return true if the continent doesn't have any countries, false otherwise
@@ -453,7 +453,7 @@ public class MapTools {
     }
 
     /**
-     * Checks if the continents are connected
+     * Checks if the continents are connected.
      *
      * @param p_mapData - the AbstractMap object that needs to be checked
      * @return true if the continent is a connected graph, false otherwise
@@ -484,7 +484,7 @@ public class MapTools {
     }
 
     /**
-     * Checks if the map is a connected graph
+     * Checks if the map is a connected graph.
      *
      * @param p_mapData - the AbstractMap object that needs to be checked
      * @return true if the map is a connected graph, false otherwise
