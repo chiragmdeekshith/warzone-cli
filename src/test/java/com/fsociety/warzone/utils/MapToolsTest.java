@@ -16,6 +16,7 @@ class MapToolsTest {
     public static String countryWithNoNeighbour;
     public static String duplicateNeighbours;
     public static String continentNotConnected;
+    public static String mapNotConnected;
     public static String validMap;
 
     /**
@@ -23,12 +24,13 @@ class MapToolsTest {
      */
     @BeforeAll
     static void setUp() {
-        informationMissing = "informationMissing.map";
-        continentWithNoCountry = "continentWithNoCountry.map";
-        countryWithNoNeighbour = "countryWithNoNeighbour.map";
-        duplicateNeighbours = "duplicateNeighbours.map";
-        continentNotConnected = "continentNotConnected.map";
-        validMap = "validMap.map";
+        informationMissing = "maps/informationMissing.map";
+        continentWithNoCountry = "maps/continentWithNoCountry.map";
+        countryWithNoNeighbour = "maps/countryWithNoNeighbour.map";
+        duplicateNeighbours = "maps/duplicateNeighbours.map";
+        continentNotConnected = "maps/continentNotConnected.map";
+        mapNotConnected = "maps/mapNotConnected.map";
+        validMap = "maps/validMap.map";
     }
 
     /**
@@ -72,8 +74,17 @@ class MapToolsTest {
      */
     @Test
     void testContinentNotConnected() {
-        System.out.println("Test Case 6: Continent Not Connected");
-        assertNull(MapTools.loadAndValidateEditableMap("continentNotConnected.map"));
+        System.out.println("Test Case 5: Continent Not Connected");
+        assertNull(MapTools.loadAndValidateEditableMap(continentNotConnected));
+    }
+
+    /**
+     * Test for Map not connected
+     */
+    @Test
+    void testMapNotConnected() {
+        System.out.println("Test Case 6: Map Not Connected");
+        assertNull(MapTools.loadAndValidateEditableMap(mapNotConnected));
     }
 
     /**
@@ -81,7 +92,8 @@ class MapToolsTest {
      */
     @Test
     void testValidMap() {
-        System.out.println("Test Case 5: Valid Map");
+        System.out.println("Test Case 7: Valid Map");
         assertNotNull(MapTools.loadAndValidateEditableMap(validMap));
     }
+
 }

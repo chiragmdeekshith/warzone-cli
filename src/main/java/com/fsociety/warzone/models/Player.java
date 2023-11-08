@@ -1,15 +1,10 @@
 package com.fsociety.warzone.models;
 
-import com.fsociety.warzone.Application;
-import com.fsociety.warzone.controllers.GameEngineController;
-import com.fsociety.warzone.controllers.GamePlayController;
-import com.fsociety.warzone.models.order.Deploy;
-import com.fsociety.warzone.models.order.IOrder;
+import com.fsociety.warzone.command.CommandProcessor;
+import com.fsociety.warzone.models.order.Order;
+import com.fsociety.warzone.models.order.card.HandOfCards;
+import com.fsociety.warzone.utils.Console;
 import com.fsociety.warzone.utils.IdGenerator;
-import com.fsociety.warzone.utils.command.CommandValidator;
-import com.fsociety.warzone.utils.command.constant.GameplayCommand;
-import com.fsociety.warzone.utils.command.constant.Phase;
-import com.fsociety.warzone.utils.command.constant.StartupCommand;
 
 import java.util.ArrayList;
 
@@ -20,9 +15,13 @@ public class Player {
 
     private final String d_name;
     private final Integer d_id;
-    private final ArrayList<IOrder> d_orders;
+    private final ArrayList<Order> d_orders;
     private final ArrayList<Country> d_countries;
     private int d_availableReinforcements;
+    private final HandOfCards d_handOfCards;
+    private boolean d_cardDrawn;
+    private boolean d_committed;
+    private boolean d_orderIssued;
 
 
     /**
@@ -32,10 +31,11 @@ public class Player {
      */
     public Player(String p_player_name) {
          this.d_name = p_player_name;
-         d_orders = new ArrayList<>();
-         d_countries = new ArrayList<>();
-         d_availableReinforcements = 0;
-         d_id = IdGenerator.generateId();
+         this.d_orders = new ArrayList<>();
+         this.d_countries = new ArrayList<>();
+         this.d_availableReinforcements = 0;
+         this.d_handOfCards = new HandOfCards(this.d_name);
+         this.d_id = IdGenerator.generateId();
     }
 
     /**
@@ -62,65 +62,16 @@ public class Player {
 
     /**
      * Creates and adds an object of type IOrder to the player's list of orders during the Issue Orders phase of
-     * gameplay. The 'showmap' command can be used here to display the map.
-     *
-     * @return returns false if a user types in the 'back' command in order to return to the main menu
+     * gameplay.
      */
-    public boolean issueOrder() {
-
-        String l_inputRawCommand;
-
+    public void issueOrder() {
         while (true) {
-
-            System.out.print(this.getName() + ": You have " + this.getAvailableReinforcements() + " available reinforcements. ");
-            System.out.println("Please issue a valid order.");
-            System.out.print("> ");
-            l_inputRawCommand = Application.SCANNER.nextLine();
-            String[] l_parameters = l_inputRawCommand.split(" ");
-
-            if(CommandValidator.isValidCommand(l_inputRawCommand, Phase.GAME_PLAY)) {
-                String[] l_splitCommand = l_inputRawCommand.split(" ");
-                String l_commandType = l_splitCommand[0];
-
-                if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
-                    return false;
-                }
-
-                if(GameplayCommand.DEPLOY.getCommand().equals(l_commandType)) {
-                    if(issueDeployCommand(l_parameters)) {
-                        return true;
-                    }
-                }
-
-                if(GameplayCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
-                    GamePlayController.showMap();
-                }
-            } else {
-                System.out.println("Invalid command. Please use the 'deploy' command.");
+            String l_command = Console.commandPrompt();
+            CommandProcessor.processCommand(l_command);
+            if(d_orderIssued) {
+                d_orderIssued = false;
+                return;
             }
-        }
-    }
-
-    /**
-     * Issues deploy command.
-     *
-     * @param p_parameters - command entered by the user
-     * @return true if command is issued properly, false otherwise
-     */
-    public boolean issueDeployCommand(String[] p_parameters) {
-        if (Integer.parseInt(p_parameters[2]) <= d_availableReinforcements) {
-            if (getCountryIds().contains(Integer.parseInt(p_parameters[1]))) {
-                System.out.println(p_parameters[2] + " reinforcement armies will be deployed to " + p_parameters[1] + ".");
-                d_orders.add(new Deploy(Integer.parseInt(p_parameters[1]), Integer.parseInt(p_parameters[2]), this.d_id));
-                this.d_availableReinforcements -= Integer.parseInt(p_parameters[2]);
-                return true;
-            } else {
-                System.out.println("You do not own this country!");
-                return false;
-            }
-        } else {
-            System.out.println("Insufficient reinforcements!");
-            return false;
         }
     }
 
@@ -128,11 +79,62 @@ public class Player {
      * This method removes the first order from the player's list of orders and executes the order by calling its
      * execute() method.
      */
-    public void nextOrder() {
+    public Order nextOrder() {
         if (!d_orders.isEmpty()) {
-            (d_orders.remove(0)).execute();
+            return d_orders.remove(0);
         }
+        return null;
+    }
 
+    /**
+     * This method adds a card to the player's hand. It is called once per turn when they conquer a country.
+     */
+    public void drawCard() {
+        if (!d_cardDrawn) {
+            d_cardDrawn = true;
+            d_handOfCards.drawCards();
+        }
+    }
+
+    public void commit() {
+        d_committed = true;
+    }
+
+    public boolean isEliminated() {
+        return d_countries.isEmpty();
+    }
+
+    /**
+     * This method adds an order to the player's list of orders.
+     * @param p_order the order to be added to the list
+     */
+    public void addOrder(Order p_order) {
+        d_orders.add(p_order);
+    }
+
+    /**
+     * This method confirms whether the player has committed their orders for the current turn.
+     * @return True if the player has committed their orders, False otherwise
+     */
+    public boolean hasCommitted() {
+        return d_committed;
+    }
+
+    /**
+     * This method resets the truth value of the committed boolean to false at the end of each turn.
+     */
+    public void resetCommitted() { d_committed = false; }
+
+    /**
+     * This method resets the cardDrawn boolean to false at the end of each turn. This ensures the player can draw a
+     * card again next turn.
+     */
+    public void resetCardDrawn() {
+        d_cardDrawn = false;
+    }
+
+    public void setOrderIssued() {
+        d_orderIssued = true;
     }
 
     // Getters and setters
@@ -171,6 +173,16 @@ public class Player {
      */
     public int getId() {
         return this.d_id;
+    }
+
+    /**
+     * Return the number of countries the player owns
+     * @return the number of countries
+     */
+    public int getCountriesCount() { return this.d_countries.size(); }
+
+    public HandOfCards getHandOfCards() {
+        return d_handOfCards;
     }
 
 }

@@ -49,9 +49,15 @@ class PlayerTest {
         l_players.add(l_player1);
         l_players.add(l_player2);
 
+<<<<<<< HEAD:src/test/java/com/fsociety/warzone/models/PlayerTest.java
         PlayMap.setPlayers(l_players);
         PlayMap.initPlayerList();
         //PlayMap.setPlayMap(l_wzMap);
+=======
+        GameEngine.setPlayers(l_players);
+        GameEngine.finalizePlayers();
+        GameEngine.setPlayMap(l_wzMap);
+>>>>>>> 852960947efa5fa0001ddb1cdda4a21646a934b4:src/test/java/com/fsociety/warzone/model/PlayerTest.java
 
         // Change the state of the game
         l_wzMap.updateGameState(1, l_player1.getId(), 0);
@@ -75,8 +81,7 @@ class PlayerTest {
         });
 
         // Asserts
-        AssignReinforcements.assignReinforcements(l_player1);
-        AssignReinforcements.assignReinforcements(l_player2);
+        AssignReinforcements.assignReinforcements(l_players);
     }
 
 

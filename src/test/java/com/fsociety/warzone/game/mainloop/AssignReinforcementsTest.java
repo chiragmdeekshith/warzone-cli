@@ -50,9 +50,15 @@ class AssignReinforcementsTest {
         l_players.add(d_player1);
         l_players.add(d_player2);
 
+<<<<<<< HEAD
         PlayMap.setPlayers(l_players);
         PlayMap.initPlayerList();
         //PlayMap.setPlayMap(d_wzMap);
+=======
+        GameEngine.setPlayers(l_players);
+        GameEngine.finalizePlayers();
+        GameEngine.setPlayMap(d_wzMap);
+>>>>>>> 852960947efa5fa0001ddb1cdda4a21646a934b4
 
         // Start modifying the maps
         d_wzMap.updateGameState(1, d_player1.getId(), 0);
@@ -76,14 +82,17 @@ class AssignReinforcementsTest {
         });
 
         //Assert
-        AssignReinforcements.assignReinforcements(d_player1);
-        AssignReinforcements.assignReinforcements(d_player2);
+        AssignReinforcements.assignReinforcements(l_players);
     }
 
 
     /**
      * Verifies bonus reinforcements are being properly allocated to continent owners using created game state.
+<<<<<<< HEAD
      * Test method for {@link AssignReinforcements#assignReinforcements(Player)}
+=======
+     * Test method for {@link com.fsociety.warzone.game.mainloop.AssignReinforcements#assignReinforcements(ArrayList)}
+>>>>>>> 852960947efa5fa0001ddb1cdda4a21646a934b4
      */
     @Test
     void assignReinforcements() {

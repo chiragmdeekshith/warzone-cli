@@ -1,5 +1,6 @@
 package com.fsociety.warzone.models.map;
 
+import com.fsociety.warzone.controllers.GameEngineController;
 import com.fsociety.warzone.controllers.GamePlayController;
 import com.fsociety.warzone.models.Player;
 import com.fsociety.warzone.models.map.AbstractMap;
@@ -21,19 +22,15 @@ public class PlayMap extends AbstractMap {
 
 
     /**
-     * Parameterized constructor getting values of the map from the EditMap object
+     * Default constructor
      */
-    public PlayMap(EditMap l_loadMap) {
-        this.d_countriesInContinent = l_loadMap.d_countriesInContinent;
-        this.d_continentBonuses = l_loadMap.d_continentBonuses;
-        this.d_neighbours = l_loadMap.d_neighbours;
-        this.d_fileName = l_loadMap.d_fileName;
-        this.d_countries = new HashMap<>();
-        this.d_continents = new HashMap<>();
+    public PlayMap(){
+        d_continents = new HashMap<>();
+        d_countries = new HashMap<>();
     }
 
     /**
-     * Initialize the game state for all the countries in the map
+     * Initialize map elements for all the countries and continents in the map.
      *
      */
     public void initGameMapElements() {
@@ -54,13 +51,48 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * This method creates a map between Player objects and their playerIDs to be stored in the GameEngineController.
+     * Update the game state for a country after a turn.
+     *
+     * @param p_countryId the id of the country to update
+     * @param p_playerId  the id of the player to update
+     * @param p_armies    the number of armies to update
      */
-    public static void initPlayerList() {
-        d_playerList = new HashMap<>();
-        for (Player l_player : d_playMap.getPlayers()) {
-            d_playerList.put(l_player.getId(), l_player);
+    public void updateGameState(int p_countryId, int p_playerId, int p_armies) {
+        d_countries.get(p_countryId).setPlayerId(p_playerId);
+        d_countries.get(p_countryId).setArmies(p_armies);
+        d_countries.get(p_countryId).setPlayer(GameEngineController.getPlayerNameMap().get(GameEngineController.getPlayerNameFromId(p_playerId)));
+    }
+
+    public void updateGameState(int p_countryId, int p_armies) {
+        d_countries.get(p_countryId).setArmies(p_armies);
+    }
+
+    /**
+     * Display the current Map for the gameplay details. Show owner and armies.
+     */
+    @Override
+    public void showMap() {
+        System.out.println("\nMap: " + d_fileName);
+        System.out.println("--------------------");
+        System.out.println("Continents");
+        System.out.println("Continent: Bonus - [Countries]");
+        for (Continent l_continent : this.d_continents.values()) {
+            System.out.println(l_continent);
         }
+    }
+
+    /**
+     * This method verifies whether the given country neighbours a country owned by the given player.
+     * @param p_countryId the country ID
+     * @param p_playerId the player ID
+     * @return True if the country neighbours a country owned by the given player, false otherwise
+     */
+    public boolean isNeighbourOf(int p_countryId, int p_playerId) {
+        for (Integer l_neighbouringCountry : d_neighbours.get(p_countryId))
+            if (d_countries.get(l_neighbouringCountry).getPlayerId() == p_playerId) {
+                return true;
+            }
+        return false;
     }
 
     /**

@@ -1,18 +1,16 @@
 package com.fsociety.warzone.controllers;
 
-import com.fsociety.warzone.Application;
 import com.fsociety.warzone.models.Player;
-import com.fsociety.warzone.models.map.AbstractMap;
-import com.fsociety.warzone.models.map.EditMap;
 import com.fsociety.warzone.models.Continent;
 import com.fsociety.warzone.models.Country;
 import com.fsociety.warzone.models.map.PlayMap;
 import com.fsociety.warzone.utils.MapTools;
-import com.fsociety.warzone.utils.command.CommandValidator;
-import com.fsociety.warzone.utils.command.constant.Phase;
-import com.fsociety.warzone.utils.command.constant.StartupCommand;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 
 public class GamePlayController {
     // continent id -> game state of continent
@@ -22,150 +20,8 @@ public class GamePlayController {
     private Map<Integer, Country> d_countries;
 
     private static PlayMap d_playMap;
-    /**
-     * Parameterized constructor getting values of the map from the EditMap object
-     */
-    public GamePlayController() {
-        //this.d_countriesInContinent = l_loadMap.d_countriesInContinent;
-        //this.d_continentBonuses = l_loadMap.d_continentBonuses;
-        //this.d_neighbours = l_loadMap.d_neighbours;
-        //this.d_fileName = l_loadMap.d_fileName;
-        this.d_countries = new HashMap<>();
-        this.d_continents = new HashMap<>();
-    }
 
-    /**
-     * This method serves as the set-up phase for a new game. The user is prompted in-order to load a map and then edit
-     * a list of players. If any commands are invalid, the user is prompted again.
-     *
-     * @return returns false if a user types in the 'back' command in order to return to the main menu
-     */
-    public static boolean startUp() {
 
-        System.out.println("New game selected. Please start by loading a map.");
-        String l_inputRawCommand;
-        System.out.println("Enter command. (Type 'back' at any time to return to the main menu.)");
-
-        while(true) {
-
-            System.out.print("> ");
-            l_inputRawCommand = Application.SCANNER.nextLine();
-
-            if(!CommandValidator.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
-                System.out.println("Invalid command. Please start by loading a map. Try 'loadmap [filename].map'");
-                continue;
-            }
-
-            String[] l_splitCommand = l_inputRawCommand.split(" ");
-            String l_commandType = l_splitCommand[0];
-            if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
-                return false;
-            }
-            if(StartupCommand.LOAD_MAP.getCommand().equals(l_commandType)) {
-                String l_fileName = l_splitCommand[1];
-                if(!loadMap(l_fileName)) {
-                    System.out.println("Failed to load the map! Please try another map file.");
-                    continue;
-                }
-                System.out.println("Loaded map \"" + l_fileName + "\"");
-                if(!editPlayers()) {
-                    return false;
-                }
-                break;
-            }
-            if(StartupCommand.SHOW_MAP.getCommand().equals((l_commandType))) {
-                if(null == PlayMap.getPlayMap()) {
-                    System.out.println("Please load a map before trying to display it.");
-                } else {
-                    showMap();
-                }
-            }
-        }
-        assignCountries();
-        return true;
-    }
-
-    /**
-     * This method allows a user to create and modify a list of players. In order to finish editing the list of
-     * players, the user must use the 'assigncountries' command to begin the game. The list of players must include
-     * at least one player to begin the game, but may not have more players than there are countries on the map.
-     *
-     * @return returns false if a user types in the 'back' command in order to return to the main menu
-     */
-    public static boolean editPlayers() {
-
-        Map<String, Player> l_players = new HashMap<>();
-
-        System.out.println("Please create list of players. Try '-add [name]' to add a player.");
-        String l_inputRawCommand;
-
-        while(true) {
-
-            System.out.println("Enter command.");
-            System.out.print("> ");
-            l_inputRawCommand = Application.SCANNER.nextLine();
-
-            // Ensure the command is valid for the current phase
-            if(CommandValidator.isValidCommand(l_inputRawCommand, Phase.START_UP)) {
-                String[] l_splitCommand = l_inputRawCommand.split(" ");
-                String l_commandType = l_splitCommand[0];
-
-                if(StartupCommand.BACK.getCommand().equals(l_commandType)) {
-                    return false;
-                }
-
-                if(StartupCommand.ASSIGN_COUNTRIES.getCommand().equals(l_commandType)) {
-                    if(!l_players.isEmpty()) {
-                        if (l_players.size() <= PlayMap.getPlayMap().getNeighbours().keySet().size()) {
-                            PlayMap.setPlayers(new ArrayList<>(l_players.values()));
-                            PlayMap.initPlayerList();
-                            return true;
-                        } else {
-                            System.out.println("Too many players for this map. Please remove players to continue.");
-                        }
-                    } else {
-                        System.out.println("Please add at least one player to the game to continue.");
-                    }
-                }
-
-                if(StartupCommand.GAME_PLAYER.getCommand().equals(l_commandType)) {
-
-                    for (int i = 1; i < l_splitCommand.length; i+=2) {
-
-                        String l_operation = l_splitCommand[i];
-                        String l_playerName = l_splitCommand[i+1];
-
-                        switch (l_operation) {
-                            case StartupCommand.ADD -> {
-                                if(l_players.containsKey(l_playerName)) {
-                                    System.out.println("Player " + l_playerName + " already exists.");
-                                } else {
-                                    l_players.put(l_playerName, new Player(l_playerName));
-                                    System.out.println("Player " + l_playerName + " added.");
-                                }
-                            }
-                            case StartupCommand.REMOVE -> {
-                                if(!l_players.containsKey(l_playerName)) {
-                                    System.out.println("Player " + l_playerName + " does not exist.");
-                                }
-                                else {
-                                    l_players.remove(l_playerName);
-                                    System.out.println("Player " + l_playerName + " removed.");
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if(StartupCommand.SHOW_MAP.getCommand().equals(l_commandType)) {
-                    showMap();
-                }
-
-            } else {
-                System.out.println("Invalid command. Please use commands 'gameplayer', 'assigncountries' or 'back'.");
-            }
-        }
-    }
 
     /**
      * update the game state for a country after a turn

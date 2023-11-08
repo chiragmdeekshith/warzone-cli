@@ -3,7 +3,7 @@ package com.fsociety.warzone.models.map;
 import java.util.*;
 
 /**
- * This class acts as a superclass for the Editable Map and the Playable Map
+ * This class acts as a superclass for the Editable Map and the Playable Map.
  */
 public abstract class AbstractMap {
 
@@ -29,7 +29,7 @@ public abstract class AbstractMap {
     /**
      * A common function for the implementing subclasses which needs to be overridden to suit its needs.
      */
-    //abstract void showMap();
+    abstract void showMap();
 
     // Getters and Setters
 
