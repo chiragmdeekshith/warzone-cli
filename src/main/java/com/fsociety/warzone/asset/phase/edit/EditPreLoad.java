@@ -11,7 +11,7 @@ public class EditPreLoad extends Edit {
 
     @Override
     public void help() {
-        Command[] d_validCommands = {Command.SHOW_MAP, Command.EDIT_MAP, Command.BACK, Command.EXIT};
+        Command[] d_validCommands = {Command.EDIT_MAP, Command.BACK, Command.EXIT};
         String help = "Please enter one of the following commands: " +
                 getValidCommands(d_validCommands);
         Console.print(help);

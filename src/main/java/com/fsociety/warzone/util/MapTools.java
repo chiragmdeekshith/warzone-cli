@@ -186,7 +186,7 @@ public class MapTools {
      */
     private static boolean loadContinent(AbstractMap p_map, int p_continentId, int p_continentBonus) {
         if (p_map.getCountriesInContinent().get(p_continentId) != null) {
-            Console.print("Continent already exists.");
+            Console.print("Continent "+p_continentId+" already exists.");
             return false;
         } else {
             p_map.getCountriesInContinent().put(p_continentId, new LinkedHashSet<>());
@@ -204,10 +204,10 @@ public class MapTools {
      */
     private static boolean loadCountry(AbstractMap p_map, int p_countryId, int p_continentId) {
         if (p_map.getCountriesInContinent().get(p_continentId) == null) {
-            Console.print("Continent does not exist.");
+            Console.print("Continent"+p_continentId+" does not exist.");
             return false;
         } else if (p_map.getNeighbours().get(p_countryId) != null) {
-            Console.print("Country already exists.");
+            Console.print("Country"+p_countryId+" already exists.");
             return false;
         } else {
             p_map.getNeighbours().put(p_countryId, new LinkedHashSet<>());
@@ -228,10 +228,10 @@ public class MapTools {
             Console.print("Country cannot be neighbour of itself.");
             return false;
         } else if (p_map.getNeighbours().get(p_countryId) == null) {
-            Console.print("Country does not exist or is invalid.");
+            Console.print("Country "+p_countryId+" does not exist or is invalid.");
             return false;
         } else if (p_map.getNeighbours().get(p_neighbourCountryId) == null) {
-            Console.print("Neighbour Country does not exist or is invalid.");
+            Console.print("Neighbour Country "+p_neighbourCountryId+" does not exist or is invalid.");
             return false;
         } else {
             p_map.getNeighbours().get(p_countryId).add(p_neighbourCountryId);
@@ -459,7 +459,7 @@ public class MapTools {
      * @return true if the continent is a connected graph, false otherwise
      */
     public static boolean checkConnectedContinent(AbstractMap p_mapData) {
-        boolean isContinentConnected = false;
+        boolean isContinentConnected;
         for (Map.Entry<Integer, Set<Integer>> entry : p_mapData.getCountriesInContinent().entrySet()) {
             Integer l_continentId = entry.getKey();
             Set<Integer> l_countryIDs = entry.getValue();
