@@ -6,6 +6,7 @@ build/
 
 # Logs folder
 src/main/resources/logs
+src/test/resources/logs
 
 ### IntelliJ IDEA ###
 .idea/
