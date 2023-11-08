@@ -110,6 +110,7 @@ public class GameplayController {
 
     /**
      * This method checks whether one player owns every country on the map.
+     * @return true if the win condition is met, false otherwise
      */
     public static boolean checkWinCondition() {
         HashSet<Integer> l_playerIds = new HashSet<>();
@@ -184,11 +185,9 @@ public class GameplayController {
 
 
     // Getters and Setters
+
     public static ArrayList<Player> getPlayers() {
         return d_players;
-    }
-    public static void setPlayers(ArrayList<Player> p_players) {
-        d_players = p_players;
     }
 
     public static Map<String, Player> getPlayerNameMap() {

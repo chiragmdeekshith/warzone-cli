@@ -31,6 +31,11 @@ public class Country {
 
     public void setArmies(final int armies) { this.d_armies = armies; }
 
+    /**
+     * Creates a new object of type Country
+     *
+     * @param p_countryId - the country ID
+     */
     public Country(int p_countryId) {
         this.d_countryId = p_countryId;
         this.d_playerId = -1;

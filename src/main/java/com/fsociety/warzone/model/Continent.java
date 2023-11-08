@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class represents the continent objects used to calculate the bonus armies for players,
- * if they own all the countries in the particular continent.
+ * This class represents the continent objects used to calculate the bonus armies for players if they own all the
+ * countries in the particular continent.
  */
 public class Continent {
 
@@ -75,6 +75,10 @@ public class Continent {
         return d_continentId;
     }
 
+    /**
+     * This returns the printable format for a continent object used when showing the map.
+     * @return the contents of the continent object formatted as a string
+     */
     @Override
     public String toString() {
         StringBuilder l_toPrint = new StringBuilder(d_continentId + ": " + this.d_armiesBonus + " - [");
