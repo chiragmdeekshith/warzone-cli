@@ -168,7 +168,7 @@ public class EditMap extends AbstractMap {
      *
      * @param p_countryId the country to remove the adjacency
      */
-    private void removeAdjacency(int p_countryId) {
+    void removeAdjacency(int p_countryId) {
         Set<Integer> l_neighbours = d_neighbours.get(p_countryId);
         l_neighbours.forEach(neighbourId -> d_neighbours.get(neighbourId).remove(p_countryId));
         d_neighbours.remove(p_countryId);
