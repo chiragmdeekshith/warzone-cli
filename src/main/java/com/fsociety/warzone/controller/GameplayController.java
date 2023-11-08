@@ -21,12 +21,39 @@ import java.util.*;
  */
 public class GameplayController {
 
+    /**
+     * The finalized list of players in the game after the startup phase
+     */
     private static ArrayList<Player> d_players;
+
+    /**
+     * The map which holds players while they are being added and removed in the startup phase
+     */
     private static Map<String, Player> d_playerNameMap = new HashMap<>();
+
+    /**
+     * A map to access the player name by playerId
+     */
     private static Map<Integer, String> d_playerIdMap = new HashMap<>();
+
+    /**
+     * The Gameplay Map on which the game runs.
+     */
     private static PlayMap d_playMap;
+
+    /**
+     * A collection of player ID to the list of players they have a truce with for the round.
+     */
     private static HashMap<Integer, HashSet<Integer>> d_truces;
+
+    /**
+     * A variable to track if the game has finished
+     */
     private static boolean d_gameWon = false;
+
+    /**
+     * The player who has won the game
+     */
     public static Player d_winner;
 
     /**
