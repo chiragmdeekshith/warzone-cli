@@ -14,6 +14,14 @@ public abstract class Attack implements Order {
     private final int d_playerId;
     private final boolean d_isAdvance;
 
+    /**
+     * Parameterised constructor for the abstract Attack order called by its inheritors.
+     * @param p_sourceCountryId the source country
+     * @param p_targetCountryId the target country
+     * @param p_troopsCount the number of troops to be moved
+     * @param p_playerId the ID of the player issuing the order
+     * @param p_advance whether the order will be an Advance order or an Airlift order (for printing)
+     */
     public Attack(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount, int p_playerId, boolean p_advance) {
         this.d_sourceCountryId = p_sourceCountryId;
         this.d_targetCountryId = p_targetCountryId;

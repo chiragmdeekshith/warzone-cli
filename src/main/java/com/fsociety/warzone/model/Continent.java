@@ -18,7 +18,7 @@ public class Continent {
 
     /**
      * Creates a new object of type Continent
-     *
+     * @param p_continentId - the continent ID
      * @param p_countryIds - list of country IDs
      * @param p_countries - the country id -> game state of country map
      * @param p_bonus - bonus armies

@@ -6,6 +6,9 @@ import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.view.log.Log;
 
+/**
+ * This Class implements the Game Engine that takes in user commands and reacts accordingly.
+ */
 public class GameEngine {
 
     private static Phase d_phase;
@@ -24,10 +27,19 @@ public class GameEngine {
     }
 
     // Getters and setters
+
+    /**
+     * Get the current phase.
+     * @return the current phase
+     */
     public static Phase getPhase() {
         return d_phase;
     }
 
+    /**
+     * Set the current phase.
+     * @param p_phase the new phase
+     */
     public static void setPhase(Phase p_phase) {
         d_phase = p_phase;
     }

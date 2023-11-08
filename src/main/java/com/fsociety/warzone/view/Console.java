@@ -4,6 +4,9 @@ import com.fsociety.warzone.view.log.Log;
 
 import java.util.Scanner;
 
+/**
+ * This class implements console I/O for user interaction.
+ */
 public class Console {
 
     private static final Scanner SCANNER = new Scanner(System.in);

@@ -11,6 +11,11 @@ public class Blockade implements Order {
     private final int d_countryId;
     private final int d_playerId;
 
+    /**
+     * Parameterised constructor to initialise a Blockade order.
+     * @param p_countryId the country to be blockaded
+     * @param p_playerId the ID of the player issuing the order
+     */
     public Blockade (int p_countryId , int p_playerId) {
         this.d_playerId = p_playerId;
         this.d_countryId = p_countryId;

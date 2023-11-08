@@ -1,5 +1,8 @@
 package com.fsociety.warzone.asset.command;
 
+/**
+ * This enum holds all possible commands that can be used in the application.
+ */
 public enum Command {
 
     HELP("help", ""),

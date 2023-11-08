@@ -9,6 +9,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
 
+/**
+ * This Class implements command processing, where the input command leads to the appropriate method being called on the
+ * current phase.
+ */
 public class CommandProcessor {
 
     private static final Map<String, Command> d_commands;
@@ -20,6 +24,10 @@ public class CommandProcessor {
         }
     }
 
+    /**
+     * This method takes in a command and splits it for execution.
+     * @param p_rawCommand the input command
+     */
     public static void processCommand(String p_rawCommand) {
         if(p_rawCommand.isEmpty()) {
             Console.print("Command is empty. It cannot be empty.");
