@@ -20,12 +20,10 @@ public class Log {
      * Initializes a log entry buffer and attaches a log observer to it.
      *
      * @param p_filename The name of the log file to write log entries to.
-     * @return The initialized LogEntryBuffer.
      */
-    public static LogEntryBuffer initLogEntryBuffer(final String p_filename) {
+    public static void initLogEntryBuffer(final String p_filename) {
         final LogEntryBuffer l_logEntryBuffer = LogEntryBuffer.getInstance();
         l_logEntryBuffer.addObserver(new LogObserver(p_filename));
-        return l_logEntryBuffer;
     }
 
     /**
@@ -40,7 +38,7 @@ public class Log {
     /**
      * Increments the turn number and notifies observers of the change.
      */
-    public static void endCurrentTurn() {
-        d_logEntryBuffer.endCurrentTurn();
+    public static void flushToFile() {
+        d_logEntryBuffer.flushToFile();
     }
 }

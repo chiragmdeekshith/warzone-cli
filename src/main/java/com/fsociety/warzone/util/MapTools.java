@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 
 /**
- * This class provides all the functionality to read from Domination type .map files and store them in WZMap Objects.
+ * This class provides all the functionality to read from Domination type .map files and store them in Map Objects.
  * It can also validate the map and save the map into a new file.
  */
 public class MapTools {

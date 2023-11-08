@@ -28,7 +28,7 @@ public class Blockade implements Order {
             int l_troopsCount = GameplayController.getPlayMap().getCountryState(d_countryId).getArmies();
             GameplayController.getPlayMap().updateCountry(d_countryId, l_troopsCount * 3);
             String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " blockaded " + d_countryId + ".";
-            Console.print(l_outcome);
+            Console.print(l_outcome,true);
         }
     }
 

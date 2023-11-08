@@ -15,12 +15,6 @@ public class LogEntryBuffer extends Observable {
     private static LogEntryBuffer d_instance;
 
     /*
-     * State observed by the observers before writing logs
-     * so that we can notify them when the turn is over
-     */
-    private static Integer d_turnNumber = 0;
-
-    /*
      * The list of log entries to be written to the log file.
      */
     private static List<LogEntry> d_logEntries = new ArrayList<>();
@@ -55,13 +49,11 @@ public class LogEntryBuffer extends Observable {
     }
 
     /**
-     * Increments the turn number and notifies observers of the change.
+     * Notifies observers of the change.
      */
-    public void endCurrentTurn() {
-        d_turnNumber++;
-
+    public void flushToFile() {
         // Notify observers of the change and flush the buffer
-        d_logEntries.stream().forEach(logEntry -> {
+        d_logEntries.forEach(logEntry -> {
             setChanged();
             notifyObservers(logEntry);
         });

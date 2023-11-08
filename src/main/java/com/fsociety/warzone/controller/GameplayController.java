@@ -12,6 +12,7 @@ import com.fsociety.warzone.asset.phase.end.End;
 import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.view.Console;
+import com.fsociety.warzone.view.log.Log;
 
 import java.util.*;
 
@@ -39,7 +40,7 @@ public class GameplayController {
         while (true) {
 
             l_turns++;
-            Console.print("Turn " + l_turns);
+            Console.print("Turn " + l_turns,true);
 
             // Get updated continent owner for each continent
             d_playMap.getContinents().keySet().forEach(continentId -> {
@@ -60,7 +61,8 @@ public class GameplayController {
             ExecuteOrder.executeOrders(d_players);
 
             if (d_gameWon) {
-                Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!");
+                Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!",true);
+                Log.flushToFile();
                 GameEngine.setPhase(new End());
                 return;
             }
@@ -68,6 +70,7 @@ public class GameplayController {
             resetRound();
 
             Console.print("All orders executed. Turn " + l_turns + " over.");
+            Log.flushToFile();
         }
 
     }
@@ -89,7 +92,7 @@ public class GameplayController {
         }
         for (Player l_player : l_playersToRemove) {
             removePlayer(l_player);
-            Console.print(l_player.getName() + " was eliminated!");
+            Console.print(l_player.getName() + " was eliminated!",true);
         }
     }
 
