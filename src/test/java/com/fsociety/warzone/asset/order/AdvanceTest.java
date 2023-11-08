@@ -74,6 +74,9 @@ class AdvanceTest {
         }
     }
 
+    /**
+     * Test for source and target country validation.
+     */
     @Test
     void countryValidationTest() {
         Phase l_attack = new Attack();
@@ -93,6 +96,9 @@ class AdvanceTest {
         assertNull(d_player2.nextOrder());
     }
 
+    /**
+     * Test for conquering a country via Advance.
+     */
     @Test
     void conquerCountryTest() {
         Phase l_attack = new Attack();
@@ -108,6 +114,9 @@ class AdvanceTest {
         assertEquals(d_player1, d_playMap.getCountryState(4).getPlayer());
     }
 
+    /**
+     * Test for settling a conquered country via Advance.
+     */
     @Test
     void settleConqueredCountryTest() {
         Phase l_attack = new Attack();
@@ -122,6 +131,9 @@ class AdvanceTest {
         assertEquals(5, d_playMap.getCountryState(4).getArmies());
     }
 
+    /**
+     * Test for conquering the map via Advance and winning the game.
+     */
     @Test
     void gameWonTest() {
         Phase l_attack = new Attack();

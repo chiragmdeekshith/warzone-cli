@@ -151,5 +151,24 @@ class AirliftTest {
         assertTrue(GameplayController.checkWinCondition());
     }
 
+    /**
+     * Test to make sure the issuing player has the Airlift card.
+     */
+    @Test
+    void hasAirliftCardTest() {
+        Phase l_attack = new Attack();
+        IssueOrder.d_availableTroopsOnMap = new HashMap<>();
+        d_playMap.updateCountry(4, 5);
+        d_playMap.updateCountry(2, 5);
+        for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
+            IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
+        }
+        IssueOrder.setCurrentPlayer(d_player2);
+        l_attack.airlift(4, 1, 1);
+        assertNull(d_player2.nextOrder());
+        IssueOrder.setCurrentPlayer(d_player1);
+        l_attack.airlift(2, 1, 1);
+        assertNotNull(d_player1.nextOrder());
+    }
 
 }

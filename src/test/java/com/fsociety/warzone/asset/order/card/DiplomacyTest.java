@@ -106,4 +106,19 @@ class DiplomacyTest {
         assertEquals(d_playMap.getCountryState(2).getPlayer(), d_player1);
     }
 
+    /**
+     * Test to make sure the issuing player has the Diplomacy card.
+     */
+    @Test
+    void hasDiplomacyCardTest() {
+        Phase l_attack = new Attack();
+        IssueOrder.d_availableTroopsOnMap = new HashMap<>();
+        IssueOrder.setCurrentPlayer(d_player2);
+        l_attack.negotiate(d_player1.getName());
+        assertNull(d_player2.nextOrder());
+        IssueOrder.setCurrentPlayer(d_player1);
+        l_attack.negotiate(d_player2.getName());
+        assertNotNull(d_player1.nextOrder());
+    }
+
 }

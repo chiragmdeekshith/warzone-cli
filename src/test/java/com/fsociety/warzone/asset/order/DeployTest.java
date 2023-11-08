@@ -73,13 +73,27 @@ class DeployTest {
     }
 
     /**
+     * Test for target country validation.
+     */
+    @Test
+    void countryValidationTest() {
+        Phase l_reinforcement = new Reinforcement();
+        IssueOrder.setCurrentPlayer(d_player1);
+        l_reinforcement.deploy(1, 1);
+        IssueOrder.setCurrentPlayer(d_player2);
+        l_reinforcement.deploy(1, 1);
+        assertNotNull(d_player1.nextOrder());
+        assertNull(d_player2.nextOrder());
+    }
+
+    /**
      * Ensures that a player cannot deploy more reinforcement armies than they currently hold.
      */
     @Test
     void issueDeployCommand() {
         Phase l_reinforcement = new Reinforcement();
         IssueOrder.setCurrentPlayer(d_player1);
-        l_reinforcement.deploy(1, 5);
+        l_reinforcement.deploy(1, 10);
         IssueOrder.setCurrentPlayer(d_player2);
         l_reinforcement.deploy(4, 10);
         assertNull(d_player1.nextOrder());
