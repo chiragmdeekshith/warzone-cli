@@ -29,7 +29,7 @@ public class PlayPostLoad extends PlaySetup{
     }
 
     public void showPlayers() {
-        if (GameplayController.getPlayers() == null) {
+        if (GameplayController.getPlayerNameMap().isEmpty()) {
             Console.print("List of players is empty.");
         } else {
             GameplayController.printPlayers();
@@ -41,8 +41,8 @@ public class PlayPostLoad extends PlaySetup{
         PlayMap l_playMap = GameplayController.getPlayMap();
         Map<String, Player> l_playerNameMap = GameplayController.getPlayerNameMap();
 
-        if(l_playerNameMap.isEmpty()) {
-            Console.print("Please add at least one player to the game to continue.");
+        if(l_playerNameMap.size() < 2) {
+            Console.print("Please add at least two players to the game to continue.");
             return;
         }
 

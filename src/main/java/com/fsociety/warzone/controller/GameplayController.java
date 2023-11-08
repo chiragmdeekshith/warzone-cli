@@ -155,7 +155,7 @@ public class GameplayController {
 
     public static void printPlayers() {
         StringBuilder l_players = new StringBuilder();
-        for (Player l_player : d_players) {
+        for (Player l_player : d_playerNameMap.values()) {
             l_players.append(l_player.getName()).append("\n");
         }
         Console.print(l_players.toString());
