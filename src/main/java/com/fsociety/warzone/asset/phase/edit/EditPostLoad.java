@@ -8,8 +8,15 @@ import com.fsociety.warzone.view.Console;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This Class implements the commands that are valid for map editing after a map has been loaded.
+ */
 public class EditPostLoad extends Edit {
 
+    /**
+     * This method compiles and prints a help message of valid commands for the EditPostLoad phase when the 'help'
+     * command is entered.
+     */
     @Override
     public void help() {
         Command[] d_validCommands = {Command.SHOW_MAP, Command.EDIT_COUNTRY, Command.EDIT_CONTINENT, Command.EDIT_NEIGHBOUR,
@@ -20,6 +27,10 @@ public class EditPostLoad extends Edit {
         Console.print(help);
     }
 
+    /**
+     * This method allows the user to save the map being edited by entering the 'savemap' command.
+     * @param p_fileName the name of file to save the map to
+     */
     @Override
     public void saveMap(String p_fileName) {
         if(!MapEditorController.saveMap(p_fileName)) {
@@ -29,6 +40,11 @@ public class EditPostLoad extends Edit {
         Console.print("File saved successfully: \"" + p_fileName + "\".");
     }
 
+    /**
+     * This method allows the player to add or remove continents using the 'editcontinent' command.
+     * @param p_continentsToAdd the array of continents to be added to the map
+     * @param p_continentsToRemove the array of continents to be removed from the map
+     */
     @Override
     public void editContinent(Map<Integer, Integer> p_continentsToAdd, Set<Integer> p_continentsToRemove){
         EditMap l_editMap = MapEditorController.getEditMap();
@@ -44,7 +60,11 @@ public class EditPostLoad extends Edit {
         }
     }
 
-
+    /**
+     * This method allows the player to add or remove countries using the 'editcountry' command.
+     * @param p_countriesToAdd the countries to be added to the map
+     * @param p_countriesToRemove the countries to be removed from the map
+     */
     @Override
     public void editCountry(Map<Integer, Integer> p_countriesToAdd, Set<Integer> p_countriesToRemove) {
         EditMap l_editMap = MapEditorController.getEditMap();
@@ -60,6 +80,11 @@ public class EditPostLoad extends Edit {
         }
     }
 
+    /**
+     * This method allows the player to add or remove a country's neighbours using the 'editcontinent' command.
+     * @param p_neighboursToAdd the countries' neighbours to be added to the map
+     * @param p_neighboursToRemove the countries' neighbours to be removed from the map
+     */
     @Override
     public void editNeighbour(Map<Integer, Integer> p_neighboursToAdd, Map<Integer, Integer> p_neighboursToRemove) {
         EditMap l_editMap = MapEditorController.getEditMap();
@@ -75,6 +100,9 @@ public class EditPostLoad extends Edit {
         }
     }
 
+    /**
+     * This method allows the user to validate the map being edited using the 'validatemap' command.
+     */
     @Override
     public void validateMap() {
         if(!MapEditorController.validateMap()) {
@@ -84,6 +112,9 @@ public class EditPostLoad extends Edit {
         Console.print("The map is valid!");
     }
 
+    /**
+     * This method calls the map to be printed during map editing using the 'showmap' command.
+     */
     @Override
     public void showMap() {
         MapEditorController.getEditMap().showMap();

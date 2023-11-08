@@ -12,8 +12,15 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Map;
 
+/**
+ * This Class implements the commands that are valid during the Start-Up phase of gameplay after a map has been loaded.
+ */
 public class PlayPostLoad extends PlaySetup{
 
+    /**
+     * This method compiles and prints a help message of valid commands for the PlayPostLoad phase when the 'help'
+     * command is entered.
+     */
     @Override
     public void help() {
         Command[] l_validCommands = {Command.SHOW_MAP, Command.GAME_PLAYER, Command.ASSIGN_COUNTRIES, Command.SHOW_PLAYERS};
@@ -23,11 +30,17 @@ public class PlayPostLoad extends PlaySetup{
         Console.print(l_help);
     }
 
+    /**
+     * This method calls the map to be printed once loaded using the 'showmap' command.
+     */
     @Override
     public void showMap() {
         GameplayController.getPlayMap().showMap();
     }
 
+    /**
+     * This method prints the players active in the game using the 'showplayers' command.
+     */
     public void showPlayers() {
         if (GameplayController.getPlayerNameMap().isEmpty()) {
             Console.print("List of players is empty.");
@@ -36,6 +49,10 @@ public class PlayPostLoad extends PlaySetup{
         }
     }
 
+    /**
+     * This method randomly assigns countries to the players in round-robin fashion before starting the main gameplay
+     * loop when the player enters the 'assigncountries' command.
+     */
     @Override
     public void assignCountries() {
         PlayMap l_playMap = GameplayController.getPlayMap();
@@ -46,6 +63,7 @@ public class PlayPostLoad extends PlaySetup{
             return;
         }
 
+        // If there are more players than there are countries in the map
         if (l_playerNameMap.size() > GameplayController.getPlayMap().getNeighbours().keySet().size()) {
             Console.print("Too many players for this map. Please remove players to continue.");
             return;
@@ -74,6 +92,9 @@ public class PlayPostLoad extends PlaySetup{
         GameplayController.gamePlayLoop();
     }
 
+    /**
+     * This method allows the user to edit the list of players using the 'gameplayer' command.
+     */
     @Override
     public void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove) {
         Map<String, Player> l_playerNameMap = GameplayController.getPlayerNameMap();

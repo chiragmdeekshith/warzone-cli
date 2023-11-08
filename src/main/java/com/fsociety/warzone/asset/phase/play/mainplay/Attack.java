@@ -8,8 +8,15 @@ import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.asset.order.Advance;
 import com.fsociety.warzone.view.Console;
 
+/**
+ * This Class implements the commands that are valid during the Issue Orders phase of gameplay.
+ */
 public class Attack extends MainPlay {
 
+    /**
+     * This method compiles and prints a help message of valid commands for the MainPlay phase when the 'help' command
+     * is entered.
+     */
     @Override
     public void help() {
         Command[] l_validCommands = {Command.SHOW_MAP, Command.ADVANCE, Command.BOMB, Command.BLOCKADE, Command.AIRLIFT,
@@ -20,6 +27,14 @@ public class Attack extends MainPlay {
         Console.print(l_help);
     }
 
+    /**
+     * This method creates and adds an order of type Advance to the player's list of orders when they enter the
+     * 'advance' command during the Attack phase. The method checks any relevant conditions and prints an error message
+     * if the order cannot be created.
+     * @param p_sourceCountryId the country sending the troops
+     * @param p_targetCountryId the country receiving the troops
+     * @param p_troopsCount the number of troops to be moved
+     */
     @Override
     public void advance(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
 
@@ -58,6 +73,13 @@ public class Attack extends MainPlay {
         }
     }
 
+    /**
+     * This method creates and adds an order of type Bomb to the player's list of orders when they enter the 'bomb'
+     * command during the Attack phase. The method checks any relevant conditions and prints an error message
+     * if the order cannot be created.
+     *
+     * @param p_targetCountryId the country to be bombed
+     */
     @Override
     public void bomb(int p_targetCountryId) {
         boolean l_isEnemyCountry = GameplayController.getPlayMap().getCountryState(p_targetCountryId).getPlayerId() != IssueOrder.getCurrentPlayer().getId();
@@ -87,6 +109,12 @@ public class Attack extends MainPlay {
         }
     }
 
+    /**
+     * This method creates and adds an order of type Blockade to the player's list of orders when they enter the
+     * 'blockade' command during the Attack phase. The method checks any relevant conditions and prints an error message
+     *  if the order cannot be created.
+     * @param p_countryId the country to be blockaded
+     */
     @Override
     public void blockade(int p_countryId) {
         boolean l_playerOwnsCountry = GameplayController.getPlayMap().getCountryState(p_countryId).getPlayerId() == IssueOrder.getCurrentPlayer().getId();
@@ -116,6 +144,14 @@ public class Attack extends MainPlay {
         }
     }
 
+    /**
+     * This method creates and adds an order of type Advance to the player's list of orders when they enter the
+     * 'advance' command during the Attack phase. The method checks any relevant conditions and prints an error message
+     * if the order cannot be created.
+     * @param p_sourceCountryId the country sending the troops
+     * @param p_targetCountryId the country receiving the troops
+     * @param p_troopsCount the number of troops to be moved
+     */
     @Override
     public void airlift(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount) {
 
@@ -156,6 +192,12 @@ public class Attack extends MainPlay {
 
     }
 
+    /**
+     * This method creates and adds an order of type Diplomacy to the player's list of orders when they enter the
+     * 'negotiate' command during the Attack phase. The method checks any relevant conditions and prints an error
+     * message if the order cannot be created.
+     * @param p_targetPlayerName the name of the player to be negotiated with
+     */
     @Override
     public void negotiate(String p_targetPlayerName) {
 
@@ -182,12 +224,20 @@ public class Attack extends MainPlay {
         }
     }
 
+    /**
+     * This method allows a player to commit their orders when using the 'commit' command, meaning they will no longer
+     * be asked to issue orders during the current turn.
+     */
     @Override
     public void commit() {
         IssueOrder.getCurrentPlayer().commit();
         IssueOrder.getCurrentPlayer().setOrderIssued();
     }
 
+    /**
+     * This method allows the player to print their available armies per country they own using the 'showtroops'
+     * command.
+     */
     @Override
     public void showAvailableArmies() {
         IssueOrder.showAvailableTroops(IssueOrder.getCurrentPlayer());

@@ -6,8 +6,14 @@ import com.fsociety.warzone.asset.phase.Menu;
 import com.fsociety.warzone.controller.MapEditorController;
 import com.fsociety.warzone.view.Console;
 
+/**
+ * This Class implements the commands common to the EditPostLoad and EditPreLoad phases.
+ */
 public abstract class Edit extends Menu {
 
+    /**
+     * This method allows the user to return to the main menu during map editing using the 'back' command.
+     */
     @Override
     public void back() {
         MapEditorController.resetMapEditor();
@@ -22,6 +28,10 @@ public abstract class Edit extends Menu {
                                                           \s""");
     }
 
+    /**
+     * This method compiles and prints a help message of valid commands for the Edit phase when the 'help' command is
+     * entered.
+     */
     @Override
     public void help() {
         Command[] d_validCommands = {Command.BACK, Command.EXIT};
@@ -32,11 +42,17 @@ public abstract class Edit extends Menu {
 
     // Invalidate commands
 
+    /**
+     * This method prints out the invalid command message when the 'playgame' command is entered during map editing.
+     */
     @Override
     public void playGame() {
         printInvalidCommandMessage();
     }
 
+    /**
+     * This method prints out the invalid command message when the 'mapeditor' command is entered during map editing.
+     */
     @Override
     public void mapEditor() {
         printInvalidCommandMessage();

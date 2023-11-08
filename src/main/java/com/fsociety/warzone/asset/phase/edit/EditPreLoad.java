@@ -7,8 +7,15 @@ import com.fsociety.warzone.model.map.EditMap;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.util.MapTools;
 
+/**
+ * This Class implements the commands that are valid for map editing before a map has been loaded.
+ */
 public class EditPreLoad extends Edit {
 
+    /**
+     * This method compiles and prints a help message of valid commands for the EditPreLoad phase when the 'help'
+     * command is entered.
+     */
     @Override
     public void help() {
         Command[] d_validCommands = {Command.EDIT_MAP, Command.BACK, Command.EXIT};
@@ -17,6 +24,10 @@ public class EditPreLoad extends Edit {
         Console.print(help);
     }
 
+    /**
+     * This method allows the user to load a map by entering the 'editmap' command.
+     * @param p_fileName the name of the map file to load
+     */
     @Override
     public void editMap(String p_fileName) {
         EditMap l_editMap = MapTools.loadAndValidateEditableMap(p_fileName);
