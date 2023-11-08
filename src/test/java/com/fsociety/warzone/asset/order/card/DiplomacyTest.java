@@ -1,24 +1,27 @@
-package com.fsociety.warzone.model;
+package com.fsociety.warzone.asset.order.card;
 
 import com.fsociety.warzone.asset.phase.Phase;
-import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
+import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
+import com.fsociety.warzone.model.Continent;
+import com.fsociety.warzone.model.Country;
+import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.util.MapTools;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 /**
- * Test class for Player class
+ * Tests for the Diplomacy order.
  */
-class PlayerTest {
+class DiplomacyTest {
 
     Player d_player1, d_player2;
     PlayMap d_playMap;
@@ -41,9 +44,9 @@ class PlayerTest {
         GameplayController.initTruces();
 
         // Player1 should have 3 reinforcements and Player2 should have 8 reinforcements
-        d_playMap.updateCountry(1, d_player1.getId(), 0);
-        d_player1.addCountry(d_playMap.getCountryState(1));
-        d_playMap.getCountryState(1).setPlayer(d_player1);
+        d_playMap.updateCountry(1, d_player2.getId(), 0);
+        d_player2.addCountry(d_playMap.getCountryState(1));
+        d_playMap.getCountryState(1).setPlayer(d_player2);
         d_playMap.updateCountry(2, d_player1.getId(), 0);
         d_player1.addCountry(d_playMap.getCountryState(2));
         d_playMap.getCountryState(2).setPlayer(d_player1);
@@ -69,6 +72,38 @@ class PlayerTest {
             });
             l_player.setAvailableReinforcements(l_reinforcements.get());
         }
+
+        // Ensure the player has a Diplomacy card
+        d_player1.getHandOfCards().drawSpecificCard(HandOfCards.Card.DIPLOMACY);
+
+    }
+
+    /**
+     * Test for ability to attack another player's country before and after playing a Diplomacy card.
+     */
+    @Test
+    void diplomacyTest() {
+        Phase l_attack = new Attack();
+        d_playMap.updateCountry(4, 3);
+        d_playMap.updateCountry(1, 3);
+        IssueOrder.d_availableTroopsOnMap = new HashMap<>();
+        for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
+            IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
+        }
+        // Player2 conquers one of Player1's countries
+        IssueOrder.setCurrentPlayer(d_player2);
+        l_attack.advance(1, 3,3);
+        d_player2.nextOrder().execute();
+        assertEquals(d_playMap.getCountryState(2).getPlayer(), d_player1);
+        // Player1 plays the Diplomacy card
+        IssueOrder.setCurrentPlayer(d_player1);
+        l_attack.negotiate(d_player2.getName());
+        d_player1.nextOrder().execute();
+        // Player2 can no longer conquer one of Player1's countries
+        IssueOrder.setCurrentPlayer(d_player2);
+        l_attack.advance(4, 2,3);
+        d_player2.nextOrder().execute();
+        assertEquals(d_playMap.getCountryState(2).getPlayer(), d_player1);
     }
 
 }

@@ -113,4 +113,25 @@ public class HandOfCards {
         Console.print(l_asString);
     }
 
+    /**
+     * Draws a card of a specific type; used for testing.
+     * @param p_card the type of card to draw
+     */
+    public void drawSpecificCard(Card p_card) {
+        switch (p_card) {
+            case BOMB -> {
+                d_bombCards++;
+            }
+            case BLOCKADE -> {
+                d_blockadeCards++;
+            }
+            case AIRLIFT -> {
+                d_airliftCards++;
+            }
+            case DIPLOMACY -> {
+                d_diplomacyCards++;
+            }
+        }
+    }
+
 }
