@@ -142,7 +142,8 @@ public class EditMap extends AbstractMap {
                     .append(", ")
                     .append(this.d_continentBonuses.get(l_entry.getKey()))
                     .append(": ")
-                    .append(l_entry.getValue().toString());
+                    .append(l_entry.getValue().toString())
+                    .append("\n");
         }
         l_editMapString.append("--------------------\n");
         l_editMapString.append("Borders\n");
