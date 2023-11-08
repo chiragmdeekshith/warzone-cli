@@ -23,7 +23,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class AirliftTest {
 
+    /**
+     * Players for the test
+     */
     Player d_player1, d_player2;
+    /**
+     * Play Map for the test
+     */
     PlayMap d_playMap;
 
     /**

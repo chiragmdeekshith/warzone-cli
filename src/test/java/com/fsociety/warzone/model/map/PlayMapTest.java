@@ -17,6 +17,9 @@ class PlayMapTest {
      * d_player1 and d_player2 are the players.
      */
     PlayMap d_playMap;
+    /**
+     * Players for the test
+     */
     Player d_player1, d_player2;
 
     /**
@@ -59,7 +62,7 @@ class PlayMapTest {
      */
     @Test
     void testUpdateCountry() {
-        d_playMap.updateCountry(1, 1, 5);
+        d_playMap.updateCountry(1, d_player1.getId(), 5);
         assertEquals(1, d_playMap.getCountries().get(1).getPlayerId());
         d_playMap.updateCountry(1,10);
         assertEquals(10, d_playMap.getCountries().get(1).getArmies());
@@ -70,11 +73,15 @@ class PlayMapTest {
      */
     @Test
     void testConquerCountry() {
-        d_playMap.initGameMapElements();
-        d_playMap.updateCountry(1, 1, 5);
-        assertEquals(1, d_playMap.getCountries().get(1).getPlayerId());
-        d_playMap.conquerCountry(1, 2, 10);
-        assertEquals(2, d_playMap.getCountries().get(1).getPlayerId());
+        //d_playMap.initGameMapElements();
+        d_playMap.updateCountry(1, d_player1.getId(), 5);
+        d_player1.addCountry(d_playMap.getCountryState(1));
+        d_playMap.getCountryState(1).setPlayer(d_player1);
+        assertEquals(d_player1.getId(), d_playMap.getCountries().get(1).getPlayerId());
+        d_playMap.conquerCountry(1, d_player2.getId(), 10);
+        d_player1.addCountry(d_playMap.getCountryState(1));
+        d_playMap.getCountryState(1).setPlayer(d_player2);
+        assertEquals(d_player2.getId(), d_playMap.getCountries().get(1).getPlayerId());
     }
 
     /**
@@ -83,10 +90,10 @@ class PlayMapTest {
     @Test
     void testIsNeighbourOf() {
         d_playMap.initGameMapElements();
-        d_playMap.updateCountry(1, 1, 5);
-        d_playMap.updateCountry(4,2,10);
-        assertTrue(d_playMap.isNeighbourOf(2, 1));
-        assertFalse(d_playMap.isNeighbourOf(4, 1));
-        assertTrue(d_playMap.isNeighbourOf(2,2));
+        d_playMap.updateCountry(1, d_player1.getId(), 5);
+        d_playMap.updateCountry(4, d_player2.getId(),10);
+        assertTrue(d_playMap.isNeighbourOf(2, d_player1.getId()));
+        assertFalse(d_playMap.isNeighbourOf(4, d_player1.getId()));
+        assertTrue(d_playMap.isNeighbourOf(2,d_player2.getId()));
     }
 }

@@ -20,7 +20,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PlayerTest {
 
+    /**
+     * Players for the test
+     */
     Player d_player1, d_player2;
+
+    /**
+     * The Play Map for the tests
+     */
     PlayMap d_playMap;
 
     /**
