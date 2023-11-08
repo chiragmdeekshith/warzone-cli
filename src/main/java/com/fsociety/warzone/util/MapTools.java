@@ -319,9 +319,9 @@ public class MapTools {
          *
          * @param p_vertex - the number of vertices in the graph
          */
+        @SuppressWarnings("unchecked")
         Graph(int p_vertex) {
             this.d_vertices = p_vertex;
-            //noinspection unchecked
             d_adjacencyList = new ArrayList[d_vertices];
             for(int i = 0; i < d_vertices; i++) {
                 d_adjacencyList[i] = new ArrayList<Integer>();
