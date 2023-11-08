@@ -37,30 +37,30 @@ public class MapTools {
             // Read the file line by line
             l_editMap = new EditMap();
             String l_filePath = "src/main/resources/maps/" + p_fileName;
-            FileReader mapFile;
+            FileReader l_fileReader;
             try {
-                mapFile = new FileReader(l_filePath);
+                l_fileReader = new FileReader(l_filePath);
             } catch (FileNotFoundException e) {
-                File newFile = new File(l_filePath);
-                boolean success = newFile.createNewFile();
-                if(!success) {
+                File l_newFile = new File(l_filePath);
+                boolean l_success = l_newFile.createNewFile();
+                if(!l_success) {
                     throw new RuntimeException("Failed to create file.");
                 }
                 l_editMap.setFileName(p_fileName);
                 return l_editMap;
             }
-            String line;
-            StringBuilder data = new StringBuilder();
-            BufferedReader mapReader = new BufferedReader(mapFile);
-            line = mapReader.readLine();
-            while(line !=null) {
-                if(!line.equals("\n")){
-                    data.append(line).append("\n");
-                    line = mapReader.readLine();
+            String l_line;
+            StringBuilder l_data = new StringBuilder();
+            BufferedReader l_mapReader = new BufferedReader(l_fileReader);
+            l_line = l_mapReader.readLine();
+            while(l_line !=null) {
+                if(!l_line.equals("\n")){
+                    l_data.append(l_line).append("\n");
+                    l_line = l_mapReader.readLine();
                 }
             }
-            if (validateFileFormat(l_editMap, data, p_fileName)) {
-                if (!loadDataFromFile(l_editMap, data)) {
+            if (validateFileFormat(l_editMap, l_data, p_fileName)) {
+                if (!loadDataFromFile(l_editMap, l_data)) {
                     return null;
                 }
             }
@@ -309,10 +309,10 @@ public class MapTools {
     private static class Graph {
 
         // Number of vertices in the graph
-        private int vertices;
+        private int d_vertices;
 
         // Adjacency list for the graph
-        private ArrayList<Integer>[] adjacencyList;
+        private ArrayList<Integer>[] d_adjacencyList;
 
         /**
          * Default constructor for creating a new graph.
@@ -320,11 +320,11 @@ public class MapTools {
          * @param p_vertex - the number of vertices in the graph
          */
         Graph(int p_vertex) {
-            this.vertices = p_vertex;
+            this.d_vertices = p_vertex;
             //noinspection unchecked
-            adjacencyList = new ArrayList[vertices];
-            for(int i = 0; i < vertices; i++) {
-                adjacencyList[i] = new ArrayList<Integer>();
+            d_adjacencyList = new ArrayList[d_vertices];
+            for(int i = 0; i < d_vertices; i++) {
+                d_adjacencyList[i] = new ArrayList<Integer>();
             }
         }
 
@@ -335,7 +335,7 @@ public class MapTools {
          * @param p_edge - the edge to be added
          */
         void addEdge(int p_vertex, int p_edge) {
-            adjacencyList[p_vertex].add(p_edge);
+            d_adjacencyList[p_vertex].add(p_edge);
         }
 
         /**
@@ -346,7 +346,7 @@ public class MapTools {
          */
         void dfsTraversal(int p_vertex, boolean[] p_visited) {
             p_visited[p_vertex] = true;
-            for (int l_next : adjacencyList[p_vertex]) {
+            for (int l_next : d_adjacencyList[p_vertex]) {
                 if (!p_visited[l_next]) {
                     dfsTraversal(l_next, p_visited);
                 }
@@ -359,10 +359,10 @@ public class MapTools {
          * @return the transpose of the graph
          */
         Graph getTranspose(){
-            Graph l_graph = new Graph(vertices);
-            for (int l_vertex = 0; l_vertex < vertices; l_vertex++) {
-                for (Integer l_integer : adjacencyList[l_vertex]) {
-                    l_graph.adjacencyList[l_integer].add(l_vertex);
+            Graph l_graph = new Graph(d_vertices);
+            for (int l_vertex = 0; l_vertex < d_vertices; l_vertex++) {
+                for (Integer l_integer : d_adjacencyList[l_vertex]) {
+                    l_graph.d_adjacencyList[l_integer].add(l_vertex);
                 }
             }
             return l_graph;
@@ -374,8 +374,8 @@ public class MapTools {
          * @return true if the graph is strongly connected, false otherwise
          */
         Boolean isStronglyConnected() {
-            boolean[] l_visited = new boolean[vertices];
-            for(int l_vertex = 0; l_vertex < vertices; l_vertex++) {
+            boolean[] l_visited = new boolean[d_vertices];
+            for(int l_vertex = 0; l_vertex < d_vertices; l_vertex++) {
                 l_visited[l_vertex] = false;
             }
             dfsTraversal(0, l_visited);
@@ -385,7 +385,7 @@ public class MapTools {
                 }
             }
             Graph l_transpose = getTranspose();
-            for(int l_vertex = 0; l_vertex < vertices; l_vertex++) {
+            for(int l_vertex = 0; l_vertex < d_vertices; l_vertex++) {
                 l_visited[l_vertex] = false;
             }
             l_transpose.dfsTraversal(0, l_visited);
@@ -427,8 +427,8 @@ public class MapTools {
         if(p_mapData.getContinentBonuses().isEmpty())
             return true;
         else {
-            for(Set<Integer> countries:p_mapData.getCountriesInContinent().values()) {
-                if(countries.isEmpty()) {
+            for(Set<Integer> l_countries:p_mapData.getCountriesInContinent().values()) {
+                if(l_countries.isEmpty()) {
                     Console.print("Continent has no countries.");
                     return true;
                 }
@@ -444,8 +444,8 @@ public class MapTools {
      * @return true if the neighbours are empty, false otherwise
      */
     public static boolean checkEmptyNeighbours(AbstractMap p_mapData) {
-        for(Set<Integer> neighbours:p_mapData.getNeighbours().values())
-            if(neighbours.isEmpty()) {
+        for(Set<Integer> l_neighbours:p_mapData.getNeighbours().values())
+            if(l_neighbours.isEmpty()) {
                 Console.print("Country has no neighbours.");
                 return true;
             }
@@ -459,7 +459,7 @@ public class MapTools {
      * @return true if the continent is a connected graph, false otherwise
      */
     public static boolean checkConnectedContinent(AbstractMap p_mapData) {
-        boolean isContinentConnected;
+        boolean l_isContinentConnected;
         for (Map.Entry<Integer, Set<Integer>> entry : p_mapData.getCountriesInContinent().entrySet()) {
             Integer l_continentId = entry.getKey();
             Set<Integer> l_countryIDs = entry.getValue();
@@ -467,14 +467,14 @@ public class MapTools {
                 continue;
             }
             for (Integer l_countryID : l_countryIDs) {
-                isContinentConnected=false;
+                l_isContinentConnected=false;
                 for (Integer l_neighbourID : p_mapData.getNeighbours().get(l_countryID)) {
                     if(p_mapData.getContinentIdForCountry(l_neighbourID) == p_mapData.getContinentIdForCountry(l_countryID)) {
-                        isContinentConnected = true;
+                        l_isContinentConnected = true;
                         break;
                     }
                 }
-                if(!isContinentConnected) {
+                if(!l_isContinentConnected) {
                     Console.print("Continent " + l_continentId + " is not connected.");
                     return false;
                 }
