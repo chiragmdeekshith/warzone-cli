@@ -9,15 +9,27 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class performs unit tests for the Logging module
+ */
 class LogTest {
 
+    /**
+     * Common file name for reading and writing for tests
+     */
     String d_file = "src/test/resources/logs/log.txt";
 
+    /**
+     * Ensure that an exception is thrown if the file name is null
+     */
     @Test
     void testInitLogEntryBuffer_FileNameNull() {
         assertThrows(RuntimeException.class, () -> Log.initLogEntryBuffer(null));
     }
 
+    /**
+     * Ensure that the log file contains the log data.
+     */
     @Test
     void testLog_successfulFileWrite() {
         String l_log1 = "Test log 1";

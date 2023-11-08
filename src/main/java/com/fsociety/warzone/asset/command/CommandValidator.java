@@ -6,10 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This Class implements command validation, where the validity of the input command and its arguments is checked.
+ * This class is used for validating commands received from the Command Processor.
+ * It first ensures the command belongs to the list of valid ones, and then makes sure it has
+ * the right number of arguments and the argument type for each one.
  */
 public class CommandValidator {
 
+    /**
+     * A collection of valid commands from the enum. Initialised in the static block
+     */
     private static final Map<String, Command> d_commands;
 
     static {
@@ -20,9 +25,10 @@ public class CommandValidator {
     }
 
     /**
-     * This method takes an input command and verifies whether it and its arguments are valid.
-     * @param p_splitCommand the command and arguments as an array of Strings
-     * @return true if the command is valid, false otherwise
+     * This function checks the passed command and ensures that it is valid.
+     *
+     * @param p_splitCommand the parsed command array
+     * @return boolean - true if the command is valid, false otherwise.
      */
     public static boolean validateCommand(String[] p_splitCommand) {
         String l_commandName = p_splitCommand[0];
@@ -304,7 +310,13 @@ public class CommandValidator {
         return true;
     }
 
-    private static boolean validateNoArgsCommand(String[] p_splitCommand) {
+    /**
+     * A common command for checking commands having no arguments
+     *
+     * @param p_splitCommand the parsed command array
+     * @return boolean - true if the command has no arguments, false otherwise.
+     */
+    static boolean validateNoArgsCommand(String[] p_splitCommand) {
         if(p_splitCommand.length != 1) {
             Console.print("This command has too many arguments, so its invalid.");
             return false;
@@ -312,7 +324,13 @@ public class CommandValidator {
         return true;
     }
 
-    private static boolean validateFilenameCommand(String[] p_splitCommand) {
+    /**
+     * A common function for checking commands related to filename.
+     *
+     * @param p_splitCommand the parsed command array
+     * @return boolean - true if the command has 1 argument filename ending with '.map', false otherwise.
+     */
+    static boolean validateFilenameCommand(String[] p_splitCommand) {
         if(p_splitCommand.length != 2){
             Console.print("Unexpected number of arguments. Expected one argument: filename.");
             return false;
