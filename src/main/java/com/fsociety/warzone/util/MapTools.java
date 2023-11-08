@@ -94,20 +94,20 @@ public class MapTools {
         try {
             l_playMap = new PlayMap();
             String l_filePath = "src/main/resources/maps/" + p_fileName;
-            FileReader mapFile;
-            mapFile = new FileReader(l_filePath);
-            String line;
-            StringBuilder data = new StringBuilder();
-            BufferedReader mapReader = new BufferedReader(mapFile);
-            line = mapReader.readLine();
-            while(line !=null) {
-                if(!line.equals("\n")){
-                    data.append(line).append("\n");
-                    line = mapReader.readLine();
+            FileReader l_mapFile;
+            l_mapFile = new FileReader(l_filePath);
+            String l_line;
+            StringBuilder l_data = new StringBuilder();
+            BufferedReader l_mapReader = new BufferedReader(l_mapFile);
+            l_line = l_mapReader.readLine();
+            while(l_line !=null) {
+                if(!l_line.equals("\n")){
+                    l_data.append(l_line).append("\n");
+                    l_line = l_mapReader.readLine();
                 }
             }
-            if (validateFileFormat(l_playMap, data, p_fileName)) {
-                if (!loadDataFromFile(l_playMap, data)) {
+            if (validateFileFormat(l_playMap, l_data, p_fileName)) {
+                if (!loadDataFromFile(l_playMap, l_data)) {
                     return null;
                 }
             }
@@ -139,11 +139,11 @@ public class MapTools {
      * @return true if the data is loaded in correctly, false otherwise
      */
     public static boolean loadDataFromFile(AbstractMap p_map, StringBuilder p_data) {
-        String[] continentData = p_data.substring(p_data.toString().toLowerCase().indexOf("[continents]")+13, p_data.toString().toLowerCase().indexOf("[countries]")).split("\n");
-        String[] countryData = p_data.substring(p_data.toString().toLowerCase().indexOf("[countries]")+12, p_data.toString().toLowerCase().indexOf("[borders]")).split("\n");
-        String[] neighborData = p_data.substring(p_data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
+        String[] l_continentData = p_data.substring(p_data.toString().toLowerCase().indexOf("[continents]")+13, p_data.toString().toLowerCase().indexOf("[countries]")).split("\n");
+        String[] l_countryData = p_data.substring(p_data.toString().toLowerCase().indexOf("[countries]")+12, p_data.toString().toLowerCase().indexOf("[borders]")).split("\n");
+        String[] l_neighborData = p_data.substring(p_data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
         int l_counter = 0;
-        for(String s:continentData) {
+        for(String s:l_continentData) {
             int l_continentId = ++l_counter;
             String[] l_splitData = s.split(" ");
             int l_continentBonusValue = Integer.parseInt(l_splitData[1]);
@@ -151,7 +151,7 @@ public class MapTools {
                 return false;
             }
         }
-        for(String s:countryData) {
+        for(String s:l_countryData) {
             String[] l_splitData = s.split(" ");
             int l_countryId = Integer.parseInt(l_splitData[0]);
             int l_continentId = Integer.parseInt(l_splitData[2]);
@@ -159,17 +159,17 @@ public class MapTools {
                 return false;
             }
         }
-        for(String s:neighborData) {
-            String[] temp = s.split(" ");
-            int[] arr = new int[temp.length];
-            int countryID= Integer.parseInt(temp[0]);
-            for (int i=1;i<temp.length;i++) {
-                if(Arrays.binarySearch(arr,Integer.parseInt(temp[i]))>0) {
+        for(String s:l_neighborData) {
+            String[] l_splitData = s.split(" ");
+            int[] l_neighborList = new int[l_splitData.length];
+            int l_countryId= Integer.parseInt(l_splitData[0]);
+            for (int l_iterator=1;l_iterator<l_splitData.length;l_iterator++) {
+                if(Arrays.binarySearch(l_neighborList,Integer.parseInt(l_splitData[l_iterator]))>0) {
                     Console.print("Duplicate neighbours cannot exist.");
                     return false;
                 }
-                arr[i] = Integer.parseInt(temp[i]);
-                if (!loadNeighbour(p_map,countryID,arr[i])) {
+                l_neighborList[l_iterator] = Integer.parseInt(l_splitData[l_iterator]);
+                if (!loadNeighbour(p_map,l_countryId,l_neighborList[l_iterator])) {
                     return false;
                 }
             }

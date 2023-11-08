@@ -72,7 +72,7 @@ public class PlayMap extends AbstractMap {
     /**
      * This method updates the country Object when it is conquered by another player.
      * @param p_countryId the ID of the country being modified
-     * @param p_playerId the ID of the player than conquered the player
+     * @param p_playerId the ID of the player that conquered the country
      * @param p_armies the number of troops to be stationed on the country
      */
     public void conquerCountry(int p_countryId, int p_playerId, int p_armies) {

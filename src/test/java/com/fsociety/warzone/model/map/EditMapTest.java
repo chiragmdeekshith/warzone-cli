@@ -1,5 +1,6 @@
 package com.fsociety.warzone.model.map;
 
+import com.fsociety.warzone.util.MapTools;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +14,14 @@ class EditMapTest {
     /**
      *EditMap object.
      */
-    EditMap l_map;
+    EditMap d_editMap;
 
     /**
      * Setting up the EditMap object before each test.
      */
     @BeforeEach
     void setUp() {
-        l_map = new EditMap();
+        d_editMap = MapTools.loadAndValidateEditableMap("1.map");
     }
 
     /**
@@ -28,8 +29,8 @@ class EditMapTest {
      */
     @Test
     void testAddContinent() {
-        assertTrue(l_map.addContinent(1, 7));
-        assertFalse(l_map.addContinent(1, 7));
+        assertTrue(d_editMap.addContinent(3, 7));
+        assertFalse(d_editMap.addContinent(1, 7));
     }
 
     /**
@@ -37,9 +38,9 @@ class EditMapTest {
      */
     @Test
     void testRemoveContinent() {
-        l_map.addContinent(1, 7);
-        assertTrue(l_map.removeContinent(1));
-        assertFalse(l_map.removeContinent(1));
+        assertTrue(d_editMap.removeContinent(1));
+        assertFalse(d_editMap.removeContinent(1));
+        assertFalse(d_editMap.removeContinent(4));
     }
 
     /**
@@ -47,10 +48,9 @@ class EditMapTest {
      */
     @Test
     void testAddCountry() {
-        l_map.addContinent(1, 7);
-        assertTrue(l_map.addCountry(1, 1));
-        assertFalse(l_map.addCountry(1, 2));
-        assertFalse(l_map.addCountry(1, 1));
+        assertTrue(d_editMap.addCountry(5, 2));
+        assertFalse(d_editMap.addCountry(1, 2));
+        assertFalse(d_editMap.addCountry(6, 3));
     }
 
     /**
@@ -58,10 +58,9 @@ class EditMapTest {
      */
     @Test
     void testRemoveCountry() {
-        l_map.addContinent(1, 7);
-        l_map.addCountry(1, 1);
-        assertTrue(l_map.removeCountry(1));
-        assertFalse(l_map.removeCountry(1));
+        assertTrue(d_editMap.removeCountry(1));
+        assertFalse(d_editMap.removeCountry(1));
+        assertFalse(d_editMap.removeCountry(5));
     }
 
     /**
@@ -69,12 +68,10 @@ class EditMapTest {
      */
     @Test
     void testAddNeighbour() {
-        l_map.addContinent(1, 7);
-        l_map.addCountry(1, 1);
-        l_map.addCountry(2, 1);
-        assertFalse(l_map.addNeighbour(1, 1));
-        assertFalse(l_map.addNeighbour(1, 3));
-        assertTrue(l_map.addNeighbour(1, 2));
+        d_editMap.addCountry(5,1);
+        assertTrue(d_editMap.addNeighbour(5, 4));
+        assertFalse(d_editMap.addNeighbour(1, 1));
+        assertTrue(d_editMap.addNeighbour(1, 5));
     }
 
     /**
@@ -82,13 +79,11 @@ class EditMapTest {
      */
     @Test
     void testRemoveNeighbour() {
-        l_map.addContinent(1, 7);
-        l_map.addCountry(1, 1);
-        l_map.addCountry(2, 1);
-        l_map.addNeighbour(1, 2);
-        assertFalse(l_map.removeNeighbour(1, 1));
-        assertFalse(l_map.removeNeighbour(1, 3));
-        assertTrue(l_map.removeNeighbour(1, 2));
+        d_editMap.addCountry(5,2);
+        d_editMap.addNeighbour(5,4);
+        assertFalse(d_editMap.removeNeighbour(1, 1));
+        assertFalse(d_editMap.removeNeighbour(1, 6));
+        assertTrue(d_editMap.removeNeighbour(1, 2));
     }
 
     /**
@@ -96,11 +91,8 @@ class EditMapTest {
      */
     @Test
     void testRemoveAdjacency() {
-        l_map.addContinent(1, 7);
-        l_map.addCountry(1, 1);
-        l_map.addCountry(2, 1);
-        l_map.addNeighbour(1, 2);
-        l_map.removeAdjacency(1);
-        assertFalse(l_map.removeNeighbour(1, 2));
+        assertTrue(d_editMap.removeNeighbour(1, 3));
+        d_editMap.removeAdjacency(1);
+        assertFalse(d_editMap.removeNeighbour(1, 2));
     }
 }
