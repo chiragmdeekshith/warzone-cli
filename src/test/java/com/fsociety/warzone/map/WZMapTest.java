@@ -1,9 +1,9 @@
 package com.fsociety.warzone.map;
 
-import com.fsociety.warzone.models.map.WZMap;
+import com.fsociety.warzone.model.map.WZMap;
 import org.junit.jupiter.api.Test;
 
-import com.fsociety.warzone.models.Continent;
+import com.fsociety.warzone.model.Continent;
 
 import java.util.*;
 

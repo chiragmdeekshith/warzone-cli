@@ -1,10 +1,9 @@
 package com.fsociety.warzone.game.mainloop;
 
-import com.fsociety.warzone.controllers.GameEngineController;
-import com.fsociety.warzone.models.map.WZMap;
-import com.fsociety.warzone.models.Player;
-import com.fsociety.warzone.models.command.AssignReinforcements;
-import com.fsociety.warzone.models.map.PlayMap;
+import com.fsociety.warzone.model.map.WZMap;
+import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.controller.gameplay.AssignReinforcements;
+import com.fsociety.warzone.model.map.PlayMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
