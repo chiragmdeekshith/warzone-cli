@@ -9,19 +9,56 @@ import java.util.Random;
  */
 public class HandOfCards {
 
+    /**
+     * A counter to track the list of BOMB cards that a player owns
+     */
     private int d_bombCards;
+
+    /**
+     * A counter to track the list of BLOCKADE cards that a player owns
+     */
     private int d_blockadeCards;
+
+    /**
+     * A counter to track the list of AIRLIFT cards that a player owns
+     */
     private int d_airliftCards;
+
+    /**
+     * A counter to track the list of DIPLOMACY cards that a player owns
+     */
     private int d_diplomacyCards;
+
+    /**
+     * The name of the player who owns these hand of cards
+     */
     private final String d_playerName;
 
+    /**
+     * A the object used to randomly assign a new card to the player
+     */
     private static final Random rand = new Random();
 
     /**
      * This enum contains the possible card types.
      */
     public enum Card {
-        BOMB, BLOCKADE, AIRLIFT, DIPLOMACY;
+        /**
+         * Used to bomb an enemy country
+         */
+        BOMB,
+        /**
+         * Used to blockade an allied country
+         */
+        BLOCKADE,
+        /**
+         * Used to move troops to any country on the map
+         */
+        AIRLIFT,
+        /**
+         * Used to negotiate with an enemy and call a truce
+         */
+        DIPLOMACY;
     }
 
     /**
