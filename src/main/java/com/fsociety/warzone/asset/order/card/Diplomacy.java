@@ -27,7 +27,7 @@ public class Diplomacy implements Order {
         GameplayController.getTruces().get(d_enemyId).add(d_playerId);
         String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " has declared a truce with "
                 + GameplayController.getPlayerNameFromId(d_enemyId) + ".";
-        Console.print(l_outcome);
+        Console.print(l_outcome,true);
     }
 
     @Override

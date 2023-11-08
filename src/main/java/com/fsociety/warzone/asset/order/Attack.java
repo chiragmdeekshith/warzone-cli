@@ -80,7 +80,7 @@ public abstract class Attack implements Order {
                 l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " failed to conquer " + d_targetCountryId + ". " + l_advancingTroops + " troops returning home.";
             }
         }
-        Console.print(l_outcome);
+        Console.print(l_outcome,true);
     }
 
     @Override

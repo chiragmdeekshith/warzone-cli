@@ -28,7 +28,7 @@ public class Bomb implements Order {
             int l_troopsCount = GameplayController.getPlayMap().getCountryState(d_targetCountryId).getArmies();
             GameplayController.getPlayMap().updateCountry(d_targetCountryId, l_troopsCount/2);
             String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " bombed " + d_targetCountryId + " and destroyed " + (l_troopsCount - l_troopsCount/2) + " armies.";
-            Console.print(l_outcome);
+            Console.print(l_outcome,true);
         }
     }
 
