@@ -8,6 +8,9 @@ import com.fsociety.warzone.view.Console;
 
 import java.util.*;
 
+/**
+ * This class is used by the GameplayController for gameplay.
+ */
 public class PlayMap extends AbstractMap {
     // continent id -> game state of continent
     private Map<Integer, Continent> d_continents;
@@ -45,7 +48,7 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * Update the game state for a country after a turn.
+     * This method is used to update a country with initial ownership.
      *
      * @param p_countryId the id of the country to update
      * @param p_playerId  the id of the player to update
@@ -57,11 +60,21 @@ public class PlayMap extends AbstractMap {
         d_countries.get(p_countryId).setArmies(p_armies);
     }
 
+    /**
+     * This method updates the number of troops on a country when ownership does not change.
+     * @param p_countryId the country to be updated
+     * @param p_armies the number of troops to be stationed on the country
+     */
     public void updateCountry(int p_countryId, int p_armies) {
         d_countries.get(p_countryId).setArmies(p_armies);
     }
 
-
+    /**
+     * This method updates the country Object when it is conquered by another player.
+     * @param p_countryId the ID of the country being modified
+     * @param p_playerId the ID of the player than conquered the player
+     * @param p_armies the number of troops to be stationed on the country
+     */
     public void conquerCountry(int p_countryId, int p_playerId, int p_armies) {
         int l_previousOwner = GameplayController.getPlayMap().getCountries().get(p_countryId).getPlayerId();
         Player l_newOwner = GameplayController.getPlayerFromId(p_playerId);
@@ -123,7 +136,7 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
-     * get the current status of a country instance
+     * Get the current status of a country instance.
      *
      * @param p_countryId the country ID
      * @return the current game state for a country
