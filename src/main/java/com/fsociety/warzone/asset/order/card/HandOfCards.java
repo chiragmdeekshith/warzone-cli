@@ -31,7 +31,7 @@ public class HandOfCards {
     /**
      * This method draws one card of a random type and adds it to the player's hand.
      */
-    public void drawCards() {
+    public String drawCards() {
         int l_choice = rand.nextInt(0,4);
         String l_type = "";
         switch (l_choice) {
@@ -52,7 +52,7 @@ public class HandOfCards {
                 l_type = "Diplomacy";
             }
         }
-        Console.print(d_playerName + " drew a " + l_type + " card.");
+        return d_playerName + " drew a " + l_type + " card.";
     }
 
     /**

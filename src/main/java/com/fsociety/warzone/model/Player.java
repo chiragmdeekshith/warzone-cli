@@ -3,6 +3,7 @@ package com.fsociety.warzone.model;
 import com.fsociety.warzone.asset.command.CommandProcessor;
 import com.fsociety.warzone.asset.order.Order;
 import com.fsociety.warzone.asset.order.card.HandOfCards;
+import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.util.IdGenerator;
 
@@ -47,6 +48,10 @@ public class Player {
         this.d_countries.add(p_country);
     }
 
+    public void removeCountry(int p_countryId) {
+        this.d_countries.remove(GameplayController.getPlayMap().getCountries().get(p_countryId));
+    }
+
     /**
      * Compiles a list of country IDs for the list of countries the player currently controls.
      *
@@ -89,11 +94,12 @@ public class Player {
     /**
      * This method adds a card to the player's hand. It is called once per turn when they conquer a country.
      */
-    public void drawCard() {
+    public String drawCard() {
         if (!d_cardDrawn) {
             d_cardDrawn = true;
-            d_handOfCards.drawCards();
+            return d_handOfCards.drawCards();
         }
+        return null;
     }
 
     public void commit() {

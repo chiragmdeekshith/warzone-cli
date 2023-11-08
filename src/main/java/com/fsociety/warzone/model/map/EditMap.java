@@ -131,23 +131,31 @@ public class EditMap extends AbstractMap {
      */
     @Override
     public void showMap() {
-        Console.print("\nMap: " + d_fileName);
-        Console.print("--------------------");
-        Console.print("Continents and their bonuses");
-        for (Map.Entry<Integer, Integer> entry : this.d_continentBonuses.entrySet()) {
-            Console.print(entry.getKey() + ": " + entry.getValue().toString());
+        StringBuilder l_editMapString = new StringBuilder();
+        l_editMapString.append("\nMap: ").append(d_fileName).append("\n");
+        l_editMapString.append("--------------------" + "\n");
+        l_editMapString.append("Continents" + "\n");
+        l_editMapString.append("Continent: Bonus - [Countries]\n");
+        for (Map.Entry<Integer, Set<Integer>> l_entry : this.d_countriesInContinent.entrySet()) {
+            l_editMapString
+                    .append(l_entry.getKey())
+                    .append(", ")
+                    .append(this.d_continentBonuses.get(l_entry.getKey()))
+                    .append(": ")
+                    .append(l_entry.getValue().toString());
         }
-        Console.print("--------------------");
-        Console.print("Continents and their Countries");
-        for (Map.Entry<Integer, Set<Integer>> entry : this.d_countriesInContinent.entrySet()) {
-            Console.print(entry.getKey() + ": " + entry.getValue().toString());
-        }
-        Console.print("--------------------");
-        Console.print("Borders");
+        l_editMapString.append("--------------------\n");
+        l_editMapString.append("Borders\n");
+        l_editMapString.append("Country: [Neighbours]\n");
         for (Map.Entry<Integer, Set<Integer>> entry : this.d_neighbours.entrySet()) {
-            Console.print(entry.getKey() + ": " + entry.getValue().toString());
+            l_editMapString
+                    .append(entry.getKey())
+                    .append(": ")
+                    .append(entry.getValue().toString())
+                    .append("\n");
         }
-        Console.print("--------------------\n");
+        l_editMapString.append("--------------------\n");
+        Console.print(l_editMapString.toString());
     }
 
 

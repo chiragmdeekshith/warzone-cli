@@ -3,6 +3,8 @@ package com.fsociety.warzone.model.map;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
+import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.view.Console;
 
 import java.util.*;
 
@@ -51,11 +53,22 @@ public class PlayMap extends AbstractMap {
      */
     public void updateCountry(int p_countryId, int p_playerId, int p_armies) {
         d_countries.get(p_countryId).setPlayerId(p_playerId);
+        d_countries.get(p_countryId).setPlayer(GameplayController.getPlayerFromId(p_playerId));
         d_countries.get(p_countryId).setArmies(p_armies);
-        d_countries.get(p_countryId).setPlayer(GameplayController.getPlayerNameMap().get(GameplayController.getPlayerNameFromId(p_playerId)));
     }
 
     public void updateCountry(int p_countryId, int p_armies) {
+        d_countries.get(p_countryId).setArmies(p_armies);
+    }
+
+
+    public void conquerCountry(int p_countryId, int p_playerId, int p_armies) {
+        int l_previousOwner = GameplayController.getPlayMap().getCountries().get(p_countryId).getPlayerId();
+        Player l_newOwner = GameplayController.getPlayerFromId(p_playerId);
+        GameplayController.getPlayerFromId(l_previousOwner).removeCountry(p_countryId);
+        l_newOwner.addCountry(GameplayController.getPlayMap().getCountries().get(p_countryId));
+        d_countries.get(p_countryId).setPlayerId(p_playerId);
+        d_countries.get(p_countryId).setPlayer(l_newOwner);
         d_countries.get(p_countryId).setArmies(p_armies);
     }
 
@@ -64,13 +77,35 @@ public class PlayMap extends AbstractMap {
      */
     @Override
     public void showMap() {
-        System.out.println("\nMap: " + d_fileName);
-        System.out.println("--------------------");
-        System.out.println("Continents");
-        System.out.println("Continent: Bonus - [Countries]");
+        StringBuilder l_playMapString = new StringBuilder();
+        l_playMapString.append("\nMap: ").append(d_fileName).append("\n");
+        l_playMapString.append("--------------------" + "\n");
+        l_playMapString.append("Continents" + "\n");
+        l_playMapString.append("Continent: Bonus - [Countries]\n");
         for (Continent l_continent : this.d_continents.values()) {
-            System.out.println(l_continent);
+            l_playMapString.append(l_continent.toString()).append("\n");
         }
+        l_playMapString.append("--------------------\n");
+        l_playMapString.append("Borders\n");
+        l_playMapString.append("Country: Owned by, \tArmies - [Neighbours]\n");
+
+        for (Map.Entry<Integer, Country> entry : this.d_countries.entrySet()) {
+            int l_countryId = entry.getKey();
+            Country l_country = entry.getValue();
+            if(null != l_country.getPlayer()) {
+                l_playMapString
+                        .append(l_countryId)
+                        .append(": ")
+                        .append(l_country.getPlayer().getName())
+                        .append(",\t")
+                        .append(l_country.getArmies())
+                        .append(" - ")
+                        .append(d_neighbours.get(l_countryId).toString())
+                        .append("\n");
+            }
+        }
+        l_playMapString.append("--------------------\n");
+        Console.print(l_playMapString.toString());
     }
 
     /**

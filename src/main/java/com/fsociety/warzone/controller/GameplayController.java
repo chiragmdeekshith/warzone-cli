@@ -12,10 +12,8 @@ import com.fsociety.warzone.asset.phase.end.End;
 import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.view.Console;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * This class handles everything related to playing a game of Warzone.
@@ -79,15 +77,26 @@ public class GameplayController {
      * of truces modified when Diplomacy cards are played, and the committed and cardDrawn variables for each player.
      */
     private static void resetRound() {
+        List<Player> l_playersToRemove = new ArrayList<>();
         for (Player l_player : d_players) {
             if (l_player.isEliminated()) {
-                d_players.remove(l_player);
+                l_playersToRemove.add(l_player);
                 continue;
             }
             d_truces.put(l_player.getId(), new HashSet<>());
             l_player.resetCommitted();
             l_player.resetCardDrawn();
         }
+        for (Player l_player : l_playersToRemove) {
+            removePlayer(l_player);
+            Console.print(l_player.getName() + " was eliminated!");
+        }
+    }
+
+    private static void removePlayer(Player p_player) {
+        d_players.remove(p_player);
+        d_playerNameMap.remove(p_player.getName());
+        d_playerIdMap.remove(p_player.getId());
     }
 
     /**
@@ -180,4 +189,9 @@ public class GameplayController {
     public static String getPlayerNameFromId(Integer p_playerId) {
         return d_playerIdMap.get(p_playerId);
     }
+
+    public static Player getPlayerFromId(Integer p_playerId) {
+        return d_playerNameMap.get(d_playerIdMap.get(p_playerId));
+    }
+
 }

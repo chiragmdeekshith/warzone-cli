@@ -40,14 +40,6 @@ public abstract class AbstractMap {
     // Getters and Setters
 
     /**
-     * Get the name of the file loaded.
-     * @return the file name
-     */
-    public String getFileName() {
-        return d_fileName;
-    }
-
-    /**
      * Set the name of the file to be saved.
      * @param d_fileName the new file name
      */

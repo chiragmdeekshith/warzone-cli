@@ -68,9 +68,12 @@ public abstract class Attack implements Order {
             // If the enemy army is vanquished, move remaining troops to the conquered country
             // Otherwise, remaining troops return to the source country
             if (l_enemyTroops == 0) {
-                GameplayController.getPlayMap().updateCountry(d_targetCountryId, d_playerId, l_advancingTroops);
+                GameplayController.getPlayMap().conquerCountry(d_targetCountryId, d_playerId, l_advancingTroops);
                 l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " conquered " + d_targetCountryId + " and has stationed " + l_advancingTroops + " armies there.";
-                GameplayController.getPlayerNameMap().get(GameplayController.getPlayerNameFromId(d_playerId)).drawCard(); // Draw a card since the player conquered a country
+                String l_card = GameplayController.getPlayerFromId(d_playerId).drawCard(); // Draw a card since the player conquered a country
+                if (null != l_card) {
+                    l_outcome += "\n" + l_card;
+                }
             } else {
                 GameplayController.getPlayMap().updateCountry(d_targetCountryId, l_enemyTroops);
                 GameplayController.getPlayMap().updateCountry(d_sourceCountryId, GameplayController.getPlayMap().getCountryState(d_sourceCountryId).getArmies() + l_advancingTroops);
