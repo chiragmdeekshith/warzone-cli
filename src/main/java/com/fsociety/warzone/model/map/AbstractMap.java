@@ -13,14 +13,21 @@ import java.util.ArrayList;
  */
 public abstract class AbstractMap {
 
+    /**
+     * The name of the map file for printing
+     */
     protected String d_fileName;
-    // country id -> Set of ids of neighbours
+    /**
+     * The map of neighbouring countries: Country ID -> set of IDs of neighbours
+     */
     protected Map<Integer, Set<Integer>> d_neighbours;
-
-    // continent id -> Set of ids of countries
+    /**
+     * The sets of countries contained in a continent: Continent ID -> set of IDs of countries
+     */
     protected Map<Integer, Set<Integer>> d_countriesInContinent;
-
-    // continent id -> bonus for control of continent
+    /**
+     * The bonus values for each continent: Continent ID -> bonus value
+     */
     protected Map<Integer, Integer> d_continentBonuses;
 
     /**

@@ -49,6 +49,7 @@ public class IssueOrder {
     /**
      * This method prints the troops available per country for a player during gameplay. Since the map is only updated
      * after order execution, this allows players to see their troops on the map that they have not yet advanced.
+     * @param p_player the ID of the player who invoked this function
      */
     public static void showAvailableTroops(Player p_player) {
         StringBuilder l_output = new StringBuilder(p_player.getName() + "'s Available Armies: \n");

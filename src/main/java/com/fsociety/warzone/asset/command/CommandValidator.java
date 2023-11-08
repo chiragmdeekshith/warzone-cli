@@ -5,6 +5,9 @@ import com.fsociety.warzone.view.Console;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This Class implements command validation, where the validity of the input command and its arguments is checked.
+ */
 public class CommandValidator {
 
     private static final Map<String, Command> d_commands;
@@ -15,6 +18,12 @@ public class CommandValidator {
             d_commands.put(l_command.getCommand(), l_command);
         }
     }
+
+    /**
+     * This method takes an input command and verifies whether it and its arguments are valid.
+     * @param p_splitCommand the command and arguments as an array of Strings
+     * @return true if the command is valid, false otherwise
+     */
     public static boolean validateCommand(String[] p_splitCommand) {
         String l_commandName = p_splitCommand[0];
 

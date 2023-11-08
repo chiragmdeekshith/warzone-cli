@@ -12,6 +12,12 @@ public class Deploy implements Order {
     private final int d_countryId;
     private final int d_playerId;
 
+    /**
+     * Parameterised constructor to initialise a Deploy order.
+     * @param p_countryId the country to be deployed to
+     * @param p_troopsCount the number of troops to be deployed
+     * @param p_playerId the ID of the player issuing the order
+     */
     public Deploy(int p_countryId, int p_troopsCount, int p_playerId) {
         this.d_countryId = p_countryId;
         this.d_troopsCount = p_troopsCount;

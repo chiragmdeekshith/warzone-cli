@@ -87,6 +87,7 @@ public class Player {
 
     /**
      * This method removes and returns the first order from the player's list of orders if it exists.
+     * @return the first order on the player's list
      */
     public Order nextOrder() {
         if (!d_orders.isEmpty()) {
@@ -97,6 +98,7 @@ public class Player {
 
     /**
      * This method adds a card to the player's hand. It is called once per turn when they conquer a country.
+     * @return the String confirmation statement that a card was drawn, or null if the draw fails
      */
     public String drawCard() {
         if (!d_cardDrawn) {

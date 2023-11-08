@@ -16,10 +16,18 @@ public class HandOfCards {
     private final String d_playerName;
 
     private static final Random rand = new Random();
+
+    /**
+     * This enum contains the possible card types.
+     */
     public enum Card {
         BOMB, BLOCKADE, AIRLIFT, DIPLOMACY;
     }
 
+    /**
+     * Parameterised constructor to initialise HandOfCards.
+     * @param p_playerName the name of the player
+     */
     public HandOfCards(String p_playerName) {
         this.d_playerName = p_playerName;
         this.d_bombCards = 0;
@@ -30,6 +38,7 @@ public class HandOfCards {
 
     /**
      * This method draws one card of a random type and adds it to the player's hand.
+     * @return the String confirmation statement that a player drew a card
      */
     public String drawCards() {
         int l_choice = rand.nextInt(0,4);

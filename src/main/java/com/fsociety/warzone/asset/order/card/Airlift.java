@@ -12,6 +12,13 @@ public class Airlift extends Attack {
     private final int d_targetCountryId;
     private final int d_playerId;
 
+    /**
+     * Parameterised constructor to initialise an Airlift order.
+     * @param p_sourceCountryId the source country
+     * @param p_targetCountryId the target country
+     * @param p_troopsCount the number of troops to be moved
+     * @param p_playerId the ID of the player issuing the order
+     */
     public Airlift (int p_sourceCountryId, int p_targetCountryId, int p_troopsCount, int p_playerId) {
         super(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_playerId, false);
         this.d_playerId = p_playerId;

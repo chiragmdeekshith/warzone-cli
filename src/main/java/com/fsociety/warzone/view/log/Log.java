@@ -5,6 +5,9 @@ package com.fsociety.warzone.view.log;
  */
 public class Log {
 
+    /**
+     * The singleton instance of the LogEntryBuffer
+     */
     public static final LogEntryBuffer d_logEntryBuffer = LogEntryBuffer.getInstance();
 
     /**

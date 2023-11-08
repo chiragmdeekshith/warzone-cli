@@ -15,6 +15,7 @@ public class EditMap extends AbstractMap {
      *
      * @param p_continentId    the id of the continent to add
      * @param p_continentBonus the bonus for the control of the continent to add
+     * @return true if the continent is added, false otherwise
      */
     public boolean addContinent(int p_continentId, int p_continentBonus) {
         if (d_countriesInContinent.get(p_continentId) != null) {
@@ -30,6 +31,7 @@ public class EditMap extends AbstractMap {
      * Removes a continent from the map
      *
      * @param p_continentId the continent to remove
+     * @return true if the continent is removed, false otherwise
      */
     public boolean removeContinent(int p_continentId){
         if (d_countriesInContinent.get(p_continentId) == null) {
@@ -47,6 +49,7 @@ public class EditMap extends AbstractMap {
      *
      * @param p_countryId   the id of the country to add
      * @param p_continentId the id of the continent to add the country to
+     * @return true if the country is added, false otherwise
      */
     public boolean addCountry(int p_countryId, int p_continentId) {
         if (d_countriesInContinent.get(p_continentId) == null) {
@@ -66,6 +69,7 @@ public class EditMap extends AbstractMap {
      * Removes a country from the map.
      *
      * @param p_countryId   the country to remove
+     * @return true if the country is removed, false otherwise
      */
     public boolean removeCountry(int p_countryId){
         if (d_neighbours.get(p_countryId) == null) {
@@ -83,6 +87,7 @@ public class EditMap extends AbstractMap {
      *
      * @param p_countryId          the id of the country to add the neighbour to
      * @param p_neighbourCountryId the id of the neighbour to add
+     * @return true if the neighbour is added, false otherwise
      */
     public boolean addNeighbour(int p_countryId, int p_neighbourCountryId) {
         if (p_countryId == p_neighbourCountryId) {
@@ -107,6 +112,7 @@ public class EditMap extends AbstractMap {
      *
      * @param p_countryId          the id of the country to remove the neighbour
      * @param p_neighbourCountryId the id of the neighbour to remove
+     * @return true if the neighbour is removed, false otherwise
      */
     public boolean removeNeighbour(int p_countryId, int p_neighbourCountryId){
         if (p_countryId == p_neighbourCountryId) {

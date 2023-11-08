@@ -12,6 +12,11 @@ public class Diplomacy implements Order {
     private final int d_playerId;
     private final int d_enemyId;
 
+    /**
+     * Parameterised constructor to initialise a Diplomacy order.
+     * @param p_playerId the ID of the player issuing the order
+     * @param p_enemyId the ID of the player to be negotiated with
+     */
     public Diplomacy(int p_playerId, int p_enemyId) {
         this.d_playerId = p_playerId;
         this.d_enemyId = p_enemyId;

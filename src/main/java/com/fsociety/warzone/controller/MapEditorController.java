@@ -35,10 +35,19 @@ public class MapEditorController {
     }
 
     // Getters and setters
+
+    /**
+     * Get the map being edited.
+     * @return the map
+     */
     public static EditMap getEditMap() {
         return d_editMap;
     }
 
+    /**
+     * Set the map being edited.
+     * @param p_editMap the map to be edited
+     */
     public static void setEditMap(EditMap p_editMap) {
         d_editMap = p_editMap;
     }

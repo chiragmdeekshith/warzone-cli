@@ -11,6 +11,11 @@ public class Bomb implements Order {
     private final int d_targetCountryId;
     private final int d_playerId;
 
+    /**
+     * Parameterised constructor to initialise a Bomb order.
+     * @param p_targetCountryId the country to be bombed
+     * @param p_playerId the ID of the player issuing the order
+     */
     public Bomb (int p_targetCountryId, int p_playerId) {
         this.d_playerId = p_playerId;
         this.d_targetCountryId = p_targetCountryId;

@@ -23,7 +23,6 @@ public class GameplayController {
 
     private static ArrayList<Player> d_players;
     private static Map<String, Player> d_playerNameMap = new HashMap<>();
-
     private static Map<Integer, String> d_playerIdMap = new HashMap<>();
     private static PlayMap d_playMap;
     private static HashMap<Integer, HashSet<Integer>> d_truces;
@@ -186,30 +185,60 @@ public class GameplayController {
 
     // Getters and Setters
 
+    /**\
+     * Get the list of active players.
+     * @return the list of active players
+     */
     public static ArrayList<Player> getPlayers() {
         return d_players;
     }
 
+    /**
+     * Get the map of Player names to Player objects.
+     * @return the map of names to objects for Players
+     */
     public static Map<String, Player> getPlayerNameMap() {
         return d_playerNameMap;
     }
 
+    /**
+     * Get the map of the current game.
+     * @return the map
+     */
     public static PlayMap getPlayMap() {
         return d_playMap;
     }
 
+    /**
+     * Get the map of truces for the current game.
+     * @return the map of truces
+     */
     public static HashMap<Integer, HashSet<Integer>> getTruces() {
         return d_truces;
     }
 
+    /**
+     * Set the map for the current game.
+     * @param p_playMap the map to be set
+     */
     public static void setPlayMap(PlayMap p_playMap) {
         d_playMap = p_playMap;
     }
 
+    /**
+     * Get the name of the player given their ID.
+     * @param p_playerId the ID of the player
+     * @return the name of the player
+     */
     public static String getPlayerNameFromId(Integer p_playerId) {
         return d_playerIdMap.get(p_playerId);
     }
 
+    /**
+     * Get the player object given their ID.
+     * @param p_playerId the ID of the player
+     * @return the Player object
+     */
     public static Player getPlayerFromId(Integer p_playerId) {
         return d_playerNameMap.get(d_playerIdMap.get(p_playerId));
     }
