@@ -26,13 +26,19 @@ public class Deploy implements Order {
     @Override
     public void execute() {
         if (GameplayController.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId) {
-            int l_updatedTroopCount = d_troopsCount + GameplayController.getPlayMap().getCountryState(d_countryId).getArmies();
+            int l_updatedTroopCount = d_troopsCount +
+                    GameplayController.getPlayMap().getCountryState(d_countryId).getArmies();
             GameplayController.getPlayMap().conquerCountry(d_countryId, d_playerId, l_updatedTroopCount);
-            String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " deployed " + d_troopsCount + " reinforcements to " + d_countryId + ".";
+            String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " deployed " + d_troopsCount +
+                    " reinforcements to " + d_countryId + ".";
             Console.print(l_outcome,true);
         }
     }
 
+    /**
+     * This function returns the ID of the player who issued the order.
+     * @return The player ID
+     */
     @Override
     public int getIssuerId() {
         return this.d_playerId;

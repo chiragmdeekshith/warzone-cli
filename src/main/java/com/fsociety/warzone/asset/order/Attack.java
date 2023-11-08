@@ -12,12 +12,14 @@ public abstract class Attack implements Order {
     private final int d_sourceCountryId;
     private final int d_targetCountryId;
     private final int d_playerId;
+    private final boolean d_isAdvance;
 
-    public Attack(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount, int p_playerId) {
+    public Attack(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount, int p_playerId, boolean p_advance) {
         this.d_sourceCountryId = p_sourceCountryId;
         this.d_targetCountryId = p_targetCountryId;
         this.d_troopsCount = p_troopsCount;
         this.d_playerId = p_playerId;
+        this.d_isAdvance = p_advance;
     }
 
     /**
@@ -46,7 +48,11 @@ public abstract class Attack implements Order {
         // Otherwise, a battle takes place
         if (GameplayController.getPlayMap().getCountryState(d_targetCountryId).getPlayerId() == d_playerId) {
             GameplayController.getPlayMap().updateCountry(d_targetCountryId, GameplayController.getPlayMap().getCountryState(d_targetCountryId).getArmies() + l_advancingTroops);
-            l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " advanced " + l_advancingTroops + " from " + d_sourceCountryId + " to " + d_targetCountryId + ".";
+            if (d_isAdvance) {
+                l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " advanced " + l_advancingTroops + " from " + d_sourceCountryId + " to " + d_targetCountryId + ".";
+            } else {
+                l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " airlifted " + l_advancingTroops + " from " + d_sourceCountryId + " to " + d_targetCountryId + ".";
+            }
         } else {
             int l_enemyTroops = GameplayController.getPlayMap().getCountryState(d_targetCountryId).getArmies();
             int l_kills = 0; // Number of enemies killed
@@ -83,6 +89,10 @@ public abstract class Attack implements Order {
         Console.print(l_outcome,true);
     }
 
+    /**
+     * This function returns the ID of the player who issued the order.
+     * @return The player ID
+     */
     @Override
     public int getIssuerId() {
         return this.d_playerId;

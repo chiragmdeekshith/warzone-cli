@@ -19,7 +19,8 @@ public class Diplomacy implements Order {
 
     /**
      * This method implements the Diplomacy card as per the Warzone rules: players are added to each other's truce list,
-     * meaning they cannot attack each other until the end of the turn.
+     * meaning they cannot attack each other until the end of the turn. This takes effect only after the card is played,
+     * meaning the players can attach each other during the turn before it is played.
      */
     @Override
     public void execute() {
@@ -30,6 +31,10 @@ public class Diplomacy implements Order {
         Console.print(l_outcome,true);
     }
 
+    /**
+     * This function returns the ID of the player who issued the order.
+     * @return The player ID
+     */
     @Override
     public int getIssuerId() {
         return this.d_playerId;

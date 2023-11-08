@@ -19,19 +19,25 @@ public class Bomb implements Order {
     /**
      * This method implements the Bomb card as per the Warzone rules and updates the map accordingly: the player bombs
      * a neighbouring enemy country and destroys half of its armies.
-     * The Bomb command will go through as long as the target country does not belong to the attacking player and it
+     * The Bomb command will go through as long as the target country does not belong to the attacking player, and it
      * still borders a country belonging to the attacking player.
      */
     @Override
     public void execute() {
-        if (GameplayController.getPlayMap().isNeighbourOf(d_targetCountryId, d_playerId) && GameplayController.getPlayMap().getCountryState(d_targetCountryId).getPlayerId() != d_playerId) {
+        if (GameplayController.getPlayMap().isNeighbourOf(d_targetCountryId, d_playerId) &&
+                GameplayController.getPlayMap().getCountryState(d_targetCountryId).getPlayerId() != d_playerId) {
             int l_troopsCount = GameplayController.getPlayMap().getCountryState(d_targetCountryId).getArmies();
             GameplayController.getPlayMap().updateCountry(d_targetCountryId, l_troopsCount/2);
-            String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " bombed " + d_targetCountryId + " and destroyed " + (l_troopsCount - l_troopsCount/2) + " armies.";
+            String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " bombed " + d_targetCountryId +
+                    " and destroyed " + (l_troopsCount - l_troopsCount/2) + " armies.";
             Console.print(l_outcome,true);
         }
     }
 
+    /**
+     * This function returns the ID of the player who issued the order.
+     * @return The player ID
+     */
     @Override
     public int getIssuerId() {
         return this.d_playerId;
