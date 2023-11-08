@@ -56,7 +56,7 @@ public class HandOfCards {
     }
 
     /**
-     * This confirms whether the player has a card of type p_type in their hand. If so, the card is removed to be
+     * This method confirms whether the player has a card of type p_type in their hand. If so, the card is removed to be
      * played.
      *
      * @param p_type the desired card type
@@ -92,6 +92,9 @@ public class HandOfCards {
         return false;
     }
 
+    /**
+     * This method prints the cards in a players hand during the game.
+     */
     public void showCards() {
         String l_asString = d_playerName + "'s Cards:\n";
         l_asString += "Bomb Cards: " + d_bombCards + "\n";

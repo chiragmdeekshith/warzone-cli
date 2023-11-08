@@ -1,7 +1,7 @@
 package com.fsociety.warzone.asset.order;
 
 /**
- * This interface is to have a common function for all executable actions
+ * This interface is the foundation for all executable orders.
  */
 public interface Order {
 
@@ -10,6 +10,10 @@ public interface Order {
      */
     void execute();
 
+    /**
+     * This function returns the ID of the player who issued the order.
+     * @return The player ID
+     */
     int getIssuerId();
 
 }

@@ -11,7 +11,7 @@ public class GameEngine {
     private static Phase d_phase;
 
     /**
-     * This function starts the main menu for the game.
+     * This function starts the main menu for the game where most commands are gathered and sent to be processed.
      */
     public static void mainMenu() {
         Log.initLogEntryBuffer("src/main/resources/logs/" + System.currentTimeMillis() + ".log");
@@ -23,6 +23,7 @@ public class GameEngine {
         }
     }
 
+    // Getters and setters
     public static Phase getPhase() {
         return d_phase;
     }

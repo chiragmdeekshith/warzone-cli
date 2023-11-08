@@ -11,7 +11,7 @@ public class Advance extends Attack {
     private final int d_playerId;
 
     public Advance(int p_sourceCountryId, int p_targetCountryId, int p_troopsCount, int p_playerId) {
-        super(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_playerId);
+        super(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_playerId, true);
         this.d_sourceCountryId = p_sourceCountryId;
         this.d_targetCountryId = p_targetCountryId;
         this.d_troopsCount = p_troopsCount;

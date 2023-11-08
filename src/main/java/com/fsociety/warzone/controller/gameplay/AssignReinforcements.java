@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This class implements the assignReinforcements() method.
+ * This class implements the Assign Reinforcements phase of the gameplay, where reinforcements are calculated, and
+ * players then deploy their allotted reinforcements.
  */
 public class AssignReinforcements {
 
@@ -47,9 +48,9 @@ public class AssignReinforcements {
     }
 
     /**
-     * This method ensures that all Players have deployed their available reinforcements before proceeding to the
-     * attack phase. Each player is called to deploy in round-robin fashion unless they have no available
-     * reinforcements.
+     * This method ensures that all Players have deployed their available reinforcements. Each player is called to
+     * deploy in round-robin fashion unless they have no available reinforcements, and the order is added to their
+     * list of orders.
      *
      * @param p_players the list of players of the game
      */
@@ -74,9 +75,8 @@ public class AssignReinforcements {
     }
 
     /**
-     * This method ensures that all Players have deployed their available reinforcements before proceeding to the
-     * attack phase. Each player is called to deploy in round-robin fashion unless they have no available
-     * reinforcements.
+     * This method ensures that all Deploy orders are executed before proceeding to the attack phase. They are executed
+     * in round-robin fashion, the same order in which they were issued.
      *
      * @param p_players the list of players of the game
      */

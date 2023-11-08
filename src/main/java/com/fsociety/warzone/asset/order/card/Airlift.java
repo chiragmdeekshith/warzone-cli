@@ -13,7 +13,7 @@ public class Airlift extends Attack {
     private final int d_playerId;
 
     public Airlift (int p_sourceCountryId, int p_targetCountryId, int p_troopsCount, int p_playerId) {
-        super(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_playerId);
+        super(p_sourceCountryId, p_targetCountryId, p_troopsCount, p_playerId, false);
         this.d_playerId = p_playerId;
         this.d_sourceCountryId = p_sourceCountryId;
         this.d_targetCountryId = p_targetCountryId;

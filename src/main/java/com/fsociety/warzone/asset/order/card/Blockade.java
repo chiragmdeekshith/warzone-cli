@@ -24,7 +24,8 @@ public class Blockade implements Order {
      */
     @Override
     public void execute() {
-        if (GameplayController.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId && GameplayController.getPlayMap().getCountryState(d_countryId).getArmies() > 0) {
+        if (GameplayController.getPlayMap().getCountryState(d_countryId).getPlayerId() == d_playerId &&
+                GameplayController.getPlayMap().getCountryState(d_countryId).getArmies() > 0) {
             int l_troopsCount = GameplayController.getPlayMap().getCountryState(d_countryId).getArmies();
             GameplayController.getPlayMap().updateCountry(d_countryId, l_troopsCount * 3);
             String l_outcome = GameplayController.getPlayerNameFromId(d_playerId) + " blockaded " + d_countryId + ".";
@@ -32,6 +33,10 @@ public class Blockade implements Order {
         }
     }
 
+    /**
+     * This function returns the ID of the player who issued the order.
+     * @return The player ID
+     */
     @Override
     public int getIssuerId() {
         return this.d_playerId;

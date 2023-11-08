@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class implements the issueOrders() method.
+ * This class implements the Issue Orders phase of the gameplay, players are prompted to issue orders.
  */
 public class IssueOrder {
 
@@ -21,8 +21,6 @@ public class IssueOrder {
      * their orders. If a player has committed their orders, they are skipped.
      *
      * @param p_players the list of players of the game
-     * @return returns false if a player enters the 'back' command within the issueOrder() method of the Player class.
-     *         This causes the game to return to the main menu.
      */
     public static void issueOrders(ArrayList<Player> p_players) {
 
@@ -48,6 +46,10 @@ public class IssueOrder {
         }
     }
 
+    /**
+     * This method prints the troops available per country for a player during gameplay. Since the map is only updated
+     * after order execution, this allows players to see their troops on the map that they have not yet advanced.
+     */
     public static void showAvailableTroops(Player p_player) {
         StringBuilder l_output = new StringBuilder(p_player.getName() + "'s Available Armies: \n");
         for (int l_countryId : p_player.getCountryIds()) {
@@ -60,10 +62,18 @@ public class IssueOrder {
         Console.print(l_output.toString());
     }
 
+    /**
+     * This method returns the Player object of the player whose turn it is.
+     * @return The player whose turn it is
+     */
     public static Player getCurrentPlayer() {
         return d_currentPlayer;
     }
 
+    /**
+     * This method allows the reference to the player whose turn it is to be updated as the turn progresses.
+     * @param p_player The player whose turn it is
+     */
     public static void setCurrentPlayer(Player p_player) {
         d_currentPlayer = p_player;
     }

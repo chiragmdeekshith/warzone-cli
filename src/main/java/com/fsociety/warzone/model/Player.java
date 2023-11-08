@@ -10,7 +10,7 @@ import com.fsociety.warzone.util.IdGenerator;
 import java.util.ArrayList;
 
 /**
- * This class represents a Player object and handles issuing orders for the player.
+ * This class represents a Player object.
  */
 public class Player {
 
@@ -26,7 +26,7 @@ public class Player {
 
 
     /**
-     * Parameterised constructor to initialise the object.
+     * Parameterised constructor to initialise the Player object.
      *
      * @param p_player_name - The name of the player
      */
@@ -48,6 +48,11 @@ public class Player {
         this.d_countries.add(p_country);
     }
 
+    /**
+     * Remove a country from the list countries owned by player.
+     *
+     * @param p_countryId - the ID of the country object to be removed
+     */
     public void removeCountry(int p_countryId) {
         this.d_countries.remove(GameplayController.getPlayMap().getCountries().get(p_countryId));
     }
@@ -66,7 +71,7 @@ public class Player {
     }
 
     /**
-     * Creates and adds an object of type IOrder to the player's list of orders during the Issue Orders phase of
+     * Creates and adds an object of type Order to the player's list of orders during the Issue Orders phase of
      * gameplay.
      */
     public void issueOrder() {
@@ -81,8 +86,7 @@ public class Player {
     }
 
     /**
-     * This method removes the first order from the player's list of orders and executes the order by calling its
-     * execute() method.
+     * This method removes and returns the first order from the player's list of orders if it exists.
      */
     public Order nextOrder() {
         if (!d_orders.isEmpty()) {
@@ -102,10 +106,19 @@ public class Player {
         return null;
     }
 
+    /**
+     * This method is called when a player commits their orders during the Issue Orders phase. This means they can no
+     * longer issue orders for the given turn.
+     */
     public void commit() {
         d_committed = true;
     }
 
+    /**
+     * This method validates whether a players list of countries is empty, meaning they have been defeated and should
+     * be removed from the game.
+     * @return whether the player's list of countries is empty
+     */
     public boolean isEliminated() {
         return d_countries.isEmpty();
     }
@@ -127,18 +140,23 @@ public class Player {
     }
 
     /**
-     * This method resets the truth value of the committed boolean to false at the end of each turn.
+     * This method resets the truth value of the d_committed boolean to false at the end of each turn. This ensures the
+     * player can issue orders again next turn.
      */
     public void resetCommitted() { d_committed = false; }
 
     /**
-     * This method resets the cardDrawn boolean to false at the end of each turn. This ensures the player can draw a
+     * This method resets the d_cardDrawn boolean to false at the end of each turn. This ensures the player can draw a
      * card again next turn.
      */
     public void resetCardDrawn() {
         d_cardDrawn = false;
     }
 
+    /**
+     * This method sets the d_orderIssued boolean to true when the player successfully issues an order. This ensures
+     * that their turn is not skipped if they enter an invalid or non-order command.
+     */
     public void setOrderIssued() {
         d_orderIssued = true;
     }
@@ -187,6 +205,10 @@ public class Player {
      */
     public int getCountriesCount() { return this.d_countries.size(); }
 
+    /**
+     * This method returns the player's hand of cards
+     * @return the player's hand of cards
+     */
     public HandOfCards getHandOfCards() {
         return d_handOfCards;
     }
