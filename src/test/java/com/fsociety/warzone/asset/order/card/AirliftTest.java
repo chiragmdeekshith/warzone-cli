@@ -1,4 +1,4 @@
-package com.fsociety.warzone.asset.order;
+package com.fsociety.warzone.asset.order.card;
 
 import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
@@ -19,9 +19,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for the Advance order.
+ * Tests for the Airlift order.
  */
-class AdvanceTest {
+class AirliftTest {
 
     Player d_player1, d_player2;
     PlayMap d_playMap;
@@ -72,6 +72,10 @@ class AdvanceTest {
             });
             l_player.setAvailableReinforcements(l_reinforcements.get());
         }
+
+        // Ensure the player has an Airlift card
+        d_player1.getHandOfCards().drawSpecificCard(HandOfCards.Card.AIRLIFT);
+
     }
 
     /**
@@ -87,17 +91,16 @@ class AdvanceTest {
         for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
             IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
         }
-        l_attack.advance(1, 2, 1);
+        l_attack.airlift(1, 2, 1);
         IssueOrder.setCurrentPlayer(d_player2);
-        l_attack.advance(1, 3,1); // Player does not own country
-        l_attack.advance(4, 3,1); // Countries are not neighbours
-        l_attack.advance(5, 6,1); // Countries do not exist
+        l_attack.airlift(1, 3,1); // Player does not own country
+        l_attack.airlift(5, 6,1); // Countries do not exist
         assertNotNull(d_player1.nextOrder());
         assertNull(d_player2.nextOrder());
     }
 
     /**
-     * Test for conquering a country via Advance.
+     * Test for conquering a country via Airlift.
      */
     @Test
     void conquerCountryTest() {
@@ -108,14 +111,14 @@ class AdvanceTest {
         for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
             IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
         }
-        l_attack.advance(2, 4, 5);
+        l_attack.airlift(2, 4, 5);
         assertEquals(d_player2, d_playMap.getCountryState(4).getPlayer());
         d_player1.nextOrder().execute();
         assertEquals(d_player1, d_playMap.getCountryState(4).getPlayer());
     }
 
     /**
-     * Test for settling a conquered country via Advance.
+     * Test for moving troops to a conquered country after an Airlift.
      */
     @Test
     void settleConqueredCountryTest() {
@@ -126,13 +129,13 @@ class AdvanceTest {
         for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
             IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
         }
-        l_attack.advance(2, 4, 5);
+        l_attack.airlift(2, 4, 5);
         d_player1.nextOrder().execute();
         assertEquals(5, d_playMap.getCountryState(4).getArmies());
     }
 
     /**
-     * Test for conquering the map via Advance and winning the game.
+     * Test for conquering the map via an Airlift order.
      */
     @Test
     void gameWonTest() {
@@ -143,10 +146,29 @@ class AdvanceTest {
         for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
             IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
         }
-        l_attack.advance(2, 4, 5);
+        l_attack.airlift(2, 4, 5);
         d_player1.nextOrder().execute();
         assertTrue(GameplayController.checkWinCondition());
     }
 
+    /**
+     * Test to make sure the issuing player has the Airlift card.
+     */
+    @Test
+    void hasAirliftCardTest() {
+        Phase l_attack = new Attack();
+        IssueOrder.d_availableTroopsOnMap = new HashMap<>();
+        d_playMap.updateCountry(4, 5);
+        d_playMap.updateCountry(2, 5);
+        for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
+            IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
+        }
+        IssueOrder.setCurrentPlayer(d_player2);
+        l_attack.airlift(4, 1, 1);
+        assertNull(d_player2.nextOrder());
+        IssueOrder.setCurrentPlayer(d_player1);
+        l_attack.airlift(2, 1, 1);
+        assertNotNull(d_player1.nextOrder());
+    }
 
 }

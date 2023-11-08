@@ -1,25 +1,27 @@
-package com.fsociety.warzone.asset.order;
+package com.fsociety.warzone.asset.order.card;
 
 import com.fsociety.warzone.asset.phase.Phase;
-import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
+import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.model.Continent;
+import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.Player;
 import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.util.MapTools;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for the Deploy order.
+ * Tests for the Blockade order.
  */
-class DeployTest {
+class BlockadeTest {
 
     Player d_player1, d_player2;
     PlayMap d_playMap;
@@ -70,6 +72,10 @@ class DeployTest {
             });
             l_player.setAvailableReinforcements(l_reinforcements.get());
         }
+
+        // Ensure the player has a Blockade card
+        d_player1.getHandOfCards().drawSpecificCard(HandOfCards.Card.BLOCKADE);
+
     }
 
     /**
@@ -77,43 +83,57 @@ class DeployTest {
      */
     @Test
     void countryValidationTest() {
-        Phase l_reinforcement = new Reinforcement();
+        Phase l_attack = new Attack();
+        d_playMap.updateCountry(1, 5);
+        IssueOrder.d_availableTroopsOnMap = new HashMap<>();
+        for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
+            IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
+        }
         IssueOrder.setCurrentPlayer(d_player1);
-        l_reinforcement.deploy(1, 1);
-        IssueOrder.setCurrentPlayer(d_player2);
-        l_reinforcement.deploy(1, 1);
+        l_attack.blockade(1);
         assertNotNull(d_player1.nextOrder());
+        IssueOrder.setCurrentPlayer(d_player2);
+        d_player2.getHandOfCards().drawSpecificCard(HandOfCards.Card.BLOCKADE);
+        l_attack.blockade(1); // Player does not own country
+        l_attack.blockade(5); // Country does not exist
         assertNull(d_player2.nextOrder());
     }
 
     /**
-     * Ensures that a player cannot deploy more reinforcement armies than they currently hold.
+     * Test to ensure the blockade has the desired effect.
      */
     @Test
-    void issueDeployCommand() {
-        Phase l_reinforcement = new Reinforcement();
+    void blockadeEffectTest() {
+        Phase l_attack = new Attack();
         IssueOrder.setCurrentPlayer(d_player1);
-        l_reinforcement.deploy(1, 10);
-        IssueOrder.setCurrentPlayer(d_player2);
-        l_reinforcement.deploy(4, 10);
-        assertNull(d_player1.nextOrder());
-        assertNull(d_player2.nextOrder());
-    }
-
-    /**
-     * Ensures that the Deploy command accurately affects the number of troops on the map.
-     */
-    @Test
-    void nextOrder() {
-        Phase l_reinforcement = new Reinforcement();
-        IssueOrder.setCurrentPlayer(d_player1);
-        l_reinforcement.deploy(1, 2);
-        IssueOrder.setCurrentPlayer(d_player2);
-        l_reinforcement.deploy(4, 5);
+        d_playMap.updateCountry(1, 5);
+        IssueOrder.d_availableTroopsOnMap = new HashMap<>();
+        for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
+            IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
+        }
+        l_attack.blockade(1);
         d_player1.nextOrder().execute();
-        d_player2.nextOrder().execute();
-        assertEquals(2, d_playMap.getCountryState(1).getArmies());
-        assertEquals(5, d_playMap.getCountryState(4).getArmies());
+        assertEquals(d_playMap.getCountryState(1).getArmies(), 15);
+    }
+
+    /**
+     * Test to make sure the issuing player has the Blockade card.
+     */
+    @Test
+    void hasBlockadeCardTest() {
+        Phase l_attack = new Attack();
+        IssueOrder.d_availableTroopsOnMap = new HashMap<>();
+        d_playMap.updateCountry(4, 5);
+        d_playMap.updateCountry(1, 5);
+        for (Country l_country : GameplayController.getPlayMap().getCountries().values()) {
+            IssueOrder.d_availableTroopsOnMap.put(l_country.getCountryId(), l_country.getArmies());
+        }
+        IssueOrder.setCurrentPlayer(d_player2);
+        l_attack.blockade(4);
+        assertNull(d_player2.nextOrder());
+        IssueOrder.setCurrentPlayer(d_player1);
+        l_attack.blockade(1);
+        assertNotNull(d_player1.nextOrder());
     }
 
 }
