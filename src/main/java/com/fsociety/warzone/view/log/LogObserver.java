@@ -9,6 +9,10 @@ import java.io.IOException;
  * The LogObserver class writes log entries to a file.
  */
 public class LogObserver implements Observer {
+
+    /**
+     * The file writer object
+     */
     private final FileWriter d_fileWriter;
 
     /**
