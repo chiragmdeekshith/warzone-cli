@@ -9,12 +9,12 @@ import java.util.Observable;
  */
 public class LogEntryBuffer extends Observable {
 
-    /*
+    /**
      * The singleton instance of the LogEntryBuffer.
      */
     private static LogEntryBuffer d_instance;
 
-    /*
+    /**
      * The list of log entries to be written to the log file.
      */
     private static List<LogEntry> d_logEntries = new ArrayList<>();
@@ -57,6 +57,13 @@ public class LogEntryBuffer extends Observable {
             setChanged();
             notifyObservers(logEntry);
         });
+        d_logEntries.clear();
+    }
+
+    /**
+     * Clear the log buffer
+     */
+    public static void clearBuffer() {
         d_logEntries.clear();
     }
 }
