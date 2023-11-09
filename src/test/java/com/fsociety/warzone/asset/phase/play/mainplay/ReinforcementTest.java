@@ -1,16 +1,15 @@
-package com.fsociety.warzone.asset.phase.play.playsetup;
+package com.fsociety.warzone.asset.phase.play.mainplay;
 
 import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.phase.Menu;
 import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.asset.phase.edit.EditPreLoad;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayPostLoadTest {
+class ReinforcementTest {
 
     /**
      * The Phase object used for testing
@@ -22,7 +21,7 @@ class PlayPostLoadTest {
      */
     @BeforeEach
     void setUp() {
-        d_phase = new PlayPostLoad();
+        d_phase = new Reinforcement();
         GameEngine.setPhase(d_phase);
     }
 
