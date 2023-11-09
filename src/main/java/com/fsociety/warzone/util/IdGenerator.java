@@ -1,7 +1,6 @@
 package com.fsociety.warzone.util;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * This class is used for generating IDs

@@ -1,34 +1,39 @@
 package com.fsociety.warzone.util;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * The Test class for MapTools
- * {@link MapTools#loadAndValidateMap(String)}
+ * {@link MapTools#loadAndValidateEditableMap(String)}
  */
 class MapToolsTest {
-
-    public String informationMissing;
-    public String continentWithNoCountry;
-    public String countryWithNoNeighbour;
-    public String duplicateNeighbours;
-    public String continentNotConnected;
-    public String validMap;
+    /**
+     * Map file names
+     */
+    public static String d_informationMissing;
+    public static String d_continentWithNoCountry;
+    public static String d_countryWithNoNeighbour;
+    public static String d_duplicateNeighbours;
+    public static String d_continentNotConnected;
+    public static String d_mapNotConnected;
+    public static String d_validMap;
 
     /**
-     * Setting up mack maps for testing
+     * Setting up mock maps for testing
      */
-    @BeforeEach
-    void setUp() {
-        informationMissing = "informationMissing.map";
-        continentWithNoCountry = "continentWithNoCountry.map";
-        countryWithNoNeighbour = "countryWithNoNeighbour.map";
-        duplicateNeighbours = "duplicateNeighbours.map";
-        continentNotConnected = "continentNotConnected.map";
-        validMap = "validMap.map";
+    @BeforeAll
+    static void setUp() {
+        d_informationMissing = "informationMissing.map";
+        d_continentWithNoCountry = "continentWithNoCountry.map";
+        d_countryWithNoNeighbour = "countryWithNoNeighbour.map";
+        d_duplicateNeighbours = "duplicateNeighbours.map";
+        d_continentNotConnected = "continentNotConnected.map";
+        d_mapNotConnected = "mapNotConnected.map";
+        d_validMap = "validMap.map";
     }
 
     /**
@@ -37,7 +42,7 @@ class MapToolsTest {
     @Test
     void testInformationMissing() {
         System.out.println("Test Case 1: Missing Information");
-        assertNull(MapTools.loadAndValidateMap(informationMissing));
+        assertNull(MapTools.loadAndValidateEditableMap(d_informationMissing));
     }
 
     /**
@@ -46,7 +51,7 @@ class MapToolsTest {
     @Test
     void testContinentWithNoCountry() {
         System.out.println("Test Case 2: Continent With No Country");
-        assertNull(MapTools.loadAndValidateMap(continentWithNoCountry));
+        assertNull(MapTools.loadAndValidateEditableMap(d_continentWithNoCountry));
     }
 
     /**
@@ -55,7 +60,7 @@ class MapToolsTest {
     @Test
     void testCountryWithNoNeighbour() {
         System.out.println("Test Case 3: Country With No Neighbour");
-        assertNull(MapTools.loadAndValidateMap(countryWithNoNeighbour));
+        assertNull(MapTools.loadAndValidateEditableMap(d_countryWithNoNeighbour));
     }
 
     /**
@@ -64,7 +69,7 @@ class MapToolsTest {
     @Test
     void testDuplicateNeighbours() {
         System.out.println("Test Case 4: Duplicate Neighbours");
-        assertNull(MapTools.loadAndValidateMap(duplicateNeighbours));
+        assertNull(MapTools.loadAndValidateEditableMap(d_duplicateNeighbours));
     }
 
     /**
@@ -72,8 +77,17 @@ class MapToolsTest {
      */
     @Test
     void testContinentNotConnected() {
-        System.out.println("Test Case 6: Continent Not Connected");
-        assertNull(MapTools.loadAndValidateMap("continentNotConnected.map"));
+        System.out.println("Test Case 5: Continent Not Connected");
+        assertNull(MapTools.loadAndValidateEditableMap(d_continentNotConnected));
+    }
+
+    /**
+     * Test for Map not connected
+     */
+    @Test
+    void testMapNotConnected() {
+        System.out.println("Test Case 6: Map Not Connected");
+        assertNull(MapTools.loadAndValidateEditableMap(d_mapNotConnected));
     }
 
     /**
@@ -81,7 +95,8 @@ class MapToolsTest {
      */
     @Test
     void testValidMap() {
-        System.out.println("Test Case 5: Valid Map");
-        assertNotNull(MapTools.loadAndValidateMap(validMap));
+        System.out.println("Test Case 7: Valid Map");
+        assertNotNull(MapTools.loadAndValidateEditableMap(d_validMap));
     }
+
 }
