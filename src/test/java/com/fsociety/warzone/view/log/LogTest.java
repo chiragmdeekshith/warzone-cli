@@ -57,5 +57,6 @@ class LogTest {
         } catch (IOException e) {
             fail();
         }
+
     }
 }
