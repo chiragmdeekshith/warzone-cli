@@ -4,6 +4,10 @@ package com.fsociety.warzone.view.log;
  * The LogEntry class represents individual log entries with a message.
  */
 public class LogEntry {
+
+    /**
+     * Message string
+     */
     private final String d_message;
 
     /**
