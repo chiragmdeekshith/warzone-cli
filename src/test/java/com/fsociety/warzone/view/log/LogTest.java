@@ -17,7 +17,7 @@ class LogTest {
     /**
      * Common file name for reading and writing for tests
      */
-    String d_file = "src/test/resources/logs/log.txt";
+    String d_file = "src/test/resources/logs/test.log";
 
     /**
      * Ensure that an exception is thrown if the file name is null
@@ -32,10 +32,13 @@ class LogTest {
      */
     @Test
     void testLog_successfulFileWrite() {
+        LogEntryBuffer.clearBuffer();
+
         String l_log1 = "Test log 1";
         String l_log2 = "Test log 2";
 
         Log.initLogEntryBuffer(d_file);
+
         Log.log(l_log1);
         Log.log(l_log2);
         Log.flushToFile();

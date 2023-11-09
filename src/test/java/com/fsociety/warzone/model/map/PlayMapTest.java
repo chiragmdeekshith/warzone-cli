@@ -63,7 +63,7 @@ class PlayMapTest {
     @Test
     void testUpdateCountry() {
         d_playMap.updateCountry(1, d_player1.getId(), 5);
-        assertEquals(1, d_playMap.getCountries().get(1).getPlayerId());
+        assertEquals(d_player1.getId(), d_playMap.getCountries().get(1).getPlayerId());
         d_playMap.updateCountry(1,10);
         assertEquals(10, d_playMap.getCountries().get(1).getArmies());
     }
