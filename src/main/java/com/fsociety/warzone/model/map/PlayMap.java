@@ -3,7 +3,7 @@ package com.fsociety.warzone.model.map;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.view.Console;
 
 import java.util.*;

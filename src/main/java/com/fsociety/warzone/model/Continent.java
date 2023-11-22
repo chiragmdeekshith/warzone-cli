@@ -1,5 +1,7 @@
 package com.fsociety.warzone.model;
 
+import com.fsociety.warzone.model.player.Player;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;

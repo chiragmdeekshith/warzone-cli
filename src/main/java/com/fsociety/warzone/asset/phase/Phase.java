@@ -54,7 +54,7 @@ public abstract class Phase {
      * @param p_gamePlayersToAdd the players to be added
      * @param p_gamePlayersToRemove the players to be removed
      */
-    public abstract void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove);
+    public abstract void gamePlayer(Map<String, String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove);
 
     /**
      * This method assigns countries to players and starts a new game.

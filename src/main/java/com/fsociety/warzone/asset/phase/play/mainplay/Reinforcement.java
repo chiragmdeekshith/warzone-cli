@@ -4,7 +4,7 @@ import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.asset.order.Deploy;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.view.Console;
 
 /**

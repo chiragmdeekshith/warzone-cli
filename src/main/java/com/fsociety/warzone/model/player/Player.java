@@ -1,10 +1,11 @@
-package com.fsociety.warzone.model;
+package com.fsociety.warzone.model.player;
 
-import com.fsociety.warzone.asset.command.CommandProcessor;
 import com.fsociety.warzone.asset.order.Order;
 import com.fsociety.warzone.asset.order.card.HandOfCards;
 import com.fsociety.warzone.controller.GameplayController;
-import com.fsociety.warzone.view.Console;
+import com.fsociety.warzone.model.Country;
+import com.fsociety.warzone.model.player.strategy.Human;
+import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.util.IdGenerator;
 
 import java.util.ArrayList;
@@ -23,20 +24,38 @@ public class Player {
     private boolean d_cardDrawn;
     private boolean d_committed;
     private boolean d_orderIssued;
+    private Strategy d_playerStrategy;
 
 
     /**
-     * Parameterised constructor to initialise the Player object.
+     * Parameterised constructor to initialise the Player object with default Human player strategy.
      *
      * @param p_player_name - The name of the player
      */
     public Player(String p_player_name) {
+        this.d_name = p_player_name;
+        this.d_orders = new ArrayList<>();
+        this.d_countries = new ArrayList<>();
+        this.d_availableReinforcements = 0;
+        this.d_handOfCards = new HandOfCards(this.d_name);
+        this.d_id = IdGenerator.generateId();
+        this.d_playerStrategy = new Human();
+    }
+
+    /**
+     * Parameterised constructor to initialise the Player object along with strategy.
+     *
+     * @param p_player_name - The name of the player
+     * @param p_playerStrategy - The type of Player - either human, or AI / Computer
+     */
+    public Player(String p_player_name, Strategy p_playerStrategy) {
          this.d_name = p_player_name;
          this.d_orders = new ArrayList<>();
          this.d_countries = new ArrayList<>();
          this.d_availableReinforcements = 0;
          this.d_handOfCards = new HandOfCards(this.d_name);
          this.d_id = IdGenerator.generateId();
+         this.d_playerStrategy = p_playerStrategy;
     }
 
     /**
@@ -76,8 +95,7 @@ public class Player {
      */
     public void issueOrder() {
         while (true) {
-            String l_command = Console.commandPrompt();
-            CommandProcessor.processCommand(l_command);
+            d_playerStrategy.issueOrder(d_name);
             if(d_orderIssued) {
                 d_orderIssued = false;
                 return;
@@ -215,4 +233,19 @@ public class Player {
         return d_handOfCards;
     }
 
+    /**
+     * Retrieves the current strategy of the player
+     * @return The player strategy class
+     */
+    public Strategy getPlayerStrategy() {
+        return d_playerStrategy;
+    }
+
+    /**
+     * Updates or sets a strategy for a player
+     * @param d_playerStrategy The new strategy for this player
+     */
+    public void setPlayerStrategy(Strategy d_playerStrategy) {
+        this.d_playerStrategy = d_playerStrategy;
+    }
 }

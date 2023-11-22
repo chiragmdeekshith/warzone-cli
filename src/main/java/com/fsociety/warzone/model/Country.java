@@ -1,6 +1,8 @@
 package com.fsociety.warzone.model;
 
 
+import com.fsociety.warzone.model.player.Player;
+
 /**
  * A POJO class which represents the Country in a map.
  */

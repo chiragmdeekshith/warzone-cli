@@ -40,4 +40,13 @@ public class Console {
         return SCANNER.nextLine();
     }
 
+    /**
+     * This method prompts a user along with the player name for input and returns their input.
+     * @return the user's input
+     */
+    public static String commandPromptPlayer(String p_playerName) {
+        System.out.print("Please enter a command.\n" + p_playerName + "> ");
+        return SCANNER.nextLine();
+    }
+
 }
