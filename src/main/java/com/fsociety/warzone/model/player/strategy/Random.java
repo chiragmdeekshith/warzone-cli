@@ -27,6 +27,9 @@ public class Random implements Strategy {
      */
     private Map<Country, Country> d_advanceOrders;
 
+    /**
+     * Default constructor for the class
+     */
     public Random() {
         d_isFirstAdvanceOfTurn = true;
         d_advanceOrders = new HashMap<>();
