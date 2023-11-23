@@ -218,7 +218,7 @@ public class PlayMap extends AbstractMap {
      * @param p_country the country for which allied neighbours need to be found
      * @return a list of allied neighbouring countries
      */
-    public List<Country> getListOfAllyNeighbours(Country p_country) {
+    public List<Country> getListOfAlliedNeighbours(Country p_country) {
         int l_playerId = p_country.getPlayerId();
         Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
         List<Country> l_allyNeighbourCountries = new ArrayList<>();

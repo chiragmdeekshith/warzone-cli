@@ -114,6 +114,7 @@ public class Aggressive implements Strategy {
 
         // If there are no more orders, issue the commit command
         if(d_advanceOrdersForAggregation.isEmpty()) {
+            d_advanceOrdersForAggregation = new HashMap<>();
             d_isFirstAttackOfTurn = true;
             p_currentPhase.commit();
             return;
@@ -137,7 +138,7 @@ public class Aggressive implements Strategy {
         List<Country> l_neighbours = GameplayController.getPlayMap().getListOfEnemyNeighbours(p_countryToAdvanceFrom);
         // Moves all the troops from the current country into a random allied neighbour because it has no enemy neighbour.
         if(l_neighbours.isEmpty()) {
-            l_neighbours = GameplayController.getPlayMap().getListOfAllyNeighbours(p_countryToAdvanceFrom);
+            l_neighbours = GameplayController.getPlayMap().getListOfAlliedNeighbours(p_countryToAdvanceFrom);
             l_isAttackingAnEnemy = false;
         }
         Country l_countryToAdvanceOn = chooseCountryToAdvanceAggressively(l_neighbours);
@@ -154,7 +155,7 @@ public class Aggressive implements Strategy {
                 .filter(l_playerCountry -> l_playerCountry.getArmies() > 0)
                 .forEach(l_playerCountry -> {
                     // Fetch all neighbours of this country
-                    List<Country> l_alliedNeighbours = GameplayController.getPlayMap().getListOfAllyNeighbours(l_playerCountry);
+                    List<Country> l_alliedNeighbours = GameplayController.getPlayMap().getListOfAlliedNeighbours(l_playerCountry);
                     // Find out the country with the maximum number of troops among neighbours.
                     Country l_allyWithLargestArmy = l_playerCountry;
                     for(Country l_alliedNeighbour : l_alliedNeighbours) {
