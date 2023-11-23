@@ -23,7 +23,7 @@ public class Benevolent implements Strategy {
     private boolean d_isFirstAdvanceOfTurn;
 
     /**
-     * This map is used for executing advance orders in order to centralize and aggregate troops.
+     * This map is used for executing advance orders in order to reinforce weaker countries.
      */
     private Map<Country, Country> d_advanceOrdersForProtection;
 
@@ -64,7 +64,7 @@ public class Benevolent implements Strategy {
         }
         // Attack in case the game is in the Attack phase
         if (l_currentPhase instanceof Attack) {
-            issueAdvanceOrder(l_currentPhase, l_countryWithMinimumTroops, l_playerCountries);
+            issueAdvanceOrder(l_currentPhase, l_playerCountries);
         }
     }
 
@@ -85,15 +85,13 @@ public class Benevolent implements Strategy {
     /**
      * Issue an Advance order. This is a sub-function for issueOrder.
      * @param p_currentPhase the current phase of the game
-     * @param p_countryToAdvanceFrom the country from which an attack needs to take place
      * @param p_playerCountries The list of countries owned by the player
      */
-    private void issueAdvanceOrder(Phase p_currentPhase, Country p_countryToAdvanceFrom, List<Country> p_playerCountries) {
+    private void issueAdvanceOrder(Phase p_currentPhase, List<Country> p_playerCountries) {
         // Perform the first attack and populate next advance orders
         if(d_isFirstAdvanceOfTurn) {
             createOrdersForProtection(p_playerCountries);
             d_isFirstAdvanceOfTurn = false;
-            return;
         }
 
         // If there are no more orders, issue the commit command

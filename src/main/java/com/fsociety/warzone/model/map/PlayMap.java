@@ -230,4 +230,18 @@ public class PlayMap extends AbstractMap {
         });
         return l_allyNeighbourCountries;
     }
+
+    /**
+     * Get the list all neighbour countries. Enemy or Ally.
+     * @param p_country The country for which the neighbours are to be returned
+     * @return the list of all neighbour countries
+     */
+    public List<Country> getListOfAllNeighbours(Country p_country) {
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_neighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            l_neighbourCountries.add(d_countries.get(l_neighbourId));
+        });
+        return l_neighbourCountries;
+    }
 }

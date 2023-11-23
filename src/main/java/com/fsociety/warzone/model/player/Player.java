@@ -7,6 +7,7 @@ import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.strategy.Human;
 import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.util.IdGenerator;
+import com.fsociety.warzone.view.Console;
 
 import java.util.ArrayList;
 
@@ -132,6 +133,7 @@ public class Player {
      */
     public void commit() {
         d_committed = true;
+        Console.print(d_name + " has committed.", true);
     }
 
     /**
