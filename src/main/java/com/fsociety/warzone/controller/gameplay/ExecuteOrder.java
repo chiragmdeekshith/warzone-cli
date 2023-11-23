@@ -47,6 +47,11 @@ public class ExecuteOrder {
                 }
             }
         }
+
+        // For the cheater edge case
+        if (GameplayController.checkWinCondition()) {
+            GameplayController.setGameWon();
+        }
     }
 
 }
