@@ -3,7 +3,7 @@ package com.fsociety.warzone.model.map;
 import java.util.Map;
 
 import com.fsociety.warzone.controller.GameplayController;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 
 import com.fsociety.warzone.util.MapTools;
 import org.junit.jupiter.api.BeforeEach;

@@ -3,7 +3,7 @@ package com.fsociety.warzone.controller;
 import com.fsociety.warzone.controller.gameplay.ExecuteOrder;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.controller.gameplay.AssignReinforcements;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.map.PlayMap;
 
 import com.fsociety.warzone.GameEngine;
