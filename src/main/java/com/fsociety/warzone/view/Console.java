@@ -42,6 +42,7 @@ public class Console {
 
     /**
      * This method prompts a user along with the player name for input and returns their input.
+     * @param p_playerName The name of the player being prompted for.
      * @return the user's input
      */
     public static String commandPromptPlayer(String p_playerName) {
