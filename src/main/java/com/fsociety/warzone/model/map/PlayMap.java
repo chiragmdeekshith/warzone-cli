@@ -212,4 +212,22 @@ public class PlayMap extends AbstractMap {
         });
         return l_enemyNeighbourCountries;
     }
+
+    /**
+     * Retrieves a list of countries that can be used for moving troops into
+     * @param p_country the country for which allied neighbours need to be found
+     * @return a list of allied neighbouring countries
+     */
+    public List<Country> getListOfAllyNeighbours(Country p_country) {
+        int l_playerId = p_country.getPlayerId();
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_allyNeighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            Country l_enemyNeighbourCountry = d_countries.get(l_neighbourId);
+            if(l_enemyNeighbourCountry.getPlayerId() == l_playerId) {
+                l_allyNeighbourCountries.add(l_enemyNeighbourCountry);
+            }
+        });
+        return l_allyNeighbourCountries;
+    }
 }

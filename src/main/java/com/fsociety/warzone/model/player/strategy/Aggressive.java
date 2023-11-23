@@ -7,7 +7,9 @@ import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -15,6 +17,25 @@ import java.util.Random;
  * An aggressive computer player strategy that focuses on centralization of forces and then attack
  */
 public class Aggressive implements Strategy {
+    /**
+     * This variable is used to track if it's executing the first attack or not.
+     */
+    private boolean d_isFirstAttackOfTurn;
+
+    /**
+     * This map is used for executing advance orders in order to centralize and aggregate troops.
+     */
+    private Map<Country, Country> d_advanceOrdersForAggregation;
+
+
+    /**
+     * Default constructor sets up the class.
+     */
+    public Aggressive() {
+        d_isFirstAttackOfTurn = true;
+        d_advanceOrdersForAggregation = new HashMap<>();
+    }
+
     /**
      * Issues an aggressive order.
      * It deploys on its strongest country, then always attack with its strongest country,
@@ -56,7 +77,7 @@ public class Aggressive implements Strategy {
         }
         // Attack in case the game is in the Attack phase
         if (l_currentPhase instanceof Attack) {
-            issueAttackOrder(l_currentPhase, l_countryWithMaximumTroops);
+            issueAttackOrder(l_currentPhase, l_countryWithMaximumTroops, l_playerCountries);
         }
     }
 
@@ -79,36 +100,101 @@ public class Aggressive implements Strategy {
      * Issue an Attack order. This is a sub-function for issueOrder.
      * @param p_currentPhase the current phase of the game
      * @param p_countryToAttackFrom the country from which an attack needs to take place
+     * @param p_playerCountries The list of countries owned by the player
      */
-    private void issueAttackOrder(Phase p_currentPhase, Country p_countryToAttackFrom) {
-        List<Country> l_enemyNeighbours = GameplayController.getPlayMap().getListOfEnemyNeighbours(p_countryToAttackFrom);
-        Country l_enemyToAttack = chooseEnemyToAttackAggressively(l_enemyNeighbours);
-        Integer l_troopsToAttackWith = chooseNumberOfTroopsToAttackWith(p_countryToAttackFrom);
-        p_currentPhase.advance(p_countryToAttackFrom.getCountryId(), l_enemyToAttack.getCountryId(), l_troopsToAttackWith);
-        //TODO manage this behaviour of advancing within allied forces.
-        p_currentPhase.commit();
+    private void issueAttackOrder(Phase p_currentPhase, Country p_countryToAttackFrom, List<Country> p_playerCountries) {
+
+        // Perform the first attack and populate next advance orders
+        if(d_isFirstAttackOfTurn) {
+            performFirstAttack(p_currentPhase, p_countryToAttackFrom);
+            createOrdersForTroopAggregation(p_playerCountries);
+            d_isFirstAttackOfTurn = false;
+            return;
+        }
+
+        // If there are no more orders, issue the commit command
+        if(d_advanceOrdersForAggregation.isEmpty()) {
+            d_isFirstAttackOfTurn = true;
+            p_currentPhase.commit();
+            return;
+        }
+
+        // Issue the advance order
+        Country l_advanceFrom = d_advanceOrdersForAggregation.keySet().stream().toList().get(0);
+        int l_troopsToAdvance = l_advanceFrom.getArmies();
+        Country l_advanceTo = d_advanceOrdersForAggregation.get(l_advanceFrom);
+        p_currentPhase.advance(l_advanceFrom.getCountryId(), l_advanceTo.getCountryId(), l_troopsToAdvance);
+        d_advanceOrdersForAggregation.remove(l_advanceFrom);
     }
 
     /**
-     * This function randomly chooses an enemy country to attack. We could've used different strategies here,
-     * like attacking the weakest country, or the strongest. But we've gone with a random selection.
-     * @param p_enemyNeighbours - a list of possible target for launching an attack
-     * @return a country that should be attacked in the aggressive strategy
+     * This function performs the first attack on an enemy
+     * @param p_currentPhase the current phase of the game
+     * @param p_countryToAdvanceFrom the country to perform an attack from
      */
-    private Country chooseEnemyToAttackAggressively(List<Country> p_enemyNeighbours) {
-        int l_sizeOfList = p_enemyNeighbours.size();
+    private void performFirstAttack(Phase p_currentPhase, Country p_countryToAdvanceFrom) {
+        boolean l_isAttackingAnEnemy = true;
+        List<Country> l_neighbours = GameplayController.getPlayMap().getListOfEnemyNeighbours(p_countryToAdvanceFrom);
+        // Moves all the troops from the current country into a random allied neighbour because it has no enemy neighbour.
+        if(l_neighbours.isEmpty()) {
+            l_neighbours = GameplayController.getPlayMap().getListOfAllyNeighbours(p_countryToAdvanceFrom);
+            l_isAttackingAnEnemy = false;
+        }
+        Country l_countryToAdvanceOn = chooseCountryToAdvanceAggressively(l_neighbours);
+        Integer l_troopsToAdvanceWith = chooseNumberOfTroopsToAdvanceWith(p_countryToAdvanceFrom, l_isAttackingAnEnemy);
+        p_currentPhase.advance(p_countryToAdvanceFrom.getCountryId(), l_countryToAdvanceOn.getCountryId(), l_troopsToAdvanceWith);
+    }
+
+    /**
+     * This function initializes the List of advance orders that are to be executed.
+     * @param p_playerCountries The list of countries owned by the player
+     */
+    private void createOrdersForTroopAggregation(List<Country> p_playerCountries) {
+        p_playerCountries.stream()
+                .filter(l_playerCountry -> l_playerCountry.getArmies() > 0)
+                .forEach(l_playerCountry -> {
+                    // Fetch all neighbours of this country
+                    List<Country> l_alliedNeighbours = GameplayController.getPlayMap().getListOfAllyNeighbours(l_playerCountry);
+                    // Find out the country with the maximum number of troops among neighbours.
+                    Country l_allyWithLargestArmy = l_playerCountry;
+                    for(Country l_alliedNeighbour : l_alliedNeighbours) {
+                        if(l_alliedNeighbour.getArmies() > l_allyWithLargestArmy.getArmies()) {
+                            l_allyWithLargestArmy = l_alliedNeighbour;
+                        }
+                    }
+                    // If the country is not itself, add an advance order to move all troops to the greater one.
+                    if(!l_allyWithLargestArmy.equals(l_playerCountry)) {
+                        d_advanceOrdersForAggregation.put(l_playerCountry, l_allyWithLargestArmy);
+                    }
+                });
+    }
+
+
+    /**
+     * This function randomly chooses a country to advance. We could've used different strategies here,
+     * like attacking the weakest country, or the strongest. But we've opted for a random selection.
+     * @param p_neighbours - a list of possible targets for advancement
+     * @return a country that should be advanced on in the aggressive strategy
+     */
+    private Country chooseCountryToAdvanceAggressively(List<Country> p_neighbours) {
+        int l_sizeOfList = p_neighbours.size();
         Random l_random = new Random();
         int l_countryIndex = l_random.nextInt(l_sizeOfList);
-        return p_enemyNeighbours.get(l_countryIndex);
+        return p_neighbours.get(l_countryIndex);
     }
 
     /**
      * Randomly chooses the number of troops to attack with.
-     * @param p_countryToAttackFrom The country which is attacking
-     * @return the number of troops to attack with. Greater than 1 and <= number of troops on country
+     * @param p_countryToAdvanceFrom The country which is attacking
+     * @param p_isAttackingAnEnemy A flag to determine if we are attacking an enemy or not
+     * @return the number of troops to attack with based on the passed flag.
+     * Greater than 1 and <= number of troops on country if the country is an enemy. All troops if it's an ally.
      */
-    private Integer chooseNumberOfTroopsToAttackWith(Country p_countryToAttackFrom) {
+    private Integer chooseNumberOfTroopsToAdvanceWith(Country p_countryToAdvanceFrom, boolean p_isAttackingAnEnemy) {
+        if(p_isAttackingAnEnemy) {
+            return p_countryToAdvanceFrom.getArmies();
+        }
         Random l_random = new Random();
-        return l_random.nextInt(p_countryToAttackFrom.getArmies()-1) + 1;
+        return l_random.nextInt(p_countryToAdvanceFrom.getArmies()-1) + 1;
     }
 }
