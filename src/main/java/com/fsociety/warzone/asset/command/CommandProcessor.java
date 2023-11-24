@@ -46,15 +46,33 @@ public class CommandProcessor {
             case PLAY_GAME -> l_phase.playGame();
             case MAP_EDITOR -> l_phase.mapEditor();
             case TOURNAMENT -> {
-                ArrayList<String> dummyPlayers = new ArrayList<>();
-                dummyPlayers.add("-aggressive");
-                dummyPlayers.add("-aggressive");
-                dummyPlayers.add("-random");
-                ArrayList<String> dummymaps = new ArrayList<>();
-                dummymaps.add("1.map");
-                dummymaps.add("bigeurope.map");
+                ArrayList<String> l_playerStrategies = new ArrayList<>();
+                ArrayList<String> l_mapFiles = new ArrayList<>();
+                int l_numberOfGames;
+                int l_maxTurns;
 
-                l_phase.tournamentMode(3, 25, dummyPlayers, dummymaps);
+                int l_i = 2;
+                while (!p_splitCommand[l_i].equals("-P")) {
+                    l_mapFiles.add(p_splitCommand[l_i]);
+                    l_i++;
+                }
+                l_i++;
+                while (!p_splitCommand[l_i].equals("-G")) {
+                    l_playerStrategies.add(p_splitCommand[l_i]);
+                    l_i++;
+                }
+                l_i++;
+                l_numberOfGames = Integer.parseInt(p_splitCommand[l_i]);
+                l_i+=2;
+                l_maxTurns = Integer.parseInt(p_splitCommand[l_i]);
+
+//                l_playerStrategies.add("-aggressive");
+//                l_playerStrategies.add("-aggressive");
+//                l_playerStrategies.add("-random");
+//                l_mapFiles.add("1.map");
+//                l_mapFiles.add("bigeurope.map");
+
+                l_phase.tournamentMode(l_numberOfGames, l_maxTurns, l_playerStrategies, l_mapFiles);
             }
             case BACK -> l_phase.back();
             case EXIT -> l_phase.exit();
