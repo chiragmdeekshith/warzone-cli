@@ -2,8 +2,7 @@ package com.fsociety.warzone.asset.command;
 
 import com.fsociety.warzone.view.Console;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class is used for validating commands received from the Command Processor.
@@ -17,11 +16,21 @@ public class CommandValidator {
      */
     private static final Map<String, Command> d_commands;
 
+    /**
+     * A set of all valid player strategies. This is used for validating the command arguments for GamePlayer command.
+     */
+    private static final Set<String> d_playerStrategies;
+
     static {
         d_commands = new HashMap<>();
         for (Command l_command : Command.values()) {
             d_commands.put(l_command.getCommand(), l_command);
         }
+        d_playerStrategies = new HashSet<>();
+        d_playerStrategies.add(Command.AGGRESSIVE);
+        d_playerStrategies.add(Command.BENEVOLENT);
+        d_playerStrategies.add(Command.CHEATER);
+        d_playerStrategies.add(Command.RANDOM);
     }
 
     /**
@@ -211,27 +220,39 @@ public class CommandValidator {
                 }
             }
             case GAME_PLAYER -> {
-                if(p_splitCommand.length == 1 || p_splitCommand.length % 2 == 0) {
+                // Ensure that there are arguments
+                if(p_splitCommand.length == 1 ) {
                     Console.print("This command requires pairs of add/remove options and player names.");
                     return false;
                 }
 
-                String l_operation = p_splitCommand[1];
+                String l_argument = p_splitCommand[1];
+                int l_i = 1;
+                // Check if an incorrect argument is being passed.
+                if(!Command.ADD.equals(l_argument) && !Command.REMOVE.equals(l_argument)) {
+                    if (!d_playerStrategies.contains(l_argument)) {
+                        Console.print("The argument " + l_argument + " is not recognized");
+                        return false;
+                    }
+                    l_i = 2;
+                }
+                // Ensure that the remaining add or remove operations are paired with names.
+                if((p_splitCommand.length - l_i) % 2 != 0) {
+                    Console.print("The arguments are correct. Please check and try again.");
+                    return false;
+                }
 
                 // Loop through all -add and -remove operations in the command
-                for(int l_i = 1; l_i < p_splitCommand.length; l_i++) {
-                    if(l_i % 2 == 1) {
-                        if(!Command.ADD.equals(l_operation) && !Command.REMOVE.equals(l_operation)) {
-                            Console.print("Unrecognised operation " + l_operation + " at index " + l_i + ".");
-                            return false;
-                        }
+                for (; l_i < p_splitCommand.length - 1; l_i += 2) {
+                    l_argument = p_splitCommand[l_i];
+                    if (!Command.ADD.equals(l_argument) && !Command.REMOVE.equals(l_argument)) {
+                        Console.print("Unrecognised operation " + l_argument + " at index " + l_i + ".");
+                        return false;
                     }
-                    if(l_i % 2 == 0) {
-                        String l_playerName = p_splitCommand[l_i];
-                        if(!l_playerName.matches("[A-Za-z0-9]+")) {
-                            Console.print("Player name must be alphanumeric.");
-                            return false;
-                        }
+                    String l_playerName = p_splitCommand[l_i + 1];
+                    if (!l_playerName.matches("[A-Za-z0-9]+")) {
+                        Console.print("Player name must be alphanumeric.");
+                        return false;
                     }
                 }
 

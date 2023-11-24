@@ -3,7 +3,7 @@ package com.fsociety.warzone.model.map;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.view.Console;
 
 import java.util.*;
@@ -136,6 +136,23 @@ public class PlayMap extends AbstractMap {
     }
 
     /**
+     * This function checks the map all gives a list of all countries owned by a player
+     * @param p_playerId the ID of the player
+     * @return the list of countries owned by the player
+     */
+    public List<Country> getCountriesOwnedByPlayer(int p_playerId) {
+        List<Country> l_countries = new ArrayList<>();
+        d_countries.values().forEach(p_country -> {
+            if(p_playerId == p_country.getPlayerId()) {
+                l_countries.add(p_country);
+            }
+        });
+        return l_countries;
+    }
+
+    // Getters and Setters
+
+    /**
      * Get the current status of a country instance.
      *
      * @param p_countryId the country ID
@@ -144,8 +161,6 @@ public class PlayMap extends AbstractMap {
     public Country getCountryState(int p_countryId) {
         return d_countries.get(p_countryId);
     }
-
-    // Getters and Setters
 
     /**
      * Getter for HashMap object with countryId->countries
@@ -161,5 +176,72 @@ public class PlayMap extends AbstractMap {
      */
     public Map<Integer, Continent> getContinents() {
         return d_continents;
+    }
+
+    /**
+     * This function checks whether a country has enemy neighbours
+     * @param p_country the country to be checked for
+     * @return true if country has enemy neighbours, false otherwise
+     */
+    public boolean doesCountryHaveEnemyNeighbours(Country p_country) {
+        int l_playerId = p_country.getPlayerId();
+        Set<Integer> l_neighbourCountryIdList = d_neighbours.get(p_country.getCountryId());
+        for(Integer l_neighbourId : l_neighbourCountryIdList) {
+            Country l_neighbourCountry = d_countries.get(l_neighbourId);
+            if(l_neighbourCountry.getPlayerId() != l_playerId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieves a list of countries that can be attacked by a country
+     * @param p_country the country for which enemies need to be found
+     * @return a list of enemy countries
+     */
+    public List<Country> getListOfEnemyNeighbours(Country p_country) {
+        int l_playerId = p_country.getPlayerId();
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_enemyNeighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            Country l_enemyNeighbourCountry = d_countries.get(l_neighbourId);
+            if(l_enemyNeighbourCountry.getPlayerId() != l_playerId) {
+                l_enemyNeighbourCountries.add(l_enemyNeighbourCountry);
+            }
+        });
+        return l_enemyNeighbourCountries;
+    }
+
+    /**
+     * Retrieves a list of countries that can be used for moving troops into
+     * @param p_country the country for which allied neighbours need to be found
+     * @return a list of allied neighbouring countries
+     */
+    public List<Country> getListOfAlliedNeighbours(Country p_country) {
+        int l_playerId = p_country.getPlayerId();
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_allyNeighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            Country l_enemyNeighbourCountry = d_countries.get(l_neighbourId);
+            if(l_enemyNeighbourCountry.getPlayerId() == l_playerId) {
+                l_allyNeighbourCountries.add(l_enemyNeighbourCountry);
+            }
+        });
+        return l_allyNeighbourCountries;
+    }
+
+    /**
+     * Get the list all neighbour countries. Enemy or Ally.
+     * @param p_country The country for which the neighbours are to be returned
+     * @return the list of all neighbour countries
+     */
+    public List<Country> getListOfAllNeighbours(Country p_country) {
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_neighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            l_neighbourCountries.add(d_countries.get(l_neighbourId));
+        });
+        return l_neighbourCountries;
     }
 }

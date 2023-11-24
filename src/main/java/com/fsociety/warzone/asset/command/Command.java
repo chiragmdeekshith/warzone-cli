@@ -60,7 +60,7 @@ public enum Command {
     /**
      * Add or Remove game players
      */
-    GAME_PLAYER("gameplayer", "-add [name] / -remove [name]"),
+    GAME_PLAYER("gameplayer", "-aggressive / -benevolent / -cheater / -random / <choose no argument for a Human player> \n -add [name] / -remove [name]"),
     /**
      * Assign countries to Players
      */
@@ -116,6 +116,28 @@ public enum Command {
      * The "remove" operation used for arguments
      */
     public static final String REMOVE = "-remove";
+
+    /**
+     * The "AGGRESSIVE" operation used for game player bots
+     */
+    public static final String AGGRESSIVE = "-aggressive";
+    /**
+     * The "BENEVOLENT" operation used for game player bots
+     */
+    public static final String BENEVOLENT = "-benevolent";
+    /**
+     * The "CHEATER" operation used for game player bots
+     */
+    public static final String CHEATER = "-cheater";
+    /**
+     * The "RANDOM" operation used for game player bots
+     */
+    public static final String RANDOM = "-random";
+
+    /**
+     * The "HUMAN" operation used for the default player in the game.
+     */
+    public static final String HUMAN = "-human";
 
 
     /**

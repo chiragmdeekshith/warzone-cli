@@ -2,6 +2,7 @@ package com.fsociety.warzone.asset.command;
 
 import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.phase.Phase;
+import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.view.Console;
 
 import java.util.HashMap;
@@ -116,16 +117,23 @@ public class CommandProcessor {
             case SAVE_MAP -> l_phase.saveMap(p_splitCommand[1]);
             case LOAD_MAP -> l_phase.loadMap(p_splitCommand[1]);
             case GAME_PLAYER -> {
-                Set<String> l_gamePlayersToAdd = new HashSet<>();
+                Map<String, String> l_gamePlayersToAdd = new HashMap<>();
                 Set<String> l_gamePlayersToRemove = new HashSet<>();
 
-                for (int i = 1; i < p_splitCommand.length; i+=2) {
+                int l_i = 1;
+                String l_playerStrategy = Command.HUMAN;
+                if(!Command.ADD.equals(p_splitCommand[1]) && !Command.REMOVE.equals(p_splitCommand[1])) {
+                    l_playerStrategy = p_splitCommand[1];
+                    l_i++;
+                }
 
-                    String l_operation = p_splitCommand[i];
-                    String l_playerName = p_splitCommand[i+1];
+                for (; l_i < p_splitCommand.length - 1; l_i+=2) {
+
+                    String l_operation = p_splitCommand[l_i];
+                    String l_playerName = p_splitCommand[l_i+1];
 
                     switch (l_operation) {
-                        case Command.ADD -> l_gamePlayersToAdd.add(l_playerName);
+                        case Command.ADD -> l_gamePlayersToAdd.put(l_playerName, l_playerStrategy);
                         case Command.REMOVE -> l_gamePlayersToRemove.add(l_playerName);
                         default -> Console.print("Invalid syntax.");
                     }
