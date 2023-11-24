@@ -4,8 +4,10 @@ import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.asset.phase.edit.EditPreLoad;
 import com.fsociety.warzone.asset.phase.play.playsetup.PlayPreLoad;
+import com.fsociety.warzone.controller.gameplay.Tournament;
 import com.fsociety.warzone.view.Console;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,6 +44,21 @@ public class Menu extends Phase {
     public void mapEditor() {
         Console.print("Map Editor selected. Please start by loading a map. Type 'back' to go to the previous menu.");
         GameEngine.setPhase(new EditPreLoad());
+    }
+
+    @Override
+    public void tournamentMode(int p_numberOfGames, int p_maxNumberOfTurns, ArrayList<String> p_botPlayers, ArrayList<String> p_maps) {
+        Console.print("Beginning tournament...");
+        new Tournament(p_numberOfGames, p_maxNumberOfTurns, p_botPlayers, p_maps).runTournament();
+        Console.print("Tournament concluded. Returning to Main Menu.");
+        GameEngine.setPhase(new Menu());
+        Console.print("""
+                                                          \s
+                 _ _ _ _____ _____ _____ _____ _____ _____\s
+                | | | |  _  | __  |__   |     |   | |   __|
+                | | | |     |    -|   __|  |  | | | |   __|
+                |_____|__|__|__|__|_____|_____|_|___|_____|
+                                                          \s""");
     }
 
     /**

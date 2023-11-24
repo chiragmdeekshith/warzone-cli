@@ -135,4 +135,8 @@ public class Benevolent implements Strategy {
             d_advanceOrdersForProtection.put(l_allyWithLargestArmy, l_weakestCountry);
         }
     }
+
+    public String toString() {
+        return "Benevolent";
+    }
 }

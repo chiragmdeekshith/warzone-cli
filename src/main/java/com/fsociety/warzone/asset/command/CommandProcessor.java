@@ -5,10 +5,7 @@ import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.view.Console;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * This Class implements command processing, where the input command leads to the appropriate method being called on the
@@ -48,6 +45,17 @@ public class CommandProcessor {
             case HELP -> l_phase.help();
             case PLAY_GAME -> l_phase.playGame();
             case MAP_EDITOR -> l_phase.mapEditor();
+            case TOURNAMENT -> {
+                ArrayList<String> dummyPlayers = new ArrayList<>();
+                dummyPlayers.add("-aggressive");
+                dummyPlayers.add("-aggressive");
+                dummyPlayers.add("-random");
+                ArrayList<String> dummymaps = new ArrayList<>();
+                dummymaps.add("1.map");
+                dummymaps.add("bigeurope.map");
+
+                l_phase.tournamentMode(3, 25, dummyPlayers, dummymaps);
+            }
             case BACK -> l_phase.back();
             case EXIT -> l_phase.exit();
             case SHOW_MAP -> l_phase.showMap();

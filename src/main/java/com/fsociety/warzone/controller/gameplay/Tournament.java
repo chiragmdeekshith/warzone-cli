@@ -1,11 +1,6 @@
 package com.fsociety.warzone.controller.gameplay;
 
-import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.command.Command;
-import com.fsociety.warzone.asset.phase.Menu;
-import com.fsociety.warzone.asset.phase.end.End;
-import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
-import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.asset.phase.play.playsetup.PlayPostLoad;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.map.PlayMap;
@@ -14,7 +9,6 @@ import com.fsociety.warzone.model.player.strategy.*;
 import com.fsociety.warzone.model.player.strategy.Random;
 import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.view.Console;
-import com.fsociety.warzone.view.log.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +21,7 @@ public class Tournament {
     private int d_maxNumberOfTurns;
     private ArrayList<String> d_botPlayers;
     private ArrayList<String> d_maps;
-    private String[][] results;
+    private String[][] d_results;
     private Player d_lastWinner;
 
     public Tournament(int p_numberOfGames, int p_maxNumberOfTurns, ArrayList<String> p_botPlayers, ArrayList<String> p_maps) {
@@ -35,7 +29,7 @@ public class Tournament {
         this.d_maxNumberOfTurns = p_maxNumberOfTurns;
         this.d_botPlayers = p_botPlayers;
         this.d_maps = p_maps;
-        this.results = new String[d_maps.size()][p_numberOfGames];
+        this.d_results = new String[d_maps.size()][p_numberOfGames];
     }
 
 
@@ -46,15 +40,22 @@ public class Tournament {
         // Initialize players with names
         Map<String, String> l_botPlayerNames = new HashMap<>();
         for (String l_strategy : d_botPlayers) {
+            String l_name = "";
+            switch (l_strategy) {
+                case Command.AGGRESSIVE -> l_name = "Aggressive";
+                case Command.BENEVOLENT -> l_name = "Benevolent";
+                case Command.CHEATER -> l_name = "Cheater";
+                case Command.RANDOM -> l_name = "Random";
+            }
             int j = 0;
             while (true) {
-                if (l_botPlayerNames.containsKey(l_strategy + "Bot" + j)) {
+                if (l_botPlayerNames.containsKey(l_name + "Bot" + j)) {
                     j++;
                 } else {
                     break;
                 }
             }
-            l_botPlayerNames.put(l_strategy + "Bot" + j, l_strategy);
+            l_botPlayerNames.put(l_name + "Bot" + j, l_strategy);
         }
 
 
@@ -73,10 +74,9 @@ public class Tournament {
 
                 // Reinitialize players
                 Map<String, Player> l_playerNameMap = GameplayController.getPlayerNameMap();
-                for(String l_playerName : l_botPlayerNames.values()) {
+                for(String l_playerName : l_botPlayerNames.keySet()) {
                     Strategy l_playerStrategy = null;
                     switch (l_botPlayerNames.get(l_playerName)) {
-                        case Command.HUMAN -> l_playerStrategy = new Human();
                         case Command.AGGRESSIVE -> l_playerStrategy = new Aggressive();
                         case Command.BENEVOLENT -> l_playerStrategy = new Benevolent();
                         case Command.CHEATER -> l_playerStrategy = new Cheater();
@@ -95,15 +95,6 @@ public class Tournament {
 
         GameplayController.setTournament(null);
         printResults();
-
-        GameEngine.setPhase(new Menu());
-        Console.print("""
-                                                          \s
-                 _ _ _ _____ _____ _____ _____ _____ _____\s
-                | | | |  _  | __  |__   |     |   | |   __|
-                | | | |     |    -|   __|  |  | | | |   __|
-                |_____|__|__|__|__|_____|_____|_|___|_____|
-                                                          \s""");
     }
 
     public void setLastWinner(Player p_winner) {
@@ -117,14 +108,31 @@ public class Tournament {
         } else {
             l_result = p_lastWinner.getPlayerStrategy().toString();
         }
-        results[p_currMap][p_currGame] = l_result;
+        d_results[p_currMap][p_currGame] = l_result;
     }
 
     private void printResults() {
-        for (int i = 0; i < d_maps.size(); i++) {
-            for (int j = 0; j < d_numberOfGames; j++) {
-            }
+        String l_resultsString = "\nTournament Results: \n";
+        l_resultsString += "----------------------------\n";
+        l_resultsString += "\t\t";
+        for (int j = 0; j < d_numberOfGames; j++) {
+            l_resultsString += "Game " + (j+1) + "\t\t";
         }
+        l_resultsString += "\n";
+        for (int i = 0; i < d_maps.size(); i++) {
+            l_resultsString += "Map " + (i+1) + "\t";
+            for (int j = 0; j < d_numberOfGames; j++) {
+                l_resultsString += d_results[i][j];
+                if (d_results[i][j].equals("Aggressive") || d_results[i][j].equals("Benevolent")) {
+                    l_resultsString += "\t";
+                } else {
+                    l_resultsString += "\t\t";
+                }
+            }
+            l_resultsString += "\n";
+        }
+        l_resultsString += "----------------------------\n";
+        Console.print(l_resultsString);
     }
 
     public int getMaxNumberOfTurns() {
