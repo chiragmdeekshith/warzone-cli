@@ -113,7 +113,11 @@ public class Tournament {
 
     private void printResults() {
         String l_resultsString = "\nTournament Results: \n";
-        l_resultsString += "----------------------------\n";
+        l_resultsString += "--------";
+        for (int j = 0; j < d_numberOfGames; j++) {
+            l_resultsString += "------------";
+        }
+        l_resultsString += "\n";
         l_resultsString += "\t\t";
         for (int j = 0; j < d_numberOfGames; j++) {
             l_resultsString += "Game " + (j+1) + "\t\t";
@@ -131,7 +135,11 @@ public class Tournament {
             }
             l_resultsString += "\n";
         }
-        l_resultsString += "----------------------------\n";
+        l_resultsString += "--------";
+        for (int j = 0; j < d_numberOfGames; j++) {
+            l_resultsString += "------------";
+        }
+        l_resultsString += "\n";
         Console.print(l_resultsString);
     }
 
