@@ -62,7 +62,11 @@ public class Cheater implements Strategy {
         // Double troops in countries with enemy neighbours
         List<Country> l_playerCountries = GameplayController.getPlayMap().getCountriesOwnedByPlayer(p_player.getId());
         List<Country> l_countriesWithEnemyNeighbours = new ArrayList<>();
-        l_playerCountries.forEach(l_playerCountry -> l_countriesWithEnemyNeighbours.addAll(GameplayController.getPlayMap().getListOfEnemyNeighbours(l_playerCountry)));
+        l_playerCountries.forEach(l_playerCountry -> {
+            if (!GameplayController.getPlayMap().getListOfEnemyNeighbours(l_playerCountry).isEmpty()) {
+                l_countriesWithEnemyNeighbours.add(l_playerCountry);
+            }
+        });
         l_countriesWithEnemyNeighbours.forEach(l_countryWithEnemyNeighbours -> l_countryWithEnemyNeighbours.setArmies(l_countryWithEnemyNeighbours.getArmies() * 2));
 
         // Perform commit to go forward.
