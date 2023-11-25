@@ -9,7 +9,9 @@ import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class implements the Cheater strategy for a computer player.
@@ -27,7 +29,7 @@ public class Cheater implements Strategy {
         Player l_player = GameplayController.getPlayerNameMap().get(p_playerName);
 
         // Get all countries the player currently owns
-        List<Country> l_playerCountries = GameplayController.getPlayMap().getCountriesOwnedByPlayer(l_player.getId());
+        List<Country> l_playerCountries = l_player.getCountries();
 
         // Get the current phase of the game and then decide what to do
         Phase l_currentPhase = GameEngine.getPhase();
@@ -51,16 +53,19 @@ public class Cheater implements Strategy {
      */
     private void issueAdvanceOrder(Phase p_currentPhase, Player p_player, List<Country> p_playerCountries) {
         // Take over all immediate neighbours
-        p_playerCountries.forEach(p_playerCountry -> {
-            List<Country> l_enemyNeighbours = GameplayController.getPlayMap().getListOfEnemyNeighbours(p_playerCountry);
-            l_enemyNeighbours.forEach(l_enemyNeighbour -> {
-                l_enemyNeighbour.setPlayerId(p_player.getId());
-                l_enemyNeighbour.setPlayer(p_player);
-            });
+        Set<Country> l_enemyNeighbours = new HashSet<>();
+        p_playerCountries.forEach(p_playerCountry -> l_enemyNeighbours.addAll(GameplayController.getPlayMap().getListOfEnemyNeighbours(p_playerCountry)));
+        l_enemyNeighbours.forEach(l_enemyNeighbour -> {
+            Player l_enemyOwner = l_enemyNeighbour.getPlayer();
+            l_enemyOwner.removeCountry(l_enemyNeighbour.getCountryId());
+            l_enemyNeighbour.setPlayerId(p_player.getId());
+            l_enemyNeighbour.setPlayer(p_player);
+            p_player.addCountry(l_enemyNeighbour);
         });
 
-        // Double troops in countries with enemy neighbours
-        List<Country> l_playerCountries = GameplayController.getPlayMap().getCountriesOwnedByPlayer(p_player.getId());
+        // Fetch new list of countries to Double troops in the countries with enemy neighbours
+        List<Country> l_playerCountries = p_player.getCountries();
+
         List<Country> l_countriesWithEnemyNeighbours = new ArrayList<>();
         l_playerCountries.forEach(l_playerCountry -> {
             if (!GameplayController.getPlayMap().getListOfEnemyNeighbours(l_playerCountry).isEmpty()) {
