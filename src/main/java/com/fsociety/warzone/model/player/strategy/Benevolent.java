@@ -135,4 +135,12 @@ public class Benevolent implements Strategy {
             d_advanceOrdersForProtection.put(l_allyWithLargestArmy, l_weakestCountry);
         }
     }
+
+    /**
+     * Returns the type of the player strategy as a string.
+     * @return the player strategy as a string
+     */
+    public String toString() {
+        return "Benevolent";
+    }
 }

@@ -18,6 +18,10 @@ public enum Command {
      */
     MAP_EDITOR("mapeditor", ""),
     /**
+     * The command used to begin a tournament
+     */
+    TOURNAMENT("tournament", ""),
+    /**
      * Go to the previous menu
      */
     BACK("back", ""),

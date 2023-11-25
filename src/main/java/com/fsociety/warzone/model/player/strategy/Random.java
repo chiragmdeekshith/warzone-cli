@@ -116,4 +116,12 @@ public class Random implements Strategy {
         int l_troopsForDeployment = l_random.nextInt(l_troopsAvailableForDeployment) + 1;
         p_currentPhase.deploy(l_countryForDeployment.getCountryId(), l_troopsForDeployment);
     }
+
+    /**
+     * Returns the type of the player strategy as a string.
+     * @return the player strategy as a string
+     */
+    public String toString() {
+        return "Random";
+    }
 }

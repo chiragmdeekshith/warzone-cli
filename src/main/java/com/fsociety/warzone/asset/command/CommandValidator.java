@@ -219,6 +219,93 @@ public class CommandValidator {
                     }
                 }
             }
+            case TOURNAMENT -> {
+                int l_i = 1;
+                try {
+                    if (!p_splitCommand[l_i].equals("-M")) {
+                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
+                                " 'tournament' command.");
+                        return false;
+                    }
+                    l_i++;
+                    int l_mapsCount = 0;
+                    while (!p_splitCommand[l_i].equals("-P")) {
+                        if(!p_splitCommand[l_i].endsWith(".map")) {
+                            Console.print("The file passed is not a '.map' file.");
+                            return false;
+                        }
+                        l_mapsCount++;
+                        l_i++;
+                    }
+                    if (l_mapsCount > 5 || l_mapsCount < 1) {
+                        Console.print("Please enter between 1 and 5 map file names.");
+                        return false;
+                    }
+                    if (!p_splitCommand[l_i].equals("-P")) {
+                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
+                                " 'tournament' command.");
+                        return false;
+                    }
+                    l_i++;
+                    int l_playerCount = 0;
+                    while (!p_splitCommand[l_i].equals("-G")) {
+                        if(!d_playerStrategies.contains(p_splitCommand[l_i])) {
+                            Console.print("Unrecognized player strategy.");
+                            return false;
+                        }
+                        l_playerCount++;
+                        l_i++;
+                    }
+                    if (l_playerCount > 4 || l_playerCount < 2) {
+                        Console.print("Please enter between 2 and 4 player strategies.");
+                        return false;
+                    }
+                    if (!p_splitCommand[l_i].equals("-G")) {
+                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
+                                " 'tournament' command.");
+                        return false;
+                    }
+                    l_i++;
+                    int l_games = 0;
+                    try {
+                        l_games = Integer.parseInt(p_splitCommand[l_i++]);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Argument passed for number of games must be an integer.");
+                        return false;
+                    }
+                    if (l_games < 1 || l_games > 5) {
+                        Console.print("Please enter between 1 and 5 games to be played.");
+                        return false;
+                    }
+                    if (!p_splitCommand[l_i].equals("-D")) {
+                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
+                                " 'tournament' command.");
+                        return false;
+                    }
+                    l_i++;
+                    int l_turns = 0;
+                    try {
+                        l_turns = Integer.parseInt(p_splitCommand[l_i++]);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Argument passed for maximum number of turns must be an integer.");
+                        return false;
+                    }
+                    if (l_turns < 10 || l_turns > 50) {
+                        Console.print("Please enter between 10 and 50 for the maximum number of turns.");
+                        return false;
+                    }
+                    if (l_i != p_splitCommand.length) {
+                        Console.print("Unexpected argument Please use 'help' to see the correct formatting for the" +
+                                " 'tournament' command.");
+                        return false;
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Console.print("Missing arguments. Please use 'help' to see the correct formatting for the" +
+                            " 'tournament' command.");
+                    return false;
+                }
+                return true;
+            }
             case GAME_PLAYER -> {
                 // Ensure that there are arguments
                 if(p_splitCommand.length == 1 ) {

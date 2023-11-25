@@ -5,10 +5,7 @@ import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.view.Console;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * This Class implements command processing, where the input command leads to the appropriate method being called on the
@@ -48,6 +45,35 @@ public class CommandProcessor {
             case HELP -> l_phase.help();
             case PLAY_GAME -> l_phase.playGame();
             case MAP_EDITOR -> l_phase.mapEditor();
+            case TOURNAMENT -> {
+                ArrayList<String> l_playerStrategies = new ArrayList<>();
+                ArrayList<String> l_mapFiles = new ArrayList<>();
+                int l_numberOfGames;
+                int l_maxTurns;
+
+                int l_i = 2;
+                while (!p_splitCommand[l_i].equals("-P")) {
+                    l_mapFiles.add(p_splitCommand[l_i]);
+                    l_i++;
+                }
+                l_i++;
+                while (!p_splitCommand[l_i].equals("-G")) {
+                    l_playerStrategies.add(p_splitCommand[l_i]);
+                    l_i++;
+                }
+                l_i++;
+                l_numberOfGames = Integer.parseInt(p_splitCommand[l_i]);
+                l_i+=2;
+                l_maxTurns = Integer.parseInt(p_splitCommand[l_i]);
+
+//                l_playerStrategies.add("-aggressive");
+//                l_playerStrategies.add("-aggressive");
+//                l_playerStrategies.add("-random");
+//                l_mapFiles.add("1.map");
+//                l_mapFiles.add("bigeurope.map");
+
+                l_phase.tournamentMode(l_numberOfGames, l_maxTurns, l_playerStrategies, l_mapFiles);
+            }
             case BACK -> l_phase.back();
             case EXIT -> l_phase.exit();
             case SHOW_MAP -> l_phase.showMap();

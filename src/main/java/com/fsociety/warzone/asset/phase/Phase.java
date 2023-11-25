@@ -2,6 +2,7 @@ package com.fsociety.warzone.asset.phase;
 
 import com.fsociety.warzone.asset.command.Command;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,6 +21,15 @@ public abstract class Phase {
      * This method launches the map editor.
      */
     public abstract void mapEditor();
+
+    /**
+     * This method launches a tournament.
+     * @param p_numberOfGames the number of games
+     * @param p_maxNumberOfTurns the max number of turns
+     * @param p_botPlayers the list of player strategy types
+     * @param p_maps the list of map file names
+     */
+    public abstract void tournamentMode(int p_numberOfGames, int p_maxNumberOfTurns, ArrayList<String> p_botPlayers, ArrayList<String> p_maps);
 
 
     // General behaviour
