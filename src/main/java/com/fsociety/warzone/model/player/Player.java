@@ -228,6 +228,12 @@ public class Player {
     public int getCountriesCount() { return this.d_countries.size(); }
 
     /**
+     * Return the list of countries the player owns
+     * @return the list of countries
+     */
+    public ArrayList<Country> getCountries() { return this.d_countries; }
+
+    /**
      * This method returns the player's hand of cards
      * @return the player's hand of cards
      */

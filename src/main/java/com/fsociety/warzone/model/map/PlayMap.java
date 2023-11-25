@@ -135,21 +135,6 @@ public class PlayMap extends AbstractMap {
         return false;
     }
 
-    /**
-     * This function checks the map all gives a list of all countries owned by a player
-     * @param p_playerId the ID of the player
-     * @return the list of countries owned by the player
-     */
-    public List<Country> getCountriesOwnedByPlayer(int p_playerId) {
-        List<Country> l_countries = new ArrayList<>();
-        d_countries.values().forEach(p_country -> {
-            if(p_playerId == p_country.getPlayerId()) {
-                l_countries.add(p_country);
-            }
-        });
-        return l_countries;
-    }
-
     // Getters and Setters
 
     /**

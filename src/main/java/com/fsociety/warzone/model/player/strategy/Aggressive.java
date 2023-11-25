@@ -6,6 +6,7 @@ import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
+import com.fsociety.warzone.model.player.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,11 +46,11 @@ public class Aggressive implements Strategy {
     @Override
     public void issueOrder(String p_playerName) {
 
-        // Get the player ID from player name
-        int l_playerId = GameplayController.getPlayerNameMap().get(p_playerName).getId();
+        // Get the player from player name
+        Player l_player = GameplayController.getPlayerNameMap().get(p_playerName);
 
         // Get all countries the player currently owns
-        List<Country> l_playerCountries = GameplayController.getPlayMap().getCountriesOwnedByPlayer(l_playerId);
+        List<Country> l_playerCountries = l_player.getCountries();
 
         // Filter out the countries which only have friendly neighbours
         List<Country> l_countriesWithEnemyNeighbours = l_playerCountries
@@ -59,24 +60,41 @@ public class Aggressive implements Strategy {
                         .doesCountryHaveEnemyNeighbours(l_playerCountry))
                 .toList();
 
-        // Get the country in which the number of troops is maximum
-        // There MUST be at least one country with an enemy neighbour. Otherwise, the map is not working properly
-        Country l_countryWithMaximumTroops = l_countriesWithEnemyNeighbours.get(0);
-        for(Country l_country : l_playerCountries) {
-            if(l_country.getArmies() > l_countryWithMaximumTroops.getArmies()) {
-                l_countryWithMaximumTroops = l_country;
-            }
-        }
 
         // Get the current phase of the game and then decide what to do
         Phase l_currentPhase = GameEngine.getPhase();
 
         // Deploy in case the game is in the Reinforcement phase
         if(l_currentPhase instanceof Reinforcement) {
-            issueReinforcementOrder(l_currentPhase, l_playerId, l_countryWithMaximumTroops);
+            // Get the country in which the number of troops is maximum
+            Country l_countryWithMaximumTroops;
+            if(l_countriesWithEnemyNeighbours.isEmpty()) {
+                l_countryWithMaximumTroops = l_playerCountries.get(0);
+            } else {
+                l_countryWithMaximumTroops = l_countriesWithEnemyNeighbours.get(0);
+            }
+            for(Country l_country : l_playerCountries) {
+                if(l_country.getArmies() > l_countryWithMaximumTroops.getArmies()) {
+                    l_countryWithMaximumTroops = l_country;
+                }
+            }
+            issueReinforcementOrder(l_currentPhase, l_player.getId(), l_countryWithMaximumTroops);
         }
         // Attack in case the game is in the Attack phase
         if (l_currentPhase instanceof Attack) {
+            // Cheater edge case
+            if(l_countriesWithEnemyNeighbours.isEmpty()) {
+                // Issue a commit order
+                l_currentPhase.commit();
+                return;
+            }
+            // Get the country in which the number of troops is maximum
+            Country l_countryWithMaximumTroops = l_countriesWithEnemyNeighbours.get(0);
+            for(Country l_country : l_playerCountries) {
+                if(l_country.getArmies() > l_countryWithMaximumTroops.getArmies()) {
+                    l_countryWithMaximumTroops = l_country;
+                }
+            }
             issueAttackOrder(l_currentPhase, l_countryWithMaximumTroops, l_playerCountries);
         }
     }
