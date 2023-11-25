@@ -5,7 +5,7 @@ build/
 !**/src/test/**/build/
 
 # Logs folder
-#src/main/resources/logs
+src/main/resources/logs
 
 ### IntelliJ IDEA ###
 .idea/
