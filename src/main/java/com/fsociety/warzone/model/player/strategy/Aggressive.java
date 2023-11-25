@@ -198,4 +198,8 @@ public class Aggressive implements Strategy {
         Random l_random = new Random();
         return l_random.nextInt(p_countryToAdvanceFrom.getArmies()-1) + 1;
     }
+
+    public String toString() {
+        return "Aggressive";
+    }
 }

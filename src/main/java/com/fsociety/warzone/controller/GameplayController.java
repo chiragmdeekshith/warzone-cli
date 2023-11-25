@@ -3,6 +3,7 @@ package com.fsociety.warzone.controller;
 import com.fsociety.warzone.controller.gameplay.ExecuteOrder;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.controller.gameplay.AssignReinforcements;
+import com.fsociety.warzone.controller.gameplay.Tournament;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.map.PlayMap;
 
@@ -51,6 +52,8 @@ public class GameplayController {
      */
     private static boolean d_gameWon = false;
 
+    private static Tournament d_currentTournament = null;
+
     /**
      * The player who has won the game
      */
@@ -87,11 +90,25 @@ public class GameplayController {
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);
 
-            if (d_gameWon) {
+            if (d_currentTournament == null && d_gameWon) {
                 Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!",true);
                 Log.flushToFile();
                 GameEngine.setPhase(new End());
                 return;
+            } else if (d_currentTournament != null) {
+                if (d_gameWon) {
+                    Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!",true);
+                    Log.flushToFile();
+                    d_currentTournament.setLastWinner(d_winner);
+                    GameplayController.resetGameState();
+                    return;
+                } else if (l_turns == d_currentTournament.getMaxNumberOfTurns()) {
+                    Console.print(d_currentTournament.getMaxNumberOfTurns() + " turns reached. Draw!", true);
+                    Log.flushToFile();
+                    d_currentTournament.setLastWinner(null);
+                    GameplayController.resetGameState();
+                    return;
+                }
             }
 
             resetRound();
@@ -268,6 +285,10 @@ public class GameplayController {
      */
     public static Player getPlayerFromId(Integer p_playerId) {
         return d_playerNameMap.get(d_playerIdMap.get(p_playerId));
+    }
+
+    public static void setTournament(Tournament p_tournament) {
+        d_currentTournament = p_tournament;
     }
 
 }
