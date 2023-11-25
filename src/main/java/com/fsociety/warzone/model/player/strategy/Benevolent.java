@@ -136,6 +136,10 @@ public class Benevolent implements Strategy {
         }
     }
 
+    /**
+     * Returns the type of the player strategy as a string.
+     * @return the player strategy as a string
+     */
     public String toString() {
         return "Benevolent";
     }

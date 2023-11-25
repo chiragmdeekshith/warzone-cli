@@ -199,6 +199,10 @@ public class Aggressive implements Strategy {
         return l_random.nextInt(p_countryToAdvanceFrom.getArmies()-1) + 1;
     }
 
+    /**
+     * Returns the type of the player strategy as a string.
+     * @return the player strategy as a string
+     */
     public String toString() {
         return "Aggressive";
     }

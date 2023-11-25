@@ -62,7 +62,8 @@ public class GameplayController {
     /**
      * This method implements the loop through the three main game phases: Assign Reinforcements, Issue Orders, and
      * Execute Orders. Print statements update the user as to which phase is taking place. The game ends when the win
-     * condition is met, which causes a change to the End Game phase. At the end of each round, the round is reset.
+     * condition is met, which causes a change to the End Game phase. At the end of each round, the round is reset. If
+     * a tournament is taking place, this method sets the winner of the current game for the tournament.
      */
     public static void gamePlayLoop() {
         Console.print("Game Start!");
@@ -287,6 +288,10 @@ public class GameplayController {
         return d_playerNameMap.get(d_playerIdMap.get(p_playerId));
     }
 
+    /**
+     * Sets the Tournament variable if a tournament is taking place.
+     * @param p_tournament the current tournament
+     */
     public static void setTournament(Tournament p_tournament) {
         d_currentTournament = p_tournament;
     }

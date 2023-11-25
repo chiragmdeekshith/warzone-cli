@@ -88,6 +88,10 @@ public class Cheater implements Strategy {
         p_currentPhase.deploy(l_countryForDeployment.getCountryId(), l_troopsForDeployment);
     }
 
+    /**
+     * Returns the type of the player strategy as a string.
+     * @return the player strategy as a string
+     */
     public String toString() {
         return "Cheater";
     }

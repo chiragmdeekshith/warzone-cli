@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * This class implements a Tournament object which stores the input parameters, runs the tournament on them, and then
+ * prints the results.
+ */
 public class Tournament {
 
     private int d_numberOfGames;
@@ -24,6 +28,13 @@ public class Tournament {
     private String[][] d_results;
     private Player d_lastWinner;
 
+    /**
+     * Constructor for a Tournament object created with the specified parameters.
+     * @param p_numberOfGames the number of games
+     * @param p_maxNumberOfTurns the max number of turns
+     * @param p_botPlayers the list of player strategy types
+     * @param p_maps the list of map file names
+     */
     public Tournament(int p_numberOfGames, int p_maxNumberOfTurns, ArrayList<String> p_botPlayers, ArrayList<String> p_maps) {
         this.d_numberOfGames = p_numberOfGames;
         this.d_maxNumberOfTurns = p_maxNumberOfTurns;
@@ -32,7 +43,10 @@ public class Tournament {
         this.d_results = new String[d_maps.size()][p_numberOfGames];
     }
 
-
+    /**
+     * This method runs a tournament by setting up each game according to the input and recording the results in
+     * an array.
+     */
     public void runTournament() {
 
         GameplayController.setTournament(this);
@@ -57,7 +71,6 @@ public class Tournament {
             }
             l_botPlayerNames.put(l_name + "Bot" + j, l_strategy);
         }
-
 
         for (int i = 0; i < d_maps.size(); i++) {
 
@@ -97,6 +110,10 @@ public class Tournament {
         printResults();
     }
 
+    /**
+     * This method sets the winner for the last game of a tournament.
+     * @param p_winner the winning Player
+     */
     public void setLastWinner(Player p_winner) {
         this.d_lastWinner = p_winner;
     }
@@ -111,6 +128,9 @@ public class Tournament {
         d_results[p_currMap][p_currGame] = l_result;
     }
 
+    /**
+     * This method formats the results of a tournament as a table and prints it.
+     */
     private void printResults() {
         String l_resultsString = "\nTournament Results: \n";
         l_resultsString += "--------";
@@ -143,6 +163,10 @@ public class Tournament {
         Console.print(l_resultsString);
     }
 
+    /**
+     * This method returns the maximum number of turns.
+     * @return the maximum number of turns
+     */
     public int getMaxNumberOfTurns() {
         return this.d_maxNumberOfTurns;
     }
