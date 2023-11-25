@@ -143,6 +143,22 @@ public enum Command {
      */
     public static final String HUMAN = "-human";
 
+    /**
+     * The map option for the tournament command
+     */
+    public static final String MAPS_OPTION = "-M";
+    /**
+     * The player option for the tournament command
+     */
+    public static final String PLAYER_OPTION = "-P";
+    /**
+     * The games option for the tournament command
+     */
+    public static final String GAMES_OPTION = "-G";
+    /**
+     * The turns option for the tournament command
+     */
+    public static final String TURNS_OPTION = "-D";
 
     /**
      * The command string
