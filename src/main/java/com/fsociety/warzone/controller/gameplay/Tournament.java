@@ -21,11 +21,11 @@ import java.util.Map;
  */
 public class Tournament {
 
-    private int d_numberOfGames;
-    private int d_maxNumberOfTurns;
-    private ArrayList<String> d_botPlayers;
-    private ArrayList<String> d_maps;
-    private String[][] d_results;
+    private final int d_numberOfGames;
+    private final int d_maxNumberOfTurns;
+    private final ArrayList<String> d_botPlayers;
+    private final ArrayList<String> d_maps;
+    private final String[][] d_results;
     private Player d_lastWinner;
 
     /**
@@ -132,35 +132,31 @@ public class Tournament {
      * This method formats the results of a tournament as a table and prints it.
      */
     private void printResults() {
-        String l_resultsString = "\nTournament Results: \n";
-        l_resultsString += "--------";
+        StringBuilder l_resultsString = new StringBuilder("\nTournament Results: \n");
+        l_resultsString.append("--------");
+        l_resultsString.append("------------".repeat(d_numberOfGames));
+        l_resultsString.append("\n");
+        l_resultsString.append("\t\t");
         for (int j = 0; j < d_numberOfGames; j++) {
-            l_resultsString += "------------";
+            l_resultsString.append("Game ").append(j + 1).append("\t\t");
         }
-        l_resultsString += "\n";
-        l_resultsString += "\t\t";
-        for (int j = 0; j < d_numberOfGames; j++) {
-            l_resultsString += "Game " + (j+1) + "\t\t";
-        }
-        l_resultsString += "\n";
+        l_resultsString.append("\n");
         for (int i = 0; i < d_maps.size(); i++) {
-            l_resultsString += "Map " + (i+1) + "\t";
+            l_resultsString.append("Map ").append(i + 1).append("\t");
             for (int j = 0; j < d_numberOfGames; j++) {
-                l_resultsString += d_results[i][j];
+                l_resultsString.append(d_results[i][j]);
                 if (d_results[i][j].equals("Aggressive") || d_results[i][j].equals("Benevolent")) {
-                    l_resultsString += "\t";
+                    l_resultsString.append("\t");
                 } else {
-                    l_resultsString += "\t\t";
+                    l_resultsString.append("\t\t");
                 }
             }
-            l_resultsString += "\n";
+            l_resultsString.append("\n");
         }
-        l_resultsString += "--------";
-        for (int j = 0; j < d_numberOfGames; j++) {
-            l_resultsString += "------------";
-        }
-        l_resultsString += "\n";
-        Console.print(l_resultsString);
+        l_resultsString.append("--------");
+        l_resultsString.append("------------".repeat(d_numberOfGames));
+        l_resultsString.append("\n");
+        Console.print(l_resultsString.toString());
     }
 
     /**

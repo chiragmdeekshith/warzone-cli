@@ -2,7 +2,11 @@ package com.fsociety.warzone.asset.command;
 
 import com.fsociety.warzone.view.Console;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 
 /**
  * This class is used for validating commands received from the Command Processor.
@@ -21,6 +25,8 @@ public class CommandValidator {
      */
     private static final Set<String> d_playerStrategies;
 
+    private static final HashSet<String> d_tournamentOptions;
+
     static {
         d_commands = new HashMap<>();
         for (Command l_command : Command.values()) {
@@ -31,6 +37,12 @@ public class CommandValidator {
         d_playerStrategies.add(Command.BENEVOLENT);
         d_playerStrategies.add(Command.CHEATER);
         d_playerStrategies.add(Command.RANDOM);
+
+        d_tournamentOptions = new HashSet<>();
+        d_tournamentOptions.add(Command.MAPS_OPTION);
+        d_tournamentOptions.add(Command.PLAYER_OPTION);
+        d_tournamentOptions.add(Command.GAMES_OPTION);
+        d_tournamentOptions.add(Command.TURNS_OPTION);
     }
 
     /**
@@ -222,77 +234,72 @@ public class CommandValidator {
             case TOURNAMENT -> {
                 int l_i = 1;
                 try {
-                    if (!p_splitCommand[l_i].equals("-M")) {
-                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
-                                " 'tournament' command.");
-                        return false;
-                    }
-                    l_i++;
-                    int l_mapsCount = 0;
-                    while (!p_splitCommand[l_i].equals("-P")) {
-                        if(!p_splitCommand[l_i].endsWith(".map")) {
-                            Console.print("The file passed is not a '.map' file.");
-                            return false;
+                    for (int i = 0; i < d_tournamentOptions.size(); i++) {
+                        switch (p_splitCommand[l_i]) {
+                            case Command.MAPS_OPTION -> {
+                                l_i++;
+                                int l_mapsCount = 0;
+                                while (p_splitCommand[l_i].endsWith(".map")) {
+                                    l_mapsCount++;
+                                    l_i++;
+                                    if (l_i > p_splitCommand.length-1) {
+                                        break;
+                                    }
+                                }
+                                if (l_mapsCount > 5 || l_mapsCount < 1) {
+                                    Console.print("Please enter between 1 and 5 map file names.");
+                                    return false;
+                                }
+                            }
+                            case Command.PLAYER_OPTION -> {
+                                l_i++;
+                                int l_playerCount = 0;
+                                while (d_playerStrategies.contains(p_splitCommand[l_i])) {
+                                    l_playerCount++;
+                                    l_i++;
+                                    if (l_i > p_splitCommand.length-1) {
+                                        break;
+                                    }
+                                }
+                                if (l_playerCount > 4 || l_playerCount < 2) {
+                                    Console.print("Please enter between 2 and 4 player strategies.");
+                                    return false;
+                                }
+                            }
+                            case Command.GAMES_OPTION -> {
+                                l_i++;
+                                int l_games = 0;
+                                try {
+                                    l_games = Integer.parseInt(p_splitCommand[l_i++]);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Argument passed for number of games must be an integer.");
+                                    return false;
+                                }
+                                if (l_games < 1 || l_games > 5) {
+                                    Console.print("Please enter between 1 and 5 games to be played.");
+                                    return false;
+                                }
+                            }
+                            case Command.TURNS_OPTION -> {
+                                l_i++;
+                                int l_turns = 0;
+                                try {
+                                    l_turns = Integer.parseInt(p_splitCommand[l_i++]);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Argument passed for maximum number of turns must be an integer.");
+                                    return false;
+                                }
+                                if (l_turns < 10 || l_turns > 50) {
+                                    Console.print("Please enter between 10 and 50 for the maximum number of turns.");
+                                    return false;
+                                }
+                            }
+                            default -> {
+                                Console.print("Unexpected argument. Please use 'help' to see the correct formatting " +
+                                        "for the 'tournament' command.");
+                                return false;
+                            }
                         }
-                        l_mapsCount++;
-                        l_i++;
-                    }
-                    if (l_mapsCount > 5 || l_mapsCount < 1) {
-                        Console.print("Please enter between 1 and 5 map file names.");
-                        return false;
-                    }
-                    if (!p_splitCommand[l_i].equals("-P")) {
-                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
-                                " 'tournament' command.");
-                        return false;
-                    }
-                    l_i++;
-                    int l_playerCount = 0;
-                    while (!p_splitCommand[l_i].equals("-G")) {
-                        if(!d_playerStrategies.contains(p_splitCommand[l_i])) {
-                            Console.print("Unrecognized player strategy.");
-                            return false;
-                        }
-                        l_playerCount++;
-                        l_i++;
-                    }
-                    if (l_playerCount > 4 || l_playerCount < 2) {
-                        Console.print("Please enter between 2 and 4 player strategies.");
-                        return false;
-                    }
-                    if (!p_splitCommand[l_i].equals("-G")) {
-                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
-                                " 'tournament' command.");
-                        return false;
-                    }
-                    l_i++;
-                    int l_games = 0;
-                    try {
-                        l_games = Integer.parseInt(p_splitCommand[l_i++]);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Argument passed for number of games must be an integer.");
-                        return false;
-                    }
-                    if (l_games < 1 || l_games > 5) {
-                        Console.print("Please enter between 1 and 5 games to be played.");
-                        return false;
-                    }
-                    if (!p_splitCommand[l_i].equals("-D")) {
-                        Console.print("Unexpected argument. Please use 'help' to see the correct formatting for the" +
-                                " 'tournament' command.");
-                        return false;
-                    }
-                    l_i++;
-                    int l_turns = 0;
-                    try {
-                        l_turns = Integer.parseInt(p_splitCommand[l_i++]);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Argument passed for maximum number of turns must be an integer.");
-                        return false;
-                    }
-                    if (l_turns < 10 || l_turns > 50) {
-                        Console.print("Please enter between 10 and 50 for the maximum number of turns.");
-                        return false;
                     }
                     if (l_i != p_splitCommand.length) {
                         Console.print("Unexpected argument Please use 'help' to see the correct formatting for the" +

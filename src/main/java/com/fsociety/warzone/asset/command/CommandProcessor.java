@@ -15,11 +15,18 @@ public class CommandProcessor {
 
     private static final Map<String, Command> d_commands;
 
+    private static final HashSet<String> d_tournamentOptions;
+
     static {
         d_commands = new HashMap<>();
         for (Command l_command : Command.values()) {
             d_commands.put(l_command.getCommand(), l_command);
         }
+        d_tournamentOptions = new HashSet<>();
+        d_tournamentOptions.add(Command.MAPS_OPTION);
+        d_tournamentOptions.add(Command.PLAYER_OPTION);
+        d_tournamentOptions.add(Command.GAMES_OPTION);
+        d_tournamentOptions.add(Command.TURNS_OPTION);
     }
 
     /**
@@ -48,30 +55,42 @@ public class CommandProcessor {
             case TOURNAMENT -> {
                 ArrayList<String> l_playerStrategies = new ArrayList<>();
                 ArrayList<String> l_mapFiles = new ArrayList<>();
-                int l_numberOfGames;
-                int l_maxTurns;
+                int l_numberOfGames = 0;
+                int l_maxTurns = 0;
 
-                int l_i = 2;
-                while (!p_splitCommand[l_i].equals("-P")) {
-                    l_mapFiles.add(p_splitCommand[l_i]);
-                    l_i++;
+                int l_i = 1;
+                for (int i = 0; i < d_tournamentOptions.size(); i++) {
+                    switch (p_splitCommand[l_i]) {
+                        case Command.MAPS_OPTION -> {
+                            l_i++;
+                            while (!d_tournamentOptions.contains(p_splitCommand[l_i])) {
+                                l_mapFiles.add(p_splitCommand[l_i]);
+                                l_i++;
+                                if (l_i > p_splitCommand.length-1) {
+                                    break;
+                                }
+                            }
+                        }
+                        case Command.PLAYER_OPTION -> {
+                            l_i++;
+                            while (!d_tournamentOptions.contains(p_splitCommand[l_i])) {
+                                l_playerStrategies.add(p_splitCommand[l_i]);
+                                l_i++;
+                                if (l_i > p_splitCommand.length-1) {
+                                    break;
+                                }
+                            }
+                        }
+                        case Command.GAMES_OPTION -> {
+                            l_i++;
+                            l_numberOfGames = Integer.parseInt(p_splitCommand[l_i++]);
+                        }
+                        case Command.TURNS_OPTION -> {
+                            l_i++;
+                            l_maxTurns = Integer.parseInt(p_splitCommand[l_i++]);
+                        }
+                    }
                 }
-                l_i++;
-                while (!p_splitCommand[l_i].equals("-G")) {
-                    l_playerStrategies.add(p_splitCommand[l_i]);
-                    l_i++;
-                }
-                l_i++;
-                l_numberOfGames = Integer.parseInt(p_splitCommand[l_i]);
-                l_i+=2;
-                l_maxTurns = Integer.parseInt(p_splitCommand[l_i]);
-
-//                l_playerStrategies.add("-aggressive");
-//                l_playerStrategies.add("-aggressive");
-//                l_playerStrategies.add("-random");
-//                l_mapFiles.add("1.map");
-//                l_mapFiles.add("bigeurope.map");
-
                 l_phase.tournamentMode(l_numberOfGames, l_maxTurns, l_playerStrategies, l_mapFiles);
             }
             case BACK -> l_phase.back();
