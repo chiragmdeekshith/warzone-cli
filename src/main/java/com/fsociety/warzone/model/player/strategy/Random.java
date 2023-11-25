@@ -6,6 +6,7 @@ import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
+import com.fsociety.warzone.model.player.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,18 +42,18 @@ public class Random implements Strategy {
      */
     @Override
     public void issueOrder(String p_playerName) {
-        // Get the player ID from player name
-        int l_playerId = GameplayController.getPlayerNameMap().get(p_playerName).getId();
+        // Get the player from player name
+        Player l_player = GameplayController.getPlayerNameMap().get(p_playerName);
 
         // Get all countries the player currently owns
-        List<Country> l_playerCountries = GameplayController.getPlayMap().getCountriesOwnedByPlayer(l_playerId);
+        List<Country> l_playerCountries = l_player.getCountries();
 
         // Get the current phase of the game and then decide what to do
         Phase l_currentPhase = GameEngine.getPhase();
 
         // Deploy in case the game is in the Reinforcement phase
         if(l_currentPhase instanceof Reinforcement) {
-            issueReinforcementOrder(l_currentPhase, l_playerCountries, l_playerId);
+            issueReinforcementOrder(l_currentPhase, l_playerCountries, l_player.getId());
         }
         // Attack in case the game is in the Attack phase
         if (l_currentPhase instanceof Attack) {

@@ -6,6 +6,7 @@ import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
+import com.fsociety.warzone.model.player.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,27 +44,36 @@ public class Benevolent implements Strategy {
     @Override
     public void issueOrder(String p_playerName) {
         // Get the player ID from player name
-        int l_playerId = GameplayController.getPlayerNameMap().get(p_playerName).getId();
+        Player l_player = GameplayController.getPlayerNameMap().get(p_playerName);
 
         // Get all countries the player currently owns
-        List<Country> l_playerCountries = GameplayController.getPlayMap().getCountriesOwnedByPlayer(l_playerId);
-
-        Country l_countryWithMinimumTroops = l_playerCountries.get(0);
-        for(Country l_country : l_playerCountries) {
-            if(l_country.getArmies() < l_countryWithMinimumTroops.getArmies()) {
-                l_countryWithMinimumTroops = l_country;
-            }
-        }
+        List<Country> l_playerCountries = l_player.getCountries();
 
         // Get the current phase of the game and then decide what to do
         Phase l_currentPhase = GameEngine.getPhase();
 
         // Deploy in case the game is in the Reinforcement phase
         if(l_currentPhase instanceof Reinforcement) {
-            issueReinforcementOrder(l_currentPhase, l_playerId, l_countryWithMinimumTroops);
+            Country l_countryWithMinimumTroops = l_playerCountries.get(0);
+            for(Country l_country : l_playerCountries) {
+                if(l_country.getArmies() < l_countryWithMinimumTroops.getArmies()) {
+                    l_countryWithMinimumTroops = l_country;
+                }
+            }
+            issueReinforcementOrder(l_currentPhase, l_player.getId(), l_countryWithMinimumTroops);
         }
         // Attack in case the game is in the Attack phase
         if (l_currentPhase instanceof Attack) {
+            if(l_playerCountries.isEmpty()) {
+                l_currentPhase.commit();
+                return;
+            }
+            Country l_countryWithMinimumTroops = l_playerCountries.get(0);
+            for(Country l_country : l_playerCountries) {
+                if(l_country.getArmies() < l_countryWithMinimumTroops.getArmies()) {
+                    l_countryWithMinimumTroops = l_country;
+                }
+            }
             issueAdvanceOrder(l_currentPhase, l_playerCountries);
         }
     }
