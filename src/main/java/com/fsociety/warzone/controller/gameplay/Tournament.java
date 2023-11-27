@@ -7,7 +7,7 @@ import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.player.strategy.*;
 import com.fsociety.warzone.model.player.strategy.Random;
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.DominationMapTools;
 import com.fsociety.warzone.view.Console;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class Tournament {
             for (int j = 0; j < d_numberOfGames; j++) {
 
                 // Load and validate map for next game
-                PlayMap l_playMap = MapTools.loadAndValidatePlayableMap(d_maps.get(i));
+                PlayMap l_playMap = DominationMapTools.loadAndValidatePlayableMap(d_maps.get(i));
                 if(null == l_playMap) {
                     Console.print("Failed to load map" + d_maps.get(i) + "! Returning to Main Menu.");
                     return;

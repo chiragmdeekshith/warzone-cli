@@ -4,7 +4,7 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.map.PlayMap;
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.DominationMapTools;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ class AssignReinforcementsTest {
      */
     @BeforeEach
     void setUp() {
-        d_playMap = MapTools.loadAndValidatePlayableMap("1.map");
+        d_playMap = DominationMapTools.loadAndValidatePlayableMap("1.map");
         GameplayController.setPlayMap(d_playMap);
 
         d_player1 = new Player("Player1");

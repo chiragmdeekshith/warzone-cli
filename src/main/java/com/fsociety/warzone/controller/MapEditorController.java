@@ -1,7 +1,8 @@
 package com.fsociety.warzone.controller;
 
 import com.fsociety.warzone.model.map.EditMap;
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.DominationMapTools;
+import com.fsociety.warzone.util.MapValidator;
 
 /**
  * This class handles everything related to editing maps by acting as an interface between the user and the Map Tools
@@ -22,7 +23,7 @@ public class MapEditorController {
      * @return true if the map is properly validated, false otherwise
      */
     public static boolean validateMap() {
-        return MapTools.validateMap(d_editMap);
+        return MapValidator.validateMap(d_editMap);
     }
 
     /**
@@ -31,7 +32,7 @@ public class MapEditorController {
      * @return true if the file was saved successfully, false otherwise
      */
     public static boolean saveMap(String p_fileName) {
-        return MapTools.saveMapFile(d_editMap, p_fileName);
+        return DominationMapTools.saveMapFile(d_editMap, p_fileName);
     }
 
     // Getters and setters
