@@ -54,8 +54,8 @@ public class CommandProcessor {
             case PLAY_GAME -> l_phase.playGame();
             case MAP_EDITOR -> l_phase.mapEditor();
             case TOURNAMENT -> {
-                List<String> l_playerStrategies = new ArrayList<>();
-                List<String> l_mapFiles = new ArrayList<>();
+                ArrayList<String> l_playerStrategies = new ArrayList<>();
+                ArrayList<String> l_mapFiles = new ArrayList<>();
                 int l_numberOfGames = 0;
                 int l_maxTurns = 0;
 
