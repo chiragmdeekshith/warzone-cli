@@ -1,6 +1,7 @@
 package com.fsociety.warzone.util;
 
 import com.fsociety.warzone.asset.phase.Phase;
+import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.map.AbstractMap;
 import com.fsociety.warzone.model.map.EditMap;
 import com.fsociety.warzone.model.map.PlayMap;
@@ -316,11 +317,35 @@ public class MapTools {
         p_mapData.getNeighbours().forEach((key,values) -> {
             l_data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
         });
+        l_data.append("\n[players]");
+        //p_players.forEach((key,values) -> {
+            //l_data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
+        //});
+        l_data.append("\n[country_owned_neighbours]");
+        for (Map.Entry<Integer, Country> entry : p_mapData.getCountries().entrySet()) {
+            int l_countryId = entry.getKey();
+            Country l_country = entry.getValue();
+            if(null != l_country.getPlayer()) {
+                l_data
+                        .append(l_countryId)
+                        .append(": ")
+                        .append(l_country.getPlayer().getName())
+                        .append(",\t")
+                        .append(l_country.getArmies())
+                        .append(" - ")
+                        .append(p_mapData.getNeighbours().get(l_countryId).toString())
+                        .append("\n");
+            }
+        }
+        l_data.append("\n[state]");
+        //p_phase.forEach((key,values) -> {
+        //    l_data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
+        //});
 
         // Write the data to the file
         PrintWriter l_write;
         try {
-            l_write = new PrintWriter("src/main/resources/maps/"+p_fileNameForSave);
+            l_write = new PrintWriter("src/main/resources/game/"+p_fileNameForSave);
             l_write.write(String.valueOf(l_data));
             l_write.close();
             return true;
@@ -329,6 +354,54 @@ public class MapTools {
             Console.print(e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * Reads the file from system and loads it into the PlayMap. Verifies the format of the map file before loading it in and then
+     * logically validates it again before returning it.
+     *
+     * @param p_fileName - the name of the file to be opened
+     * @return - returns an instance of the PlayMap object ready
+     */
+    public static PlayMap loadGameFile(String p_fileName) {
+        PlayMap l_playMap;
+        try {
+            l_playMap = new PlayMap();
+            String l_filePath = "src/main/resources/game/" + p_fileName;
+            FileReader l_mapFile;
+            l_mapFile = new FileReader(l_filePath);
+            String l_line;
+            StringBuilder l_data = new StringBuilder();
+            BufferedReader l_mapReader = new BufferedReader(l_mapFile);
+            l_line = l_mapReader.readLine();
+            while(l_line !=null) {
+                if(!l_line.equals("\n")){
+                    l_data.append(l_line).append("\n");
+                    l_line = l_mapReader.readLine();
+                }
+            }
+            if (validateFileFormat(l_playMap, l_data, p_fileName)) {
+                if (!loadDataFromFile(l_playMap, l_data)) {
+                    return null;
+                }
+            }
+            else {
+                return null;
+            }
+        }
+        catch (NumberFormatException e) {
+            Console.print("Cannot parse integer.");
+            return null;
+        }
+        catch (Exception e) {
+            Console.print("File does not exist!");
+            return null;
+        }
+        if(validateMap(l_playMap)) {
+            l_playMap.initGameMapElements();
+            return l_playMap;
+        }
+        return null;
     }
 
     /**

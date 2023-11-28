@@ -1,6 +1,7 @@
 package com.fsociety.warzone.asset.phase.edit;
 
 import com.fsociety.warzone.asset.command.Command;
+import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.controller.MapEditorController;
 import com.fsociety.warzone.model.map.EditMap;
 import com.fsociety.warzone.view.Console;
@@ -34,6 +35,18 @@ public class EditPostLoad extends Edit {
     @Override
     public void saveMap(String p_fileName) {
         if(!MapEditorController.saveMap(p_fileName)) {
+            Console.print("File save for file \"" + p_fileName + "\" failed!");
+            return;
+        }
+        Console.print("File saved successfully: \"" + p_fileName + "\".");
+    }
+
+    /**
+     * This method allows the user to save the map being edited by entering the 'savegame' command.
+     * @param p_fileName the name of file to save the map to
+     */
+    public void saveGame(String p_fileName) {
+        if(!GameplayController.saveGame(p_fileName)) {
             Console.print("File save for file \"" + p_fileName + "\" failed!");
             return;
         }

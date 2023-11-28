@@ -118,6 +118,15 @@ public class Menu extends Phase {
     }
 
     /**
+     * This method prints out the invalid command message when the 'loadgame' command is used outside of the
+     * PlayPreLoad phase.
+     */
+    @Override
+    public void loadGame(String p_fileName) {
+        printInvalidCommandMessage();
+    }
+
+    /**
      * This method prints out the invalid command message when the 'gameplayer' command is used outside of the
      * PlayPostLoad phase.
      */
@@ -234,6 +243,15 @@ public class Menu extends Phase {
      */
     @Override
     public void saveMap(String p_fileName) {
+        printInvalidCommandMessage();
+    }
+
+    /**
+     * This method prints out the invalid command message when the 'savegame' command is used outside of the
+     * EditPostLoad phase.
+     */
+    @Override
+    public void saveGame(String p_fileName) {
         printInvalidCommandMessage();
     }
 
