@@ -292,6 +292,8 @@ public class MapTools {
      * This functions validates the game state before saving into a physical file on the system.
      *
      * @param p_mapData - the EditMap object to save to the file
+     * @param p_players  List of players
+     * @param p_phase The current phase
      * @param p_fileNameForSave - name of the new save file
      * @return true if the file was saved successfully, false otherwise
      */
