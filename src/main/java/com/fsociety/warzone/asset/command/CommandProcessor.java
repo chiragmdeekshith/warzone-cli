@@ -187,6 +187,8 @@ public class CommandProcessor {
                 l_phase.gamePlayer(l_gamePlayersToAdd, l_gamePlayersToRemove);
             }
             case ASSIGN_COUNTRIES -> l_phase.assignCountries();
+            case SAVE_GAME -> l_phase.saveGame(p_splitCommand[1]);
+            case LOAD_GAME -> l_phase.loadGame(p_splitCommand[1]);
             case DEPLOY -> {
                 int l_countryId = Integer.parseInt(p_splitCommand[1]);
                 int l_troopsCount = Integer.parseInt(p_splitCommand[2]);

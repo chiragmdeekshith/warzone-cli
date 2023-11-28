@@ -23,11 +23,24 @@ public class PlayPostLoad extends PlaySetup{
      */
     @Override
     public void help() {
-        Command[] l_validCommands = {Command.SHOW_MAP, Command.GAME_PLAYER, Command.ASSIGN_COUNTRIES, Command.SHOW_PLAYERS};
+        Command[] l_validCommands = {Command.SHOW_MAP, Command.SAVE_GAME, Command.LOAD_GAME, Command.GAME_PLAYER, Command.ASSIGN_COUNTRIES, Command.SHOW_PLAYERS};
         String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command -flag [arguments] / -flag [arguments]";
         Console.print(l_help);
+    }
+
+    /**
+     * This method allows the user to save the map being edited by entering the 'savegame' command.
+     * @param p_fileName the name of file to save the map to
+     */
+    @Override
+    public void saveGame(String p_fileName) {
+        if(!GameplayController.saveGame(p_fileName)) {
+            Console.print("File save for file \"" + p_fileName + "\" failed!");
+            return;
+        }
+        Console.print("File saved successfully: \"" + p_fileName + "\".");
     }
 
     /**

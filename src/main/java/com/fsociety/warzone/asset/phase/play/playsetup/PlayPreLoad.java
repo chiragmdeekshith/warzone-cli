@@ -39,4 +39,19 @@ public class PlayPreLoad extends PlaySetup {
         Console.print("Loaded map \"" + p_fileName + "\"");
         GameEngine.setPhase(new PlayPostLoad());
     }
+
+    /**
+     * This method allows the user to load a game by entering the 'loadgame' command.
+     * @param p_fileName the name of the game file to load
+     */
+    public void loadGame(String p_fileName) {
+        PlayMap l_playMap = MapTools.loadGameFile(p_fileName);
+        if(null == l_playMap) {
+            Console.print("Failed to load the game! Please try another game file.");
+            return;
+        }
+        GameplayController.setPlayMap(l_playMap);
+        Console.print("Loaded game \"" + p_fileName + "\"");
+        GameEngine.setPhase(new PlayPostLoad());
+    }
 }

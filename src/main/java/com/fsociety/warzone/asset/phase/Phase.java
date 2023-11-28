@@ -151,6 +151,18 @@ public abstract class Phase {
     public abstract void saveMap(String p_fileName);
 
     /**
+     * This method saves a game's contents to a file.
+     * @param p_fileName the name of the file to be saved to
+     */
+    public abstract void saveGame(String p_fileName);
+
+    /**
+     * This method loads a file's contents into an game object.
+     * @param p_fileName the name of the file to be loaded
+     */
+    public abstract void loadGame(String p_fileName);
+
+    /**
      * This method adds and removes continents from the map.
      * @param p_continentsToAdd the continents to add
      * @param p_continentsToRemove the continents to remove

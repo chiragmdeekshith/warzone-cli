@@ -62,6 +62,14 @@ public enum Command {
      */
     LOAD_MAP("loadmap", "[filename]"),
     /**
+     * Save a map file from current map
+     */
+    SAVE_GAME("savegame", "[filename]"),
+    /**
+     * Load a map file for playing
+     */
+    LOAD_GAME("loadgame", "[filename]"),
+    /**
      * Add or Remove game players
      */
     GAME_PLAYER("gameplayer", "-aggressive / -benevolent / -cheater / -random / <choose no argument for a Human player> \n -add [name] / -remove [name]"),
