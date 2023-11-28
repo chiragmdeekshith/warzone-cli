@@ -45,6 +45,7 @@ public class EditPostLoad extends Edit {
      * This method allows the user to save the map being edited by entering the 'savegame' command.
      * @param p_fileName the name of file to save the map to
      */
+    @Override
     public void saveGame(String p_fileName) {
         if(!GameplayController.saveGame(p_fileName)) {
             Console.print("File save for file \"" + p_fileName + "\" failed!");
