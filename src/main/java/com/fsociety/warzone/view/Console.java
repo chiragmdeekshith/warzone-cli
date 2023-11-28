@@ -9,6 +9,14 @@ import java.util.Scanner;
  */
 public class Console {
 
+    /**
+     * This class should not be instantiated.
+     * Contains only static methods.
+     */
+    private Console() {
+
+    }
+
     private static final Scanner SCANNER = new Scanner(System.in);
 
     /**
