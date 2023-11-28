@@ -12,6 +12,7 @@ import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.asset.phase.end.End;
 import com.fsociety.warzone.asset.phase.play.mainplay.Attack;
 import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
+import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.view.log.Log;
 
@@ -140,6 +141,16 @@ public class GameplayController {
             removePlayer(l_player);
             Console.print(l_player.getName() + " was eliminated!",true);
         }
+    }
+
+
+    /**
+     * This method allows the use to save the map being worked on to a file.
+     * @param p_fileName the file name to be saved to
+     * @return true if the file was saved successfully, false otherwise
+     */
+    public static boolean saveGame(String p_fileName) {
+        return MapTools.saveGameFile(d_playMap, d_players, GameEngine.getPhase(),p_fileName);
     }
 
     /**

@@ -1,8 +1,10 @@
 package com.fsociety.warzone.util;
 
+import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.model.map.AbstractMap;
 import com.fsociety.warzone.model.map.EditMap;
 import com.fsociety.warzone.model.map.PlayMap;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.view.Console;
 
 import java.io.BufferedReader;
@@ -248,6 +250,51 @@ public class MapTools {
      * @return true if the file was saved successfully, false otherwise
      */
     public static boolean saveMapFile(EditMap p_mapData, String p_fileNameForSave) {
+
+        // Ensure the map is valid
+        if(!validateMap(p_mapData)) {
+            return false;
+        }
+
+        // Serialise the data
+        StringBuilder l_data = new StringBuilder();
+        l_data.append("[continents]\n");
+        p_mapData.getContinentBonuses().forEach((key,values) -> {
+            l_data.append(key).append(" ").append(key).append(" ").append(values).append("\n");
+        });
+        l_data.append("\n[countries]\n");
+        p_mapData.getCountriesInContinent().forEach((key,values) -> {
+            for(Integer c:values)
+                l_data.append(c).append(" ").append(c).append(" ").append(key).append("\n");
+        });
+        l_data.append("\n[borders]");
+        p_mapData.getNeighbours().forEach((key,values) -> {
+            l_data.append("\n").append(key).append(" ").append(values.toString().trim().replaceAll("[\\[\\]\",]",""));
+        });
+
+        // Write the data to the file
+        PrintWriter l_write;
+        try {
+            l_write = new PrintWriter("src/main/resources/maps/"+p_fileNameForSave);
+            l_write.write(String.valueOf(l_data));
+            l_write.close();
+            return true;
+        }
+        catch (Exception e) {
+            Console.print(e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     *
+     * This functions validates the game state before saving into a physical file on the system.
+     *
+     * @param p_mapData - the EditMap object to save to the file
+     * @param p_fileNameForSave - name of the new save file
+     * @return true if the file was saved successfully, false otherwise
+     */
+    public static boolean saveGameFile(PlayMap p_mapData, ArrayList<Player> p_players, Phase p_phase, String p_fileNameForSave) {
 
         // Ensure the map is valid
         if(!validateMap(p_mapData)) {
