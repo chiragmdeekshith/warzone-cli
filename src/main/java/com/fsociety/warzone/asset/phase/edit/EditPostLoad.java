@@ -42,19 +42,6 @@ public class EditPostLoad extends Edit {
     }
 
     /**
-     * This method allows the user to save the map being edited by entering the 'savegame' command.
-     * @param p_fileName the name of file to save the map to
-     */
-    @Override
-    public void saveGame(String p_fileName) {
-        if(!GameplayController.saveGame(p_fileName)) {
-            Console.print("File save for file \"" + p_fileName + "\" failed!");
-            return;
-        }
-        Console.print("File saved successfully: \"" + p_fileName + "\".");
-    }
-
-    /**
      * This method allows the player to add or remove continents using the 'editcontinent' command.
      * @param p_continentsToAdd the array of continents to be added to the map
      * @param p_continentsToRemove the array of continents to be removed from the map
