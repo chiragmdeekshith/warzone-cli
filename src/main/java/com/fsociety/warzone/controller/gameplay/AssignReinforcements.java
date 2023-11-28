@@ -24,22 +24,24 @@ public class AssignReinforcements {
      *
      * @param p_players the list of Player object whose reinforcements are to be calculated
      */
-    public static void assignReinforcements(ArrayList<Player> p_players) {
+    public static void assignReinforcements(ArrayList<Player> p_players, boolean p_isNewGame) {
 
-        for (Player l_player : p_players) {
+        if(p_isNewGame) {
+            for (Player l_player : p_players) {
 
-            int l_base = Math.max(3, l_player.getCountriesCount() / 3);
+                int l_base = Math.max(3, l_player.getCountriesCount() / 3);
 
-            AtomicInteger l_reinforcements = new AtomicInteger(l_base); // Base reinforcements
+                AtomicInteger l_reinforcements = new AtomicInteger(l_base); // Base reinforcements
 
-            Map<Integer, Continent> l_continents = GameplayController.getPlayMap().getContinents();
-            l_continents.keySet().forEach(continentId -> {
-                if (l_continents.get(continentId).getContinentOwner() != null && l_player.equals(l_continents.get(continentId).getContinentOwner())) {
-                    l_reinforcements.addAndGet(l_continents.get(continentId).getArmiesBonus());
-                }
-            });
-            l_player.setAvailableReinforcements(l_reinforcements.get());
-            Console.print("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
+                Map<Integer, Continent> l_continents = GameplayController.getPlayMap().getContinents();
+                l_continents.keySet().forEach(continentId -> {
+                    if (l_continents.get(continentId).getContinentOwner() != null && l_player.equals(l_continents.get(continentId).getContinentOwner())) {
+                        l_reinforcements.addAndGet(l_continents.get(continentId).getArmiesBonus());
+                    }
+                });
+                l_player.setAvailableReinforcements(l_reinforcements.get());
+                Console.print("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
+            }
         }
 
         // Issue and Execute the Deploy orders before moving to the attack phase, where are other orders are processed

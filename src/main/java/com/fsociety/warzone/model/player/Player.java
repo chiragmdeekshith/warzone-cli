@@ -9,12 +9,13 @@ import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.util.IdGenerator;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents a Player object.
  */
-public class Player {
+public class Player implements Serializable {
 
     private final String d_name;
     private final Integer d_id;

@@ -6,12 +6,14 @@ import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * This class is used by the GameplayController for gameplay.
  */
 public class PlayMap extends AbstractMap {
+
     // continent id -> game state of continent
     private Map<Integer, Continent> d_continents;
 

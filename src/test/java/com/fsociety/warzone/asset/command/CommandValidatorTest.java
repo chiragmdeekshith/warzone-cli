@@ -55,8 +55,8 @@ class CommandValidatorTest {
      */
     @Test
     public void testValidateFilenameCommand_InvalidArguments() {
-        assertFalse(CommandValidator.validateFilenameCommand(new String[]{"savemap"}));
-        assertFalse(CommandValidator.validateFilenameCommand(new String[]{"loadmap", "filename.map", "blah"}));
+        assertFalse(CommandValidator.validateFilenameCommand(new String[]{"savemap"}, ".map"));
+        assertFalse(CommandValidator.validateFilenameCommand(new String[]{"loadmap", "filename.map", "blah"}, ".map"));
     }
 
 }

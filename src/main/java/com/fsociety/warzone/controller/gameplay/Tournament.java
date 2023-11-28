@@ -10,6 +10,7 @@ import com.fsociety.warzone.model.player.strategy.Random;
 import com.fsociety.warzone.util.MapTools;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
  * This class implements a Tournament object which stores the input parameters, runs the tournament on them, and then
  * prints the results.
  */
-public class Tournament {
+public class Tournament implements Serializable {
 
     private final int d_numberOfGames;
     private final int d_maxNumberOfTurns;

@@ -3,6 +3,8 @@ package com.fsociety.warzone.asset.order;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
+
 /**
  * This class handles everything related to Attacking
  */

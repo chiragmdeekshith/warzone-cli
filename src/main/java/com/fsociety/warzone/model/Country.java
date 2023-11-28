@@ -3,10 +3,12 @@ package com.fsociety.warzone.model;
 
 import com.fsociety.warzone.model.player.Player;
 
+import java.io.Serializable;
+
 /**
  * A POJO class which represents the Country in a map.
  */
-public class Country {
+public class Country implements Serializable {
 
     private int d_playerId;
 
