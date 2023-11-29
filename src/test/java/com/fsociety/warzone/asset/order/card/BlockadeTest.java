@@ -11,6 +11,7 @@ import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.util.map.ConquestMapTools;
 import com.fsociety.warzone.util.map.DominationMapTools;
 import com.fsociety.warzone.util.map.MapAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -89,6 +90,14 @@ class BlockadeTest {
         // Ensure the player has a Blockade card
         d_player1.getHandOfCards().drawSpecificCard(HandOfCards.Card.BLOCKADE);
 
+    }
+
+    /**
+     * Tear down mock data for testing.
+     */
+    @AfterEach
+    void tearDown() {
+        GameplayController.resetGameState();
     }
 
     /**
