@@ -2,10 +2,11 @@ package com.fsociety.warzone.asset.command;
 
 import com.fsociety.warzone.view.Console;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -25,24 +26,14 @@ public class CommandValidator {
      */
     private static final Set<String> d_playerStrategies;
 
-    private static final HashSet<String> d_tournamentOptions;
+    private static final Set<String> d_tournamentOptions;
 
     static {
-        d_commands = new HashMap<>();
-        for (Command l_command : Command.values()) {
-            d_commands.put(l_command.getCommand(), l_command);
-        }
-        d_playerStrategies = new HashSet<>();
-        d_playerStrategies.add(Command.AGGRESSIVE);
-        d_playerStrategies.add(Command.BENEVOLENT);
-        d_playerStrategies.add(Command.CHEATER);
-        d_playerStrategies.add(Command.RANDOM);
-
-        d_tournamentOptions = new HashSet<>();
-        d_tournamentOptions.add(Command.MAPS_OPTION);
-        d_tournamentOptions.add(Command.PLAYER_OPTION);
-        d_tournamentOptions.add(Command.GAMES_OPTION);
-        d_tournamentOptions.add(Command.TURNS_OPTION);
+        d_commands = Arrays.stream(Command.values())
+                .collect(Collectors.toMap(Command::getCommand, Function.identity()));
+        d_playerStrategies = Set.of(Command.AGGRESSIVE, Command.BENEVOLENT, Command.CHEATER, Command.RANDOM);
+        d_tournamentOptions = Set.of(Command.MAPS_OPTION, Command.PLAYER_OPTION, Command.GAMES_OPTION,
+                Command.TURNS_OPTION);
     }
 
     /**
