@@ -1,0 +1,16 @@
+[Map]
+author=Noel Palmer
+warn=yes
+image=Alberta.bmp
+wrap=no
+scroll=vertical
+
+[Continents]
+Grande Prairie=5
+Slave Lake=5
+
+[Territories]
+Territory01,382,194,Grande Prairie,Territory02,Territory03
+Territory02,492,345,Grande Prairie,Territory01,Territory03,Territory04
+Territory03,689,187,Grande Prairie,Territory01,Territory02
+Territory04,852,246,Slave Lake,Territory02
