@@ -48,6 +48,7 @@ class PlayMapTest {
         //Finalizing the players
         GameplayController.finalizePlayers();
         GameplayController.initTruces();
+        GameplayController.materializeNeutralPlayer();
 
     }
 
