@@ -144,7 +144,7 @@ public class DominationMapTools {
         StringBuilder l_data = new StringBuilder();
         l_data.append(";map: ").append(p_fileNameForSave).append("\n").append("\n[continents]\n");
         p_mapData.getContinentBonuses().forEach((key,values) -> {
-            l_data.append(key).append(" ").append(key).append(" ").append(values).append("\n");
+            l_data.append(key).append(" ").append(values).append("\n");
         });
         l_data.append("\n[countries]\n");
         p_mapData.getCountriesInContinent().forEach((key,values) -> {
