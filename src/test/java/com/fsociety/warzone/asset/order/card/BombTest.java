@@ -54,6 +54,7 @@ class BombTest {
         l_playerNameMap.put("Player2", d_player2);
         GameplayController.finalizePlayers();
         GameplayController.initTruces();
+        GameplayController.materializeNeutralPlayer();
 
         // Player1 should have 3 reinforcements and Player2 should have 8 reinforcements
         d_playMap.updateCountry(1, d_player1.getId(), 0);
