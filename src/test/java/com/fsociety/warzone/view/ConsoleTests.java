@@ -19,8 +19,8 @@ class ConsoleTests {
 
     @BeforeEach
     public void setUpStreams() {
-        String input = "This is my input";
-        d_inStream = new ByteArrayInputStream(input.getBytes());
+        String l_input = "This is my input";
+        d_inStream = new ByteArrayInputStream(l_input.getBytes());
         System.setIn(d_inStream);
         System.setOut(new PrintStream(d_outContent));
     }
@@ -33,33 +33,33 @@ class ConsoleTests {
 
     @Test
     void testCommandPromptPlayer() {
-        final String p_playerName = "player1";
-        final String p_prompt = "Please enter a command.\n" + p_playerName + "> ";
-        Console.commandPromptPlayer(p_playerName);
-        Assertions.assertEquals(p_prompt, d_outContent.toString());
+        final String l_playerName = "player1";
+        final String l_prompt = "Please enter a command.\n" + l_playerName + "> ";
+        Console.commandPromptPlayer(l_playerName);
+        Assertions.assertEquals(l_prompt, d_outContent.toString());
     }
 
     @Test
     void testPrint() {
-        final String p_prompt = "Please print this message.";
-        Console.print(p_prompt);
-        Assertions.assertEquals(p_prompt + "\r\n", d_outContent.toString());
+        final String l_prompt = "Please print this message.";
+        Console.print(l_prompt);
+        Assertions.assertEquals(l_prompt + "\r\n", d_outContent.toString());
     }
 
     @Test
     void testPrint2_no_log() {
-        final String p_prompt = "Please print this message.";
-        Console.print(p_prompt, false);
-        Assertions.assertEquals(p_prompt + "\r\n", d_outContent.toString());
+        final String l_prompt = "Please print this message.";
+        Console.print(l_prompt, false);
+        Assertions.assertEquals(l_prompt + "\r\n", d_outContent.toString());
     }
 
     @Test
     void testPrint2_log() {
-        final String p_prompt = "Please print this message.";
+        final String l_prompt = "Please print this message.";
         Log.initLogEntryBuffer(d_file);
-        Console.print(p_prompt, true);
+        Console.print(l_prompt, true);
         Log.flushToFile();
-        Assertions.assertEquals(p_prompt + "\r\n", d_outContent.toString());
+        Assertions.assertEquals(l_prompt + "\r\n", d_outContent.toString());
 
         FileReader l_fileReader ;
         try {
@@ -70,7 +70,7 @@ class ConsoleTests {
         }
         BufferedReader l_bufferedReader = new BufferedReader(l_fileReader);
         try {
-            assertEquals(p_prompt, l_bufferedReader.readLine());
+            assertEquals(l_prompt, l_bufferedReader.readLine());
         } catch (IOException e) {
             fail();
         }

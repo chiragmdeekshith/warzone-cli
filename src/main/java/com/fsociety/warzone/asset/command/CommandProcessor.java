@@ -4,7 +4,14 @@ import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.view.Console;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * This Class implements command processing, where the input command leads to
@@ -18,15 +25,14 @@ public class CommandProcessor {
     private static final Set<String> d_tournamentOptions;
 
     static {
-        d_commands = new HashMap<>();
-        for (Command l_command : Command.values()) {
-            d_commands.put(l_command.getCommand(), l_command);
-        }
-        d_tournamentOptions = new HashSet<>();
-        d_tournamentOptions.add(Command.MAPS_OPTION);
-        d_tournamentOptions.add(Command.PLAYER_OPTION);
-        d_tournamentOptions.add(Command.GAMES_OPTION);
-        d_tournamentOptions.add(Command.TURNS_OPTION);
+        d_commands = Arrays.stream(Command.values())
+                .collect(Collectors.toMap(Command::getCommand, Function.identity()));
+
+        d_tournamentOptions = Set.of(Command.MAPS_OPTION,
+                Command.PLAYER_OPTION,
+                Command.GAMES_OPTION,
+                Command.TURNS_OPTION);
+
     }
 
     /**
