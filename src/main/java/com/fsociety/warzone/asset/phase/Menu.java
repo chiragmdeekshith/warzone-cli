@@ -55,13 +55,7 @@ public class Menu extends Phase {
         new Tournament(p_numberOfGames, p_maxNumberOfTurns, p_botPlayers, p_maps).runTournament();
         Console.print("Tournament concluded. Returning to Main Menu.");
         GameEngine.setPhase(new Menu());
-        Console.print("""
-                                                          \s
-                 _ _ _ _____ _____ _____ _____ _____ _____\s
-                | | | |  _  | __  |__   |     |   | |   __|
-                | | | |     |    -|   __|  |  | | | |   __|
-                |_____|__|__|__|__|_____|_____|_|___|_____|
-                                                          \s""");
+        GameEngine.printLogo();
     }
 
     /**

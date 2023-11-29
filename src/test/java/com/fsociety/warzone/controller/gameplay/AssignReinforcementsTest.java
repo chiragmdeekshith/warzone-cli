@@ -23,9 +23,6 @@ class AssignReinforcementsTest {
 
     Player d_player1, d_player2;
     PlayMap d_playMap;
-    /**
-     * The map object
-     */
     DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
