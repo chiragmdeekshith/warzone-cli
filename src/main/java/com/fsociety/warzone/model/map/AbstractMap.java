@@ -55,6 +55,15 @@ public abstract class AbstractMap implements Serializable {
         this.d_fileName = d_fileName;
     }
 
+
+    /**
+     * Get the name of the file to be saved.
+     * @return d_fileName - the file name
+     */
+    public String getFileName() {
+        return d_fileName;
+    }
+
     /**
      * Retrieve the neighbours HashMap object containing HashSets of neighbouring countries
      * @return the neighbours HashMap

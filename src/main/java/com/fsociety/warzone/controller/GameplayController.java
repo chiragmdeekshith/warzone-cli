@@ -237,6 +237,7 @@ public class GameplayController {
         d_truces = null;
         d_gameWon = false;
         d_winner = null;
+        d_turns = 0;
         dematerializeNeutralPlayer();
     }
 
