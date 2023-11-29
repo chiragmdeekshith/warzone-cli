@@ -64,7 +64,7 @@ public class GameSaveData implements Serializable {
     /**
      * Holds the turn number
      */
-    private static int d_turns;
+    private int d_turns;
 
     /**
      * Gets the finalized list of players in the game after the startup phase.

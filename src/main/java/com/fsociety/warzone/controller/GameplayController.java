@@ -86,11 +86,11 @@ public class GameplayController {
             d_turns = 0;
         } else {
             Console.print("Game Resume!");
+            Console.print("Turn " + d_turns,true);
         }
 
         while (true) {
             if(!p_isNewGame) {
-                Console.print("Turn " + d_turns,true);
                 if(GameEngine.getPhase() instanceof Reinforcement) {
                     AssignReinforcements.assignReinforcements(d_players, p_isNewGame);
                     Console.print("All players have deployed their reinforcements.");
