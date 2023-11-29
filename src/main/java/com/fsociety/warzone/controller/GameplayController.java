@@ -15,7 +15,11 @@ import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.view.log.Log;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.List;
 
 /**
  * This class controls the turn-based gameplay loop.
@@ -82,11 +86,11 @@ public class GameplayController {
             d_turns = 0;
         } else {
             Console.print("Game Resume!");
+            Console.print("Turn " + d_turns,true);
         }
 
         while (true) {
             if(!p_isNewGame) {
-                Console.print("Turn " + d_turns,true);
                 if(GameEngine.getPhase() instanceof Reinforcement) {
                     AssignReinforcements.assignReinforcements(d_players, p_isNewGame);
                     Console.print("All players have deployed their reinforcements.");
