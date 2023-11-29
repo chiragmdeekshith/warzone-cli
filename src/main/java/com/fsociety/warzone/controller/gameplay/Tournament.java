@@ -200,5 +200,8 @@ public class Tournament implements Serializable {
     public int getMaxNumberOfTurns() {
         return this.d_maxNumberOfTurns;
     }
+    public String[][] getResults() {
+        return this.d_results;
+    }
 
 }
