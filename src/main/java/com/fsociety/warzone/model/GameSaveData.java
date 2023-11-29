@@ -67,6 +67,11 @@ public class GameSaveData implements Serializable {
     private int d_turns;
 
     /**
+     * The singleton neutral player object with a country list
+     */
+    private Player d_neutralPlayer;
+
+    /**
      * Gets the finalized list of players in the game after the startup phase.
      *
      * @return The list of players.
@@ -240,5 +245,23 @@ public class GameSaveData implements Serializable {
      */
     public void setTurns(int p_turns) {
         d_turns = p_turns;
+    }
+
+    /**
+     * Gets the neutral player.
+     *
+     * @return The neutral player.
+     */
+    public Player getNeutralPlayer() {
+        return d_neutralPlayer;
+    }
+
+    /**
+     * Sets the neutral.
+     *
+     * @param p_neutralPlayer The neutral player to set.
+     */
+    public void setNeutralPlayer(Player p_neutralPlayer) {
+        this.d_neutralPlayer = p_neutralPlayer;
     }
 }

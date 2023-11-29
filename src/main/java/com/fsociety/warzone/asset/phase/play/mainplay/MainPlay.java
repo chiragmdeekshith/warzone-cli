@@ -54,6 +54,7 @@ public abstract class MainPlay extends Play {
         l_gameSaveData.setPlayers(GameplayController.getPlayers());
         l_gameSaveData.setWinner(GameplayController.getWinner());
         l_gameSaveData.setTurns(GameplayController.getTurns());
+        l_gameSaveData.setNeutralPlayer(GameplayController.getNeutralPlayer());
         l_gameSaveData.setCurrentPhase(GameEngine.getPhase());
 
         if(GameSaveUtil.saveGameToFile(l_gameSaveData, p_fileName)) {
