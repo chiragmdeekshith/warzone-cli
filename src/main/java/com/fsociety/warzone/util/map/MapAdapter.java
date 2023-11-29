@@ -45,7 +45,7 @@ public class MapAdapter extends DominationMapTools {
     }
 
     /**
-     * Loading and Validating PLay Map that is overridden according to the Adapter Pattern.
+     * Loading and Validating Play Map that is overridden according to the Adapter Pattern.
      *
      * @param p_fileName - the name of the file to be opened
      * @return - returns an instance of the PlayMap object ready
@@ -62,7 +62,7 @@ public class MapAdapter extends DominationMapTools {
     }
 
     /**
-     * Save map method that is overriden according to the Adapter Pattern by input given by user.
+     * Save map method that is overridden according to the Adapter Pattern by input given by user.
      *
      * @param p_mapData - the map data to be saved,
      * @param p_fileNameForSave - the name of the file to be saved
