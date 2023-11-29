@@ -6,9 +6,12 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.player.strategy.*;
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,14 +21,40 @@ import java.util.Map;
  * This class implements a Tournament object which stores the input parameters, runs the tournament on them, and then
  * prints the results.
  */
-public class Tournament {
+public class Tournament implements Serializable {
 
+    /**
+     * The number of Games in the tournament
+     */
     private final int d_numberOfGames;
+    /**
+     * The max number of turns used to determine DRAW GAME
+     */
     private final int d_maxNumberOfTurns;
+    /**
+     * A list of Bot players
+     */
     private final ArrayList<String> d_botPlayers;
+
+    /**
+     * A list of map file names
+     */
     private final ArrayList<String> d_maps;
+
+    /**
+     * The variable that holds the result for printing it
+     */
     private final String[][] d_results;
+
+    /**
+     * Winner of the previous round
+     */
     private Player d_lastWinner;
+
+    /**
+     * The map object that is following adapter pattern
+     */
+    private DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * Constructor for a Tournament object created with the specified parameters.
@@ -76,7 +105,7 @@ public class Tournament {
             for (int j = 0; j < d_numberOfGames; j++) {
 
                 // Load and validate map for next game
-                PlayMap l_playMap = MapTools.loadAndValidatePlayableMap(d_maps.get(i));
+                PlayMap l_playMap = d_mapTools.loadAndValidatePlayableMap(d_maps.get(i));
                 if(null == l_playMap) {
                     Console.print("Failed to load map" + d_maps.get(i) + "! Returning to Main Menu.");
                     return;

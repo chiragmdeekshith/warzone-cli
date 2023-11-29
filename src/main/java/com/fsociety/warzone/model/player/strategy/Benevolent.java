@@ -8,6 +8,7 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
  * This class implements the Benevolent strategy for a computer player.
  * A benevolent computer player strategy that focuses on defending the weak countries
  */
-public class Benevolent implements Strategy {
+public class Benevolent implements Strategy, Serializable {
 
     /**
      * This variable is used to track if it's executing the first attack or not.

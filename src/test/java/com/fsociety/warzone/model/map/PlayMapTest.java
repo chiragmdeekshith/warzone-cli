@@ -5,7 +5,9 @@ import java.util.Map;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.player.Player;
 
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +23,10 @@ class PlayMapTest {
      * Players for the test
      */
     Player d_player1, d_player2;
+    /**
+     * The map object
+     */
+    DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * Setting up the PlayMap object before each test.
@@ -29,7 +35,7 @@ class PlayMapTest {
     @BeforeEach
     void setUp() {
         //Loading and validating the map
-        d_playMap = MapTools.loadAndValidatePlayableMap("1.map");
+        d_playMap = d_mapTools.loadAndValidatePlayableMap("1.map");
         //Setting up the GameplayController
         GameplayController.setPlayMap(d_playMap);
         //Setting up the players

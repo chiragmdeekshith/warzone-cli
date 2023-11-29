@@ -5,11 +5,6 @@ package com.fsociety.warzone.asset.order;
  */
 public class Advance extends Attack {
 
-    private final int d_troopsCount;
-    private final int d_sourceCountryId;
-    private final int d_targetCountryId;
-    private final int d_playerId;
-
     /**
      * Parameterised constructor to initialise an Advance order.
      * @param p_sourceCountryId the source country

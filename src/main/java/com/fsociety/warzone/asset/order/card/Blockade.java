@@ -8,7 +8,13 @@ import com.fsociety.warzone.view.Console;
  */
 public class Blockade implements Order {
 
+    /**
+     * The country ID
+     */
     private final int d_countryId;
+    /**
+     * The player ID
+     */
     private final int d_playerId;
 
     /**

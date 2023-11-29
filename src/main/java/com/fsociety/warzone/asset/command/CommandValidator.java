@@ -2,10 +2,11 @@ package com.fsociety.warzone.asset.command;
 
 import com.fsociety.warzone.view.Console;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -25,24 +26,14 @@ public class CommandValidator {
      */
     private static final Set<String> d_playerStrategies;
 
-    private static final HashSet<String> d_tournamentOptions;
+    private static final Set<String> d_tournamentOptions;
 
     static {
-        d_commands = new HashMap<>();
-        for (Command l_command : Command.values()) {
-            d_commands.put(l_command.getCommand(), l_command);
-        }
-        d_playerStrategies = new HashSet<>();
-        d_playerStrategies.add(Command.AGGRESSIVE);
-        d_playerStrategies.add(Command.BENEVOLENT);
-        d_playerStrategies.add(Command.CHEATER);
-        d_playerStrategies.add(Command.RANDOM);
-
-        d_tournamentOptions = new HashSet<>();
-        d_tournamentOptions.add(Command.MAPS_OPTION);
-        d_tournamentOptions.add(Command.PLAYER_OPTION);
-        d_tournamentOptions.add(Command.GAMES_OPTION);
-        d_tournamentOptions.add(Command.TURNS_OPTION);
+        d_commands = Arrays.stream(Command.values())
+                .collect(Collectors.toMap(Command::getCommand, Function.identity()));
+        d_playerStrategies = Set.of(Command.AGGRESSIVE, Command.BENEVOLENT, Command.CHEATER, Command.RANDOM);
+        d_tournamentOptions = Set.of(Command.MAPS_OPTION, Command.PLAYER_OPTION, Command.GAMES_OPTION,
+                Command.TURNS_OPTION);
     }
 
     /**
@@ -65,16 +56,40 @@ public class CommandValidator {
                     ASSIGN_COUNTRIES, COMMIT, SHOW_CARDS, SHOW_AVAILABLE_ARMIES, SHOW_PLAYERS -> {
                 return validateNoArgsCommand(p_splitCommand);
             }
-            case EDIT_MAP, SAVE_MAP, LOAD_MAP -> {
-                return validateFilenameCommand(p_splitCommand);
+            case EDIT_MAP, LOAD_MAP -> {
+                return validateFilenameCommand(p_splitCommand, Command.MAP_FILE_EXTENSION);
             }
-
+            case SAVE_MAP -> {
+                if (p_splitCommand.length == 2) {
+                    if(!p_splitCommand[1].endsWith(Command.MAP_FILE_EXTENSION)) {
+                        Console.print("The file name passed is not a '"+Command.MAP_FILE_EXTENSION+"' file.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+                if (p_splitCommand.length!=3) {
+                    Console.print("Unexpected number of arguments for the save map command");
+                    return false;
+                }
+                switch (p_splitCommand[2]) {
+                    case Command.MAP_OPTION_DOMINATION, Command.MAP_OPTION_CONQUEST -> {
+                        return true;
+                    }
+                    default -> {
+                        Console.print("Unrecognized file option");
+                        return false;
+                    }
+                }
+            }
+            case LOAD_GAME, SAVE_GAME -> {
+                return validateFilenameCommand(p_splitCommand, Command.SAVE_FILE_EXTENSION);
+            }
             case EDIT_CONTINENT -> {
                 if(p_splitCommand.length < 3) {
                     Console.print("Unexpected number of arguments passed.");
                     return false;
                 }
-
                 int l_i = 1;
                 while(l_i < p_splitCommand.length) {
                     String l_operation = p_splitCommand[l_i++];
@@ -443,16 +458,17 @@ public class CommandValidator {
      * A common function for checking commands related to filename.
      *
      * @param p_splitCommand the parsed command array
-     * @return boolean - true if the command has 1 argument filename ending with '.map', false otherwise.
+     * @param p_fileType the type of file that needs to be checked
+     * @return boolean - true if the command has 1 argument filename ending with the fileType passed, false otherwise.
      */
-    static boolean validateFilenameCommand(String[] p_splitCommand) {
+    static boolean validateFilenameCommand(String[] p_splitCommand, String p_fileType) {
         if(p_splitCommand.length != 2){
             Console.print("Unexpected number of arguments. Expected one argument: filename.");
             return false;
         }
         String l_fileName = p_splitCommand[1];
-        if(!l_fileName.endsWith(".map")) {
-            Console.print("The file passed is not a '.map' file.");
+        if(!l_fileName.endsWith(p_fileType)) {
+            Console.print("The file passed is not a '" + p_fileType + "' file.");
             return false;
         }
         return true;

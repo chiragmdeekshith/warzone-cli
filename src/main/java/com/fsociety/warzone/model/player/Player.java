@@ -9,22 +9,53 @@ import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.util.IdGenerator;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents a Player object.
  */
-public class Player {
+public class Player implements Serializable {
 
+    /**
+     * Name of the player
+     */
     private final String d_name;
+    /**
+     * ID of the player
+     */
     private final Integer d_id;
+    /**
+     * A list of orders for the player
+     */
     private final ArrayList<Order> d_orders;
+    /**
+     * List of countries the player owns
+     */
     private final ArrayList<Country> d_countries;
+    /**
+     * The available reinforcements for the player
+     */
     private int d_availableReinforcements;
+    /**
+     * The Hand Of Cards a player hols
+     */
     private final HandOfCards d_handOfCards;
+    /**
+     * A flag to check if a player has drawn a card
+     */
     private boolean d_cardDrawn;
+    /**
+     * A flag to check if the player has committed
+     */
     private boolean d_committed;
+    /**
+     * A flag to check if  order has been issues
+     */
     private boolean d_orderIssued;
+    /**
+     * The strategy of the player - Can be Human, or other Computer players
+     */
     private Strategy d_playerStrategy;
 
 

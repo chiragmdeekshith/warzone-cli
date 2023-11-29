@@ -8,6 +8,7 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Random;
  * This class implements the aggressive strategy for a computer player.
  * An aggressive computer player strategy that focuses on centralization of forces and then attack
  */
-public class Aggressive implements Strategy {
+public class Aggressive implements Strategy, Serializable {
     /**
      * This variable is used to track if it's executing the first attack or not.
      */

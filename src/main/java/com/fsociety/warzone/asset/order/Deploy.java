@@ -3,13 +3,23 @@ package com.fsociety.warzone.asset.order;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
+
 /**
  * This class handles everything related to Deploying armies
  */
 public class Deploy implements Order {
-
+    /**
+     * The troops count
+     */
     private final int d_troopsCount;
+    /**
+     * The country ID
+     */
     private final int d_countryId;
+    /**
+     * The player ID
+     */
     private final int d_playerId;
 
     /**

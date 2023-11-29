@@ -5,44 +5,48 @@ import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.view.Console;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
- * This Class implements command processing, where the input command leads to the appropriate method being called on the
+ * This Class implements command processing, where the input command leads to
+ * the appropriate method being called on the
  * current phase.
  */
 public class CommandProcessor {
 
     private static final Map<String, Command> d_commands;
 
-    private static final HashSet<String> d_tournamentOptions;
+    private static final Set<String> d_tournamentOptions;
 
     static {
-        d_commands = new HashMap<>();
-        for (Command l_command : Command.values()) {
-            d_commands.put(l_command.getCommand(), l_command);
-        }
-        d_tournamentOptions = new HashSet<>();
-        d_tournamentOptions.add(Command.MAPS_OPTION);
-        d_tournamentOptions.add(Command.PLAYER_OPTION);
-        d_tournamentOptions.add(Command.GAMES_OPTION);
-        d_tournamentOptions.add(Command.TURNS_OPTION);
+        d_commands = Arrays.stream(Command.values())
+                .collect(Collectors.toMap(Command::getCommand, Function.identity()));
+
+        d_tournamentOptions = Set.of(Command.MAPS_OPTION,
+                Command.PLAYER_OPTION,
+                Command.GAMES_OPTION,
+                Command.TURNS_OPTION);
+
     }
 
     /**
      * This method takes in a command and splits it for execution.
+     * 
      * @param p_rawCommand the input command
      */
     public static void processCommand(String p_rawCommand) {
-        if(p_rawCommand.isEmpty()) {
+        if (p_rawCommand.isEmpty()) {
             Console.print("Command is empty. It cannot be empty.");
             return;
         }
-        String[] l_splitCommand = p_rawCommand.split(" ");
-        if(!CommandValidator.validateCommand(l_splitCommand)) {
+        final String[] l_splitCommand = p_rawCommand.split(" ");
+        if (!CommandValidator.validateCommand(l_splitCommand)) {
             return;
         }
         executeCommand(l_splitCommand);
@@ -69,7 +73,7 @@ public class CommandProcessor {
                             while (!d_tournamentOptions.contains(p_splitCommand[l_i])) {
                                 l_mapFiles.add(p_splitCommand[l_i]);
                                 l_i++;
-                                if (l_i > p_splitCommand.length-1) {
+                                if (l_i > p_splitCommand.length - 1) {
                                     break;
                                 }
                             }
@@ -79,7 +83,7 @@ public class CommandProcessor {
                             while (!d_tournamentOptions.contains(p_splitCommand[l_i])) {
                                 l_playerStrategies.add(p_splitCommand[l_i]);
                                 l_i++;
-                                if (l_i > p_splitCommand.length-1) {
+                                if (l_i > p_splitCommand.length - 1) {
                                     break;
                                 }
                             }
@@ -103,7 +107,7 @@ public class CommandProcessor {
                 Map<Integer, Integer> l_continentsToAdd = new HashMap<>();
                 Set<Integer> l_continentsToRemove = new HashSet<>();
                 int l_i = 1;
-                while(l_i < p_splitCommand.length) {
+                while (l_i < p_splitCommand.length) {
                     String l_operation = p_splitCommand[l_i++];
                     int l_continentId = Integer.parseInt(p_splitCommand[l_i++]);
                     switch (l_operation) {
@@ -122,7 +126,7 @@ public class CommandProcessor {
                 Set<Integer> l_countriesToRemove = new HashSet<>();
 
                 int l_i = 1;
-                while(l_i < p_splitCommand.length) {
+                while (l_i < p_splitCommand.length) {
                     String l_operation = p_splitCommand[l_i++];
                     int l_countryId = Integer.parseInt(p_splitCommand[l_i++]);
                     switch (l_operation) {
@@ -141,7 +145,7 @@ public class CommandProcessor {
                 Map<Integer, Integer> l_neighboursToRemove = new HashMap<>();
 
                 int l_i = 1;
-                while(l_i < p_splitCommand.length) {
+                while (l_i < p_splitCommand.length) {
                     String l_operation = p_splitCommand[l_i++];
 
                     switch (l_operation) {
@@ -162,23 +166,25 @@ public class CommandProcessor {
             }
             case VALIDATE_MAP -> l_phase.validateMap();
             case EDIT_MAP -> l_phase.editMap(p_splitCommand[1]);
-            case SAVE_MAP -> l_phase.saveMap(p_splitCommand[1]);
+            case SAVE_MAP -> l_phase.saveMap(p_splitCommand);
             case LOAD_MAP -> l_phase.loadMap(p_splitCommand[1]);
+            case SAVE_GAME -> l_phase.saveGame(p_splitCommand[1]);
+            case LOAD_GAME -> l_phase.loadGame(p_splitCommand[1]);
             case GAME_PLAYER -> {
                 Map<String, String> l_gamePlayersToAdd = new HashMap<>();
                 Set<String> l_gamePlayersToRemove = new HashSet<>();
 
                 int l_i = 1;
                 String l_playerStrategy = Command.HUMAN;
-                if(!Command.ADD.equals(p_splitCommand[1]) && !Command.REMOVE.equals(p_splitCommand[1])) {
+                if (!Command.ADD.equals(p_splitCommand[1]) && !Command.REMOVE.equals(p_splitCommand[1])) {
                     l_playerStrategy = p_splitCommand[1];
                     l_i++;
                 }
 
-                for (; l_i < p_splitCommand.length - 1; l_i+=2) {
+                for (; l_i < p_splitCommand.length - 1; l_i += 2) {
 
                     String l_operation = p_splitCommand[l_i];
-                    String l_playerName = p_splitCommand[l_i+1];
+                    String l_playerName = p_splitCommand[l_i + 1];
 
                     switch (l_operation) {
                         case Command.ADD -> l_gamePlayersToAdd.put(l_playerName, l_playerStrategy);

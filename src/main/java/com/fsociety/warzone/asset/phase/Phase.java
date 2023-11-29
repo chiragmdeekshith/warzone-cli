@@ -2,6 +2,7 @@ package com.fsociety.warzone.asset.phase;
 
 import com.fsociety.warzone.asset.command.Command;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
 /**
  * This abstract Class contains the list of possible methods called on the Phase objects.
  */
-public abstract class Phase {
+public abstract class Phase implements Serializable {
 
     // Main Menu
     /**
@@ -146,9 +147,21 @@ public abstract class Phase {
 
     /**
      * This method saves an EditMap's contents to a file.
+     * @param p_fileSaveData the data of the file that needs to be saved
+     */
+    public abstract void saveMap(String[] p_fileSaveData);
+
+    /**
+     * This method saves a game's contents to a file.
      * @param p_fileName the name of the file to be saved to
      */
-    public abstract void saveMap(String p_fileName);
+    public abstract void saveGame(String p_fileName);
+
+    /**
+     * This method loads a file's contents into an game object.
+     * @param p_fileName the name of the file to be loaded
+     */
+    public abstract void loadGame(String p_fileName);
 
     /**
      * This method adds and removes continents from the map.

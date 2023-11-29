@@ -3,17 +3,31 @@ package com.fsociety.warzone.model;
 
 import com.fsociety.warzone.model.player.Player;
 
+import java.io.Serializable;
+
 /**
  * A POJO class which represents the Country in a map.
  */
-public class Country {
+public class Country implements Serializable {
 
+    /**
+     * The player ID who owns the country
+     */
     private int d_playerId;
 
+    /**
+     * The player who owns the country
+     */
     private Player d_player;
 
+    /**
+     * The number of armies the country currently has
+     */
     private int d_armies;
 
+    /**
+     * The country ID
+     */
     private final int d_countryId;
 
 
