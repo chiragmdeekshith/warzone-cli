@@ -454,6 +454,7 @@ public class GameplayController {
 
     /**
      * Get the neutral player
+     * @return the neutral player
      */
     public static Player getNeutralPlayer() {
         return d_neutralPlayer;
