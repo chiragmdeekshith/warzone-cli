@@ -2,12 +2,13 @@ package com.fsociety.warzone.asset.order.card;
 
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * This class implements a hand of cards for the player which can be added to and played from.
  */
-public class HandOfCards {
+public class HandOfCards implements Serializable {
 
     /**
      * A counter to track the list of BOMB cards that a player owns

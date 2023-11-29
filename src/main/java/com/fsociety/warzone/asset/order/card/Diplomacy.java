@@ -9,7 +9,13 @@ import com.fsociety.warzone.view.Console;
  */
 public class Diplomacy implements Order {
 
+    /**
+     * The player ID
+     */
     private final int d_playerId;
+    /**
+     * The enemy player ID
+     */
     private final int d_enemyId;
 
     /**

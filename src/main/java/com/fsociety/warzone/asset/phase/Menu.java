@@ -4,7 +4,10 @@ import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.asset.phase.edit.EditPreLoad;
 import com.fsociety.warzone.asset.phase.play.playsetup.PlayPreLoad;
+import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.controller.gameplay.Tournament;
+import com.fsociety.warzone.model.GameSaveData;
+import com.fsociety.warzone.util.GameSaveUtil;
 import com.fsociety.warzone.view.Console;
 
 import java.util.ArrayList;
@@ -114,15 +117,6 @@ public class Menu extends Phase {
      */
     @Override
     public void loadMap(String p_fileName) {
-        printInvalidCommandMessage();
-    }
-
-    /**
-     * This method prints out the invalid command message when the 'loadgame' command is used outside of the
-     * PlayPreLoad phase.
-     */
-    @Override
-    public void loadGame(String p_fileName) {
         printInvalidCommandMessage();
     }
 
@@ -247,15 +241,6 @@ public class Menu extends Phase {
     }
 
     /**
-     * This method prints out the invalid command message when the 'savegame' command is used outside of the
-     * EditPostLoad phase.
-     */
-    @Override
-    public void saveGame(String p_fileName) {
-        printInvalidCommandMessage();
-    }
-
-    /**
      * This method prints out the invalid command message when the 'editcontinent' command is used outside of the
      * EditPostLoad phase.
      */
@@ -288,6 +273,41 @@ public class Menu extends Phase {
      */
     @Override
     public void validateMap() {
+        printInvalidCommandMessage();
+    }
+
+    /**
+     * This method loads a new game from a save file when the 'loadgame' command is entered.
+     */
+    @Override
+    public void loadGame(String p_fileName) {
+        GameSaveData l_gameSavedata = GameSaveUtil.loadGameFromFile(p_fileName);
+        if(null == l_gameSavedata) {
+            Console.print("Could not load the save file. Game file corrupted or does not exist.");
+            return;
+        }
+
+        GameplayController.setCurrentTournament(l_gameSavedata.getCurrentTournament());
+        GameplayController.setGameWonForLoad(l_gameSavedata.getGameWon());
+        GameplayController.setTruces(l_gameSavedata.getTruces());
+        GameplayController.setWinner(l_gameSavedata.getWinner());
+        GameplayController.setPlayerIdMap(l_gameSavedata.getPlayerIdMap());
+        GameplayController.setPlayerNameMap(l_gameSavedata.getPlayerNameMap());
+        GameplayController.setPlayers(l_gameSavedata.getPlayers());
+        GameplayController.setPlayMap(l_gameSavedata.getPlayMap());
+        GameplayController.setTurns(l_gameSavedata.getTurns());
+        GameEngine.setPhase(l_gameSavedata.getCurrentPhase());
+
+        //Resume the game
+        GameplayController.gamePlayLoop(false);
+    }
+
+    /**
+     * This method prints out the invalid command message when the 'savegame' command is used outside of the
+     * MainPlay phase.
+     */
+    @Override
+    public void saveGame(String p_fileName) {
         printInvalidCommandMessage();
     }
 }

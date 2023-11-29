@@ -168,6 +168,8 @@ public class CommandProcessor {
             case EDIT_MAP -> l_phase.editMap(p_splitCommand[1]);
             case SAVE_MAP -> l_phase.saveMap(p_splitCommand[1]);
             case LOAD_MAP -> l_phase.loadMap(p_splitCommand[1]);
+            case SAVE_GAME -> l_phase.saveGame(p_splitCommand[1]);
+            case LOAD_GAME -> l_phase.loadGame(p_splitCommand[1]);
             case GAME_PLAYER -> {
                 Map<String, String> l_gamePlayersToAdd = new HashMap<>();
                 Set<String> l_gamePlayersToRemove = new HashSet<>();
@@ -194,8 +196,6 @@ public class CommandProcessor {
                 l_phase.gamePlayer(l_gamePlayersToAdd, l_gamePlayersToRemove);
             }
             case ASSIGN_COUNTRIES -> l_phase.assignCountries();
-            case SAVE_GAME -> l_phase.saveGame(p_splitCommand[1]);
-            case LOAD_GAME -> l_phase.loadGame(p_splitCommand[1]);
             case DEPLOY -> {
                 int l_countryId = Integer.parseInt(p_splitCommand[1]);
                 int l_troopsCount = Integer.parseInt(p_splitCommand[2]);

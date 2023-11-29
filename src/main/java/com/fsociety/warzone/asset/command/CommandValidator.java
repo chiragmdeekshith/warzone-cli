@@ -57,15 +57,16 @@ public class CommandValidator {
                 return validateNoArgsCommand(p_splitCommand);
             }
             case EDIT_MAP, SAVE_MAP, LOAD_MAP -> {
-                return validateFilenameCommand(p_splitCommand);
+                return validateFilenameCommand(p_splitCommand, Command.MAP_FILE_EXTENSION);
             }
-
+            case LOAD_GAME, SAVE_GAME -> {
+                return validateFilenameCommand(p_splitCommand, Command.SAVE_FILE_EXTENSION);
+            }
             case EDIT_CONTINENT -> {
                 if(p_splitCommand.length < 3) {
                     Console.print("Unexpected number of arguments passed.");
                     return false;
                 }
-
                 int l_i = 1;
                 while(l_i < p_splitCommand.length) {
                     String l_operation = p_splitCommand[l_i++];
@@ -434,16 +435,17 @@ public class CommandValidator {
      * A common function for checking commands related to filename.
      *
      * @param p_splitCommand the parsed command array
-     * @return boolean - true if the command has 1 argument filename ending with '.map', false otherwise.
+     * @param p_fileType the type of file that needs to be checked
+     * @return boolean - true if the command has 1 argument filename ending with the fileType passed, false otherwise.
      */
-    static boolean validateFilenameCommand(String[] p_splitCommand) {
+    static boolean validateFilenameCommand(String[] p_splitCommand, String p_fileType) {
         if(p_splitCommand.length != 2){
             Console.print("Unexpected number of arguments. Expected one argument: filename.");
             return false;
         }
         String l_fileName = p_splitCommand[1];
-        if(!l_fileName.endsWith(".map")) {
-            Console.print("The file passed is not a '.map' file.");
+        if(!l_fileName.endsWith(p_fileType)) {
+            Console.print("The file passed is not a '" + p_fileType + "' file.");
             return false;
         }
         return true;

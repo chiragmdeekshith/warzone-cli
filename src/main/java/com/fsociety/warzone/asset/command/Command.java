@@ -52,23 +52,23 @@ public enum Command {
     /**
      * Load or create a map file for editing
      */
-    EDIT_MAP("editmap", "[filename]"),
+    EDIT_MAP("editmap", "[filename].map"),
     /**
      * Save a map file from current map
      */
-    SAVE_MAP("savemap", "[filename]"),
+    SAVE_MAP("savemap", "[filename].map"),
     /**
      * Load a map file for playing
      */
-    LOAD_MAP("loadmap", "[filename]"),
+    LOAD_MAP("loadmap", "[filename].map"),
     /**
-     * Save a map file from current map
+     * Save the game
      */
-    SAVE_GAME("savegame", "[filename]"),
+    SAVE_GAME("savegame", "[filename].save"),
     /**
-     * Load a map file for playing
+     * Load a game
      */
-    LOAD_GAME("loadgame", "[filename]"),
+    LOAD_GAME("loadgame", "[filename].save"),
     /**
      * Add or Remove game players
      */
@@ -167,6 +167,17 @@ public enum Command {
      * The turns option for the tournament command
      */
     public static final String TURNS_OPTION = "-D";
+
+    /**
+     * The extension for the map file name
+     */
+    public static final String MAP_FILE_EXTENSION = ".map";
+
+    /**
+     * The extension for the save file name
+     */
+    public static final String SAVE_FILE_EXTENSION = ".save";
+
 
     /**
      * The command string
