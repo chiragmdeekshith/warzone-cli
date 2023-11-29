@@ -13,13 +13,7 @@ public class Application {
      * @param p_args - command line arguments
      */
     public static void main(String[] p_args) {
-        Console.print("""
-                                                          \s
-                 _ _ _ _____ _____ _____ _____ _____ _____\s
-                | | | |  _  | __  |__   |     |   | |   __|
-                | | | |     |    -|   __|  |  | | | |   __|
-                |_____|__|__|__|__|_____|_____|_|___|_____|
-                                                          \s""");
+        GameEngine.printLogo();
         GameEngine.mainMenu();
     }
 }

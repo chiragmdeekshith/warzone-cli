@@ -11,6 +11,9 @@ import com.fsociety.warzone.view.log.Log;
  */
 public class GameEngine {
 
+    /**
+     * The phase of the application
+     */
     private static Phase d_phase;
 
     /**
@@ -25,6 +28,17 @@ public class GameEngine {
             CommandProcessor.processCommand(l_command);
         }
     }
+
+    /**
+     * The very cool Warzone logo
+     */
+    private static final String d_logo = """
+                                                          \s
+                 _ _ _ _____ _____ _____ _____ _____ _____\s
+                | | | |  _  | __  |__   |     |   | |   __|
+                | | | |     |    -|   __|  |  | | | |   __|
+                |_____|__|__|__|__|_____|_____|_|___|_____|
+                                                          \s""";
 
     // Getters and setters
 
@@ -42,5 +56,12 @@ public class GameEngine {
      */
     public static void setPhase(Phase p_phase) {
         d_phase = p_phase;
+    }
+
+    /**
+     * This method prints the Warzone logo when returning to the main menu.
+     */
+    public static void printLogo() {
+        Console.print(d_logo);
     }
 }

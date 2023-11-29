@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * This Class implements the commands that are valid during the Start-Up phase of gameplay after a map has been loaded.
  */
-public class PlayPostLoad extends PlaySetup{
+public class PlayPostLoad extends PlaySetup {
 
     /**
      * This method compiles and prints a help message of valid commands for the PlayPostLoad phase when the 'help'
