@@ -488,10 +488,17 @@ public class GameplayController {
         d_neutralPlayer = p_neutralPlayer;
     }
 
+    /**
+     * Get the flag to check if the back command is issued
+     * @return the back command issued flag
+     */
     public static boolean isBackCommandIssued() {
         return d_isBackCommandIssued;
     }
 
+    /**
+     * Set the isBckCommandIssued flag to true
+     */
     public static void setBackCommandIssued() {
         d_isBackCommandIssued = true;
     }
