@@ -58,7 +58,7 @@ public abstract class AbstractMap implements Serializable {
 
     /**
      * Get the name of the file to be saved.
-     * return d_fileName - the file name
+     * @return d_fileName - the file name
      */
     public String getFileName() {
         return d_fileName;
