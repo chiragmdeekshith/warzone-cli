@@ -147,9 +147,9 @@ public abstract class Phase implements Serializable {
 
     /**
      * This method saves an EditMap's contents to a file.
-     * @param p_fileName the name of the file to be saved to
+     * @param p_fileSaveData the data of the file that needs to be saved
      */
-    public abstract void saveMap(String p_fileName);
+    public abstract void saveMap(String[] p_fileSaveData);
 
     /**
      * This method saves a game's contents to a file.

@@ -4,10 +4,10 @@ import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.map.PlayMap;
-import com.fsociety.warzone.util.ConquestMapTools;
-import com.fsociety.warzone.util.DominationMapTools;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
 import com.fsociety.warzone.view.Console;
-import com.fsociety.warzone.util.MapAdapter;
+import com.fsociety.warzone.util.map.MapAdapter;
 
 /**
  * This Class implements the commands that are valid during the Start-Up phase of gameplay before a map has been loaded.
@@ -17,7 +17,7 @@ public class PlayPreLoad extends PlaySetup {
     /**
      * The Adapted mapTools that is used to load and validate the map.
      */
-    private DominationMapTools mapTools = new MapAdapter(new ConquestMapTools());
+    private DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * This method compiles and prints a help message of valid commands for the PlayPreLoad phase when the 'help'
@@ -37,7 +37,7 @@ public class PlayPreLoad extends PlaySetup {
      */
     @Override
     public void loadMap(String p_fileName) {
-        PlayMap l_playMap = mapTools.loadAndValidatePlayableMap(p_fileName);
+        PlayMap l_playMap = d_mapTools.loadAndValidatePlayableMap(p_fileName);
         if(null == l_playMap) {
             Console.print("Failed to load the map! Please try another map file.");
             return;

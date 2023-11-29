@@ -1,5 +1,6 @@
-package com.fsociety.warzone.util;
+package com.fsociety.warzone.util.map;
 
+import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.model.map.AbstractMap;
 import com.fsociety.warzone.model.map.EditMap;
 import com.fsociety.warzone.model.map.PlayMap;
@@ -26,7 +27,6 @@ public class ConquestMapTools {
      */
     public EditMap loadAndValidateEditableMap(String p_fileName) {
         EditMap l_editMap;
-        String l_mapType = "conquest";
         try {
             // Read the file line by line
             l_editMap = new EditMap();
@@ -54,7 +54,7 @@ public class ConquestMapTools {
                 }
             }
             if (validateFileFormat(l_editMap, l_data, p_fileName)) {
-                if (!MapReader.loadDataFromFile(l_editMap, l_data,l_mapType)) {
+                if (!MapReader.loadDataFromFile(l_editMap, l_data,Command.MAP_OPTION_CONQUEST)) {
                     return null;
                 }
             }
@@ -85,7 +85,6 @@ public class ConquestMapTools {
      */
     public PlayMap loadAndValidatePlayableMap(String p_fileName) {
         PlayMap l_playMap;
-        String l_mapType = "conquest";
         try {
             l_playMap = new PlayMap();
             String l_filePath = "src/main/resources/maps/" + p_fileName;
@@ -102,7 +101,7 @@ public class ConquestMapTools {
                 }
             }
             if (validateFileFormat(l_playMap, l_data, p_fileName)) {
-                if (!MapReader.loadDataFromFile(l_playMap, l_data,l_mapType)) {
+                if (!MapReader.loadDataFromFile(l_playMap, l_data,Command.MAP_OPTION_CONQUEST)) {
                     return null;
                 }
             }
@@ -131,9 +130,10 @@ public class ConquestMapTools {
      *
      * @param p_mapData - the EditMap object to save to the file
      * @param p_fileNameForSave - name of the new save file
+     * @param p_mapType - the type of map that needs to be saved
      * @return true if the file was saved successfully, false otherwise
      */
-    public static boolean saveMapFile(EditMap p_mapData, String p_fileNameForSave) {
+    public boolean saveMapFile(EditMap p_mapData, String p_fileNameForSave, String p_mapType) {
 
         // Ensure the map is valid
         if(!MapValidator.validateMap(p_mapData)) {
@@ -142,7 +142,7 @@ public class ConquestMapTools {
 
         // Serialise the data
         StringBuilder l_data = new StringBuilder();
-        l_data.append("[map]").append("\nName=").append(p_mapData.getFileName()).append("\n").append("\n[continents]\n");
+        l_data.append("[map]").append("\nName=").append(p_fileNameForSave).append("\n").append("\n[continents]\n");
         p_mapData.getContinentBonuses().forEach((l_key,l_values) -> {
             l_data.append(l_key).append("=").append(l_values).append("\n");
         });

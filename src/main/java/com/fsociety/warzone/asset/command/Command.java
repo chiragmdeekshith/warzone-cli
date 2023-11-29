@@ -56,7 +56,7 @@ public enum Command {
     /**
      * Save a map file from current map
      */
-    SAVE_MAP("savemap", "[filename].map"),
+    SAVE_MAP("savemap", "[filename].map [-conquest / -domination / none]"),
     /**
      * Load a map file for playing
      */
@@ -177,6 +177,16 @@ public enum Command {
      * The extension for the save file name
      */
     public static final String SAVE_FILE_EXTENSION = ".save";
+
+    /**
+     * The option to save in conquest file type
+     */
+    public static final String MAP_OPTION_CONQUEST = "-conquest";
+
+    /**
+     * The option to save in domination file type
+     */
+    public static final String MAP_OPTION_DOMINATION = "-domination";
 
 
     /**

@@ -1,6 +1,6 @@
 package com.fsociety.warzone.model.map;
 
-import com.fsociety.warzone.util.DominationMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

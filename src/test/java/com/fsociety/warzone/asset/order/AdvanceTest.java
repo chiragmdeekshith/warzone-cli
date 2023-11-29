@@ -8,9 +8,9 @@ import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.map.PlayMap;
-import com.fsociety.warzone.util.ConquestMapTools;
-import com.fsociety.warzone.util.DominationMapTools;
-import com.fsociety.warzone.util.MapAdapter;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

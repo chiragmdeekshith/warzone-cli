@@ -1,4 +1,4 @@
-package com.fsociety.warzone.util;
+package com.fsociety.warzone.util.map;
 
 import com.fsociety.warzone.model.map.AbstractMap;
 import com.fsociety.warzone.view.Console;

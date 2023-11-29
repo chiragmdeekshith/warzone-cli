@@ -65,8 +65,31 @@ public class CommandValidator {
                     ASSIGN_COUNTRIES, COMMIT, SHOW_CARDS, SHOW_AVAILABLE_ARMIES, SHOW_PLAYERS -> {
                 return validateNoArgsCommand(p_splitCommand);
             }
-            case EDIT_MAP, SAVE_MAP, LOAD_MAP -> {
+            case EDIT_MAP, LOAD_MAP -> {
                 return validateFilenameCommand(p_splitCommand, Command.MAP_FILE_EXTENSION);
+            }
+            case SAVE_MAP -> {
+                if (p_splitCommand.length == 2) {
+                    if(!p_splitCommand[1].endsWith(Command.MAP_FILE_EXTENSION)) {
+                        Console.print("The file name passed is not a '"+Command.MAP_FILE_EXTENSION+"' file.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+                if (p_splitCommand.length!=3) {
+                    Console.print("Unexpected number of arguments for the save map command");
+                    return false;
+                }
+                switch (p_splitCommand[2]) {
+                    case Command.MAP_OPTION_DOMINATION, Command.MAP_OPTION_CONQUEST -> {
+                        return true;
+                    }
+                    default -> {
+                        Console.print("Unrecognized file option");
+                        return false;
+                    }
+                }
             }
             case LOAD_GAME, SAVE_GAME -> {
                 return validateFilenameCommand(p_splitCommand, Command.SAVE_FILE_EXTENSION);

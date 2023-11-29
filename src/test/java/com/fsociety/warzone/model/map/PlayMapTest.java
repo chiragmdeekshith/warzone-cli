@@ -5,9 +5,9 @@ import java.util.Map;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.player.Player;
 
-import com.fsociety.warzone.util.ConquestMapTools;
-import com.fsociety.warzone.util.DominationMapTools;
-import com.fsociety.warzone.util.MapAdapter;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

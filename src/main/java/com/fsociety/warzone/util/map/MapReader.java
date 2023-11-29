@@ -1,5 +1,6 @@
-package com.fsociety.warzone.util;
+package com.fsociety.warzone.util.map;
 
+import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.model.map.AbstractMap;
 import com.fsociety.warzone.view.Console;
 
@@ -17,10 +18,11 @@ public class MapReader {
      *
      * @param p_map - the AbstractMap object that we need to load data into
      * @param p_data - the StringBuilder object that contains the data from the file
+     * @param p_mapType - the type of map
      * @return true if the data is loaded in correctly, false otherwise
      */
     public static boolean loadDataFromFile(AbstractMap p_map, StringBuilder p_data, String p_mapType) {
-        if (p_mapType.equals(("domination"))) {
+        if (Command.MAP_OPTION_DOMINATION.equals(p_mapType)) {
             String[] l_continentData = p_data.substring(p_data.toString().toLowerCase().indexOf("[continents]")+13, p_data.toString().toLowerCase().indexOf("[countries]")).split("\n");
             String[] l_countryData = p_data.substring(p_data.toString().toLowerCase().indexOf("[countries]")+12, p_data.toString().toLowerCase().indexOf("[borders]")).split("\n");
             String[] l_neighborData = p_data.substring(p_data.toString().toLowerCase().indexOf("[borders]")+10).split("\n");
@@ -57,7 +59,7 @@ public class MapReader {
                 }
             }
         }
-        else if (p_mapType.equals("conquest")) {
+        else if (Command.MAP_OPTION_CONQUEST.equals(p_mapType)) {
             String[] l_continentData = p_data.substring(p_data.toString().toLowerCase().indexOf("[continents]")+13, p_data.toString().toLowerCase().indexOf("[territories]")).split("\n");
             String[] l_territoriesData = p_data.substring(p_data.toString().toLowerCase().indexOf("[territories]")+14).split("\n");
             HashMap<String,Integer> l_continentMap= new HashMap<>();
