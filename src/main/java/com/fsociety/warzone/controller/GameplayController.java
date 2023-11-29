@@ -76,6 +76,11 @@ public class GameplayController {
      */
     private static Player d_neutralPlayer;
 
+    /**
+     * The variable used to track if the game needs to go back to main menu
+     */
+    public static boolean d_isBackCommandIssued = false;
+
 
     /**
      * This method implements the loop through the three main game phases: Assign Reinforcements, Issue Orders, and
@@ -83,7 +88,7 @@ public class GameplayController {
      * condition is met, which causes a change to the End Game phase. At the end of each round, the round is reset. If
      * a tournament is taking place, this method sets the winner of the current game for the tournament.
      *
-     * @param p_isNewGame the flag thats used to determine if a new game has started or a load game has started
+     * @param p_isNewGame the flag that's used to determine if a new game has started or a load game has started
      */
     public static void gamePlayLoop(boolean p_isNewGame) {
         if(p_isNewGame) {
@@ -98,6 +103,9 @@ public class GameplayController {
             if(!p_isNewGame) {
                 if(GameEngine.getPhase() instanceof Reinforcement) {
                     AssignReinforcements.assignReinforcements(d_players, p_isNewGame);
+                    if(GameplayController.isBackCommandIssued()){
+                        return;
+                    }
                     Console.print("All players have deployed their reinforcements.");
                 }
                 p_isNewGame = true;
@@ -113,12 +121,18 @@ public class GameplayController {
                 // Assign Reinforcements Phase
                 GameEngine.setPhase(new Reinforcement());
                 AssignReinforcements.assignReinforcements(d_players, p_isNewGame);
+                if(GameplayController.isBackCommandIssued()){
+                    return;
+                }
                 Console.print("All players have deployed their reinforcements.");
             }
 
             // Issue Orders Phase
             GameEngine.setPhase(new Attack());
             IssueOrder.issueOrders(d_players);
+            if(GameplayController.isBackCommandIssued()){
+                return;
+            }
             Console.print("All players have committed their list of orders.\nExecuting orders...");
 
             // Execute Orders Phase
@@ -238,6 +252,7 @@ public class GameplayController {
         d_gameWon = false;
         d_winner = null;
         d_turns = 0;
+        d_isBackCommandIssued = false;
         dematerializeNeutralPlayer();
     }
 
@@ -471,5 +486,13 @@ public class GameplayController {
      */
     public static void setNeutralPlayer(Player p_neutralPlayer) {
         d_neutralPlayer = p_neutralPlayer;
+    }
+
+    public static boolean isBackCommandIssued() {
+        return d_isBackCommandIssued;
+    }
+
+    public static void setBackCommandIssued() {
+        d_isBackCommandIssued = true;
     }
 }

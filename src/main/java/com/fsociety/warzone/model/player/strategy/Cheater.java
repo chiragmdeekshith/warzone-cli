@@ -8,7 +8,6 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.Set;
  * This class implements the Cheater strategy for a computer player.
  * A cheater computer player strategy that focuses on occupying neighbours in the create order phase directly.
  */
-public class Cheater implements Strategy, Serializable {
+public class Cheater implements Strategy {
 
     /**
      * Issue order for a cheater

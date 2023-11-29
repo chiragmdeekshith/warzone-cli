@@ -1,6 +1,7 @@
 package com.fsociety.warzone.asset.phase.play.mainplay;
 
 import com.fsociety.warzone.GameEngine;
+import com.fsociety.warzone.asset.phase.Menu;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.asset.phase.play.Play;
@@ -62,6 +63,15 @@ public abstract class MainPlay extends Play {
         } else {
             Console.print("Game could not be saved. Error writing to file!");
         }
+    }
+
+    /**
+     * This method allows the user to return to the main menu during gameplay using the 'back' command.
+     * By setting the GameplayController's static variable flag
+     */
+    @Override
+    public void back() {
+        GameplayController.setBackCommandIssued();
     }
 
 }
