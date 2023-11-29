@@ -4,13 +4,20 @@ import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.map.PlayMap;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
 import com.fsociety.warzone.view.Console;
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
 
 /**
  * This Class implements the commands that are valid during the Start-Up phase of gameplay before a map has been loaded.
  */
 public class PlayPreLoad extends PlaySetup {
+
+    /**
+     * The Adapted mapTools that is used to load and validate the map.
+     */
+    private DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * This method compiles and prints a help message of valid commands for the PlayPreLoad phase when the 'help'
@@ -30,28 +37,13 @@ public class PlayPreLoad extends PlaySetup {
      */
     @Override
     public void loadMap(String p_fileName) {
-        PlayMap l_playMap = MapTools.loadAndValidatePlayableMap(p_fileName);
+        PlayMap l_playMap = d_mapTools.loadAndValidatePlayableMap(p_fileName);
         if(null == l_playMap) {
             Console.print("Failed to load the map! Please try another map file.");
             return;
         }
         GameplayController.setPlayMap(l_playMap);
         Console.print("Loaded map \"" + p_fileName + "\"");
-        GameEngine.setPhase(new PlayPostLoad());
-    }
-
-    /**
-     * This method allows the user to load a game by entering the 'loadgame' command.
-     * @param p_fileName the name of the game file to load
-     */
-    public void loadGame(String p_fileName) {
-        PlayMap l_playMap = MapTools.loadGameFile(p_fileName);
-        if(null == l_playMap) {
-            Console.print("Failed to load the game! Please try another game file.");
-            return;
-        }
-        GameplayController.setPlayMap(l_playMap);
-        Console.print("Loaded game \"" + p_fileName + "\"");
         GameEngine.setPhase(new PlayPostLoad());
     }
 }

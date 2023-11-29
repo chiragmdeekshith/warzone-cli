@@ -7,7 +7,9 @@ import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.player.strategy.*;
 import com.fsociety.warzone.model.player.strategy.Random;
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
 import com.fsociety.warzone.view.Console;
 
 import java.io.Serializable;
@@ -49,6 +51,11 @@ public class Tournament implements Serializable {
      * Winner of the previous round
      */
     private Player d_lastWinner;
+
+    /**
+     * The map object that is following adapter pattern
+     */
+    private DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * Constructor for a Tournament object created with the specified parameters.
@@ -99,7 +106,7 @@ public class Tournament implements Serializable {
             for (int j = 0; j < d_numberOfGames; j++) {
 
                 // Load and validate map for next game
-                PlayMap l_playMap = MapTools.loadAndValidatePlayableMap(d_maps.get(i));
+                PlayMap l_playMap = d_mapTools.loadAndValidatePlayableMap(d_maps.get(i));
                 if(null == l_playMap) {
                     Console.print("Failed to load map" + d_maps.get(i) + "! Returning to Main Menu.");
                     return;

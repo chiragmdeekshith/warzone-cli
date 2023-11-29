@@ -30,15 +30,19 @@ public class EditPostLoad extends Edit {
 
     /**
      * This method allows the user to save the map being edited by entering the 'savemap' command.
-     * @param p_fileName the name of file to save the map to
+     * @param p_fileSaveData the file data for the map that needs to save
      */
     @Override
-    public void saveMap(String p_fileName) {
-        if(!MapEditorController.saveMap(p_fileName)) {
-            Console.print("File save for file \"" + p_fileName + "\" failed!");
+    public void saveMap(String[] p_fileSaveData) {
+        String l_mapOption = Command.MAP_OPTION_DOMINATION;;
+        if (p_fileSaveData.length==3) {
+            l_mapOption = p_fileSaveData[2];
+        }
+        if (!MapEditorController.saveMap(p_fileSaveData[1], l_mapOption)) {
+            Console.print("File save for file \"" + p_fileSaveData[1] + "\" failed!");
             return;
         }
-        Console.print("File saved successfully: \"" + p_fileName + "\".");
+        Console.print("File saved successfully: \"" + p_fileSaveData[1] + "\".");
     }
 
     /**

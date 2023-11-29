@@ -159,7 +159,7 @@ public class CommandProcessor {
             }
             case VALIDATE_MAP -> l_phase.validateMap();
             case EDIT_MAP -> l_phase.editMap(p_splitCommand[1]);
-            case SAVE_MAP -> l_phase.saveMap(p_splitCommand[1]);
+            case SAVE_MAP -> l_phase.saveMap(p_splitCommand);
             case LOAD_MAP -> l_phase.loadMap(p_splitCommand[1]);
             case SAVE_GAME -> l_phase.saveGame(p_splitCommand[1]);
             case LOAD_GAME -> l_phase.loadGame(p_splitCommand[1]);

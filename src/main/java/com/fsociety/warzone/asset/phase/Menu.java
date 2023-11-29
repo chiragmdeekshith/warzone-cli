@@ -236,7 +236,7 @@ public class Menu extends Phase {
      * EditPostLoad phase.
      */
     @Override
-    public void saveMap(String p_fileName) {
+    public void saveMap(String[] p_fileSaveData) {
         printInvalidCommandMessage();
     }
 

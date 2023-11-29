@@ -1,5 +1,7 @@
-package com.fsociety.warzone.util;
+package com.fsociety.warzone.util.map;
 
+import com.fsociety.warzone.util.map.DominationMapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -7,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
- * The Test class for MapTools
- * {@link MapTools#loadAndValidateEditableMap(String)}
+ * The Test class for DominationMapTools
+ * {@link MapAdapter#loadAndValidateEditableMap(String)}
  */
 class MapToolsTest {
     /**
@@ -20,7 +22,13 @@ class MapToolsTest {
     public static String d_duplicateNeighbours;
     public static String d_continentNotConnected;
     public static String d_mapNotConnected;
-    public static String d_validMap;
+    public static String d_validDominationMap;
+    public static String d_validConquestMap;
+
+    DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
+    /**
+     * The DominationMapTools object.
+     */
 
     /**
      * Setting up mock maps for testing
@@ -33,7 +41,8 @@ class MapToolsTest {
         d_duplicateNeighbours = "duplicateNeighbours.map";
         d_continentNotConnected = "continentNotConnected.map";
         d_mapNotConnected = "mapNotConnected.map";
-        d_validMap = "validMap.map";
+        d_validDominationMap = "validMap.map";
+        d_validConquestMap = "Alberta.map";
     }
 
     /**
@@ -41,8 +50,7 @@ class MapToolsTest {
      */
     @Test
     void testInformationMissing() {
-        System.out.println("Test Case 1: Missing Information");
-        assertNull(MapTools.loadAndValidateEditableMap(d_informationMissing));
+        assertNull(d_mapTools.loadAndValidateEditableMap(d_informationMissing));
     }
 
     /**
@@ -50,8 +58,7 @@ class MapToolsTest {
      */
     @Test
     void testContinentWithNoCountry() {
-        System.out.println("Test Case 2: Continent With No Country");
-        assertNull(MapTools.loadAndValidateEditableMap(d_continentWithNoCountry));
+        assertNull(d_mapTools.loadAndValidateEditableMap(d_continentWithNoCountry));
     }
 
     /**
@@ -59,8 +66,7 @@ class MapToolsTest {
      */
     @Test
     void testCountryWithNoNeighbour() {
-        System.out.println("Test Case 3: Country With No Neighbour");
-        assertNull(MapTools.loadAndValidateEditableMap(d_countryWithNoNeighbour));
+        assertNull(d_mapTools.loadAndValidateEditableMap(d_countryWithNoNeighbour));
     }
 
     /**
@@ -68,8 +74,7 @@ class MapToolsTest {
      */
     @Test
     void testDuplicateNeighbours() {
-        System.out.println("Test Case 4: Duplicate Neighbours");
-        assertNull(MapTools.loadAndValidateEditableMap(d_duplicateNeighbours));
+        assertNull(d_mapTools.loadAndValidateEditableMap(d_duplicateNeighbours));
     }
 
     /**
@@ -77,8 +82,7 @@ class MapToolsTest {
      */
     @Test
     void testContinentNotConnected() {
-        System.out.println("Test Case 5: Continent Not Connected");
-        assertNull(MapTools.loadAndValidateEditableMap(d_continentNotConnected));
+        assertNull(d_mapTools.loadAndValidateEditableMap(d_continentNotConnected));
     }
 
     /**
@@ -86,17 +90,23 @@ class MapToolsTest {
      */
     @Test
     void testMapNotConnected() {
-        System.out.println("Test Case 6: Map Not Connected");
-        assertNull(MapTools.loadAndValidateEditableMap(d_mapNotConnected));
+        assertNull(d_mapTools.loadAndValidateEditableMap(d_mapNotConnected));
     }
 
     /**
-     * Test for Valid map
+     * Test for Valid domination map
      */
     @Test
-    void testValidMap() {
-        System.out.println("Test Case 7: Valid Map");
-        assertNotNull(MapTools.loadAndValidateEditableMap(d_validMap));
+    void testValidDominationMap() {
+        assertNotNull(d_mapTools.loadAndValidateEditableMap(d_validDominationMap));
+    }
+
+    /**
+     * Test for Valid conquest map
+     */
+    @Test
+    void testValidConquestMap() {
+        assertNotNull(d_mapTools.loadAndValidateEditableMap(d_validConquestMap));
     }
 
 }
