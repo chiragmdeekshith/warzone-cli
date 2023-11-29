@@ -8,7 +8,6 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,7 @@ import java.util.Map;
  * This class implements the Random strategy for a computer player.
  * A random computer player strategy that focuses on doing random crazy stuff.
  */
-public class Random implements Strategy, Serializable {
+public class Random implements Strategy {
 
     /**
      * This variable is used to track if it's executing the first advance or not.

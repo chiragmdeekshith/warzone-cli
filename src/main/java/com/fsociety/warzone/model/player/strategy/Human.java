@@ -3,12 +3,11 @@ package com.fsociety.warzone.model.player.strategy;
 import com.fsociety.warzone.asset.command.CommandProcessor;
 import com.fsociety.warzone.view.Console;
 
-import java.io.Serializable;
 
 /**
  * The Human Strategy is used for prompting the player for user input for all gameplay commands and decisions.
  */
-public class Human implements Strategy, Serializable {
+public class Human implements Strategy {
 
     /**
      * This function prompts the user for input and then creates an order, and then adds the order to its execution list.

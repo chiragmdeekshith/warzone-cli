@@ -4,6 +4,7 @@ import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.phase.Menu;
 import com.fsociety.warzone.asset.phase.Phase;
 import com.fsociety.warzone.asset.phase.edit.EditPreLoad;
+import com.fsociety.warzone.controller.GameplayController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,6 @@ class ReinforcementTest {
     @Test
     public void testBack() {
         d_phase.back();
-        assertEquals(Menu.class, GameEngine.getPhase().getClass());
+        assertTrue(GameplayController.isBackCommandIssued());
     }
 }

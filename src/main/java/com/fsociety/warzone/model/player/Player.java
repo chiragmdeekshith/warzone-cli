@@ -144,6 +144,9 @@ public class Player implements Serializable {
                 d_orderIssued = false;
                 return;
             }
+            if(GameplayController.isBackCommandIssued()) {
+                return;
+            }
         }
     }
 

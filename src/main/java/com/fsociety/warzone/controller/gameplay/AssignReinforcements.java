@@ -68,6 +68,9 @@ public class AssignReinforcements {
                 if (l_player.getAvailableReinforcements() > 0) {
                     Console.print(l_player.getName() + ": You have " + l_player.getAvailableReinforcements() + " available reinforcements.");
                     l_player.issueOrder();
+                    if(GameplayController.isBackCommandIssued()){
+                        return;
+                    }
                 }
             }
             l_total_troops = 0;
