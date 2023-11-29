@@ -8,7 +8,9 @@ import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.map.PlayMap;
+import com.fsociety.warzone.util.ConquestMapTools;
 import com.fsociety.warzone.util.DominationMapTools;
+import com.fsociety.warzone.util.MapAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,13 +33,17 @@ class BombTest {
      * Play Map for the test
      */
     PlayMap d_playMap;
+    /**
+     * The map object
+     */
+    DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * Setup mock data for testing
      */
     @BeforeEach
     void setUp() {
-        d_playMap = DominationMapTools.loadAndValidatePlayableMap("1.map");
+        d_playMap = d_mapTools.loadAndValidatePlayableMap("1.map");
         GameplayController.setPlayMap(d_playMap);
 
         d_player1 = new Player("Player1");
