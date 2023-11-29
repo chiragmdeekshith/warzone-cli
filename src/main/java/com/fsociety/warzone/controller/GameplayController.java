@@ -15,7 +15,11 @@ import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.view.log.Log;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.List;
 
 /**
  * This class controls the turn-based gameplay loop.
@@ -67,6 +71,11 @@ public class GameplayController {
      */
     public static Player d_winner;
 
+    /**
+     * The neutral player
+     */
+    private static Player d_neutralPlayer;
+
 
     /**
      * This method implements the loop through the three main game phases: Assign Reinforcements, Issue Orders, and
@@ -82,11 +91,11 @@ public class GameplayController {
             d_turns = 0;
         } else {
             Console.print("Game Resume!");
+            Console.print("Turn " + d_turns,true);
         }
 
         while (true) {
             if(!p_isNewGame) {
-                Console.print("Turn " + d_turns,true);
                 if(GameEngine.getPhase() instanceof Reinforcement) {
                     AssignReinforcements.assignReinforcements(d_players, p_isNewGame);
                     Console.print("All players have deployed their reinforcements.");
@@ -228,12 +237,13 @@ public class GameplayController {
         d_truces = null;
         d_gameWon = false;
         d_winner = null;
+        dematerializeNeutralPlayer();
     }
 
     /**
      * This method initializes the map of truces, creating one set per player in the game.
      */
-    public  static void initTruces() {
+    public static void initTruces() {
         d_truces = new HashMap<>();
         for (Player l_player : d_players) {
             d_truces.put(l_player.getId(), new HashSet<>());
@@ -430,5 +440,35 @@ public class GameplayController {
      */
     public static void setTurns(int p_turns) {
         d_turns = p_turns;
+    }
+
+    /**
+     * Materialize the neutral player
+     */
+    public static void materializeNeutralPlayer() {
+        d_neutralPlayer = Player.getNeutralPlayer();
+    }
+
+    /**
+     * Dematerialize the neutral player
+     */
+    public static void dematerializeNeutralPlayer() {
+        d_neutralPlayer = null;
+    }
+
+    /**
+     * Get the neutral player
+     * @return the neutral player
+     */
+    public static Player getNeutralPlayer() {
+        return d_neutralPlayer;
+    }
+
+    /**
+     * Set the neutral player
+     * @param p_neutralPlayer the neutral player
+     */
+    public static void setNeutralPlayer(Player p_neutralPlayer) {
+        d_neutralPlayer = p_neutralPlayer;
     }
 }

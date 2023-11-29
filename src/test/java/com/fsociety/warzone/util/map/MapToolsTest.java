@@ -1,7 +1,5 @@
 package com.fsociety.warzone.util.map;
 
-import com.fsociety.warzone.util.map.DominationMapTools;
-import com.fsociety.warzone.util.map.MapAdapter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

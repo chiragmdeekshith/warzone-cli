@@ -6,7 +6,6 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.player.strategy.*;
-import com.fsociety.warzone.model.player.strategy.Random;
 import com.fsociety.warzone.util.map.ConquestMapTools;
 import com.fsociety.warzone.util.map.DominationMapTools;
 import com.fsociety.warzone.util.map.MapAdapter;
@@ -147,6 +146,12 @@ public class Tournament implements Serializable {
         this.d_lastWinner = p_winner;
     }
 
+    /**
+     * This function logs the result of one game in the results array.
+     * @param p_lastWinner the winner of the last game
+     * @param p_currMap the index of the current map
+     * @param p_currGame the index of the current game
+     */
     private void logResult(Player p_lastWinner, int p_currMap, int p_currGame) {
         String l_result;
         if (p_lastWinner == null) {

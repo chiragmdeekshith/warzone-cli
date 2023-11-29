@@ -71,6 +71,7 @@ public class PlayPostLoad extends PlaySetup{
 
         GameplayController.finalizePlayers();
         GameplayController.initTruces();
+        GameplayController.materializeNeutralPlayer();
 
         List<Integer> l_countryIds = new ArrayList<>(l_playMap.getNeighbours().keySet());
         List<Player> l_players = GameplayController.getPlayers();

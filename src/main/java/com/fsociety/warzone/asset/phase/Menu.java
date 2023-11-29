@@ -25,7 +25,7 @@ public class Menu extends Phase {
      */
     @Override
     public void help() {
-        Command[] l_validCommands = {Command.PLAY_GAME, Command.LOAD_GAME, Command.MAP_EDITOR, Command.TOURNAMENT, Command.BACK, Command.EXIT };
+        Command[] l_validCommands = {Command.PLAY_GAME, Command.LOAD_GAME, Command.TOURNAMENT, Command.MAP_EDITOR, Command.BACK, Command.EXIT};
         String help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands);
         Console.print(help);
@@ -296,6 +296,7 @@ public class Menu extends Phase {
         GameplayController.setPlayers(l_gameSavedata.getPlayers());
         GameplayController.setPlayMap(l_gameSavedata.getPlayMap());
         GameplayController.setTurns(l_gameSavedata.getTurns());
+        GameplayController.setNeutralPlayer(l_gameSavedata.getNeutralPlayer());
         GameEngine.setPhase(l_gameSavedata.getCurrentPhase());
 
         //Resume the game
