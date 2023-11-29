@@ -3,8 +3,6 @@ package com.fsociety.warzone.util.map;
 import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.model.map.EditMap;
 import com.fsociety.warzone.model.map.PlayMap;
-import com.fsociety.warzone.util.map.ConquestMapTools;
-import com.fsociety.warzone.util.map.DominationMapTools;
 import com.fsociety.warzone.view.Console;
 
 import java.io.BufferedReader;
