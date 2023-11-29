@@ -3,15 +3,32 @@ package com.fsociety.warzone.asset.order;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
+
 /**
  * This class handles everything related to Attacking
  */
 public abstract class Attack implements Order {
 
-    private final int d_troopsCount;
-    private final int d_sourceCountryId;
-    private final int d_targetCountryId;
-    private final int d_playerId;
+    /**
+     * The number of troops
+     */
+    protected int d_troopsCount;
+    /**
+     * Country ID of the source country
+     */
+    protected int d_sourceCountryId;
+    /**
+     * Country ID of the target country
+     */
+    protected int d_targetCountryId;
+    /**
+     * The ID of the player
+     */
+    protected int d_playerId;
+    /**
+     * The flag to know whether this class is the Advance class
+     */
     private final boolean d_isAdvance;
 
     /**

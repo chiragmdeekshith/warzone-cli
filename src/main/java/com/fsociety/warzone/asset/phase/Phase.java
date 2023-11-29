@@ -2,6 +2,7 @@ package com.fsociety.warzone.asset.phase;
 
 import com.fsociety.warzone.asset.command.Command;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
 /**
  * This abstract Class contains the list of possible methods called on the Phase objects.
  */
-public abstract class Phase {
+public abstract class Phase implements Serializable {
 
     // Main Menu
     /**
