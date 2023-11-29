@@ -45,7 +45,7 @@ class CommandProcessorTests {
         final String l_command = "help";
         GameEngine.setPhase(new Menu());
         CommandProcessor.processCommand(l_command);
-        final String l_expected = "Please enter one of the following commands: (Phase - Menu)\r\n" + //
+        final String l_expeRabcted = "Please enter one of the following commands: (Phase - Menu)\r\n" + //
                 "\tplaygame \r\n" + //
                 "\tmapeditor \r\n" + //
                 "\texit \r\n" + //
