@@ -26,13 +26,7 @@ public class End extends Menu {
     public void back() {
         GameplayController.resetGameState();
         GameEngine.setPhase(new Menu());
-        Console.print("""
-                                                          \s
-                 _ _ _ _____ _____ _____ _____ _____ _____\s
-                | | | |  _  | __  |__   |     |   | |   __|
-                | | | |     |    -|   __|  |  | | | |   __|
-                |_____|__|__|__|__|_____|_____|_|___|_____|
-                                                          \s""");
+        GameEngine.printLogo();
     }
 
     /**

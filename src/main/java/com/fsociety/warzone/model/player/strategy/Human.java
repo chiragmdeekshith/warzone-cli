@@ -19,4 +19,12 @@ public class Human implements Strategy, Serializable {
         String l_command = Console.commandPromptPlayer(p_playerName);
         CommandProcessor.processCommand(l_command);
     }
+
+    /**
+     * Returns the type of the player strategy as a string.
+     * @return the player strategy as a string
+     */
+    public String toString() {
+        return "Human";
+    }
 }
