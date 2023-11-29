@@ -86,7 +86,13 @@ public class PlayMap extends AbstractMap {
     public void conquerCountry(int p_countryId, int p_playerId, int p_armies) {
         int l_previousOwner = GameplayController.getPlayMap().getCountries().get(p_countryId).getPlayerId();
         Player l_newOwner = GameplayController.getPlayerFromId(p_playerId);
-        GameplayController.getPlayerFromId(l_previousOwner).removeCountry(p_countryId);
+        Player l_previousPlayerObject;
+        if(l_previousOwner == GameplayController.getNeutralPlayer().getId()) {
+            l_previousPlayerObject = GameplayController.getNeutralPlayer();
+        } else {
+            l_previousPlayerObject = GameplayController.getPlayerFromId(l_previousOwner);
+        }
+        l_previousPlayerObject.removeCountry(p_countryId);
         l_newOwner.addCountry(GameplayController.getPlayMap().getCountries().get(p_countryId));
         d_countries.get(p_countryId).setPlayerId(p_playerId);
         d_countries.get(p_countryId).setPlayer(l_newOwner);

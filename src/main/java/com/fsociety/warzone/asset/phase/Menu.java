@@ -296,6 +296,7 @@ public class Menu extends Phase {
         GameplayController.setPlayers(l_gameSavedata.getPlayers());
         GameplayController.setPlayMap(l_gameSavedata.getPlayMap());
         GameplayController.setTurns(l_gameSavedata.getTurns());
+        GameplayController.setNeutralPlayer(l_gameSavedata.getNeutralPlayer());
         GameEngine.setPhase(l_gameSavedata.getCurrentPhase());
 
         //Resume the game

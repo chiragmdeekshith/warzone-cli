@@ -58,7 +58,6 @@ public class Player implements Serializable {
      */
     private Strategy d_playerStrategy;
 
-
     /**
      * Parameterised constructor to initialise the Player object with default Human player strategy.
      *
@@ -88,6 +87,19 @@ public class Player implements Serializable {
          this.d_handOfCards = new HandOfCards(this.d_name);
          this.d_id = IdGenerator.generateId();
          this.d_playerStrategy = p_playerStrategy;
+    }
+
+    /**
+     * Parameterised constructor to initialise the Player object to be a neutral player
+     */
+    private Player() {
+        this.d_name = "Neutral";
+        this.d_id = -1;
+        this.d_orders = null;
+        this.d_countries = new ArrayList<>();
+        this.d_availableReinforcements = 0;
+        this.d_handOfCards = null;
+        this.d_playerStrategy = null;
     }
 
     /**
@@ -286,5 +298,13 @@ public class Player implements Serializable {
      */
     public void setPlayerStrategy(Strategy d_playerStrategy) {
         this.d_playerStrategy = d_playerStrategy;
+    }
+
+    /**
+     * Get a new Player Object who is Neutral
+     * @return the neutral player with ID -1
+     */
+    public static Player getNeutralPlayer() {
+        return new Player();
     }
 }

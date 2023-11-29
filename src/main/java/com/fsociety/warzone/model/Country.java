@@ -90,6 +90,7 @@ public class Country implements Serializable {
      * @param p_countryId - the country ID
      */
     public Country(int p_countryId) {
+        // Neutral Territory
         this.d_countryId = p_countryId;
         this.d_playerId = -1;
         this.d_player = null;
