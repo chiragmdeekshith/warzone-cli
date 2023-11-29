@@ -22,11 +22,32 @@ import java.util.Map;
  */
 public class Tournament implements Serializable {
 
+    /**
+     * The number of Games in the tournament
+     */
     private final int d_numberOfGames;
+    /**
+     * The max number of turns used to determine DRAW GAME
+     */
     private final int d_maxNumberOfTurns;
+    /**
+     * A list of Bot players
+     */
     private final ArrayList<String> d_botPlayers;
+
+    /**
+     * A list of map file names
+     */
     private final ArrayList<String> d_maps;
+
+    /**
+     * The variable that holds the result for printing it
+     */
     private final String[][] d_results;
+
+    /**
+     * Winner of the previous round
+     */
     private Player d_lastWinner;
 
     /**

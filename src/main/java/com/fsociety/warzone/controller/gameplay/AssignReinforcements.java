@@ -23,6 +23,7 @@ public class AssignReinforcements {
      * getContinentOwner() method of the Continent class to compare each continent's owner to the given player.
      *
      * @param p_players the list of Player object whose reinforcements are to be calculated
+     * @param p_isNewGame the flag thats used to determine if a new game has started or a load game has started
      */
     public static void assignReinforcements(ArrayList<Player> p_players, boolean p_isNewGame) {
 

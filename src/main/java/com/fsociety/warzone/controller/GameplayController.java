@@ -73,6 +73,8 @@ public class GameplayController {
      * Execute Orders. Print statements update the user as to which phase is taking place. The game ends when the win
      * condition is met, which causes a change to the End Game phase. At the end of each round, the round is reset. If
      * a tournament is taking place, this method sets the winner of the current game for the tournament.
+     *
+     * @param p_isNewGame the flag thats used to determine if a new game has started or a load game has started
      */
     public static void gamePlayLoop(boolean p_isNewGame) {
         if(p_isNewGame) {

@@ -9,8 +9,17 @@ import java.io.Serializable;
  * This class handles everything related to Deploying armies
  */
 public class Deploy implements Order {
+    /**
+     * The troops count
+     */
     private final int d_troopsCount;
+    /**
+     * The country ID
+     */
     private final int d_countryId;
+    /**
+     * The player ID
+     */
     private final int d_playerId;
 
     /**

@@ -10,12 +10,24 @@ import java.io.Serializable;
  */
 public class Country implements Serializable {
 
+    /**
+     * The player ID who owns the country
+     */
     private int d_playerId;
 
+    /**
+     * The player who owns the country
+     */
     private Player d_player;
 
+    /**
+     * The number of armies the country currently has
+     */
     private int d_armies;
 
+    /**
+     * The country ID
+     */
     private final int d_countryId;
 
 

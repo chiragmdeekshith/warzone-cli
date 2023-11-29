@@ -14,10 +14,16 @@ import java.util.*;
  */
 public class PlayMap extends AbstractMap {
 
-    // continent id -> game state of continent
+    /**
+     * A hashmap containing the continent ID mapped to the Continent object
+     * continent id -> game state of continent
+     */
     private Map<Integer, Continent> d_continents;
 
-    // country id -> game state of country
+    /**
+     * The hashmap containing the Country ID mapped to the country object
+     * country id -> game state of country
+     */
     private Map<Integer, Country> d_countries;
 
     /**
