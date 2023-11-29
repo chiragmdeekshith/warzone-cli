@@ -18,13 +18,13 @@ import java.io.File;
 public class DominationMapTools {
 
     /**
-     * Reads the file from system and loads it into the EditMap. Verifies the format of the map file before loading it in and then
+     * Reads the file from system and loads it into the EditMap. Verifies the format of the Domination map file before loading it in and then
      * logically validates it again before returning it.
      *
      * @param p_fileName - the name of the file to be opened
      * @return - returns an instance of the EditMap object ready
      */
-    public static EditMap loadAndValidateEditableMap(String p_fileName) {
+    public EditMap loadAndValidateEditableMap(String p_fileName) {
         EditMap l_editMap;
         String l_mapType = "domination";
         try {
@@ -77,13 +77,13 @@ public class DominationMapTools {
     }
 
     /**
-     * Reads the file from system and loads it into the PlayMap. Verifies the format of the map file before loading it in and then
+     * Reads the file from system and loads it into the PlayMap. Verifies the format of the Domination map file before loading it in and then
      * logically validates it again before returning it.
      *
      * @param p_fileName - the name of the file to be opened
      * @return - returns an instance of the PlayMap object ready
      */
-    public static PlayMap loadAndValidatePlayableMap(String p_fileName) {
+    public PlayMap loadAndValidatePlayableMap(String p_fileName) {
         PlayMap l_playMap;
         String l_mapType = "domination";
         try {
@@ -127,7 +127,7 @@ public class DominationMapTools {
 
     /**
      *
-     * This functions validates the map before saving into a physical file on the system.
+     * This functions validates the Domination map before saving into a physical file on the system.
      *
      * @param p_mapData - the EditMap object to save to the file
      * @param p_fileNameForSave - name of the new save file
@@ -142,7 +142,7 @@ public class DominationMapTools {
 
         // Serialise the data
         StringBuilder l_data = new StringBuilder();
-        l_data.append("\n;map: ").append(p_mapData.getFileName()).append("\n").append("\n[continents]\n");
+        l_data.append(";map: ").append(p_mapData.getFileName()).append("\n").append("\n[continents]\n");
         p_mapData.getContinentBonuses().forEach((key,values) -> {
             l_data.append(key).append(" ").append(key).append(" ").append(values).append("\n");
         });
@@ -172,7 +172,7 @@ public class DominationMapTools {
 
     /**
      *
-     * This functions checks if the file is in the correct format.
+     * This functions checks if the Domination map file is in the correct format.
      *
      * @param p_map - the AbstractMap object that we need to check format of
      * @param p_data - the StringBuilder object that contains the data from the file
@@ -184,7 +184,7 @@ public class DominationMapTools {
             p_map.setFileName(p_fileName);
             return true;
         } else {
-            Console.print("File is missing information or is in the wrong format.");
+            Console.print("File is missing information or is not in Domination format.");
             return false;
         }
     }

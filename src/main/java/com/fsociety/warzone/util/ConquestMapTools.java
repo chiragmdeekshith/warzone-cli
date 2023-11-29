@@ -18,13 +18,13 @@ import java.io.File;
 public class ConquestMapTools {
 
     /**
-     * Reads the file from system and loads it into the EditMap. Verifies the format of the map file before loading it in and then
+     * Reads the file from system and loads it into the EditMap. Verifies the format of the Conquest map file before loading it in and then
      * logically validates it again before returning it.
      *
      * @param p_fileName - the name of the file to be opened
      * @return - returns an instance of the EditMap object ready
      */
-    public static EditMap loadAndValidateEditableMap(String p_fileName) {
+    public EditMap loadAndValidateEditableMap(String p_fileName) {
         EditMap l_editMap;
         String l_mapType = "conquest";
         try {
@@ -67,7 +67,7 @@ public class ConquestMapTools {
             return null;
         }
         catch (Exception e) {
-            e.printStackTrace();
+            Console.print("File does not exist!");
             return null;
         }
         if(MapValidator.validateMap(l_editMap)) {
@@ -77,13 +77,13 @@ public class ConquestMapTools {
     }
 
     /**
-     * Reads the file from system and loads it into the PlayMap. Verifies the format of the map file before loading it in and then
+     * Reads the file from system and loads it into the PlayMap. Verifies the format of the Conquest map file before loading it in and then
      * logically validates it again before returning it.
      *
      * @param p_fileName - the name of the file to be opened
      * @return - returns an instance of the PlayMap object ready
      */
-    public static PlayMap loadAndValidatePlayableMap(String p_fileName) {
+    public PlayMap loadAndValidatePlayableMap(String p_fileName) {
         PlayMap l_playMap;
         String l_mapType = "conquest";
         try {
@@ -127,7 +127,7 @@ public class ConquestMapTools {
 
     /**
      *
-     * This functions validates the map before saving into a physical file on the system.
+     * This functions validates the Conquest map before saving into a physical file on the system.
      *
      * @param p_mapData - the EditMap object to save to the file
      * @param p_fileNameForSave - name of the new save file
@@ -142,14 +142,18 @@ public class ConquestMapTools {
 
         // Serialise the data
         StringBuilder l_data = new StringBuilder();
-        l_data.append("\n[map]").append("\nName=").append(p_mapData.getFileName()).append("\n").append("\n[continents]\n");
-        p_mapData.getContinentBonuses().forEach((key,values) -> {
-            l_data.append(key).append("=").append(values).append("\n");
+        l_data.append("[map]").append("\nName=").append(p_mapData.getFileName()).append("\n").append("\n[continents]\n");
+        p_mapData.getContinentBonuses().forEach((l_key,l_values) -> {
+            l_data.append(l_key).append("=").append(l_values).append("\n");
         });
-        l_data.append("\n[territories]\n");
-        p_mapData.getCountriesInContinent().forEach((key,values) -> {
-            for(Integer c:values)
-                l_data.append(c).append(",").append(key).append("\n");
+        l_data.append("\n[territories]");
+        p_mapData.getCountriesInContinent().forEach((l_key,l_values) -> {
+            for(Integer c:l_values){
+                l_data.append('\n').append(c).append(",0,0,").append(l_key);
+                p_mapData.getNeighbours().get(c).forEach((l_neighbour -> {
+                    l_data.append(",").append(l_neighbour);
+                }));
+            }
         });
 
         // Write the data to the file
@@ -168,7 +172,7 @@ public class ConquestMapTools {
 
     /**
      *
-     * This functions checks if the file is in the correct format.
+     * This functions checks if the Conquest map file is in the correct format.
      *
      * @param p_map - the AbstractMap object that we need to check format of
      * @param p_data - the StringBuilder object that contains the data from the file
@@ -180,7 +184,7 @@ public class ConquestMapTools {
             p_map.setFileName(p_fileName);
             return true;
         } else {
-            Console.print("File is missing information or is in the wrong format.");
+            Console.print("File is missing information or is not in Conquest format.");
             return false;
         }
     }

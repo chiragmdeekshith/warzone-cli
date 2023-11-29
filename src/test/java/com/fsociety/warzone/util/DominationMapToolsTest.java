@@ -23,6 +23,11 @@ class DominationMapToolsTest {
     public static String d_validMap;
 
     /**
+     * The DominationMapTools object.
+     */
+    DominationMapTools mapTools = new DominationMapTools();
+
+    /**
      * Setting up mock maps for testing
      */
     @BeforeAll
@@ -42,7 +47,7 @@ class DominationMapToolsTest {
     @Test
     void testInformationMissing() {
         System.out.println("Test Case 1: Missing Information");
-        assertNull(DominationMapTools.loadAndValidateEditableMap(d_informationMissing));
+        assertNull(mapTools.loadAndValidateEditableMap(d_informationMissing));
     }
 
     /**
@@ -51,7 +56,7 @@ class DominationMapToolsTest {
     @Test
     void testContinentWithNoCountry() {
         System.out.println("Test Case 2: Continent With No Country");
-        assertNull(DominationMapTools.loadAndValidateEditableMap(d_continentWithNoCountry));
+        assertNull(mapTools.loadAndValidateEditableMap(d_continentWithNoCountry));
     }
 
     /**
@@ -60,7 +65,7 @@ class DominationMapToolsTest {
     @Test
     void testCountryWithNoNeighbour() {
         System.out.println("Test Case 3: Country With No Neighbour");
-        assertNull(DominationMapTools.loadAndValidateEditableMap(d_countryWithNoNeighbour));
+        assertNull(mapTools.loadAndValidateEditableMap(d_countryWithNoNeighbour));
     }
 
     /**
@@ -69,7 +74,7 @@ class DominationMapToolsTest {
     @Test
     void testDuplicateNeighbours() {
         System.out.println("Test Case 4: Duplicate Neighbours");
-        assertNull(DominationMapTools.loadAndValidateEditableMap(d_duplicateNeighbours));
+        assertNull(mapTools.loadAndValidateEditableMap(d_duplicateNeighbours));
     }
 
     /**
@@ -78,7 +83,7 @@ class DominationMapToolsTest {
     @Test
     void testContinentNotConnected() {
         System.out.println("Test Case 5: Continent Not Connected");
-        assertNull(DominationMapTools.loadAndValidateEditableMap(d_continentNotConnected));
+        assertNull(mapTools.loadAndValidateEditableMap(d_continentNotConnected));
     }
 
     /**
@@ -87,7 +92,7 @@ class DominationMapToolsTest {
     @Test
     void testMapNotConnected() {
         System.out.println("Test Case 6: Map Not Connected");
-        assertNull(DominationMapTools.loadAndValidateEditableMap(d_mapNotConnected));
+        assertNull(mapTools.loadAndValidateEditableMap(d_mapNotConnected));
     }
 
     /**
@@ -96,7 +101,7 @@ class DominationMapToolsTest {
     @Test
     void testValidMap() {
         System.out.println("Test Case 7: Valid Map");
-        assertNotNull(DominationMapTools.loadAndValidateEditableMap(d_validMap));
+        assertNotNull(mapTools.loadAndValidateEditableMap(d_validMap));
     }
 
 }

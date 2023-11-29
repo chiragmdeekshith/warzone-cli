@@ -17,11 +17,16 @@ class EditMapTest {
     EditMap d_editMap;
 
     /**
+     * DominationMapTools object.
+     */
+    DominationMapTools mapTools = new DominationMapTools();
+
+    /**
      * Setting up the EditMap object before each test.
      */
     @BeforeEach
     void setUp() {
-        d_editMap = DominationMapTools.loadAndValidateEditableMap("1.map");
+        d_editMap = mapTools.loadAndValidateEditableMap("1.map");
     }
 
     /**

@@ -7,11 +7,17 @@ import com.fsociety.warzone.model.map.EditMap;
 import com.fsociety.warzone.util.ConquestMapTools;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.util.DominationMapTools;
+import com.fsociety.warzone.util.MapAdapter;
 
 /**
  * This Class implements the commands that are valid for map editing before a map has been loaded.
  */
 public class EditPreLoad extends Edit {
+
+    /**
+     * The Adapted mapTools that is used to load and validate the map.
+     */
+    private DominationMapTools mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * This method compiles and prints a help message of valid commands for the EditPreLoad phase when the 'help'
@@ -31,7 +37,7 @@ public class EditPreLoad extends Edit {
      */
     @Override
     public void editMap(String p_fileName) {
-        EditMap l_editMap = DominationMapTools.loadAndValidateEditableMap(p_fileName);
+        EditMap l_editMap = mapTools.loadAndValidateEditableMap(p_fileName);
         if(null == l_editMap) {
             Console.print("Failed to load the map from file! Please try another map file.");
             return;
