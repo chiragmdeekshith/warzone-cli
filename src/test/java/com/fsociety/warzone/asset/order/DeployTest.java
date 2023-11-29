@@ -10,6 +10,7 @@ import com.fsociety.warzone.model.map.PlayMap;
 import com.fsociety.warzone.util.map.ConquestMapTools;
 import com.fsociety.warzone.util.map.DominationMapTools;
 import com.fsociety.warzone.util.map.MapAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -84,6 +85,14 @@ class DeployTest {
             });
             l_player.setAvailableReinforcements(l_reinforcements.get());
         }
+    }
+
+    /**
+     * Tear down mock data for testing.
+     */
+    @AfterEach
+    void tearDown() {
+        GameplayController.resetGameState();
     }
 
     /**

@@ -3,6 +3,8 @@ package com.fsociety.warzone.controller.gameplay;
 import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.phase.Menu;
 import com.fsociety.warzone.asset.phase.Phase;
+import com.fsociety.warzone.controller.GameplayController;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +22,14 @@ public class TournamentTest {
      * The Phase object used for testing
      */
     Phase d_phase;
+    /**
+     * The Tournament object used for testing
+     */
     Tournament d_tournament;
 
+    /**
+     * Setup mock data for testing
+     */
     @BeforeEach
     void setUp() {
         d_phase = new Menu();
@@ -33,6 +41,14 @@ public class TournamentTest {
         l_maps.add("1.map");
         l_maps.add("Alberta.map");
         d_tournament = new Tournament(2, 1, l_botPlayers, l_maps);
+    }
+
+    /**
+     * Tear down mock data for testing.
+     */
+    @AfterEach
+    void tearDown() {
+        GameplayController.resetGameState();
     }
 
     /**
