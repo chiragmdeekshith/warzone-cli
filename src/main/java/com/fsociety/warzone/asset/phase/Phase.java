@@ -2,13 +2,15 @@ package com.fsociety.warzone.asset.phase;
 
 import com.fsociety.warzone.asset.command.Command;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * This abstract Class contains the list of possible methods called on the Phase objects.
  */
-public abstract class Phase {
+public abstract class Phase implements Serializable {
 
     // Main Menu
     /**
@@ -20,6 +22,15 @@ public abstract class Phase {
      * This method launches the map editor.
      */
     public abstract void mapEditor();
+
+    /**
+     * This method launches a tournament.
+     * @param p_numberOfGames the number of games
+     * @param p_maxNumberOfTurns the max number of turns
+     * @param p_botPlayers the list of player strategy types
+     * @param p_maps the list of map file names
+     */
+    public abstract void tournamentMode(int p_numberOfGames, int p_maxNumberOfTurns, ArrayList<String> p_botPlayers, ArrayList<String> p_maps);
 
 
     // General behaviour
@@ -54,7 +65,7 @@ public abstract class Phase {
      * @param p_gamePlayersToAdd the players to be added
      * @param p_gamePlayersToRemove the players to be removed
      */
-    public abstract void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove);
+    public abstract void gamePlayer(Map<String, String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove);
 
     /**
      * This method assigns countries to players and starts a new game.
@@ -136,9 +147,21 @@ public abstract class Phase {
 
     /**
      * This method saves an EditMap's contents to a file.
+     * @param p_fileSaveData the data of the file that needs to be saved
+     */
+    public abstract void saveMap(String[] p_fileSaveData);
+
+    /**
+     * This method saves a game's contents to a file.
      * @param p_fileName the name of the file to be saved to
      */
-    public abstract void saveMap(String p_fileName);
+    public abstract void saveGame(String p_fileName);
+
+    /**
+     * This method loads a file's contents into an game object.
+     * @param p_fileName the name of the file to be loaded
+     */
+    public abstract void loadGame(String p_fileName);
 
     /**
      * This method adds and removes continents from the map.

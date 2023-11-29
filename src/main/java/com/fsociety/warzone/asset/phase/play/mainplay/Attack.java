@@ -3,7 +3,7 @@ package com.fsociety.warzone.asset.phase.play.mainplay;
 import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.asset.order.card.*;
 import com.fsociety.warzone.controller.GameplayController;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.asset.order.Advance;
 import com.fsociety.warzone.view.Console;
@@ -20,7 +20,7 @@ public class Attack extends MainPlay {
     @Override
     public void help() {
         Command[] l_validCommands = {Command.SHOW_MAP, Command.ADVANCE, Command.BOMB, Command.BLOCKADE, Command.AIRLIFT,
-                Command.NEGOTIATE, Command.COMMIT, Command.SHOW_CARDS, Command.SHOW_AVAILABLE_ARMIES, Command.SHOW_PLAYERS};
+                Command.NEGOTIATE, Command.COMMIT, Command.SHOW_CARDS, Command.SHOW_AVAILABLE_ARMIES, Command.SHOW_PLAYERS, Command.SAVE_GAME};
         String l_help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands) +
                 "Tip - use the following general format for commands: command [arguments]";

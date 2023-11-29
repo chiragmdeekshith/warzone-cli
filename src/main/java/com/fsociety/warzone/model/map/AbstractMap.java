@@ -1,6 +1,7 @@
 package com.fsociety.warzone.model.map;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 /**
  * This class acts as a superclass for the Editable Map and the Playable Map.
  */
-public abstract class AbstractMap {
+public abstract class AbstractMap implements Serializable {
 
     /**
      * The name of the map file for printing
@@ -52,6 +53,15 @@ public abstract class AbstractMap {
      */
     public void setFileName(String d_fileName) {
         this.d_fileName = d_fileName;
+    }
+
+
+    /**
+     * Get the name of the file to be saved.
+     * @return d_fileName - the file name
+     */
+    public String getFileName() {
+        return d_fileName;
     }
 
     /**

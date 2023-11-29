@@ -2,7 +2,7 @@ package com.fsociety.warzone.controller.gameplay;
 
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Country;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.view.Console;
 
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class IssueOrder {
         }
 
         while (true) {
+            // This variable gets reset to ensure all players are being prompted for until all players have committed.
             int l_committed = 0;
             for (Player l_player : p_players) {
                 d_currentPlayer = l_player;
@@ -45,6 +46,9 @@ public class IssueOrder {
                 } else {
                     Console.print(l_player.getName() + ": ");
                     l_player.issueOrder();
+                    if(GameplayController.isBackCommandIssued()){
+                        return;
+                    }
                 }
             }
             if (l_committed == p_players.size()) {

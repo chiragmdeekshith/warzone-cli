@@ -7,11 +7,6 @@ import com.fsociety.warzone.asset.order.Attack;
  */
 public class Airlift extends Attack {
 
-    private final int d_troopsCount;
-    private final int d_sourceCountryId;
-    private final int d_targetCountryId;
-    private final int d_playerId;
-
     /**
      * Parameterised constructor to initialise an Airlift order.
      * @param p_sourceCountryId the source country

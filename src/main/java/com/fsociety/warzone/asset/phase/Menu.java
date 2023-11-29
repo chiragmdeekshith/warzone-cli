@@ -4,8 +4,13 @@ import com.fsociety.warzone.GameEngine;
 import com.fsociety.warzone.asset.command.Command;
 import com.fsociety.warzone.asset.phase.edit.EditPreLoad;
 import com.fsociety.warzone.asset.phase.play.playsetup.PlayPreLoad;
+import com.fsociety.warzone.controller.GameplayController;
+import com.fsociety.warzone.controller.gameplay.Tournament;
+import com.fsociety.warzone.model.GameSaveData;
+import com.fsociety.warzone.util.GameSaveUtil;
 import com.fsociety.warzone.view.Console;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +25,7 @@ public class Menu extends Phase {
      */
     @Override
     public void help() {
-        Command[] l_validCommands = {Command.PLAY_GAME, Command.MAP_EDITOR, Command.EXIT, Command.BACK};
+        Command[] l_validCommands = {Command.PLAY_GAME, Command.LOAD_GAME, Command.TOURNAMENT, Command.MAP_EDITOR, Command.BACK, Command.EXIT};
         String help = "Please enter one of the following commands: " +
                 getValidCommands(l_validCommands);
         Console.print(help);
@@ -42,6 +47,15 @@ public class Menu extends Phase {
     public void mapEditor() {
         Console.print("Map Editor selected. Please start by loading a map. Type 'back' to go to the previous menu.");
         GameEngine.setPhase(new EditPreLoad());
+    }
+
+    @Override
+    public void tournamentMode(int p_numberOfGames, int p_maxNumberOfTurns, ArrayList<String> p_botPlayers, ArrayList<String> p_maps) {
+        Console.print("Beginning tournament...");
+        new Tournament(p_numberOfGames, p_maxNumberOfTurns, p_botPlayers, p_maps).runTournament();
+        Console.print("Tournament concluded. Returning to Main Menu.");
+        GameEngine.setPhase(new Menu());
+        GameEngine.printLogo();
     }
 
     /**
@@ -105,7 +119,7 @@ public class Menu extends Phase {
      * PlayPostLoad phase.
      */
     @Override
-    public void gamePlayer(Set<String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove) {
+    public void gamePlayer(Map<String, String> p_gamePlayersToAdd, Set<String> p_gamePlayersToRemove) {
         printInvalidCommandMessage();
     }
 
@@ -216,7 +230,7 @@ public class Menu extends Phase {
      * EditPostLoad phase.
      */
     @Override
-    public void saveMap(String p_fileName) {
+    public void saveMap(String[] p_fileSaveData) {
         printInvalidCommandMessage();
     }
 
@@ -253,6 +267,42 @@ public class Menu extends Phase {
      */
     @Override
     public void validateMap() {
+        printInvalidCommandMessage();
+    }
+
+    /**
+     * This method loads a new game from a save file when the 'loadgame' command is entered.
+     */
+    @Override
+    public void loadGame(String p_fileName) {
+        GameSaveData l_gameSavedata = GameSaveUtil.loadGameFromFile(p_fileName);
+        if(null == l_gameSavedata) {
+            Console.print("Could not load the save file. Game file corrupted or does not exist.");
+            return;
+        }
+
+        GameplayController.setCurrentTournament(l_gameSavedata.getCurrentTournament());
+        GameplayController.setGameWonForLoad(l_gameSavedata.getGameWon());
+        GameplayController.setTruces(l_gameSavedata.getTruces());
+        GameplayController.setWinner(l_gameSavedata.getWinner());
+        GameplayController.setPlayerIdMap(l_gameSavedata.getPlayerIdMap());
+        GameplayController.setPlayerNameMap(l_gameSavedata.getPlayerNameMap());
+        GameplayController.setPlayers(l_gameSavedata.getPlayers());
+        GameplayController.setPlayMap(l_gameSavedata.getPlayMap());
+        GameplayController.setTurns(l_gameSavedata.getTurns());
+        GameplayController.setNeutralPlayer(l_gameSavedata.getNeutralPlayer());
+        GameEngine.setPhase(l_gameSavedata.getCurrentPhase());
+
+        //Resume the game
+        GameplayController.gamePlayLoop(false);
+    }
+
+    /**
+     * This method prints out the invalid command message when the 'savegame' command is used outside of the
+     * MainPlay phase.
+     */
+    @Override
+    public void saveGame(String p_fileName) {
         printInvalidCommandMessage();
     }
 }

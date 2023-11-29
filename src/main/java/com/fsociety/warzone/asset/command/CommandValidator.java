@@ -2,8 +2,12 @@ package com.fsociety.warzone.asset.command;
 
 import com.fsociety.warzone.view.Console;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 
 /**
  * This class is used for validating commands received from the Command Processor.
@@ -17,11 +21,19 @@ public class CommandValidator {
      */
     private static final Map<String, Command> d_commands;
 
+    /**
+     * A set of all valid player strategies. This is used for validating the command arguments for GamePlayer command.
+     */
+    private static final Set<String> d_playerStrategies;
+
+    private static final Set<String> d_tournamentOptions;
+
     static {
-        d_commands = new HashMap<>();
-        for (Command l_command : Command.values()) {
-            d_commands.put(l_command.getCommand(), l_command);
-        }
+        d_commands = Arrays.stream(Command.values())
+                .collect(Collectors.toMap(Command::getCommand, Function.identity()));
+        d_playerStrategies = Set.of(Command.AGGRESSIVE, Command.BENEVOLENT, Command.CHEATER, Command.RANDOM);
+        d_tournamentOptions = Set.of(Command.MAPS_OPTION, Command.PLAYER_OPTION, Command.GAMES_OPTION,
+                Command.TURNS_OPTION);
     }
 
     /**
@@ -44,16 +56,40 @@ public class CommandValidator {
                     ASSIGN_COUNTRIES, COMMIT, SHOW_CARDS, SHOW_AVAILABLE_ARMIES, SHOW_PLAYERS -> {
                 return validateNoArgsCommand(p_splitCommand);
             }
-            case EDIT_MAP, SAVE_MAP, LOAD_MAP -> {
-                return validateFilenameCommand(p_splitCommand);
+            case EDIT_MAP, LOAD_MAP -> {
+                return validateFilenameCommand(p_splitCommand, Command.MAP_FILE_EXTENSION);
             }
-
+            case SAVE_MAP -> {
+                if (p_splitCommand.length == 2) {
+                    if(!p_splitCommand[1].endsWith(Command.MAP_FILE_EXTENSION)) {
+                        Console.print("The file name passed is not a '"+Command.MAP_FILE_EXTENSION+"' file.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+                if (p_splitCommand.length!=3) {
+                    Console.print("Unexpected number of arguments for the save map command");
+                    return false;
+                }
+                switch (p_splitCommand[2]) {
+                    case Command.MAP_OPTION_DOMINATION, Command.MAP_OPTION_CONQUEST -> {
+                        return true;
+                    }
+                    default -> {
+                        Console.print("Unrecognized file option");
+                        return false;
+                    }
+                }
+            }
+            case LOAD_GAME, SAVE_GAME -> {
+                return validateFilenameCommand(p_splitCommand, Command.SAVE_FILE_EXTENSION);
+            }
             case EDIT_CONTINENT -> {
                 if(p_splitCommand.length < 3) {
                     Console.print("Unexpected number of arguments passed.");
                     return false;
                 }
-
                 int l_i = 1;
                 while(l_i < p_splitCommand.length) {
                     String l_operation = p_splitCommand[l_i++];
@@ -210,28 +246,122 @@ public class CommandValidator {
                     }
                 }
             }
+            case TOURNAMENT -> {
+                int l_i = 1;
+                try {
+                    for (int i = 0; i < d_tournamentOptions.size(); i++) {
+                        switch (p_splitCommand[l_i]) {
+                            case Command.MAPS_OPTION -> {
+                                l_i++;
+                                int l_mapsCount = 0;
+                                while (p_splitCommand[l_i].endsWith(".map")) {
+                                    l_mapsCount++;
+                                    l_i++;
+                                    if (l_i > p_splitCommand.length-1) {
+                                        break;
+                                    }
+                                }
+                                if (l_mapsCount > 5 || l_mapsCount < 1) {
+                                    Console.print("Please enter between 1 and 5 map file names.");
+                                    return false;
+                                }
+                            }
+                            case Command.PLAYER_OPTION -> {
+                                l_i++;
+                                int l_playerCount = 0;
+                                while (d_playerStrategies.contains(p_splitCommand[l_i])) {
+                                    l_playerCount++;
+                                    l_i++;
+                                    if (l_i > p_splitCommand.length-1) {
+                                        break;
+                                    }
+                                }
+                                if (l_playerCount > 4 || l_playerCount < 2) {
+                                    Console.print("Please enter between 2 and 4 player strategies.");
+                                    return false;
+                                }
+                            }
+                            case Command.GAMES_OPTION -> {
+                                l_i++;
+                                int l_games = 0;
+                                try {
+                                    l_games = Integer.parseInt(p_splitCommand[l_i++]);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Argument passed for number of games must be an integer.");
+                                    return false;
+                                }
+                                if (l_games < 1 || l_games > 5) {
+                                    Console.print("Please enter between 1 and 5 games to be played.");
+                                    return false;
+                                }
+                            }
+                            case Command.TURNS_OPTION -> {
+                                l_i++;
+                                int l_turns = 0;
+                                try {
+                                    l_turns = Integer.parseInt(p_splitCommand[l_i++]);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Argument passed for maximum number of turns must be an integer.");
+                                    return false;
+                                }
+                                if (l_turns < 10 || l_turns > 50) {
+                                    Console.print("Please enter between 10 and 50 for the maximum number of turns.");
+                                    return false;
+                                }
+                            }
+                            default -> {
+                                Console.print("Unexpected argument. Please use 'help' to see the correct formatting " +
+                                        "for the 'tournament' command.");
+                                return false;
+                            }
+                        }
+                    }
+                    if (l_i != p_splitCommand.length) {
+                        Console.print("Unexpected argument Please use 'help' to see the correct formatting for the" +
+                                " 'tournament' command.");
+                        return false;
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    Console.print("Missing arguments. Please use 'help' to see the correct formatting for the" +
+                            " 'tournament' command.");
+                    return false;
+                }
+                return true;
+            }
             case GAME_PLAYER -> {
-                if(p_splitCommand.length == 1 || p_splitCommand.length % 2 == 0) {
+                // Ensure that there are arguments
+                if(p_splitCommand.length == 1 ) {
                     Console.print("This command requires pairs of add/remove options and player names.");
                     return false;
                 }
 
-                String l_operation = p_splitCommand[1];
+                String l_argument = p_splitCommand[1];
+                int l_i = 1;
+                // Check if an incorrect argument is being passed.
+                if(!Command.ADD.equals(l_argument) && !Command.REMOVE.equals(l_argument)) {
+                    if (!d_playerStrategies.contains(l_argument)) {
+                        Console.print("The argument " + l_argument + " is not recognized");
+                        return false;
+                    }
+                    l_i = 2;
+                }
+                // Ensure that the remaining add or remove operations are paired with names.
+                if((p_splitCommand.length - l_i) % 2 != 0) {
+                    Console.print("The arguments are correct. Please check and try again.");
+                    return false;
+                }
 
                 // Loop through all -add and -remove operations in the command
-                for(int l_i = 1; l_i < p_splitCommand.length; l_i++) {
-                    if(l_i % 2 == 1) {
-                        if(!Command.ADD.equals(l_operation) && !Command.REMOVE.equals(l_operation)) {
-                            Console.print("Unrecognised operation " + l_operation + " at index " + l_i + ".");
-                            return false;
-                        }
+                for (; l_i < p_splitCommand.length - 1; l_i += 2) {
+                    l_argument = p_splitCommand[l_i];
+                    if (!Command.ADD.equals(l_argument) && !Command.REMOVE.equals(l_argument)) {
+                        Console.print("Unrecognised operation " + l_argument + " at index " + l_i + ".");
+                        return false;
                     }
-                    if(l_i % 2 == 0) {
-                        String l_playerName = p_splitCommand[l_i];
-                        if(!l_playerName.matches("[A-Za-z0-9]+")) {
-                            Console.print("Player name must be alphanumeric.");
-                            return false;
-                        }
+                    String l_playerName = p_splitCommand[l_i + 1];
+                    if (!l_playerName.matches("[A-Za-z0-9]+")) {
+                        Console.print("Player name must be alphanumeric.");
+                        return false;
                     }
                 }
 
@@ -328,16 +458,17 @@ public class CommandValidator {
      * A common function for checking commands related to filename.
      *
      * @param p_splitCommand the parsed command array
-     * @return boolean - true if the command has 1 argument filename ending with '.map', false otherwise.
+     * @param p_fileType the type of file that needs to be checked
+     * @return boolean - true if the command has 1 argument filename ending with the fileType passed, false otherwise.
      */
-    static boolean validateFilenameCommand(String[] p_splitCommand) {
+    static boolean validateFilenameCommand(String[] p_splitCommand, String p_fileType) {
         if(p_splitCommand.length != 2){
             Console.print("Unexpected number of arguments. Expected one argument: filename.");
             return false;
         }
         String l_fileName = p_splitCommand[1];
-        if(!l_fileName.endsWith(".map")) {
-            Console.print("The file passed is not a '.map' file.");
+        if(!l_fileName.endsWith(p_fileType)) {
+            Console.print("The file passed is not a '" + p_fileType + "' file.");
             return false;
         }
         return true;

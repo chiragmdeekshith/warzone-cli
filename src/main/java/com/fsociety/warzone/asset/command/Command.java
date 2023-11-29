@@ -18,6 +18,10 @@ public enum Command {
      */
     MAP_EDITOR("mapeditor", ""),
     /**
+     * The command used to begin a tournament
+     */
+    TOURNAMENT("tournament", ""),
+    /**
      * Go to the previous menu
      */
     BACK("back", ""),
@@ -48,19 +52,27 @@ public enum Command {
     /**
      * Load or create a map file for editing
      */
-    EDIT_MAP("editmap", "[filename]"),
+    EDIT_MAP("editmap", "[filename].map"),
     /**
      * Save a map file from current map
      */
-    SAVE_MAP("savemap", "[filename]"),
+    SAVE_MAP("savemap", "[filename].map [-conquest / -domination / none]"),
     /**
      * Load a map file for playing
      */
-    LOAD_MAP("loadmap", "[filename]"),
+    LOAD_MAP("loadmap", "[filename].map"),
+    /**
+     * Save the game
+     */
+    SAVE_GAME("savegame", "[filename].save"),
+    /**
+     * Load a game
+     */
+    LOAD_GAME("loadgame", "[filename].save"),
     /**
      * Add or Remove game players
      */
-    GAME_PLAYER("gameplayer", "-add [name] / -remove [name]"),
+    GAME_PLAYER("gameplayer", "-aggressive / -benevolent / -cheater / -random / <choose no argument for a Human player> \n -add [name] / -remove [name]"),
     /**
      * Assign countries to Players
      */
@@ -116,6 +128,65 @@ public enum Command {
      * The "remove" operation used for arguments
      */
     public static final String REMOVE = "-remove";
+
+    /**
+     * The "AGGRESSIVE" operation used for game player bots
+     */
+    public static final String AGGRESSIVE = "-aggressive";
+    /**
+     * The "BENEVOLENT" operation used for game player bots
+     */
+    public static final String BENEVOLENT = "-benevolent";
+    /**
+     * The "CHEATER" operation used for game player bots
+     */
+    public static final String CHEATER = "-cheater";
+    /**
+     * The "RANDOM" operation used for game player bots
+     */
+    public static final String RANDOM = "-random";
+
+    /**
+     * The "HUMAN" operation used for the default player in the game.
+     */
+    public static final String HUMAN = "-human";
+
+    /**
+     * The map option for the tournament command
+     */
+    public static final String MAPS_OPTION = "-M";
+    /**
+     * The player option for the tournament command
+     */
+    public static final String PLAYER_OPTION = "-P";
+    /**
+     * The games option for the tournament command
+     */
+    public static final String GAMES_OPTION = "-G";
+    /**
+     * The turns option for the tournament command
+     */
+    public static final String TURNS_OPTION = "-D";
+
+    /**
+     * The extension for the map file name
+     */
+    public static final String MAP_FILE_EXTENSION = ".map";
+
+    /**
+     * The extension for the save file name
+     */
+    public static final String SAVE_FILE_EXTENSION = ".save";
+
+    /**
+     * The option to save in conquest file type
+     */
+    public static final String MAP_OPTION_CONQUEST = "-conquest";
+
+    /**
+     * The option to save in domination file type
+     */
+    public static final String MAP_OPTION_DOMINATION = "-domination";
 
 
     /**

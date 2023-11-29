@@ -8,7 +8,13 @@ import com.fsociety.warzone.view.Console;
  */
 public class Bomb implements Order {
 
+    /**
+     * The country ID of the target country
+     */
     private final int d_targetCountryId;
+    /**
+     * The ID of the player
+     */
     private final int d_playerId;
 
     /**

@@ -1,6 +1,6 @@
 package com.fsociety.warzone.model.map;
 
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +17,16 @@ class EditMapTest {
     EditMap d_editMap;
 
     /**
+     * DominationMapTools object.
+     */
+    DominationMapTools mapTools = new DominationMapTools();
+
+    /**
      * Setting up the EditMap object before each test.
      */
     @BeforeEach
     void setUp() {
-        d_editMap = MapTools.loadAndValidateEditableMap("1.map");
+        d_editMap = mapTools.loadAndValidateEditableMap("1.map");
     }
 
     /**

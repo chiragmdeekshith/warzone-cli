@@ -1,42 +1,105 @@
-package com.fsociety.warzone.model;
+package com.fsociety.warzone.model.player;
 
-import com.fsociety.warzone.asset.command.CommandProcessor;
 import com.fsociety.warzone.asset.order.Order;
 import com.fsociety.warzone.asset.order.card.HandOfCards;
 import com.fsociety.warzone.controller.GameplayController;
-import com.fsociety.warzone.view.Console;
+import com.fsociety.warzone.model.Country;
+import com.fsociety.warzone.model.player.strategy.Human;
+import com.fsociety.warzone.model.player.strategy.Strategy;
 import com.fsociety.warzone.util.IdGenerator;
+import com.fsociety.warzone.view.Console;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class represents a Player object.
  */
-public class Player {
-
-    private final String d_name;
-    private final Integer d_id;
-    private final ArrayList<Order> d_orders;
-    private final ArrayList<Country> d_countries;
-    private int d_availableReinforcements;
-    private final HandOfCards d_handOfCards;
-    private boolean d_cardDrawn;
-    private boolean d_committed;
-    private boolean d_orderIssued;
-
+public class Player implements Serializable {
 
     /**
-     * Parameterised constructor to initialise the Player object.
+     * Name of the player
+     */
+    private final String d_name;
+    /**
+     * ID of the player
+     */
+    private final Integer d_id;
+    /**
+     * A list of orders for the player
+     */
+    private final ArrayList<Order> d_orders;
+    /**
+     * List of countries the player owns
+     */
+    private final ArrayList<Country> d_countries;
+    /**
+     * The available reinforcements for the player
+     */
+    private int d_availableReinforcements;
+    /**
+     * The Hand Of Cards a player hols
+     */
+    private final HandOfCards d_handOfCards;
+    /**
+     * A flag to check if a player has drawn a card
+     */
+    private boolean d_cardDrawn;
+    /**
+     * A flag to check if the player has committed
+     */
+    private boolean d_committed;
+    /**
+     * A flag to check if  order has been issues
+     */
+    private boolean d_orderIssued;
+    /**
+     * The strategy of the player - Can be Human, or other Computer players
+     */
+    private Strategy d_playerStrategy;
+
+    /**
+     * Parameterised constructor to initialise the Player object with default Human player strategy.
      *
      * @param p_player_name - The name of the player
      */
     public Player(String p_player_name) {
+        this.d_name = p_player_name;
+        this.d_orders = new ArrayList<>();
+        this.d_countries = new ArrayList<>();
+        this.d_availableReinforcements = 0;
+        this.d_handOfCards = new HandOfCards(this.d_name);
+        this.d_id = IdGenerator.generateId();
+        this.d_playerStrategy = new Human();
+    }
+
+    /**
+     * Parameterised constructor to initialise the Player object along with strategy.
+     *
+     * @param p_player_name - The name of the player
+     * @param p_playerStrategy - The type of Player - either human, or AI / Computer
+     */
+    public Player(String p_player_name, Strategy p_playerStrategy) {
          this.d_name = p_player_name;
          this.d_orders = new ArrayList<>();
          this.d_countries = new ArrayList<>();
          this.d_availableReinforcements = 0;
          this.d_handOfCards = new HandOfCards(this.d_name);
          this.d_id = IdGenerator.generateId();
+         this.d_playerStrategy = p_playerStrategy;
+    }
+
+    /**
+     * Parameterised constructor to initialise the Player object to be a neutral player
+     */
+    private Player() {
+        this.d_name = "Neutral";
+        this.d_id = -1;
+        this.d_orders = null;
+        this.d_countries = new ArrayList<>();
+        this.d_availableReinforcements = 0;
+        this.d_handOfCards = null;
+        this.d_playerStrategy = null;
     }
 
     /**
@@ -76,10 +139,12 @@ public class Player {
      */
     public void issueOrder() {
         while (true) {
-            String l_command = Console.commandPrompt();
-            CommandProcessor.processCommand(l_command);
+            d_playerStrategy.issueOrder(d_name);
             if(d_orderIssued) {
                 d_orderIssued = false;
+                return;
+            }
+            if(GameplayController.isBackCommandIssued()) {
                 return;
             }
         }
@@ -114,6 +179,7 @@ public class Player {
      */
     public void commit() {
         d_committed = true;
+        Console.print(d_name + " has committed.", true);
     }
 
     /**
@@ -208,6 +274,12 @@ public class Player {
     public int getCountriesCount() { return this.d_countries.size(); }
 
     /**
+     * Return the list of countries the player owns
+     * @return the list of countries
+     */
+    public ArrayList<Country> getCountries() { return this.d_countries; }
+
+    /**
      * This method returns the player's hand of cards
      * @return the player's hand of cards
      */
@@ -215,4 +287,27 @@ public class Player {
         return d_handOfCards;
     }
 
+    /**
+     * Retrieves the current strategy of the player
+     * @return The player strategy class
+     */
+    public Strategy getPlayerStrategy() {
+        return d_playerStrategy;
+    }
+
+    /**
+     * Updates or sets a strategy for a player
+     * @param d_playerStrategy The new strategy for this player
+     */
+    public void setPlayerStrategy(Strategy d_playerStrategy) {
+        this.d_playerStrategy = d_playerStrategy;
+    }
+
+    /**
+     * Get a new Player Object who is Neutral
+     * @return the neutral player with ID -1
+     */
+    public static Player getNeutralPlayer() {
+        return new Player();
+    }
 }

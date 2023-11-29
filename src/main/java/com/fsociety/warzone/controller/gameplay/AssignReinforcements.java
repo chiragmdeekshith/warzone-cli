@@ -2,7 +2,7 @@ package com.fsociety.warzone.controller.gameplay;
 
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Continent;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.asset.order.Order;
 import com.fsociety.warzone.view.Console;
 
@@ -23,23 +23,26 @@ public class AssignReinforcements {
      * getContinentOwner() method of the Continent class to compare each continent's owner to the given player.
      *
      * @param p_players the list of Player object whose reinforcements are to be calculated
+     * @param p_isNewGame the flag thats used to determine if a new game has started or a load game has started
      */
-    public static void assignReinforcements(ArrayList<Player> p_players) {
+    public static void assignReinforcements(ArrayList<Player> p_players, boolean p_isNewGame) {
 
-        for (Player l_player : p_players) {
+        if(p_isNewGame) {
+            for (Player l_player : p_players) {
 
-            int l_base = Math.max(3, l_player.getCountriesCount() / 3);
+                int l_base = Math.max(3, l_player.getCountriesCount() / 3);
 
-            AtomicInteger l_reinforcements = new AtomicInteger(l_base); // Base reinforcements
+                AtomicInteger l_reinforcements = new AtomicInteger(l_base); // Base reinforcements
 
-            Map<Integer, Continent> l_continents = GameplayController.getPlayMap().getContinents();
-            l_continents.keySet().forEach(continentId -> {
-                if (l_continents.get(continentId).getContinentOwner() != null && l_player.equals(l_continents.get(continentId).getContinentOwner())) {
-                    l_reinforcements.addAndGet(l_continents.get(continentId).getArmiesBonus());
-                }
-            });
-            l_player.setAvailableReinforcements(l_reinforcements.get());
-            Console.print("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
+                Map<Integer, Continent> l_continents = GameplayController.getPlayMap().getContinents();
+                l_continents.keySet().forEach(continentId -> {
+                    if (l_continents.get(continentId).getContinentOwner() != null && l_player.equals(l_continents.get(continentId).getContinentOwner())) {
+                        l_reinforcements.addAndGet(l_continents.get(continentId).getArmiesBonus());
+                    }
+                });
+                l_player.setAvailableReinforcements(l_reinforcements.get());
+                Console.print("Player " + l_player.getName() + " gets " + l_reinforcements + " reinforcement armies this turn.");
+            }
         }
 
         // Issue and Execute the Deploy orders before moving to the attack phase, where are other orders are processed
@@ -65,6 +68,9 @@ public class AssignReinforcements {
                 if (l_player.getAvailableReinforcements() > 0) {
                     Console.print(l_player.getName() + ": You have " + l_player.getAvailableReinforcements() + " available reinforcements.");
                     l_player.issueOrder();
+                    if(GameplayController.isBackCommandIssued()){
+                        return;
+                    }
                 }
             }
             l_total_troops = 0;

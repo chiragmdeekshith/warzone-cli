@@ -6,9 +6,12 @@ import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.map.PlayMap;
-import com.fsociety.warzone.util.MapTools;
+import com.fsociety.warzone.util.map.ConquestMapTools;
+import com.fsociety.warzone.util.map.DominationMapTools;
+import com.fsociety.warzone.util.map.MapAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,13 +34,17 @@ class AdvanceTest {
      * Play Map for the test
      */
     PlayMap d_playMap;
+    /**
+     * The map object
+     */
+    DominationMapTools d_mapTools = new MapAdapter(new ConquestMapTools());
 
     /**
      * Setup mock data for testing
      */
     @BeforeEach
     void setUp() {
-        d_playMap = MapTools.loadAndValidatePlayableMap("1.map");
+        d_playMap = d_mapTools.loadAndValidatePlayableMap("1.map");
         GameplayController.setPlayMap(d_playMap);
 
         d_player1 = new Player("Player1");
@@ -48,6 +55,7 @@ class AdvanceTest {
         l_playerNameMap.put("Player2", d_player2);
         GameplayController.finalizePlayers();
         GameplayController.initTruces();
+        GameplayController.materializeNeutralPlayer();
 
         // Player1 should have 3 reinforcements and Player2 should have 8 reinforcements
         d_playMap.updateCountry(1, d_player1.getId(), 0);
@@ -78,6 +86,14 @@ class AdvanceTest {
             });
             l_player.setAvailableReinforcements(l_reinforcements.get());
         }
+    }
+
+    /**
+     * Tear down mock data for testing.
+     */
+    @AfterEach
+    void tearDown() {
+        GameplayController.resetGameState();
     }
 
     /**

@@ -1,7 +1,9 @@
+; map: edited.map
+
 [continents]
-1 1 5
-2 2 5
-3 3 3
+1 5
+2 5
+3 3
 
 [countries]
 1 1 1

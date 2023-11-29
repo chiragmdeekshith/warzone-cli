@@ -3,19 +3,29 @@ package com.fsociety.warzone.model.map;
 import com.fsociety.warzone.controller.GameplayController;
 import com.fsociety.warzone.model.Continent;
 import com.fsociety.warzone.model.Country;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.view.Console;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.List;
 
 /**
  * This class is used by the GameplayController for gameplay.
  */
 public class PlayMap extends AbstractMap {
-    // continent id -> game state of continent
+
+    /**
+     * A hashmap containing the continent ID mapped to the Continent object
+     * continent id -> game state of continent
+     */
     private Map<Integer, Continent> d_continents;
 
-    // country id -> game state of country
+    /**
+     * The hashmap containing the Country ID mapped to the country object
+     * country id -> game state of country
+     */
     private Map<Integer, Country> d_countries;
 
     /**
@@ -78,7 +88,13 @@ public class PlayMap extends AbstractMap {
     public void conquerCountry(int p_countryId, int p_playerId, int p_armies) {
         int l_previousOwner = GameplayController.getPlayMap().getCountries().get(p_countryId).getPlayerId();
         Player l_newOwner = GameplayController.getPlayerFromId(p_playerId);
-        GameplayController.getPlayerFromId(l_previousOwner).removeCountry(p_countryId);
+        Player l_previousPlayerObject;
+        if(l_previousOwner == GameplayController.getNeutralPlayer().getId()) {
+            l_previousPlayerObject = GameplayController.getNeutralPlayer();
+        } else {
+            l_previousPlayerObject = GameplayController.getPlayerFromId(l_previousOwner);
+        }
+        l_previousPlayerObject.removeCountry(p_countryId);
         l_newOwner.addCountry(GameplayController.getPlayMap().getCountries().get(p_countryId));
         d_countries.get(p_countryId).setPlayerId(p_playerId);
         d_countries.get(p_countryId).setPlayer(l_newOwner);
@@ -135,6 +151,8 @@ public class PlayMap extends AbstractMap {
         return false;
     }
 
+    // Getters and Setters
+
     /**
      * Get the current status of a country instance.
      *
@@ -144,8 +162,6 @@ public class PlayMap extends AbstractMap {
     public Country getCountryState(int p_countryId) {
         return d_countries.get(p_countryId);
     }
-
-    // Getters and Setters
 
     /**
      * Getter for HashMap object with countryId->countries
@@ -161,5 +177,72 @@ public class PlayMap extends AbstractMap {
      */
     public Map<Integer, Continent> getContinents() {
         return d_continents;
+    }
+
+    /**
+     * This function checks whether a country has enemy neighbours
+     * @param p_country the country to be checked for
+     * @return true if country has enemy neighbours, false otherwise
+     */
+    public boolean doesCountryHaveEnemyNeighbours(Country p_country) {
+        int l_playerId = p_country.getPlayerId();
+        Set<Integer> l_neighbourCountryIdList = d_neighbours.get(p_country.getCountryId());
+        for(Integer l_neighbourId : l_neighbourCountryIdList) {
+            Country l_neighbourCountry = d_countries.get(l_neighbourId);
+            if(l_neighbourCountry.getPlayerId() != l_playerId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieves a list of countries that can be attacked by a country
+     * @param p_country the country for which enemies need to be found
+     * @return a list of enemy countries
+     */
+    public List<Country> getListOfEnemyNeighbours(Country p_country) {
+        int l_playerId = p_country.getPlayerId();
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_enemyNeighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            Country l_enemyNeighbourCountry = d_countries.get(l_neighbourId);
+            if(l_enemyNeighbourCountry.getPlayerId() != l_playerId) {
+                l_enemyNeighbourCountries.add(l_enemyNeighbourCountry);
+            }
+        });
+        return l_enemyNeighbourCountries;
+    }
+
+    /**
+     * Retrieves a list of countries that can be used for moving troops into
+     * @param p_country the country for which allied neighbours need to be found
+     * @return a list of allied neighbouring countries
+     */
+    public List<Country> getListOfAlliedNeighbours(Country p_country) {
+        int l_playerId = p_country.getPlayerId();
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_allyNeighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            Country l_enemyNeighbourCountry = d_countries.get(l_neighbourId);
+            if(l_enemyNeighbourCountry.getPlayerId() == l_playerId) {
+                l_allyNeighbourCountries.add(l_enemyNeighbourCountry);
+            }
+        });
+        return l_allyNeighbourCountries;
+    }
+
+    /**
+     * Get the list all neighbour countries. Enemy or Ally.
+     * @param p_country The country for which the neighbours are to be returned
+     * @return the list of all neighbour countries
+     */
+    public List<Country> getListOfAllNeighbours(Country p_country) {
+        Set<Integer> l_neighbourIds = d_neighbours.get(p_country.getCountryId());
+        List<Country> l_neighbourCountries = new ArrayList<>();
+        l_neighbourIds.forEach(l_neighbourId -> {
+            l_neighbourCountries.add(d_countries.get(l_neighbourId));
+        });
+        return l_neighbourCountries;
     }
 }

@@ -9,6 +9,14 @@ import java.util.Scanner;
  */
 public class Console {
 
+    /**
+     * This class should not be instantiated.
+     * Contains only static methods.
+     */
+    private Console() {
+
+    }
+
     private static final Scanner SCANNER = new Scanner(System.in);
 
     /**
@@ -37,6 +45,16 @@ public class Console {
      */
     public static String commandPrompt() {
         System.out.print("Please enter a command.\n> ");
+        return SCANNER.nextLine();
+    }
+
+    /**
+     * This method prompts a user along with the player name for input and returns their input.
+     * @param p_playerName The name of the player being prompted for.
+     * @return the user's input
+     */
+    public static String commandPromptPlayer(String p_playerName) {
+        System.out.print("Please enter a command.\n" + p_playerName + "> ");
         return SCANNER.nextLine();
     }
 

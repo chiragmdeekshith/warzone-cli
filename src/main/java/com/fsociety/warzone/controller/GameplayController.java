@@ -3,7 +3,8 @@ package com.fsociety.warzone.controller;
 import com.fsociety.warzone.controller.gameplay.ExecuteOrder;
 import com.fsociety.warzone.controller.gameplay.IssueOrder;
 import com.fsociety.warzone.controller.gameplay.AssignReinforcements;
-import com.fsociety.warzone.model.Player;
+import com.fsociety.warzone.controller.gameplay.Tournament;
+import com.fsociety.warzone.model.player.Player;
 import com.fsociety.warzone.model.map.PlayMap;
 
 import com.fsociety.warzone.GameEngine;
@@ -14,7 +15,11 @@ import com.fsociety.warzone.asset.phase.play.mainplay.Reinforcement;
 import com.fsociety.warzone.view.Console;
 import com.fsociety.warzone.view.log.Log;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.List;
 
 /**
  * This class controls the turn-based gameplay loop.
@@ -52,51 +57,111 @@ public class GameplayController {
     private static boolean d_gameWon = false;
 
     /**
+     * This variable is set to a Tournament object when a tournament is in progress
+     */
+    private static Tournament d_currentTournament = null;
+
+    /**
+     * Holds the turn number
+     */
+    private static int d_turns;
+
+    /**
      * The player who has won the game
      */
     public static Player d_winner;
 
     /**
+     * The neutral player
+     */
+    private static Player d_neutralPlayer;
+
+    /**
+     * The variable used to track if the game needs to go back to main menu
+     */
+    public static boolean d_isBackCommandIssued = false;
+
+
+    /**
      * This method implements the loop through the three main game phases: Assign Reinforcements, Issue Orders, and
      * Execute Orders. Print statements update the user as to which phase is taking place. The game ends when the win
-     * condition is met, which causes a change to the End Game phase. At the end of each round, the round is reset.
+     * condition is met, which causes a change to the End Game phase. At the end of each round, the round is reset. If
+     * a tournament is taking place, this method sets the winner of the current game for the tournament.
+     *
+     * @param p_isNewGame the flag that's used to determine if a new game has started or a load game has started
      */
-    public static void gamePlayLoop() {
-        Console.print("Game Start!");
-        int l_turns = 0;
+    public static void gamePlayLoop(boolean p_isNewGame) {
+        if(p_isNewGame) {
+            Console.print("Game Start!");
+            d_turns = 0;
+        } else {
+            Console.print("Game Resume!");
+            Console.print("Turn " + d_turns,true);
+        }
+
         while (true) {
+            if(!p_isNewGame) {
+                if(GameEngine.getPhase() instanceof Reinforcement) {
+                    AssignReinforcements.assignReinforcements(d_players, p_isNewGame);
+                    if(GameplayController.isBackCommandIssued()){
+                        return;
+                    }
+                    Console.print("All players have deployed their reinforcements.");
+                }
+                p_isNewGame = true;
+            } else {
+                d_turns++;
+                Console.print("Turn " + d_turns,true);
 
-            l_turns++;
-            Console.print("Turn " + l_turns,true);
+                // Get updated continent owner for each continent
+                d_playMap.getContinents().keySet().forEach(continentId -> {
+                    d_playMap.getContinents().get(continentId).computeAndSetContinentOwner();
+                });
 
-            // Get updated continent owner for each continent
-            d_playMap.getContinents().keySet().forEach(continentId -> {
-                d_playMap.getContinents().get(continentId).computeAndSetContinentOwner();
-            });
-
-            // Assign Reinforcements Phase
-            GameEngine.setPhase(new Reinforcement());
-            AssignReinforcements.assignReinforcements(d_players);
-            Console.print("All players have deployed their reinforcements.");
+                // Assign Reinforcements Phase
+                GameEngine.setPhase(new Reinforcement());
+                AssignReinforcements.assignReinforcements(d_players, p_isNewGame);
+                if(GameplayController.isBackCommandIssued()){
+                    return;
+                }
+                Console.print("All players have deployed their reinforcements.");
+            }
 
             // Issue Orders Phase
             GameEngine.setPhase(new Attack());
             IssueOrder.issueOrders(d_players);
+            if(GameplayController.isBackCommandIssued()){
+                return;
+            }
             Console.print("All players have committed their list of orders.\nExecuting orders...");
 
             // Execute Orders Phase
             ExecuteOrder.executeOrders(d_players);
 
-            if (d_gameWon) {
+            if (d_currentTournament == null && d_gameWon) {
                 Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!",true);
                 Log.flushToFile();
                 GameEngine.setPhase(new End());
                 return;
+            } else if (d_currentTournament != null) {
+                if (d_gameWon) {
+                    Console.print(d_winner.getName() + " has conquered the map and won the game! Congratulations!",true);
+                    Log.flushToFile();
+                    d_currentTournament.setLastWinner(d_winner);
+                    GameplayController.resetGameState();
+                    return;
+                } else if (d_turns == d_currentTournament.getMaxNumberOfTurns()) {
+                    Console.print(d_currentTournament.getMaxNumberOfTurns() + " turns reached. Draw!", true);
+                    Log.flushToFile();
+                    d_currentTournament.setLastWinner(null);
+                    GameplayController.resetGameState();
+                    return;
+                }
             }
 
             resetRound();
 
-            Console.print("All orders executed. Turn " + l_turns + " over.");
+            Console.print("All orders executed. Turn " + d_turns + " over.");
             Log.flushToFile();
         }
 
@@ -186,12 +251,15 @@ public class GameplayController {
         d_truces = null;
         d_gameWon = false;
         d_winner = null;
+        d_turns = 0;
+        d_isBackCommandIssued = false;
+        dematerializeNeutralPlayer();
     }
 
     /**
      * This method initializes the map of truces, creating one set per player in the game.
      */
-    public  static void initTruces() {
+    public static void initTruces() {
         d_truces = new HashMap<>();
         for (Player l_player : d_players) {
             d_truces.put(l_player.getId(), new HashSet<>());
@@ -270,4 +338,168 @@ public class GameplayController {
         return d_playerNameMap.get(d_playerIdMap.get(p_playerId));
     }
 
+    /**
+     * Sets the Tournament variable if a tournament is taking place.
+     * @param p_tournament the current tournament
+     */
+    public static void setTournament(Tournament p_tournament) {
+        d_currentTournament = p_tournament;
+    }
+
+    /**
+     * Get the gameWon variable
+     * @return the game won variable
+     */
+    public static boolean getGameWon() {
+        return d_gameWon;
+    }
+
+    /**
+     * Get the tournament object
+     * @return the tournament object
+     */
+    public static Tournament getCurrentTournament() {
+        return d_currentTournament;
+    }
+
+    /**
+     * Get the player ID Map
+     * @return the player ID map
+     */
+    public static Map<Integer, String> getPlayerIdMap() {
+        return d_playerIdMap;
+    }
+
+    /**
+     * Return the winner player
+     * @return the winner player
+     */
+    public static Player getWinner() {
+        return d_winner;
+    }
+
+    /**
+     * Set the players
+     * @param p_players the players list
+     */
+    public static void setPlayers(ArrayList<Player> p_players) {
+        d_players = p_players;
+    }
+
+    /**
+     * Set the player name map
+     * @param p_playerNameMap the player name map
+     */
+    public static void setPlayerNameMap(Map<String, Player> p_playerNameMap) {
+        d_playerNameMap = p_playerNameMap;
+    }
+
+    /**
+     * Set The player ID map
+     * @param p_playerIdMap The player ID map
+     */
+    public static void setPlayerIdMap(Map<Integer, String> p_playerIdMap) {
+        d_playerIdMap = p_playerIdMap;
+    }
+
+    /**
+     * Set the truces
+     * @param p_truces the truces
+     */
+    public static void setTruces(HashMap<Integer, HashSet<Integer>> p_truces) {
+        d_truces = p_truces;
+    }
+
+    /**
+     * Set the game won variable
+     * @param p_gameWon the game won variable
+     */
+    public static void setGameWon(boolean p_gameWon) {
+        d_gameWon = p_gameWon;
+    }
+
+    /**
+     * Set the current tournament
+     * @param p_currentTournament the current tournament
+     */
+    public static void setCurrentTournament(Tournament p_currentTournament) {
+        d_currentTournament = p_currentTournament;
+    }
+
+    /**
+     * Set the winner
+     * @param p_winner the winner
+     */
+    public static void setWinner(Player p_winner) {
+        d_winner = p_winner;
+    }
+
+    /**
+     * Set the game won variable
+     * @param p_gameWon the game won variable data
+     */
+    public static void setGameWonForLoad(boolean p_gameWon) {
+        d_gameWon = p_gameWon;
+    }
+
+    /**
+     * Get the number of turns
+     * @return the number of turns
+     */
+    public static int getTurns() {
+        return d_turns;
+    }
+
+    /**
+     * Set the number of turns
+     * @param p_turns the number of turns
+     */
+    public static void setTurns(int p_turns) {
+        d_turns = p_turns;
+    }
+
+    /**
+     * Materialize the neutral player
+     */
+    public static void materializeNeutralPlayer() {
+        d_neutralPlayer = Player.getNeutralPlayer();
+    }
+
+    /**
+     * Dematerialize the neutral player
+     */
+    public static void dematerializeNeutralPlayer() {
+        d_neutralPlayer = null;
+    }
+
+    /**
+     * Get the neutral player
+     * @return the neutral player
+     */
+    public static Player getNeutralPlayer() {
+        return d_neutralPlayer;
+    }
+
+    /**
+     * Set the neutral player
+     * @param p_neutralPlayer the neutral player
+     */
+    public static void setNeutralPlayer(Player p_neutralPlayer) {
+        d_neutralPlayer = p_neutralPlayer;
+    }
+
+    /**
+     * Get the flag to check if the back command is issued
+     * @return the back command issued flag
+     */
+    public static boolean isBackCommandIssued() {
+        return d_isBackCommandIssued;
+    }
+
+    /**
+     * Set the isBckCommandIssued flag to true
+     */
+    public static void setBackCommandIssued() {
+        d_isBackCommandIssued = true;
+    }
 }

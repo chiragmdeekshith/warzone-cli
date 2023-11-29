@@ -1,5 +1,8 @@
 package com.fsociety.warzone.model;
 
+import com.fsociety.warzone.model.player.Player;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -9,11 +12,23 @@ import java.util.Set;
  * This class represents the continent objects used to calculate the bonus armies for players if they own all the
  * countries in the particular continent.
  */
-public class Continent {
+public class Continent implements Serializable {
 
+    /**
+     * The continent ID
+     */
     private final int d_continentId;
+    /**
+     * A list countries inside the continent
+     */
     private final List<Country> d_countries;
+    /**
+     * The bonus army value for owning all countries in the continent
+     */
     private final int d_armiesBonus;
+    /**
+     * The player who owns the continent
+     */
     private Player d_continentOwner;
 
     /**
