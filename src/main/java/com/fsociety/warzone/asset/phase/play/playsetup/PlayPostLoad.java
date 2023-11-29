@@ -91,6 +91,11 @@ public class PlayPostLoad extends PlaySetup {
 
         // Start the main loop
         GameplayController.gamePlayLoop(true);
+
+        //If the back command was issued, go back
+        if(GameplayController.isBackCommandIssued()) {
+            super.back();
+        }
     }
 
     /**

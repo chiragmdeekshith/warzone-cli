@@ -46,6 +46,9 @@ public class IssueOrder {
                 } else {
                     Console.print(l_player.getName() + ": ");
                     l_player.issueOrder();
+                    if(GameplayController.isBackCommandIssued()){
+                        return;
+                    }
                 }
             }
             if (l_committed == p_players.size()) {
